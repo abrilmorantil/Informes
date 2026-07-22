@@ -1278,6 +1278,10 @@
       {
         "code": "421200000",
         "description": "Intereses resarcitorios Adm Gral Catamarca"
+      },
+      {
+        "code": "426920000",
+        "description": "Intereses Gs Campo"
       }
     ],
     "orden": 114
@@ -2689,5 +2693,12 @@
     "type": "simple",
     "aliases": [],
     "orden": 208
+  },
+  {
+    "code": "213010004",
+    "description": "Imp. Bs. Personales a pagar",
+    "category": "PASIVO",
+    "type": "simple",
+    "aliases": []
   }
 ]

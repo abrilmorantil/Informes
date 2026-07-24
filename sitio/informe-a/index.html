@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balance de Comprobación USD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilos.css">
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="vendor/exceljs.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <a class="volver" href="../index.html">← Informes</a>
+
+  <div class="topbar">
+    <div>
+      <h1>Balance de comprobación USD</h1>
+      <p class="sub">Subí el balance maestro y el export mensual de Onvio. Corre en el navegador, sin instalar nada.</p>
+    </div>
+    <button class="gear-btn" onclick="openSettings()">⚙ Configuración de GitHub</button>
+  </div>
+
+  <div class="card" id="cardUpload">
+    <h2>1. Archivos</h2>
+
+    <label class="dropzone" id="dzBalance" style="margin-bottom:12px;">
+      <input type="file" id="fileBalance" accept=".xlsm,.xlsx">
+      <div id="txtBalance">Balance maestro — hacé clic para elegir el archivo (.xlsm)</div>
+    </label>
+
+    <label class="dropzone" id="dzOnvio">
+      <input type="file" id="fileOnvio" accept=".xls,.xlsx">
+      <div id="txtOnvio">Export de Onvio — hacé clic para elegir el archivo (.xls)</div>
+    </label>
+
+    <div style="margin-top:16px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <div>
+        <label style="font-size:13px; color:var(--ink-soft); display:block; margin-bottom:6px;">
+          Período (va al rótulo de la hoja y al nombre del archivo)
+        </label>
+        <input type="text" id="periodo" placeholder="jun-26" style="max-width:160px;">
+      </div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <button id="btnProcesar" disabled>Procesar</button>
+      <span class="spinner hidden" id="spinner">Leyendo y cargando saldos…</span>
+    </div>
+    <div id="mapeoStatus" class="footer-note"></div>
+  </div>
+
+  <div class="card hidden" id="cardPendientes">
+    <h2>2. Cuentas nuevas detectadas</h2>
+    <p class="footer-note">
+      Estas cuentas vienen en el export de Onvio pero todavía no están en el balance.
+      Elegí a qué categoría (cuenta madre) pertenece cada una: el motor va a insertarlas en el
+      lugar correcto y reacomodar las fórmulas que dependan de esa fila.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Código</th><th>Descripción</th><th>Centro de costo</th><th class="num">Saldo</th><th style="width:34%;">Categoría</th></tr>
+      </thead>
+      <tbody id="pendientesBody"></tbody>
+    </table>
+    <div style="margin-top:16px;">
+      <button id="btnConfirmar">Confirmar categorías y cargar</button>
+    </div>
+    <div id="pendientesStatus"></div>
+  </div>
+
+  <div class="card hidden" id="cardResultado">
+    <h2>3. Resultado</h2>
+    <div class="checks" id="checksBody"></div>
+    <p class="footer-note" style="margin-top:18px; margin-bottom:6px;">Detalle de la corrida</p>
+    <pre class="log" id="logBody"></pre>
+  </div>
+
+  <div class="card hidden" id="cardDescarga">
+    <h2>4. Descargar</h2>
+    <p class="footer-note" id="notaMacros">
+      El archivo se genera como <b>.xlsx</b> (sin las macros viejas, que este motor reemplaza).
+      Excel recalcula las fórmulas al abrirlo.
+    </p>
+    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button id="btnDescargar">Descargar balance</button>
+      <button id="btnGuardarMapeo" class="secondary hidden">Guardar cuentas nuevas en GitHub</button>
+    </div>
+    <div id="descargaStatus"></div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="settingsModal">
+  <div class="modal">
+    <h2>Configuración de GitHub</h2>
+    <p class="footer-note">
+      Sirve para guardar las cuentas nuevas que clasifiques directo en el repositorio,
+      sin descargar y subir el mapeo a mano. Queda guardado solo en este navegador.
+    </p>
+    <label>Token de acceso personal <a class="help-link" href="#" id="howToToken">(¿cómo lo genero?)</a></label>
+    <input type="text" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <label>Usuario/organización y repositorio</label>
+    <input type="text" id="cfgRepo" placeholder="tuusuario/balcomp-app">
+    <label>Rama</label>
+    <input type="text" id="cfgBranch" placeholder="main" value="main">
+    <label>Ruta del mapeo en el repositorio</label>
+    <input type="text" id="cfgPath" placeholder="informe-a/mapeo_maestro.json" value="informe-a/mapeo_maestro.json">
+    <div id="settingsStatus"></div>
+    <div class="modal-actions">
+      <button onclick="saveSettings()">Guardar</button>
+      <button class="secondary" onclick="closeSettings()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="similitud.js"></script>
+<script src="formula_utils.js"></script>
+<script src="parser_onvio.js"></script>
+<script src="motor.js"></script>
+<script src="github.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

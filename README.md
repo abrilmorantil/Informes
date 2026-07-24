@@ -1,79 +1,71 @@
-# BALCOMPROBDOLARES — versión web (sin Python)
+# Informes — Southern Copper Argentina
 
-Misma app de siempre, pero corre 100% en el navegador. No hay que instalar
-Python, ni Flask, ni nada — se abre con un link.
+Sitio único con los dos informes. Corre entero en el navegador: no hay que instalar
+Python ni arrancar ningún servidor, se entra por un link.
 
-## Publicarla en GitHub Pages (una sola vez)
+```
+index.html      pantalla de inicio: elegís qué informe generar
+estilos.css     paleta y componentes compartidos
+informe-a/      Balance de Comprobación USD  (export de Onvio)
+informe-b/      BALCOMPROBDOLARES            (export de SISE)
+```
 
-1. **Creá un repositorio nuevo en GitHub** (puede ser privado). Por ejemplo
-   `balcomp-app`.
-2. **Subí todos los archivos de esta carpeta** al repositorio (`index.html`,
-   `app.js`, `core.js`, `writer.js`, `github.js`, `mapping.json`,
-   `xlsx.full.min.js`, `exceljs.min.js`). La forma más simple: entrá al
-   repo en github.com → "Add file" → "Upload files" → arrastrá todo.
-3. En el repositorio: **Settings → Pages** → en "Source" elegí la rama
-   donde subiste los archivos (`main`) y la carpeta `/ (root)` → Save.
-4. GitHub te va a dar una URL parecida a
-   `https://tuusuario.github.io/balcomp-app/` — esa es la app. Tarda un
-   par de minutos en estar disponible la primera vez.
+## Cómo publicarlo
 
-## Configurar el guardado automático a GitHub (una sola vez)
+Subí **el contenido de esta carpeta** a la raíz del repositorio que ya tenés publicado
+en GitHub Pages (el mismo de BALCOMPROBDOLARES). La forma más simple: entrá al repo en
+github.com → "Add file" → "Upload files" → arrastrá todo.
 
-Para que la app pueda guardar las cuentas nuevas que vayas clasificando
-directo en el repo (sin que tengas que descargar y subir el archivo a
-mano):
+Después de subirlo, el link de siempre abre la pantalla de "Informes" y desde ahí se
+entra a cualquiera de los dos. **No hay que cambiar ninguna configuración.**
 
-1. Abrí la app → botón **"⚙ Configuración de GitHub"** arriba a la derecha.
-2. **Generar el token** (el link "¿cómo lo genero?" en la app tiene estos
-   mismos pasos):
-   - Entrá a github.com → tu foto de perfil (arriba a la derecha) →
-     **Settings**.
-   - En el menú de la izquierda, abajo del todo: **Developer settings**.
-   - **Personal access tokens → Tokens (classic)**.
-   - **Generate new token (classic)**.
-   - Ponele un nombre (ej. "balcomp"), marcá el casillero **`repo`**
-     (acceso completo al repositorio) y generá.
-   - Copiá el token (empieza con `ghp_`) — GitHub solo lo muestra una vez.
-3. En la app, pegá ese token, y en "Usuario/organización y repositorio"
-   poné algo como `tuusuario/balcomp-app` (el mismo repo del paso
-   anterior). Dejá "Rama" en `main` y "Ruta" en `mapping.json`.
-4. Guardar. Si dice "conectado correctamente", ya está.
+### Por qué el mapeo de BALCOMPROBDOLARES sigue en la raíz
 
-Ese token queda guardado solo en tu navegador (en esta computadora) — no
-se manda a ningún lado más que a GitHub.
+BALCOMPROBDOLARES pasó a vivir en `informe-b/`, pero su `mapping.json` **se deja donde
+está, en la raíz del repositorio**, y la configuración (⚙) se deja apuntando ahí.
 
-## Uso diario
+Es a propósito: ese archivo lo viene actualizando la app sola cada vez que se clasifica
+una cuenta, así que es el que tiene los datos buenos. Moverlo obligaría a sincronizarlo a
+mano y se corre el riesgo de pisar clasificaciones. Dejándolo quieto, la app sigue
+funcionando igual que siempre.
 
-Exactamente el mismo flujo de siempre:
+El `informe-b/mapping.json` que viene en esta carpeta queda solo como copia de respaldo y
+no se usa mientras la configuración de GitHub esté puesta.
 
-1. Subís el export de SISE (`.xls`).
-2. Si aparecen cuentas nuevas, las clasificás — al apretar "Guardar
-   clasificación en GitHub y recalcular" queda commiteado en el repo al
-   toque, no hay que descargar/subir nada.
-3. Revisás los chequeos.
-4. Descargás el `.xlsx` final — se genera en tu navegador y se descarga
-   directo a tu carpeta de Descargas, con la columna de Saldo anterior en
-   amarillo para pegar a mano.
+## Balance de Comprobación USD (informe-a)
 
-## Si alguna vez algo no anda
+Reemplaza al motor de Python que se corría por consola. Hace exactamente lo mismo:
 
-- **"No encontré mapping.json"**: revisá que el archivo esté en el
-  repositorio y que la ruta configurada (⚙) coincida.
-- **Botón de clasificar no guarda / da error**: revisá el token — puede
-  haber vencido o no tener el permiso `repo` marcado. Generá uno nuevo.
-- El **historial de cambios al mapeo** queda en GitHub como commits
-  normales — podés ver quién cambió qué y cuándo desde la pestaña
-  "Commits" del repositorio.
+1. Subís el balance maestro (`.xlsm`) y el export de Onvio (`.xls`), y ponés el período.
+2. Si aparece una cuenta que todavía no está en el balance, te la muestra en una tabla
+   para que elijas a qué categoría pertenece. El motor le crea la fila en el lugar
+   correcto y reacomoda todas las fórmulas que dependían de esa posición.
+3. Descargás el balance ya cargado.
 
-## Archivos
+**El archivo sale en `.xlsx`**, no `.xlsm`: las macros viejas ya no se usan (este motor
+reemplaza a `CargarOnvio`). Las hojas, las fórmulas y el formato se mantienen, y Excel
+recalcula los totales al abrirlo.
 
-- `index.html` — la página.
-- `app.js` — conecta todo con la pantalla.
-- `core.js` — la lógica de siempre: parsea el export de SISE, cruza con
-  el mapeo, corre la cascada de validación.
-- `writer.js` — genera el `.xlsx` final en el navegador.
-- `github.js` — lee y guarda `mapping.json` en GitHub.
-- `mapping.json` — la tabla de mapeo (se actualiza sola desde la app).
-- `xlsx.full.min.js`, `exceljs.min.js` — las librerías que leen/escriben
-  Excel, incluidas directo en el repo para no depender de ningún servicio
-  externo.
+### Guardar las cuentas nuevas
+
+Igual que en BALCOMPROBDOLARES, se configura con ⚙ un token de GitHub y queda guardado
+solo en tu navegador. La ruta por defecto del mapeo es `informe-a/mapeo_maestro.json`.
+
+El botón para guardar aparece **solo cuando hubo cuentas nuevas**. Es a propósito: al
+insertarse una fila, las cuentas que estaban más abajo cambian de posición, así que a
+partir de ese momento el mapeo corresponde al archivo que generó esa corrida. Si el mes
+siguiente arrancás del balance viejo, el sistema lo detecta y frena antes de escribir
+nada, avisando qué pasó.
+
+### Archivos
+
+- `motor.js` — la lógica de carga: limpia los saldos del mes anterior, carga los nuevos,
+  inserta cuentas nuevas, reconstruye la fila TOTALES y la columna de totales por cuenta.
+- `parser_onvio.js` — lee el export de Onvio. Ubica las columnas en dólares por su
+  encabezado, nunca por posición, para no tomar por error las columnas en pesos.
+- `formula_utils.js` — reacomoda las fórmulas de todo el archivo cuando se inserta una
+  fila (ni Excel-en-el-navegador ni el Python original lo hacen solos).
+- `similitud.js` — emparejamiento de nombres de centro de costo entre Onvio y el balance.
+- `github.js` — lee y guarda el mapeo en el repositorio.
+- `mapeo_maestro.json` — la "memoria": qué fila ocupa cada cuenta, sus categorías y los
+  22 centros de costo con sus columnas.

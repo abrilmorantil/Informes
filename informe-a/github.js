@@ -85,30 +85,61 @@ function cabeceras() {
 }
 
 // Devuelve null si el archivo todavía no existe (primera vez).
+//
+// GitHub manda "Cache-Control: private, max-age=60" en las respuestas de su API, así
+// que el navegador durante un minuto reusa lo que ya había leído sin volver a
+// preguntar. Justo después de guardar eso hace daño por partida doble: la página se
+// dibuja con el estado viejo (pedía cargar un mes que ya se había cerrado), y al
+// reintentar se manda el sha viejo, que GitHub rechaza con un 409. Por eso cada
+// lectura lleva no-store y un parámetro distinto, para que siempre vaya a buscar lo
+// que hay de verdad en el repositorio.
 async function ghLeer(nombre) {
   const s = loadGhSettings();
   const ruta = rutaDe(nombre);
   const rama = s.rama || "main";
-  const url = `https://api.github.com/repos/${s.repo}/contents/${encodeURI(ruta)}?ref=${encodeURIComponent(rama)}`;
-  const res = await fetch(url, { headers: cabeceras() });
+  const url = `https://api.github.com/repos/${s.repo}/contents/${encodeURI(ruta)}` +
+              `?ref=${encodeURIComponent(rama)}&_=${Date.now()}`;
+  const res = await fetch(url, { headers: cabeceras(), cache: "no-store" });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`No pude leer ${ruta} de GitHub (${res.status}): ${await res.text()}`);
   const data = await res.json();
   return { contenidoBase64: data.content, sha: data.sha };
 }
 
+function ghPut(ruta, contenidoBase64, sha, mensaje, rama) {
+  const s = loadGhSettings();
+  const url = `https://api.github.com/repos/${s.repo}/contents/${encodeURI(ruta)}`;
+  const cuerpo = { message: mensaje, content: contenidoBase64, branch: rama };
+  if (sha) cuerpo.sha = sha;
+  return fetch(url, {
+    method: "PUT",
+    headers: { ...cabeceras(), "Content-Type": "application/json" },
+    body: JSON.stringify(cuerpo),
+    cache: "no-store",
+  });
+}
+
+// El 409 significa que el archivo en GitHub ya no es el que se leyó: el sha no coincide.
+// Se vuelve a leer el sha real y se reintenta una vez, que resuelve el caso normal (una
+// lectura que quedó vieja). Si vuelve a fallar, alguien más lo cambió de verdad y hay que
+// avisar en vez de pisarlo.
 async function ghEscribir(nombre, contenidoBase64, sha, mensaje) {
   const s = loadGhSettings();
   const ruta = rutaDe(nombre);
   const rama = s.rama || "main";
-  const url = `https://api.github.com/repos/${s.repo}/contents/${encodeURI(ruta)}`;
-  const cuerpo = { message: mensaje, content: contenidoBase64, branch: rama };
-  if (sha) cuerpo.sha = sha;
-  const res = await fetch(url, {
-    method: "PUT",
-    headers: { ...cabeceras(), "Content-Type": "application/json" },
-    body: JSON.stringify(cuerpo),
-  });
+
+  let res = await ghPut(ruta, contenidoBase64, sha, mensaje, rama);
+  if (res.status === 409) {
+    const actual = await ghLeer(nombre);
+    res = await ghPut(ruta, contenidoBase64, actual ? actual.sha : undefined, mensaje, rama);
+    if (res.status === 409) {
+      throw new Error(
+        `${ruta} cambió en GitHub mientras se guardaba, así que no lo piso. ` +
+        `Actualizá la página (Ctrl+Shift+R) para ver cómo quedó y, si hace falta, ` +
+        `volvé a intentarlo. NO se guardó nada.`
+      );
+    }
+  }
   if (!res.ok) throw new Error(`No pude guardar ${ruta} en GitHub (${res.status}): ${await res.text()}`);
   return await res.json();
 }
@@ -142,4 +173,11 @@ async function guardarTodo({ bufferBase, mapeo, estado, mensaje }) {
 
   const shaEstado = (await ghLeer(ARCHIVO_ESTADO))?.sha;
   await ghEscribir(ARCHIVO_ESTADO, utf8ToBase64(JSON.stringify(estado, null, 1)), shaEstado, mensaje);
+}
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    ghLeer, ghEscribir, guardarTodo, leerEstado, leerMapeo, leerBase,
+    utf8ToBase64, base64ToUtf8, bufferABase64, base64ABuffer,
+  };
 }

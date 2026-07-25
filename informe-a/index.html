@@ -9,6 +9,22 @@
 <link rel="stylesheet" href="../estilos.css">
 <script src="vendor/xlsx.full.min.js"></script>
 <script src="vendor/exceljs.min.js"></script>
+<style>
+  .periodo-box{
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+    background:#FBF7F0; border:1px solid var(--line); border-radius:12px; padding:18px 22px;
+  }
+  .periodo-box .cerrado{font-size:13px; color:var(--ink-soft);}
+  .periodo-box .actual{font-family:'Instrument Serif', serif; font-size:28px; line-height:1.1;}
+  .flecha{color:var(--clay); font-size:20px;}
+  .paso{display:flex; gap:14px; align-items:flex-start; margin-bottom:18px;}
+  .paso .n{
+    flex:0 0 26px; height:26px; border-radius:50%; background:var(--clay); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;
+  }
+  .paso .txt{font-size:14px; line-height:1.55; padding-top:3px;}
+  .paso.hecho .n{background:var(--ok);}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -17,99 +33,171 @@
   <div class="topbar">
     <div>
       <h1>Balance de comprobación USD</h1>
-      <p class="sub">Subí el balance maestro y el export mensual de Onvio. Corre en el navegador, sin instalar nada.</p>
+      <p class="sub">Cargá el export mensual de Onvio. El archivo se guarda solo, no hay que subirlo cada mes.</p>
     </div>
-    <button class="gear-btn" onclick="openSettings()">⚙ Configuración de GitHub</button>
+    <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
   </div>
 
-  <div class="card" id="cardUpload">
-    <h2>1. Archivos</h2>
+  <div id="cargando" class="card">
+    <p class="footer-note" style="margin:0;">Cargando…</p>
+  </div>
 
-    <label class="dropzone" id="dzBalance" style="margin-bottom:12px;">
-      <input type="file" id="fileBalance" accept=".xlsm,.xlsx">
-      <div id="txtBalance">Balance maestro — hacé clic para elegir el archivo (.xlsm)</div>
+  <!-- ---------- sin configurar ---------- -->
+  <div class="card hidden" id="cardSinConfig">
+    <h2>Falta configurar GitHub</h2>
+    <p class="footer-note">
+      Acá es donde se guardan el archivo del balance y su historial, para no tener que
+      subirlo cada mes. Se configura una sola vez.
+    </p>
+    <div style="margin-top:14px;"><button onclick="abrirConfig()">Configurar ahora</button></div>
+  </div>
+
+  <!-- ---------- alta inicial ---------- -->
+  <div class="card hidden" id="cardAlta">
+    <h2>Primera vez: cargar el archivo base</h2>
+    <p class="footer-note">
+      Subí el archivo del balance tal como lo tenés hoy. De acá en adelante queda guardado
+      y no vas a tener que subirlo más: cada mes vas a subir solamente el export de Onvio.
+    </p>
+
+    <label class="dropzone" id="dzBase" style="margin-top:16px;">
+      <input type="file" id="fileBase" accept=".xlsm,.xlsx">
+      <div id="txtBase">Hacé clic para elegir el archivo del balance (.xlsm)</div>
     </label>
 
-    <label class="dropzone" id="dzOnvio">
-      <input type="file" id="fileOnvio" accept=".xls,.xlsx">
-      <div id="txtOnvio">Export de Onvio — hacé clic para elegir el archivo (.xls)</div>
-    </label>
+    <div id="altaDeteccion" class="hidden" style="margin-top:20px;"></div>
 
-    <div style="margin-top:16px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+    <div style="margin-top:18px;">
+      <button id="btnGuardarAlta" disabled>Guardar y empezar</button>
+      <span class="spinner hidden" id="spinnerAlta">Guardando en GitHub…</span>
+    </div>
+    <div id="altaStatus"></div>
+  </div>
+
+  <!-- ---------- ciclo mensual ---------- -->
+  <div class="card hidden" id="cardPeriodo">
+    <div class="periodo-box">
       <div>
-        <label style="font-size:13px; color:var(--ink-soft); display:block; margin-bottom:6px;">
-          Período (va al rótulo de la hoja y al nombre del archivo)
-        </label>
-        <input type="text" id="periodo" placeholder="jun-26" style="max-width:160px;">
+        <div class="cerrado">Último mes cerrado</div>
+        <div class="actual" id="txtUltimoCerrado">—</div>
+      </div>
+      <div class="flecha">→</div>
+      <div>
+        <div class="cerrado">Ahora cargás</div>
+        <div class="actual" id="txtPeriodoActual" style="color:var(--clay-deep);">—</div>
       </div>
     </div>
+    <p class="footer-note" style="margin-top:12px;">
+      El mes sale del historial guardado: no se puede saltear ninguno ni cerrar dos veces el mismo.
+    </p>
+  </div>
 
+  <div class="card hidden" id="cardOnvio">
+    <h2>1. Export de Onvio</h2>
+    <label class="dropzone" id="dzOnvio">
+      <input type="file" id="fileOnvio" accept=".xls,.xlsx">
+      <div id="txtOnvio">Hacé clic para elegir el archivo (.xls de Onvio)</div>
+    </label>
     <div style="margin-top:16px;">
       <button id="btnProcesar" disabled>Procesar</button>
-      <span class="spinner hidden" id="spinner">Leyendo y cargando saldos…</span>
+      <span class="spinner hidden" id="spinner">Cargando los importes…</span>
     </div>
-    <div id="mapeoStatus" class="footer-note"></div>
+    <div id="onvioStatus"></div>
   </div>
 
   <div class="card hidden" id="cardPendientes">
     <h2>2. Cuentas nuevas detectadas</h2>
     <p class="footer-note">
-      Estas cuentas vienen en el export de Onvio pero todavía no están en el balance.
-      Elegí a qué categoría (cuenta madre) pertenece cada una: el motor va a insertarlas en el
-      lugar correcto y reacomodar las fórmulas que dependan de esa fila.
+      Estas cuentas vienen en el export pero todavía no están en el balance. Elegí a qué
+      categoría pertenece cada una: se les crea la fila en el lugar correcto, con sus fórmulas.
     </p>
     <table>
       <thead>
-        <tr><th>Código</th><th>Descripción</th><th>Centro de costo</th><th class="num">Saldo</th><th style="width:34%;">Categoría</th></tr>
+        <tr><th>Código</th><th>Descripción</th><th>Centro de costo</th><th class="num">Saldo</th><th style="width:32%;">Categoría</th></tr>
       </thead>
       <tbody id="pendientesBody"></tbody>
     </table>
-    <div style="margin-top:16px;">
-      <button id="btnConfirmar">Confirmar categorías y cargar</button>
-    </div>
+    <div style="margin-top:16px;"><button id="btnConfirmar">Confirmar y cargar</button></div>
     <div id="pendientesStatus"></div>
   </div>
 
   <div class="card hidden" id="cardResultado">
     <h2>3. Resultado</h2>
     <div class="checks" id="checksBody"></div>
+    <div id="avisosBody" style="margin-top:16px;"></div>
     <p class="footer-note" style="margin-top:18px; margin-bottom:6px;">Detalle de la corrida</p>
     <pre class="log" id="logBody"></pre>
   </div>
 
-  <div class="card hidden" id="cardDescarga">
-    <h2>4. Descargar</h2>
-    <p class="footer-note" id="notaMacros">
-      El archivo se genera como <b>.xlsx</b> (sin las macros viejas, que este motor reemplaza).
-      Excel recalcula las fórmulas al abrirlo.
-    </p>
-    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button id="btnDescargar">Descargar balance</button>
-      <button id="btnGuardarMapeo" class="secondary hidden">Guardar cuentas nuevas en GitHub</button>
+  <div class="card hidden" id="cardCierre">
+    <h2>4. Revisar y cerrar el mes</h2>
+
+    <div class="paso">
+      <div class="n">1</div>
+      <div class="txt">
+        <b>Descargá el borrador</b> y abrilo en Excel. Podés hacerlo las veces que quieras:
+        mientras no cierres el mes, no se guarda nada.
+        <div style="margin-top:10px;"><button id="btnDescargar">Descargar borrador</button></div>
+      </div>
     </div>
-    <div id="descargaStatus"></div>
+
+    <div class="paso">
+      <div class="n">2</div>
+      <div class="txt">
+        <b>Revisalo en Excel</b> y, si está bien, <b>guardalo</b> (Ctrl+G). Excel es el que
+        calcula los importes, y ese guardado es lo que permite cerrar el mes con los números
+        que vos viste.
+      </div>
+    </div>
+
+    <div class="paso">
+      <div class="n">3</div>
+      <div class="txt">
+        <b>Subí ese mismo archivo acá y cerrá el mes.</b> Recién ahí queda guardado como
+        definitivo y se habilita el mes siguiente.
+        <label class="dropzone" id="dzAprobar" style="margin-top:12px;">
+          <input type="file" id="fileAprobar" accept=".xlsx,.xlsm">
+          <div id="txtAprobar">Hacé clic para elegir el archivo revisado</div>
+        </label>
+        <div style="margin-top:12px;">
+          <button id="btnCerrarMes" disabled>Cerrar <span id="txtMesCerrar">el mes</span></button>
+          <span class="spinner hidden" id="spinnerCierre">Guardando…</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="cierreStatus"></div>
+  </div>
+
+  <div class="card hidden" id="cardHistorial">
+    <h2>Meses cerrados</h2>
+    <table>
+      <thead><tr><th>Período</th><th class="num">Líneas</th><th class="num">Cuentas nuevas</th><th>Cerrado el</th></tr></thead>
+      <tbody id="historialBody"></tbody>
+    </table>
   </div>
 </div>
 
-<div class="modal-overlay hidden" id="settingsModal">
+<!-- ---------- configuración ---------- -->
+<div class="modal-overlay hidden" id="modalConfig">
   <div class="modal">
     <h2>Configuración de GitHub</h2>
     <p class="footer-note">
-      Sirve para guardar las cuentas nuevas que clasifiques directo en el repositorio,
-      sin descargar y subir el mapeo a mano. Queda guardado solo en este navegador.
+      Acá se guardan el balance, su historial y la tabla de cuentas. El token queda guardado
+      solo en este navegador.
     </p>
-    <label>Token de acceso personal <a class="help-link" href="#" id="howToToken">(¿cómo lo genero?)</a></label>
+    <label>Token de acceso personal <a class="help-link" href="#" id="comoToken">(¿cómo lo genero?)</a></label>
     <input type="text" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
     <label>Usuario/organización y repositorio</label>
     <input type="text" id="cfgRepo" placeholder="tuusuario/balcomp-app">
     <label>Rama</label>
-    <input type="text" id="cfgBranch" placeholder="main" value="main">
-    <label>Ruta del mapeo en el repositorio</label>
-    <input type="text" id="cfgPath" placeholder="informe-a/mapeo_maestro.json" value="informe-a/mapeo_maestro.json">
-    <div id="settingsStatus"></div>
+    <input type="text" id="cfgRama" placeholder="main" value="main">
+    <label>Carpeta dentro del repositorio</label>
+    <input type="text" id="cfgCarpeta" placeholder="informe-a" value="informe-a">
+    <div id="configStatus"></div>
     <div class="modal-actions">
-      <button onclick="saveSettings()">Guardar</button>
-      <button class="secondary" onclick="closeSettings()">Cancelar</button>
+      <button onclick="guardarConfig()">Guardar</button>
+      <button class="secondary" onclick="cerrarConfig()">Cancelar</button>
     </div>
   </div>
 </div>
@@ -117,6 +205,8 @@
 <script src="similitud.js"></script>
 <script src="formula_utils.js"></script>
 <script src="parser_onvio.js"></script>
+<script src="meses.js"></script>
+<script src="mapeo.js"></script>
 <script src="motor.js"></script>
 <script src="github.js"></script>
 <script src="app.js"></script>

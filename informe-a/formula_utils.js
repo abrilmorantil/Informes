@@ -52,6 +52,62 @@ function shiftFormulaLocal(formula, insertBeforeRow) {
 
 const HOJA_BALANCE = "Sumas y Saldos";
 
+// Excel guarda las fórmulas repetidas como "compartidas": una celda maestra tiene el
+// texto y las demás solo la apuntan. ExcelJS las lee así, y eso rompe dos cosas.
+//
+// Leyendo: en un clon `cell.value` no trae `.formula`, así que todo lo que busca
+// fórmulas mirando el value ve una fracción de las celdas. En este archivo la columna
+// D de 'Dist.de gastos' tiene 94 categorías y solo 3 son maestras: el resto quedaba
+// invisible, y congelar el mes escribía 3 importes en vez de 94.
+//
+// Escribiendo: si algo pisa la maestra con un número, los clones quedan apuntando a
+// una celda que ya no tiene fórmula y ExcelJS se niega a guardar el archivo
+// ("Shared Formula master must exist above and or left of clone").
+//
+// `cell.formula` sí devuelve la fórmula traducida a la fila de cada clon, así que acá
+// se le da texto propio a cada celda una sola vez, apenas se abre el archivo. De ahí
+// en más no queda ninguna fórmula compartida y el resto del motor trabaja parejo.
+// Para Excel es lo mismo: compartir fórmulas es solo una forma de ahorrar espacio.
+function materializarFormulasCompartidas(wb) {
+  let expandidas = 0;
+
+  wb.worksheets.forEach(ws => {
+    // Se recolecta todo primero y se escribe después: reescribir una maestra en pleno
+    // recorrido dejaría sin traducir a los clones que todavía no se visitaron.
+    const pendientes = [];
+    ws.eachRow({ includeEmpty: true }, row => {
+      row.eachCell({ includeEmpty: true }, cell => {
+        const m = cell.model;
+        if (!m || (!m.sharedFormula && m.shareType !== "shared")) return;
+        const formula = cell.formula;
+        if (typeof formula !== "string" || !formula) {
+          throw new Error(
+            `No pude interpretar la fórmula compartida de ${ws.name}!${cell.address}. ` +
+            `NO se generó ningún archivo.`
+          );
+        }
+        pendientes.push({ cell, formula, result: cell.result });
+      });
+    });
+
+    pendientes.forEach(({ cell, formula, result }) => {
+      cell.value = result === undefined ? { formula } : { formula, result };
+      expandidas++;
+    });
+  });
+
+  return expandidas;
+}
+
+// Único punto de entrada para abrir el archivo: así ninguna pantalla se olvida de
+// expandir las fórmulas compartidas antes de tocar nada.
+async function abrirWorkbook(buffer) {
+  const wb = new ExcelJS.Workbook();
+  await wb.xlsx.load(buffer);
+  materializarFormulasCompartidas(wb);
+  return wb;
+}
+
 // Recorre TODAS las hojas y reacomoda las fórmulas afectadas por la inserción.
 // Devuelve la cantidad de celdas modificadas.
 function shiftAllFormulas(wb, insertBeforeRow) {
@@ -119,5 +175,6 @@ function insertRowSumasYSaldos(wsSs, wb, insertAtRow) {
 if (typeof module !== "undefined") {
   module.exports = {
     shiftFormula, shiftFormulaLocal, shiftAllFormulas, insertRowSumasYSaldos, REF_RE,
+    materializarFormulasCompartidas, abrirWorkbook,
   };
 }

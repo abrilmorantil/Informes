@@ -138,8 +138,7 @@ $("fileBase").addEventListener("change", async () => {
   $("altaStatus").innerHTML = "";
   try {
     altaBuffer = await f.arrayBuffer();
-    altaWb = new ExcelJS.Workbook();
-    await altaWb.xlsx.load(altaBuffer);
+    altaWb = await abrirWorkbook(altaBuffer);
 
     const dist = altaWb.getWorksheet("Dist.de gastos");
     if (!dist) throw new Error("El archivo no tiene la hoja 'Dist.de gastos'.");
@@ -352,8 +351,7 @@ async function correrMotor(categoriasElegidas) {
   // Se parte siempre de una copia limpia del archivo guardado: el workbook se
   // modifica en el lugar, así que reusarlo tras un intento fallido arrastraría
   // cambios a medio aplicar.
-  const wb = new ExcelJS.Workbook();
-  await wb.xlsx.load(bufferBase.slice(0));
+  const wb = await abrirWorkbook(bufferBase.slice(0));
 
   const { mapeo, resumen } = procesar({
     wb, lineas, mapeo: mapeoGuardado, categoriasElegidas, periodo: periodoActual, log,
@@ -444,8 +442,7 @@ $("btnCerrarMes").addEventListener("click", async () => {
   st.innerHTML = "";
   try {
     const buf = await f.arrayBuffer();
-    const wb = new ExcelJS.Workbook();
-    await wb.xlsx.load(buf);
+    const wb = await abrirWorkbook(buf);
 
     // el archivo que sube tiene que ser el de este mes, no otro
     const dist = wb.getWorksheet("Dist.de gastos");

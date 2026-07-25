@@ -368,7 +368,7 @@ async function correrMotor(categoriasElegidas) {
 
 function renderResultado(resumen) {
   const items = [
-    { name: "Total en USD del export", value: resumen.totalSaldo.toFixed(2), ok: true,
+    { name: "Total en USD de las cuentas de gasto", value: resumen.totalSaldo.toFixed(2), ok: true,
       detail: "Es la cifra que tiene que dar el balance. Excel la recalcula al abrir el archivo." },
     { name: "Líneas cargadas", value: String(resumen.lineas), ok: true,
       detail: "Cada línea del export quedó en la hoja SyS, con su centro de costo." },
@@ -387,6 +387,19 @@ function renderResultado(resumen) {
     </div>`).join("");
 
   const avisos = [];
+  if (resumen.fueraDelBalance && resumen.fueraDelBalance.length) {
+    avisos.push(`
+      <div class="check ok" style="display:block;">
+        <div class="name">Quedaron afuera ${resumen.fueraDelBalance.length} cuenta(s) que no son de resultado</div>
+        <div class="detail">
+          El export trae cuentas patrimoniales que no van a este balance, que es solo de
+          gastos (las cuentas que empiezan con 4):
+          ${resumen.fueraDelBalance.map(c =>
+            `<b>${c.codigo}</b> ${c.label} (${c.saldo.toFixed(2)})`).join(", ")}.
+          No se cargaron ni se sumaron al total. Es lo esperado.
+        </div>
+      </div>`);
+  }
   if (resumen.ccSinColumna && resumen.ccSinColumna.length) {
     avisos.push(`
       <div class="check bad" style="display:block;">

@@ -191,12 +191,51 @@ function agregarRefDistDeGastos(wsDist, distRow, distCol, colSaldoSs, ssRow) {
 
 // ---------------------------------------------------------------- etapa 1
 
+// Este balance es de cuentas de RESULTADO: las 382 cuentas del archivo empiezan con 4.
+// El export de Onvio es un balance de sumas y saldos completo, así que además trae
+// cuentas patrimoniales — Caja, IVA Crédito Fiscal, anticipos de fondos, cuentas de
+// proveedores — que no son gasto y no van ni a la distribución ni a la hoja SyS.
+//
+// Se apartan en un solo lugar, del que dependen las dos etapas: así no se pregunta por
+// ellas como si fueran cuentas nuevas a clasificar (que era la única salida que daba la
+// app, y metía el importe dentro de una categoría de gasto), no se les escribe fila en
+// SyS, y no entran en el total que tiene que dar el balance.
+function esCuentaDeResultado(codigo) {
+  return /^4/.test(String(codigo).trim());
+}
+
+function separarCuentasDeResultado(lineas) {
+  const deResultado = [], fueraDelBalance = [];
+  for (const linea of lineas) {
+    (esCuentaDeResultado(linea.cuenta_codigo) ? deResultado : fueraDelBalance).push(linea);
+  }
+  return { deResultado, fueraDelBalance };
+}
+
+// Junta las descartadas por cuenta, para poder mostrarlas y que quede claro qué quedó
+// afuera en vez de que desaparezca sin aviso.
+function resumirFueraDelBalance(lineas) {
+  const porCuenta = new Map();
+  for (const l of lineas) {
+    const codigo = String(l.cuenta_codigo);
+    if (!porCuenta.has(codigo)) {
+      porCuenta.set(codigo, { codigo, label: l.cuenta_label, lineas: 0, saldo: 0 });
+    }
+    const c = porCuenta.get(codigo);
+    c.lineas++;
+    c.saldo += l.saldo || 0;
+  }
+  return [...porCuenta.values()].sort((a, b) => a.codigo.localeCompare(b.codigo));
+}
+
 function detectarPendientes(lineas, mapeo) {
   const pendientes = [];
   const sinCc = [];
   const vistas = new Set();
 
-  for (const linea of lineas) {
+  const { deResultado, fueraDelBalance } = separarCuentasDeResultado(lineas);
+
+  for (const linea of deResultado) {
     const ccBlock = resolverCcBlock(mapeo, linea.cc_nombre_onvio);
     if (ccBlock === null) { sinCc.push(linea.cc_nombre_onvio); continue; }
 
@@ -211,7 +250,11 @@ function detectarPendientes(lineas, mapeo) {
       });
     }
   }
-  return { pendientes, sinCc: [...new Set(sinCc)].sort() };
+  return {
+    pendientes,
+    sinCc: [...new Set(sinCc)].sort(),
+    fueraDelBalance: resumirFueraDelBalance(fueraDelBalance),
+  };
 }
 
 // Centros de costo que traen movimiento este mes pero no tienen columna en
@@ -263,6 +306,15 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
   wb.calcProperties.fullCalcOnLoad = true;
 
   log(`${lineas.length} líneas de cuenta leídas del export.`);
+
+  // Solo las cuentas de resultado llegan al balance; el resto se aparta acá.
+  const { deResultado, fueraDelBalance } = separarCuentasDeResultado(lineas);
+  const fuera = resumirFueraDelBalance(fueraDelBalance);
+  lineas = deResultado;
+  if (fuera.length) {
+    log(`  ${fueraDelBalance.length} línea(s) que no son de cuentas de resultado quedan afuera: ` +
+        fuera.map(c => `${c.codigo} ${c.label} (${c.saldo.toFixed(2)})`).join(", "));
+  }
 
   limpiarSys(wsSys, log);
   const filasSys = filasDeDatosSys(wsSys);
@@ -378,6 +430,7 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
       totalSaldo: lineas.reduce((s, l) => s + l.saldo, 0),
       sinCc: [...new Set(sinCc)].sort(),
       ccSinColumna,
+      fueraDelBalance: fuera,
     },
   };
 }
@@ -407,6 +460,7 @@ if (typeof module !== "undefined") {
   global.nombreMes = meses.nombreMes;
   module.exports = {
     procesar, aprobarMes, detectarPendientes, detectarCcSinColumna, categoriasDisponibles,
+    esCuentaDeResultado, separarCuentasDeResultado, resumirFueraDelBalance,
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
     norm, limpiar, colAIndice, indiceACol,
   };

@@ -321,6 +321,8 @@ function renderPendientes() {
         </select>
       </td>
     </tr>`).join("");
+  // son 95 categorías: sin buscador hay que recorrerlas a ojo
+  conBuscadorTodos(".catSelect", "Buscar categoría…");
 }
 
 $("btnConfirmar").addEventListener("click", async () => {

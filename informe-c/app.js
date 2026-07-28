@@ -311,6 +311,8 @@ function renderNuevas() {
         <td>${destino}</td>
       </tr>`;
   }).join("");
+  conBuscadorTodos(".selMadre", "Buscar cuenta madre…");
+  conBuscadorTodos(".selLinea", "Buscar línea de la Nota 4…");
 }
 
 $("btnConfirmarNuevas").addEventListener("click", async () => {
@@ -404,6 +406,8 @@ function renderRevisionUsd() {
         opciones +
       '</select></td>' +
     '</tr>').join("");
+  // acá son 203 opciones: el buscador es imprescindible
+  conBuscadorTodos(".selUsd", "Buscar cuenta del balance en dólares…");
 }
 
 $("btnConfirmarUsd").addEventListener("click", async () => {

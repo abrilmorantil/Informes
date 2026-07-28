@@ -120,6 +120,18 @@ a.help-link{color:var(--clay-deep);}
   color:var(--ink-soft); white-space:pre-wrap; max-height:280px; overflow-y:auto; margin:0;
 }
 
+/* ---- buscador de listas largas (ver buscador.js) ---- */
+.buscador{display:block;}
+.buscador-input{
+  margin-bottom:6px; font-size:12px; padding:6px 9px;
+  background:#FCF9F4; border:1px solid var(--line); border-radius:6px;
+  font-family:'Plus Jakarta Sans', sans-serif; width:100%; color:var(--ink);
+}
+.buscador-input:focus{outline:none; border-color:var(--clay); background:#fff;}
+.buscador-input::placeholder{color:var(--ink-soft);}
+.buscador-aviso{font-size:11px; color:var(--ink-soft); margin-top:4px;}
+.buscador-aviso.vacio{color:var(--warn);}
+
 /* ---- pantalla de inicio ---- */
 .informes{display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));}
 .informe-card{

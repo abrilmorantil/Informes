@@ -6,15 +6,19 @@
 // fila (Excel sí), y hay que simularlo a mano para todas las fórmulas del archivo
 // que dependan de la hoja donde se insertó.
 
+// Los nombres llevan prefijo FH_ a propósito: estos scripts se cargan como <script>
+// sueltos y comparten UN solo ámbito global con los del Informe A, que declara constantes
+// con estos mismos nombres. Repetir un `const` en el ámbito global es un SyntaxError que
+// tumba el archivo entero (y con él insertRowEn) sin que se vea el motivo.
 function escaparRegex(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-const TEXTO_ENTRE_COMILLAS = /"[^"]*"/g;
-const REF_CON_HOJA = /(?:'[^']+'|[A-Za-z_][A-Za-z0-9_.]*)!\$?[A-Z]{1,3}\$?\d*(?::\$?[A-Z]{1,3}\$?\d*)?/g;
-const REF_LOCAL = /(?<![A-Z0-9_$!.])(\$?)([A-Z]{1,3})(\$?)(\d+)(?!\s*\()/g;
-const MARCA = String.fromCharCode(1);
-const MARCA_RE = new RegExp(`${MARCA}(\\d+)${MARCA}`, "g");
+const FH_TEXTO_ENTRE_COMILLAS = /"[^"]*"/g;
+const FH_REF_CON_HOJA = /(?:'[^']+'|[A-Za-z_][A-Za-z0-9_.]*)!\$?[A-Z]{1,3}\$?\d*(?::\$?[A-Z]{1,3}\$?\d*)?/g;
+const FH_REF_LOCAL = /(?<![A-Z0-9_$!.])(\$?)([A-Z]{1,3})(\$?)(\d+)(?!\s*\()/g;
+const FH_MARCA = String.fromCharCode(1);
+const FH_MARCA_RE = new RegExp(`${FH_MARCA}(\\d+)${FH_MARCA}`, "g");
 
 function crearShifters(nombreHoja) {
   // 'SALDOS'!$G$3 | SALDOS!G3:G100 | SALDOS!G3 — con o sin comillas.
@@ -45,11 +49,11 @@ function crearShifters(nombreHoja) {
 
   function shiftFormulaLocal(formula, insertBeforeRow) {
     const guardados = [];
-    const guardar = (m) => `${MARCA}${guardados.push(m) - 1}${MARCA}`;
-    let f = formula.replace(TEXTO_ENTRE_COMILLAS, guardar).replace(REF_CON_HOJA, guardar);
-    f = f.replace(REF_LOCAL, (m, d1, col, d2, row) =>
+    const guardar = (m) => `${FH_MARCA}${guardados.push(m) - 1}${FH_MARCA}`;
+    let f = formula.replace(FH_TEXTO_ENTRE_COMILLAS, guardar).replace(FH_REF_CON_HOJA, guardar);
+    f = f.replace(FH_REF_LOCAL, (m, d1, col, d2, row) =>
       `${d1}${col}${d2}${shiftRow(row, insertBeforeRow)}`);
-    return f.replace(MARCA_RE, (_, i) => guardados[Number(i)]);
+    return f.replace(FH_MARCA_RE, (_, i) => guardados[Number(i)]);
   }
 
   return { shiftFormula, shiftFormulaLocal, REF_HOJA_RE };

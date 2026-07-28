@@ -17,9 +17,17 @@ const MARCA = String.fromCharCode(1);
 const MARCA_RE = new RegExp(`${MARCA}(\\d+)${MARCA}`, "g");
 
 function crearShifters(nombreHoja) {
-  // 'SALDOS'!$G$3 | SALDOS!G3:G100 | SALDOS!G3 — con o sin comillas
+  // 'SALDOS'!$G$3 | SALDOS!G3:G100 | SALDOS!G3 — con o sin comillas.
+  //
+  // Los `$` se capturan y se devuelven tal cual: reescribir `Hoja1!$A$2:$E$377` como
+  // `Hoja1!A2:E431` da el mismo número, pero deja de ser una referencia absoluta. Eso
+  // rompía cosas río abajo (normalizarRangosVlookup busca los rangos por su `$` para
+  // reparar los que están cortos) y volvía frágil cualquier fórmula que después se
+  // copie. Insertar una fila SÍ corre el número aunque la referencia sea absoluta:
+  // el `$` manda al copiar, no al insertar.
   const REF_HOJA_RE = new RegExp(
-    `('?${escaparRegex(nombreHoja)}'?!)\\$?([A-Z]{1,3})\\$?(\\d+)(?::\\$?([A-Z]{1,3})\\$?(\\d+))?`, "g"
+    `('?${escaparRegex(nombreHoja)}'?!)(\\$?)([A-Z]{1,3})(\\$?)(\\d+)` +
+    `(?::(\\$?)([A-Z]{1,3})(\\$?)(\\d+))?`, "g"
   );
 
   const shiftRow = (row, insertBeforeRow) => {
@@ -28,12 +36,10 @@ function crearShifters(nombreHoja) {
   };
 
   function shiftFormula(formula, insertBeforeRow) {
-    return formula.replace(REF_HOJA_RE, (m, prefix, col1, row1, col2, row2) => {
-      const nueva1 = shiftRow(row1, insertBeforeRow);
-      if (col2 !== undefined) {
-        return `${prefix}${col1}${nueva1}:${col2}${shiftRow(row2, insertBeforeRow)}`;
-      }
-      return `${prefix}${col1}${nueva1}`;
+    return formula.replace(REF_HOJA_RE, (m, prefix, dc1, col1, df1, row1, dc2, col2, df2, row2) => {
+      const uno = `${prefix}${dc1}${col1}${df1}${shiftRow(row1, insertBeforeRow)}`;
+      if (col2 === undefined) return uno;
+      return `${uno}:${dc2}${col2}${df2}${shiftRow(row2, insertBeforeRow)}`;
     });
   }
 

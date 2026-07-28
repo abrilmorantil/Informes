@@ -120,110 +120,100 @@ function derivarMapeoMaestro(wb, moneda) {
 
 // --------------------------------------------------------------------- Hoja1
 //
-// Cada corrida REEMPLAZA la zona de pegado, no acumula: se limpia todo lo viejo y se
-// escribe el export fresco con el mismo layout (título de capítulo, y debajo cada
-// cuenta con su clave "código - nombre" y su saldo).
-function reescribirHoja1(wb, cuentasExport, moneda, log = () => {}) {
+// Hoja1 NO se reordena: se actualizan los importes en la fila donde ya está cada
+// cuenta, y las que no estaban se insertan al final de su capítulo.
+//
+// La primera versión reescribía la hoja entera de cero, y eso rompía en silencio dos
+// cosas del maestro real:
+//   - Fórmulas que la leen POR POSICIÓN. `SALDOS!F282 = +Hoja1!E206+Hoja1!E207` es la
+//     "Diferencia de cambio $", que alimenta `Resultados!C17` (la propia celda H282
+//     aclara "No va en Anexo II"); y `SALDOS!E426 = +Hoja1!A267` toma de ahí el NOMBRE
+//     de una cuenta. Al reordenar quedaban apuntando a cualquier cosa.
+//   - Controles que viven DENTRO de la zona de pegado: `E52 = SUM(E2:E51)` (total del
+//     activo, que lee `SALDOS!I62`) y `E318 = SUM(E192:E316)` (total de resultados, que
+//     lee `SALDOS!G508` y alimenta la comprobación de diferencia de cambio). Borrar la
+//     columna los eliminaba.
+//
+// Actualizando en el lugar no hace falta reacomodar nada: las filas no se mueven, y las
+// pocas inserciones pasan por insertRowEn, que ya corrige todas las fórmulas del archivo
+// —incluidos esos subtotales y los rangos de los VLOOKUP—, igual que haría Excel.
+//
+// El texto de la clave NO se toca: SALDOS busca contra Hoja1 con su propio texto, así que
+// si Onvio le cambia el nombre a una cuenta y lo pisáramos acá, el VLOOKUP dejaría de
+// encontrarla. Se empareja por CÓDIGO, que es lo estable.
+function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
   const p = PARAMS[moneda];
   const ws = wb.getWorksheet("Hoja1");
   if (!ws) throw new Error("El maestro no tiene la hoja 'Hoja1' (la zona de pegado del export).");
 
-  const filasViejas = ws.rowCount;
-  // qué cuenta había en cada fila ANTES de tocar nada: hay fórmulas que apuntan a
-  // Hoja1 por posición y hay que llevarlas a la nueva fila de la misma cuenta
-  const claveVieja = new Map();
-  for (let r = 1; r <= filasViejas; r++) {
-    const t = textoPlano(ws.getCell(r, p.hoja1ColClave).value).replace(/\s+/g, " ").trim();
-    if (t) claveVieja.set(r, t.toUpperCase());
-    ws.getCell(r, p.hoja1ColClave).value = null;
-    ws.getCell(r, p.hoja1ColValor).value = null;
-  }
-
-  let r = 1;
-  let capituloPrevio = null;
-  const filaNuevaDe = new Map();
-  for (const c of cuentasExport) {
-    if (c.capitulo !== capituloPrevio) {
-      ws.getCell(r, p.hoja1ColClave).value = c.capitulo;
-      capituloPrevio = c.capitulo;
-      r++;
+  const indice = () => {
+    const m = new Map();
+    for (let r = 1; r <= ws.rowCount; r++) {
+      const v = ws.getCell(r, p.hoja1ColClave).value;
+      if (v && typeof v === "object" && typeof v.formula === "string") continue;  // celda de control
+      const t = String(v === null || v === undefined ? "" : v).trim();
+      const mm = RE_CUENTA_TXT.exec(t);
+      if (!mm) continue;
+      if (!m.has(mm[1])) m.set(mm[1], []);
+      m.get(mm[1]).push(r);
     }
-    const clave = `${c.codigo} - ${c.nombre}`;
-    ws.getCell(r, p.hoja1ColClave).value = clave;
-    ws.getCell(r, p.hoja1ColValor).value = c[p.campoSaldo];
-    filaNuevaDe.set(clave.replace(/\s+/g, " ").trim().toUpperCase(), r);
-    r++;
-  }
-  const ultimaFila = r - 1;
-  log(`  Hoja1 reescrita: ${cuentasExport.length} cuentas (filas 1 a ${ultimaFila}, antes ${filasViejas}).`);
+    return m;
+  };
 
-  remapearRefsPosicionales(wb, claveVieja, filaNuevaDe, ultimaFila, log);
+  let filasPorCodigo = indice();
+  const repetidas = [...filasPorCodigo.entries()].filter(([, f]) => f.length > 1);
+
+  // cada corrida REEMPLAZA: lo que no venga en el export queda en cero, no arrastra
+  for (const filas of filasPorCodigo.values()) {
+    for (const r of filas) ws.getCell(r, p.hoja1ColValor).value = 0;
+  }
+
+  let actualizadas = 0;
+  const pendientes = [];
+  for (const c of cuentasExport) {
+    const filas = filasPorCodigo.get(c.codigo);
+    if (!filas) { pendientes.push(c); continue; }
+    ws.getCell(filas[0], p.hoja1ColValor).value = c[p.campoSaldo];
+    actualizadas++;
+  }
+
+  for (const c of pendientes) {
+    // al final del bloque de su capítulo, que en Hoja1 se reconoce por el primer dígito
+    let ultima = null;
+    for (const [codigo, filas] of filasPorCodigo) {
+      if (codigo[0] !== c.codigo[0]) continue;
+      const f = Math.max(...filas);
+      if (ultima === null || f > ultima) ultima = f;
+    }
+    if (ultima === null) {
+      ultima = 0;
+      for (const filas of filasPorCodigo.values()) ultima = Math.max(ultima, ...filas);
+    }
+    // se inserta EN la fila de la última cuenta del capítulo, no después: así queda
+    // estrictamente dentro de los rangos que terminan ahí (los controles internos
+    // E52=SUM(E2:E51) y E318=SUM(E192:E316)) y se expanden solos, como en Excel.
+    // Insertando después, la cuenta caía justo afuera del control.
+    const filaNueva = ultima;
+    insertRowEn(wb, "Hoja1", filaNueva);
+    ws.getCell(filaNueva, p.hoja1ColClave).value = `${c.codigo} - ${c.nombre}`;
+    ws.getCell(filaNueva, p.hoja1ColValor).value = c[p.campoSaldo];
+    ws.getCell(filaNueva, p.hoja1ColClave).style = ws.getCell(ultima + 1, p.hoja1ColClave).style;
+    ws.getCell(filaNueva, p.hoja1ColValor).style = ws.getCell(ultima + 1, p.hoja1ColValor).style;
+    filasPorCodigo = indice();
+  }
+
+  let ultimaFila = 0;
+  for (const filas of filasPorCodigo.values()) ultimaFila = Math.max(ultimaFila, ...filas);
+
+  log(`  Hoja1 actualizada: ${actualizadas} cuentas en su fila` +
+      (pendientes.length ? `, ${pendientes.length} agregada(s) al final de su capítulo` : "") +
+      ` (los importes que no vinieron en el export quedaron en cero).`);
+  for (const [codigo, filas] of repetidas) {
+    log(`  ⚠ Hoja1 tiene ${codigo} repetida en las filas ${filas.join(", ")}: se carga en la primera y las otras quedan en cero.`);
+  }
   return ultimaFila;
 }
 
-// No todo lo que lee Hoja1 lo hace por clave. En el maestro real hay fórmulas que la
-// referencian POR POSICIÓN, y son justamente las de las cuentas que no entran en el
-// esquema normal:
-//
-//   SALDOS!F282 = +Hoja1!E206+Hoja1!E207   ← "Diferencia de cambio $", que suma los dos
-//                                            saldos de diferencia de cambio y alimenta
-//                                            Resultados!C17 ("No va en Anexo II", dice
-//                                            la propia celda H282)
-//   SALDOS!E426 = +Hoja1!A267              ← toma de ahí el NOMBRE de la cuenta, que
-//                                            después usa su propio VLOOKUP
-//
-// Como cada corrida reescribe Hoja1 y las cuentas cambian de fila, esas referencias
-// quedarían apuntando a cualquier cosa (o a filas vacías) y el importe desaparecería
-// del balance sin ningún error a la vista. Acá se las lleva a la fila nueva de LA
-// MISMA cuenta, comparando por la clave "código - nombre".
-//
-// Los rangos de los VLOOKUP (Hoja1!$A$2:$E$377) no se tocan: esos van por clave y de
-// su extensión se ocupa normalizarRangosVlookup.
-function remapearRefsPosicionales(wb, claveVieja, filaNuevaDe, ultimaFila, log = () => {}) {
-  // El (?!\d) es imprescindible: sin él, ante "Hoja1!$A$86:$E$377" el motor de regex
-  // reintenta con un número más corto ("$A$8"), ve que lo que sigue no es ":" y da el
-  // rango del VLOOKUP por bueno, reapuntándolo. Con (?!\d) los dígitos se consumen
-  // enteros y el rango queda excluido, que es lo que corresponde: va por clave.
-  const RE_REF = /\bHoja1!(\$?)([A-Z]{1,3})(\$?)(\d+)(?!\d)(?!\s*:)/g;
-  const filaVacia = ultimaFila + 2;      // garantizada sin datos: evalúa a 0/vacío
-  let remapeadas = 0;
-  const perdidas = [];
-
-  wb.worksheets.forEach(ws => {
-    ws.eachRow(row => row.eachCell(cell => {
-      const v = cell.value;
-      if (!v || typeof v !== "object" || typeof v.formula !== "string") return;
-      if (!/Hoja1!/i.test(v.formula)) return;
-      let cambio = false;
-      const nueva = v.formula.replace(RE_REF, (m, d1, col, d2, fila) => {
-        const clave = claveVieja.get(parseInt(fila, 10));
-        if (!clave) return m;                       // apuntaba a una fila vacía: sigue igual
-        const destino = filaNuevaDe.get(clave);
-        if (destino === undefined) {
-          perdidas.push({ celda: `${ws.name}!${cell.address}`, clave });
-          cambio = true;
-          return `Hoja1!${d1}${col}${d2}${filaVacia}`;
-        }
-        if (destino === parseInt(fila, 10)) return m;
-        cambio = true;
-        return `Hoja1!${d1}${col}${d2}${destino}`;
-      });
-      if (cambio) { cell.value = { formula: nueva }; remapeadas++; }
-    }));
-  });
-
-  if (remapeadas) log(`  ${remapeadas} fórmula(s) que apuntan a Hoja1 por posición reapuntadas a la fila nueva de su cuenta.`);
-  for (const x of perdidas) {
-    log(`  ⚠ ${x.celda} apuntaba a "${x.clave}", que no viene en este export: queda en cero.`);
-  }
-  return { remapeadas, perdidas };
-}
-
-// Los VLOOKUP de SALDOS apuntan a rangos fijos de Hoja1 que quedaron de corridas
-// viejas: en el maestro real conviven $E$377 (sano) con $E$47/$E$50/$E$53, que cubren
-// ~50 filas. Toda cuenta que caiga después de esa fila desaparece EN SILENCIO (el
-// IFERROR la deja vacía). Como la app acaba de reescribir Hoja1 y sabe exactamente
-// hasta qué fila hay datos, normaliza todos los rangos cortos a la extensión real.
 // Se normaliza el rango entero y la columna que se pide:
 //   - el ARRANQUE a la fila 2: hay VLOOKUPs que empiezan en $A$86 (donde arrancaban los
 //     gastos en el layout viejo) y si la sección queda más arriba tras reescribir Hoja1,
@@ -277,7 +267,7 @@ function normalizarRangosVlookup(wb, moneda, ultimaFilaHoja1, log = () => {}) {
 // en junio 2026): crearles fila en el balance de pesos agrega una línea que siempre
 // va a valer cero. Si el mes que viene tienen saldo en pesos, se preguntan ahí.
 // Igual entran todas a Hoja1: hay fórmulas que las leen de ahí aunque no tengan fila
-// propia en SALDOS (ver remapearRefsPosicionales).
+// propia en SALDOS (ej. las dos de diferencia de cambio, que SALDOS!F282 lee de ahí).
 function detectarNuevas(cuentasExport, mapeoMaestro, moneda) {
   const campo = PARAMS[moneda].campoSaldo;
   return cuentasExport.filter(c => !mapeoMaestro.cuentas[c.codigo] && c[campo] !== 0);
@@ -611,7 +601,7 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, log
     agregarLineaNota4(wb, moneda, destino.lineaModelo, n, filaNueva, colValor, log);
   }
 
-  const ultimaFila = reescribirHoja1(wb, cuentasExport, moneda, log);
+  const ultimaFila = actualizarHoja1(wb, cuentasExport, moneda, log);
   normalizarRangosVlookup(wb, moneda, ultimaFila, log);
   actualizarSaldosManuales(wb, mapeo, cuentasExport, moneda, log);
 
@@ -639,9 +629,9 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, log
 
 if (typeof module !== "undefined") {
   module.exports = {
-    PARAMS, derivarMapeoMaestro, reescribirHoja1, normalizarRangosVlookup,
+    PARAMS, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
     detectarNuevas, insertarCuentaEnSaldos, agregarLineaNota4,
     lineasDeNota4, procesarBalance, copiarPatronFila, actualizarSaldosManuales,
-    madresResultados, insertarHijaEnMadre, filasQueAgrega, remapearRefsPosicionales,
+    madresResultados, insertarHijaEnMadre, filasQueAgrega,
   };
 }

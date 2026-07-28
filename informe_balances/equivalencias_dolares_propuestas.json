@@ -1,0 +1,787 @@
+{
+  "equivalencias": [
+    {
+      "codigo_nuevo": "114010001",
+      "label_nuevo": "IVA Crédito Fiscal",
+      "codigo_viejo": "11401001",
+      "label_viejo": "Iva crédito fiscal"
+    },
+    {
+      "codigo_nuevo": "114010005",
+      "label_nuevo": "IIBB saldo a favor",
+      "codigo_viejo": "114010002",
+      "label_viejo": "IVA saldo a favor"
+    },
+    {
+      "codigo_nuevo": "114010006",
+      "label_nuevo": "Crédito Imp. L.25413",
+      "codigo_viejo": "11401006",
+      "label_viejo": "Crédito Imp. L.25413"
+    },
+    {
+      "codigo_nuevo": "114010010",
+      "label_nuevo": "Imp. Gcia. Min. Presunta",
+      "codigo_viejo": "11401010",
+      "label_viejo": "Imp. Gcia Mínima Presunta"
+    },
+    {
+      "codigo_nuevo": "114010014",
+      "label_nuevo": "Saldos a favor Ganancias",
+      "codigo_viejo": "11401014",
+      "label_viejo": "Saldo Favor Ganancias"
+    },
+    {
+      "codigo_nuevo": "114020001",
+      "label_nuevo": "Southern Copper Corporation Cta. Part.",
+      "codigo_viejo": "11402001",
+      "label_viejo": "Southern Cooper Corporation Cta Part"
+    },
+    {
+      "codigo_nuevo": "114020002",
+      "label_nuevo": "Cía. Minera Los Tolmos S.A. Cta. Part.",
+      "codigo_viejo": "11402002",
+      "label_viejo": "Cía. Minera Los Tolmos S.A. Cta. Part."
+    },
+    {
+      "codigo_nuevo": "114050003",
+      "label_nuevo": "Anticipo de Fondos",
+      "codigo_viejo": "11405003",
+      "label_viejo": "Anticipo de Fondos"
+    },
+    {
+      "codigo_nuevo": "114050004",
+      "label_nuevo": "Anticipo a Proveedores",
+      "codigo_viejo": "11405004",
+      "label_viejo": "Anticipo a Proveedores"
+    },
+    {
+      "codigo_nuevo": "114050005",
+      "label_nuevo": "Seguros a Devengar",
+      "codigo_viejo": "11405005",
+      "label_viejo": "Seguros a Devengar"
+    },
+    {
+      "codigo_nuevo": "116010001",
+      "label_nuevo": "Socio Southern Copper Corporation",
+      "codigo_viejo": "11601001",
+      "label_viejo": "Socio Southern Cooper Corporation"
+    },
+    {
+      "codigo_nuevo": "122010000",
+      "label_nuevo": "Depósito en garantía alquiler",
+      "codigo_viejo": "12201000",
+      "label_viejo": "Depósito en garantía alquiler"
+    },
+    {
+      "codigo_nuevo": "124020001",
+      "label_nuevo": "Dep. Ac. Muebles y Utiles",
+      "codigo_viejo": "12402000",
+      "label_viejo": "Muebles y Utiles"
+    },
+    {
+      "codigo_nuevo": "124020002",
+      "label_nuevo": "Dep. Ac. Equipos",
+      "codigo_viejo": "12408000",
+      "label_viejo": "Am. Ac. Equipos"
+    },
+    {
+      "codigo_nuevo": "124020003",
+      "label_nuevo": "Dep. Ac. Herramientas",
+      "codigo_viejo": "12409000",
+      "label_viejo": "Am. Ac. Herramientas"
+    },
+    {
+      "codigo_nuevo": "124020004",
+      "label_nuevo": "Dep. Ac. Eq. de Computación",
+      "codigo_viejo": "12412000",
+      "label_viejo": "Am. Ac. Eq. de Computación"
+    },
+    {
+      "codigo_nuevo": "124020006",
+      "label_nuevo": "Dep. Ac. Rodados",
+      "codigo_viejo": "12414000",
+      "label_viejo": "Am. Ac. Rodados"
+    },
+    {
+      "codigo_nuevo": "124020007",
+      "label_nuevo": "Dep. Ac. Equipamiento Exploración",
+      "codigo_viejo": "12416000",
+      "label_viejo": "Am. Ac. Equipamiento Exploración"
+    },
+    {
+      "codigo_nuevo": "124020008",
+      "label_nuevo": "Dep. Ac. Instalaciones",
+      "codigo_viejo": "12418000",
+      "label_viejo": "Am. Ac. Instalaciones"
+    },
+    {
+      "codigo_nuevo": "211010004",
+      "label_nuevo": "AMX Argentina",
+      "codigo_viejo": "21101000",
+      "label_viejo": "Proveedores"
+    },
+    {
+      "codigo_nuevo": "212010001",
+      "label_nuevo": "Sueldos a pagar",
+      "codigo_viejo": "21301000",
+      "label_viejo": "Sueldos a pagar"
+    },
+    {
+      "codigo_nuevo": "212020001",
+      "label_nuevo": "SICOSS a pagar",
+      "codigo_viejo": "21407000",
+      "label_viejo": "Sicoss a pagar"
+    },
+    {
+      "codigo_nuevo": "213010001",
+      "label_nuevo": "SICORE a pagar",
+      "codigo_viejo": "21406000",
+      "label_viejo": "Sicore a pagar"
+    },
+    {
+      "codigo_nuevo": "311000000",
+      "label_nuevo": "Capital Suscripto",
+      "codigo_viejo": "31100000",
+      "label_viejo": "Capital Suscripto"
+    },
+    {
+      "codigo_nuevo": "421030000",
+      "label_nuevo": "IVA crédito fiscal no computable",
+      "codigo_viejo": "42103000",
+      "label_viejo": "Iva credito fiscal no computable"
+    },
+    {
+      "codigo_nuevo": "421050000",
+      "label_nuevo": "Sueldos Adm.",
+      "codigo_viejo": "42105000",
+      "label_viejo": "Sueldos Adm."
+    },
+    {
+      "codigo_nuevo": "421060000",
+      "label_nuevo": "Cargas sociales Adm.",
+      "codigo_viejo": "42106000",
+      "label_viejo": "Cargas sociales"
+    },
+    {
+      "codigo_nuevo": "421070000",
+      "label_nuevo": "Movilidad y viáticos Adm.",
+      "codigo_viejo": "42107000",
+      "label_viejo": "Movilidad y Viaticos Adm."
+    },
+    {
+      "codigo_nuevo": "423050000",
+      "label_nuevo": "Diferencia de Cambio USD",
+      "codigo_viejo": "42305000",
+      "label_viejo": "Diferencia de Cambio USD"
+    },
+    {
+      "codigo_nuevo": "424400000",
+      "label_nuevo": "Sueldos Campo",
+      "codigo_viejo": "42440000",
+      "label_viejo": "SUELDOS"
+    },
+    {
+      "codigo_nuevo": "424500000",
+      "label_nuevo": "Cargas sociales Campo",
+      "codigo_viejo": "42450000",
+      "label_viejo": "CARGAS SOCIALES"
+    }
+  ],
+  "sin_resolver": [
+    {
+      "codigo": "114010003",
+      "label": "Ret. y Perc. IVA",
+      "capitulo": "ACTIVO"
+    },
+    {
+      "codigo": "114010004",
+      "label": "Ret. y Perc. IIBB",
+      "capitulo": "ACTIVO"
+    },
+    {
+      "codigo": "114010013",
+      "label": "GMP saldo a favor",
+      "capitulo": "ACTIVO"
+    },
+    {
+      "codigo": "114010021",
+      "label": "Ret. y Perc. IIBB San Juan",
+      "capitulo": "ACTIVO"
+    },
+    {
+      "codigo": "211010005",
+      "label": "Estudio Beccar Varela",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010038",
+      "label": "Nippon Car S.R.L.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010134",
+      "label": "Li Zhi",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010209",
+      "label": "IMC S.R.L",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010226",
+      "label": "Cencosud S.A",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010258",
+      "label": "Edersa",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010309",
+      "label": "Carlos David Samat",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010317",
+      "label": "Edumo S.R.L.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010329",
+      "label": "Servicios Cipolletti S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010402",
+      "label": "Crown Casino S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010404",
+      "label": "Camara Argentina de Empresarios Mineros",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010436",
+      "label": "Bien del Sur S.R.L.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010448",
+      "label": "Alex Stewart (Assayers) Argentina S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010473",
+      "label": "Construcciones Industriales S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010623",
+      "label": "Rumaos S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010631",
+      "label": "Don Pocholo S.R.L.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010666",
+      "label": "Osvaldo Antonio Pertiñez",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010721",
+      "label": "Fly Corporate Travel S.R.L.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010747",
+      "label": "Daniel A. Castellaro",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010773",
+      "label": "Camara de Mineria de Rio Negro",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211010875",
+      "label": "Moyma SRL",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011079",
+      "label": "Carmen Wagner",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011142",
+      "label": "Marin Maria Silvina",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011153",
+      "label": "Adaime Gonzalo",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011163",
+      "label": "Dash SRL",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011192",
+      "label": "T y R Ceferino S.R.L. en Formacion",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011195",
+      "label": "Telecom Argentina SA",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011225",
+      "label": "Coop. de Prov. de Serv. Tel. y otros servicios",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011244",
+      "label": "De Martino Maria",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011252",
+      "label": "Un Rincon de Napoli S.R.L.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011323",
+      "label": "Toro Franco Erardo",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011394",
+      "label": "Robledo Pedro Justo",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011435",
+      "label": "SGS Peru S.A.C",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011474",
+      "label": "Telefonica Moviles Argentina S.A",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011554",
+      "label": "Salman Monica",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011615",
+      "label": "Vega Suarez Roberto Giuliano",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011780",
+      "label": "Andrade Ariel Gustavo",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211011819",
+      "label": "La Cordillera S.R.L",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012087",
+      "label": "Maycar S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012090",
+      "label": "La Meseta S.R.L.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012103",
+      "label": "De la Fuente Rolando Alberto",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012167",
+      "label": "Caretta Arturo Aurelio",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012204",
+      "label": "Alonso Miguel Angel (u$s)",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012224",
+      "label": "Aitue Comunica S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012247",
+      "label": "Tesacom USD",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012248",
+      "label": "Mine Supplies S.A",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012263",
+      "label": "Paillaip, Abraham / Maesse, Zulma",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012266",
+      "label": "Dominguez Jorge Alfredo",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012297",
+      "label": "Rradom S.A.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012301",
+      "label": "Tecnira S.R.L",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012333",
+      "label": "Savina Del Carmen Romero Maya",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012344",
+      "label": "Cereza S. R. L",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012360",
+      "label": "Datamine Chile S.A",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012363",
+      "label": "Seequent Limited  usd",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012375",
+      "label": "Impresora Internacional De Valores SAIC",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012388",
+      "label": "Lubin SAS",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012392",
+      "label": "A la chapa S. A. S",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012407",
+      "label": "Jose Pablo Belbruno USD",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012409",
+      "label": "Rubén Alfredo Pontoriero",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012410",
+      "label": "MG Servicios de Limpieza SAS",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012412",
+      "label": "Sin Culpas SAS",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012413",
+      "label": "Marta Alicia Herrera",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012419",
+      "label": "CFG S. A. S.",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012420",
+      "label": "Maria Virginia Segovia Moya",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012424",
+      "label": "Omar Ariel Martinez",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012425",
+      "label": "Ladder S A",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012429",
+      "label": "Waldino Fabian Acosta",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012431",
+      "label": "MARCELO EMILIANO ALANIZ MOLINA",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012434",
+      "label": "CAMINO DEL OESTE SA",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012438",
+      "label": "FRANCISCO  ELIAS GARCIA MANZANO",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012450",
+      "label": "CESAR SEBASTIAN ROCCHETTI",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012456",
+      "label": "RENATO FABRICIO ANZORENA",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012459",
+      "label": "MARCOS ALFREDO DI PAOLA",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012470",
+      "label": "Fuerza Cordillerana SAS",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012471",
+      "label": "Daniela Celeste Diaz",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012472",
+      "label": "Clon Omega Soluciones Graficas SRL",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012473",
+      "label": "Mariela Jaquelina Velazquez",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012477",
+      "label": "Paumarc SRL",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012478",
+      "label": "Daniel Enrique Mas Crespo",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012479",
+      "label": "Alfredo Duberli Varela",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012480",
+      "label": "Ismar SRL",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012481",
+      "label": "Juan Manuel Morgado",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "211012482",
+      "label": "Leandro Zamora",
+      "capitulo": "PASIVO"
+    },
+    {
+      "codigo": "423060000",
+      "label": "Diferencia de cambio $",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "423150000",
+      "label": "Diferencia de cambio Bce.MEP",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425110000",
+      "label": "Refrigerios Adm Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425150000",
+      "label": "Alquiler Inmueble Adm. Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425180000",
+      "label": "Comunicaciones Adm. Gral",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425190000",
+      "label": "Honorarios Profesionales Adm. Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425220000",
+      "label": "Gastos y Comisiones Bancarias Adm. Gral",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425230000",
+      "label": "Imp. a los Débitos y Créditos Bancarios Ad. Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425250000",
+      "label": "Amortizaciones Adm. Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425300000",
+      "label": "Gst Varios Oficina Adm. Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425500000",
+      "label": "Servicios Públicos Adm. Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "425950000",
+      "label": "Seguridad Adm. Gral.",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426100000",
+      "label": "Seguros Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426110000",
+      "label": "Refrigerios Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426120000",
+      "label": "Movilidad y Viaticos Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426130000",
+      "label": "Gastos de Limpieza Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426190000",
+      "label": "Gst Varios Oficina Gst Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426200000",
+      "label": "Combustible Gst Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426210000",
+      "label": "Servicios Infórmaticos Gst. Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426220000",
+      "label": "Alquiler Inmueble Gst Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426240000",
+      "label": "Gst de Vehículos Gst de Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426250000",
+      "label": "Gst de Mantenimiento Gst Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426260000",
+      "label": "Alojamiento Gst de Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426340000",
+      "label": "Catastro Minero Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426360000",
+      "label": "Vacaciones Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426450000",
+      "label": "Gs Ferretería Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426470000",
+      "label": "Librería y Papelería Gs Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426520000",
+      "label": "Alquiler Equipos. Gst de Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426630000",
+      "label": "Honorarios profesionales Vigencia y Penalidades",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "426990000",
+      "label": "Cuota Societaria Gs de Campo",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "433070000",
+      "label": "Gst de Vehículos Gst de Campo USD",
+      "capitulo": "RESULTADOS"
+    },
+    {
+      "codigo": "433110000",
+      "label": "Gastos bancarios Adm general (u$s)",
+      "capitulo": "RESULTADOS"
+    }
+  ]
+}

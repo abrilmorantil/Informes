@@ -33,6 +33,14 @@ const INFORMES = [
     origen: "Export de SISE",
     url: "informe-b/index.html",
   },
+  {
+    titulo: "Balance Pesos y Dólares",
+    descripcion: "Actualiza el balance formal (estados contables completos) desde el export " +
+                 "por código de cuenta. Por ahora genera el de pesos; dólares se suma cuando " +
+                 "estén validadas las equivalencias de códigos.",
+    origen: "Export de Onvio (ambas monedas)",
+    url: "informe-c/index.html",
+  },
 ];
 
 document.getElementById("informes").innerHTML = INFORMES.map(i => `

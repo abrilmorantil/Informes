@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balance Pesos y Dólares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilos.css">
+<script src="../informe-a/vendor/xlsx.full.min.js"></script>
+<script src="../informe-a/vendor/exceljs.min.js"></script>
+<style>
+  .paso{display:flex; gap:14px; align-items:flex-start; margin-bottom:18px;}
+  .paso .n{
+    flex:0 0 26px; height:26px; border-radius:50%; background:var(--clay); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;
+  }
+  .paso .txt{font-size:14px; line-height:1.55; padding-top:3px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="volver" href="../index.html">← Informes</a>
+
+  <div class="topbar">
+    <div>
+      <h1>Balance Pesos y Dólares</h1>
+      <p class="sub">
+        Cargá el export de Onvio "Balance de SyS por Cód. de Cta." y se actualiza el balance
+        formal en pesos. (Dólares se suma cuando estén validadas las equivalencias de códigos.)
+      </p>
+    </div>
+    <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
+  </div>
+
+  <div id="cargando" class="card">
+    <p class="footer-note" style="margin:0;">Cargando…</p>
+  </div>
+
+  <!-- ---------- sin configurar ---------- -->
+  <div class="card hidden" id="cardSinConfig">
+    <h2>Falta configurar GitHub</h2>
+    <p class="footer-note">
+      Acá es donde se guardan el balance maestro y su historial, para no tener que subirlo
+      cada vez. Se configura una sola vez.
+    </p>
+    <div style="margin-top:14px;"><button onclick="abrirConfig()">Configurar ahora</button></div>
+  </div>
+
+  <!-- ---------- alta inicial ---------- -->
+  <div class="card hidden" id="cardAlta">
+    <h2>Primera vez: cargar el maestro de pesos</h2>
+    <p class="footer-note">
+      Subí el balance formal en pesos <b>guardado como .xlsx</b> (en Excel: Archivo →
+      Guardar como → "Libro de Excel (.xlsx)"). El formato viejo .xls no conserva las
+      fórmulas al procesarlo acá, por eso se convierte una sola vez. De acá en adelante
+      queda guardado y cada vez vas a subir solamente el export de Onvio.
+    </p>
+
+    <label class="dropzone" id="dzBase" style="margin-top:16px;">
+      <input type="file" id="fileBase" accept=".xlsx,.xls">
+      <div id="txtBase">Hacé clic para elegir el balance en pesos (.xlsx)</div>
+    </label>
+
+    <div id="altaDeteccion" class="hidden" style="margin-top:20px;"></div>
+
+    <div style="margin-top:18px;">
+      <button id="btnGuardarAlta" disabled>Guardar y empezar</button>
+      <span class="spinner hidden" id="spinnerAlta">Guardando en GitHub…</span>
+    </div>
+    <div id="altaStatus"></div>
+  </div>
+
+  <!-- ---------- ciclo de carga ---------- -->
+  <div class="card hidden" id="cardExport">
+    <h2>1. Export de Onvio</h2>
+    <p class="footer-note" id="txtUltimaCarga" style="margin-bottom:10px;"></p>
+    <label class="dropzone" id="dzExport">
+      <input type="file" id="fileExport" accept=".xls,.xlsx">
+      <div id="txtExport">Hacé clic para elegir el archivo (Balance de SyS por Cód. de Cta.)</div>
+    </label>
+    <div style="margin-top:16px;">
+      <button id="btnProcesar" disabled>Procesar</button>
+      <span class="spinner hidden" id="spinner">Cargando los importes…</span>
+    </div>
+    <div id="exportStatus"></div>
+  </div>
+
+  <div class="card hidden" id="cardNuevas">
+    <h2>2. Cuentas nuevas detectadas</h2>
+    <p class="footer-note">
+      Estas cuentas vienen en el export pero todavía no están en el balance. Elegí el destino
+      de cada una: las de RESULTADOS van a un concepto del Anexo II (y su columna), las
+      patrimoniales se insertan debajo de una línea de la Nota 4. Los proveedores nuevos no
+      aparecen acá: se insertan solos en el detalle del pasivo.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Código</th><th>Descripción</th><th>Capítulo</th><th class="num">Saldo $</th><th style="width:36%;">Destino</th></tr>
+      </thead>
+      <tbody id="nuevasBody"></tbody>
+    </table>
+    <div style="margin-top:16px;"><button id="btnConfirmarNuevas">Confirmar y cargar</button></div>
+    <div id="nuevasStatus"></div>
+  </div>
+
+  <div class="card hidden" id="cardResultado">
+    <h2>3. Resultado</h2>
+    <div class="checks" id="checksBody"></div>
+    <div id="avisosBody" style="margin-top:16px;"></div>
+    <p class="footer-note" style="margin-top:18px; margin-bottom:6px;">Detalle de la corrida</p>
+    <pre class="log" id="logBody"></pre>
+  </div>
+
+  <div class="card hidden" id="cardCierre">
+    <h2>4. Revisar y aprobar</h2>
+
+    <div class="paso">
+      <div class="n">1</div>
+      <div class="txt">
+        <b>Descargá el borrador</b> y abrilo en Excel. Podés hacerlo las veces que quieras:
+        mientras no lo apruebes, no se guarda nada.
+        <div style="margin-top:10px;"><button id="btnDescargar">Descargar borrador</button></div>
+      </div>
+    </div>
+
+    <div class="paso">
+      <div class="n">2</div>
+      <div class="txt">
+        <b>Revisalo en Excel</b>: el control L23 del Balance tiene que dar 0 (Activo =
+        Pasivo + PN). Acordate de los ajustes manuales que la app no toca: Anexo I (valores
+        de origen de bienes de uso) y Pat.Neto (aportes, AREA). Si está bien, <b>guardalo</b> (Ctrl+G).
+      </div>
+    </div>
+
+    <div class="paso">
+      <div class="n">3</div>
+      <div class="txt">
+        <b>Subí ese mismo archivo acá y aprobalo.</b> Queda guardado como el maestro
+        definitivo y la próxima carga parte de él.
+        <label class="dropzone" id="dzAprobar" style="margin-top:12px;">
+          <input type="file" id="fileAprobar" accept=".xlsx">
+          <div id="txtAprobar">Hacé clic para elegir el archivo revisado</div>
+        </label>
+        <div style="margin-top:12px;">
+          <button id="btnAprobar" disabled>Aprobar y guardar</button>
+          <span class="spinner hidden" id="spinnerCierre">Guardando…</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="cierreStatus"></div>
+  </div>
+
+  <div class="card hidden" id="cardHistorial">
+    <h2>Cargas anteriores</h2>
+    <table>
+      <thead><tr><th>Fecha</th><th class="num">Cuentas</th><th class="num">Nuevas</th><th class="num">Total $</th></tr></thead>
+      <tbody id="historialBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ---------- configuración ---------- -->
+<div class="modal-overlay hidden" id="modalConfig">
+  <div class="modal">
+    <h2>Configuración de GitHub</h2>
+    <p class="footer-note">
+      Acá se guardan el balance maestro y su historial. El token queda guardado solo en
+      este navegador. Podés usar el mismo token y repositorio que en los otros informes.
+    </p>
+    <label>Token de acceso personal <a class="help-link" href="#" id="comoToken">(¿cómo lo genero?)</a></label>
+    <input type="text" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <label>Usuario/organización y repositorio</label>
+    <input type="text" id="cfgRepo" placeholder="tuusuario/Informes">
+    <label>Rama</label>
+    <input type="text" id="cfgRama" placeholder="main" value="main">
+    <label>Carpeta dentro del repositorio</label>
+    <input type="text" id="cfgCarpeta" placeholder="informe-c" value="informe-c">
+    <div id="configStatus"></div>
+    <div class="modal-actions">
+      <button onclick="guardarConfig()">Guardar</button>
+      <button class="secondary" onclick="cerrarConfig()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="../informe-a/formula_utils.js"></script>
+<script src="formula_hojas.js"></script>
+<script src="parser_balances.js"></script>
+<script src="motor_balances.js"></script>
+<script src="github_c.js"></script>
+<script src="app.js"></script>
+<script>
+  document.getElementById("comoToken").addEventListener("click", (ev) => {
+    ev.preventDefault();
+    alert(
+      "Cómo generar el token:\n\n" +
+      "1. Andá a github.com → foto de perfil → Settings.\n" +
+      "2. Developer settings → Personal access tokens → Tokens (classic).\n" +
+      "3. Generate new token (classic).\n" +
+      "4. Marcá el scope 'repo'.\n" +
+      "5. Copiá el token (empieza con 'ghp_') — GitHub lo muestra una sola vez.\n\n" +
+      "Si ya configuraste el Balance USD, podés usar el mismo token y repositorio."
+    );
+  });
+</script>
+</body>
+</html>

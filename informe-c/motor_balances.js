@@ -174,11 +174,24 @@ function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
     for (const r of filas) ws.getCell(r, p.hoja1ColValor).value = 0;
   }
 
+  // Solo se agregan a Hoja1 las cuentas que EXISTEN en SALDOS. Hoja1 está para
+  // alimentar a SALDOS: una cuenta sin fila allá no aporta nada al balance, y meterla
+  // igual tiene dos costos reales. El export acumulado trae 388 cuentas contra las 168
+  // del maestro, así que se agregaban 219 filas de relleno; y peor, los controles
+  // internos de Hoja1 (E52 = SUM del activo pegado, que se compara contra el total del
+  // activo en SALDOS) dejarían de dar cero, porque estarían sumando cuentas que SALDOS
+  // no tiene.
+  const enSaldos = new Set(Object.keys(derivarMapeoMaestro(wb, moneda).cuentas));
+
   let actualizadas = 0;
   const pendientes = [];
+  const fueraDeSaldos = [];
   for (const c of cuentasExport) {
     const filas = filasPorCodigo.get(c.codigo);
-    if (!filas) { pendientes.push(c); continue; }
+    if (!filas) {
+      if (enSaldos.has(c.codigo)) pendientes.push(c); else fueraDeSaldos.push(c);
+      continue;
+    }
     ws.getCell(filas[0], p.hoja1ColValor).value = c[p.campoSaldo];
     actualizadas++;
   }
@@ -214,6 +227,10 @@ function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
   log(`  Hoja1 actualizada: ${actualizadas} cuentas en su fila` +
       (pendientes.length ? `, ${pendientes.length} agregada(s) al final de su capítulo` : "") +
       ` (los importes que no vinieron en el export quedaron en cero).`);
+  if (fueraDeSaldos.length) {
+    log(`  ${fueraDeSaldos.length} cuenta(s) del export no están en SALDOS, así que no se ` +
+        `agregan a Hoja1: no forman parte de este balance.`);
+  }
   for (const [codigo, filas] of repetidas) {
     log(`  ⚠ Hoja1 tiene ${codigo} repetida en las filas ${filas.join(", ")}: se carga en la primera y las otras quedan en cero.`);
   }

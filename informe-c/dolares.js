@@ -185,31 +185,51 @@ function volcarHoja1Dolares(wb, destinos, moneda, log = () => {}) {
   const ws = wb.getWorksheet("Hoja1");
   if (!ws) throw new Error("El maestro no tiene la hoja 'Hoja1'.");
 
+  // La clave se compara SIN distinguir mayúsculas, que es como compara Excel: SALDOS
+  // dice "42220000 - Materiales de campo" y Hoja1 "42220000 - Materiales de Campo".
+  // El VLOOKUP del archivo las da por iguales; comparándolas exacto parecían dos
+  // cuentas distintas y el importe se reportaba como imposible de cargar.
+  const norm = (t) => t.trim().replace(/\s+/g, " ").toUpperCase();
   const filaDeClave = new Map();
+  const filaDeCodigo = new Map();
   for (let r = 1; r <= ws.rowCount; r++) {
     const v = ws.getCell(r, p.hoja1ColClave).value;
     if (v && typeof v === "object" && typeof v.formula === "string") continue;
     const t = String(v === null || v === undefined ? "" : v).trim().replace(/\s+/g, " ");
-    if (!RE_CUENTA_TXT.test(t)) continue;
-    if (!filaDeClave.has(t)) filaDeClave.set(t, r);
+    const m = RE_CUENTA_TXT.exec(t);
+    if (!m) continue;
+    if (!filaDeClave.has(norm(t))) filaDeClave.set(norm(t), r);
+    if (!filaDeCodigo.has(m[1])) filaDeCodigo.set(m[1], { fila: r, texto: t });
     ws.getCell(r, p.hoja1ColValor).value = 0;      // cada corrida reemplaza
   }
 
   let escritas = 0;
-  const sinFila = [];
+  const sinFila = [], textoDistinto = [];
   for (const d of destinos.values()) {
     const total = d.aportes.reduce((a, x) => a + x.saldo, 0);
-    const fila = filaDeClave.get(d.clave);
-    if (fila === undefined) { sinFila.push(d); continue; }
-    ws.getCell(fila, p.hoja1ColValor).value = total;
-    escritas++;
+    const fila = filaDeClave.get(norm(d.clave));
+    if (fila !== undefined) {
+      ws.getCell(fila, p.hoja1ColValor).value = total;
+      escritas++;
+      continue;
+    }
+    // El código está en Hoja1 pero escrito distinto: acá el VLOOKUP del archivo TAMPOCO
+    // lo encuentra, así que es un problema del maestro y hay que decirlo con precisión.
+    const porCod = filaDeCodigo.get(d.codigo);
+    if (porCod) textoDistinto.push({ ...d, textoHoja1: porCod.texto });
+    else sinFila.push(d);
   }
 
   log(`  Hoja1 (dólares): ${escritas} cuentas con importe; el resto en cero.`);
+  for (const d of textoDistinto) {
+    log(`  ⚠ ${d.codigo} está escrita distinto en las dos hojas: SALDOS dice "${d.clave}" y ` +
+        `Hoja1 dice "${d.textoHoja1}". Así el VLOOKUP del archivo tampoco la encuentra; ` +
+        `conviene igualar el texto en Excel.`);
+  }
   for (const d of sinFila) {
     log(`  ⚠ "${d.clave}" está en SALDOS pero no tiene fila en Hoja1: su importe no se puede cargar.`);
   }
-  return { escritas, sinFila };
+  return { escritas, sinFila: sinFila.concat(textoDistinto) };
 }
 
 // La corrida de dólares. No inserta cuentas nuevas: el balance en dólares es un

@@ -26,8 +26,8 @@
     <div>
       <h1>Balance Pesos y Dólares</h1>
       <p class="sub">
-        Cargá el export de Onvio "Balance de SyS por Cód. de Cta." y se actualizan los dos
-        balances formales, el de pesos y el de dólares, en una sola corrida.
+        Cargá el export de Onvio "Balance de SyS por Cód. de Cta." <b>acumulado del ejercicio</b>
+        y se actualizan los dos balances formales, el de pesos y el de dólares, en una sola corrida.
       </p>
     </div>
     <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
@@ -93,9 +93,14 @@
   <div class="card hidden" id="cardExport">
     <h2>1. Export de Onvio</h2>
     <p class="footer-note" id="txtUltimaCarga" style="margin-bottom:10px;"></p>
+    <p class="footer-note" style="margin-bottom:10px;">
+      Tiene que ser el <b>acumulado del ejercicio</b>, que es con el que se llenan los dos
+      balances formales — no el de un mes suelto. Es el reporte con el que venís
+      completándolos a mano.
+    </p>
     <label class="dropzone" id="dzExport">
       <input type="file" id="fileExport" accept=".xls,.xlsx">
-      <div id="txtExport">Hacé clic para elegir el archivo (Balance de SyS por Cód. de Cta.)</div>
+      <div id="txtExport">Hacé clic para elegir el archivo (Balance de SyS por Cód. de Cta., acumulado)</div>
     </label>
     <div style="margin-top:16px;">
       <button id="btnProcesar" disabled>Procesar</button>

@@ -20,6 +20,12 @@ const log = (m) => { logLineas.push(String(m)); $("logBody").textContent = logLi
 
 let altaBuffer = null;
 let clasificacion = null;   // la del Informe B, si esta disponible
+let bufferBaseUsd = null;   // el maestro de dolares, si ya esta cargado
+let equivalencias = {};     // decisiones de dolares ya confirmadas
+let pendientesUsd = [];     // cuentas de dolares esperando destino
+let cuentasMaestroUsd = [];
+let wbBorradorUsd = null;
+let altaBufferUsd = null;
 
 // --------------------------------------------------------------- arranque
 
@@ -46,6 +52,10 @@ async function arrancar() {
     const b = await ghcLeerBase();
     if (!b) throw new Error("Hay un estado guardado pero falta base_pesos.xlsx en el repositorio.");
     bufferBase = b.buffer;
+    const bu = await ghcLeerBaseUsd();
+    bufferBaseUsd = bu ? bu.buffer : null;
+    equivalencias = await ghcLeerEquivalencias();
+    mostrar("cardAltaUsd", !bufferBaseUsd);
 
     const h = estado.historial || [];
     $("txtUltimaCarga").textContent = h.length
@@ -162,6 +172,44 @@ $("btnGuardarAlta").addEventListener("click", async () => {
     $("btnGuardarAlta").disabled = false;
   } finally {
     mostrar("spinnerAlta", false);
+  }
+});
+
+$("fileBaseUsd").addEventListener("change", async () => {
+  const f = $("fileBaseUsd").files[0];
+  if (!f) return;
+  $("txtBaseUsd").textContent = f.name;
+  $("altaUsdStatus").innerHTML = "";
+  try {
+    if (/\.xls$/i.test(f.name)) {
+      throw new Error("Es el .xls viejo. Abrilo en Excel y guardalo como 'Libro de Excel (.xlsx)' primero.");
+    }
+    altaBufferUsd = await f.arrayBuffer();
+    const wb = await abrirWorkbook(altaBufferUsd.slice(0));
+    for (const hoja of ["SALDOS", "Hoja1", "Balance"]) {
+      if (!wb.getWorksheet(hoja)) {
+        throw new Error("El archivo no tiene la hoja '" + hoja + "'. Es el balance formal en dolares?");
+      }
+    }
+    const cm = cuentasDelMaestro(wb, "dolares");
+    $("altaUsdStatus").innerHTML =
+      '<div class="status-msg ok">Maestro de dolares reconocido: ' + cm.length + ' cuentas en SALDOS.</div>';
+    $("btnGuardarAltaUsd").disabled = false;
+  } catch (e) {
+    $("altaUsdStatus").innerHTML = '<div class="status-msg bad">' + e.message + '</div>';
+    $("btnGuardarAltaUsd").disabled = true;
+  }
+});
+
+$("btnGuardarAltaUsd").addEventListener("click", async () => {
+  $("btnGuardarAltaUsd").disabled = true;
+  try {
+    await ghcGuardarBaseUsd(altaBufferUsd, "Balance Dolares: carga inicial del maestro");
+    $("altaUsdStatus").innerHTML = '<div class="status-msg ok">Guardado.</div>';
+    setTimeout(() => location.reload(), 900);
+  } catch (e) {
+    $("altaUsdStatus").innerHTML = '<div class="status-msg bad">' + e.message + '</div>';
+    $("btnGuardarAltaUsd").disabled = false;
   }
 });
 
@@ -301,17 +349,94 @@ async function correrMotor(destinos) {
   logLineas = [];
   // siempre desde una copia limpia del maestro guardado
   const wb = await abrirWorkbook(bufferBase.slice(0));
+  log("PESOS");
   const { resumen } = procesarBalance({
     wb, cuentasExport, moneda: "pesos", destinosElegidos: destinos, clasificacion, log,
   });
   wbBorrador = wb;
   resumenBorrador = resumen;
-  renderResultado(resumen);
+
+  // Dolares, si el maestro esta cargado. Si faltan decisiones se muestra la pantalla de
+  // revision, y el balance en pesos igual queda listo para descargar.
+  wbBorradorUsd = null;
+  let resumenUsd = null;
+  if (bufferBaseUsd) {
+    log("\nDOLARES");
+    const wbu = await abrirWorkbook(bufferBaseUsd.slice(0));
+    try {
+      const r = procesarDolares({ wb: wbu, cuentasExport, clasificacion, equivalencias, log });
+      wbBorradorUsd = wbu;
+      resumenUsd = r.resumen;
+      mostrar("cardRevisionUsd", false);
+    } catch (e) {
+      if (!e.pendientesDolares) throw e;
+      pendientesUsd = e.pendientesDolares;
+      cuentasMaestroUsd = e.cuentasMaestro;
+      renderRevisionUsd();
+      mostrar("cardRevisionUsd", true);
+      log("  Faltan ubicar " + pendientesUsd.length + " cuenta(s) en dolares: ver el paso de revision.");
+    }
+  }
+
+  renderResultado(resumen, resumenUsd);
   mostrar("cardResultado", true);
   mostrar("cardCierre", true);
 }
 
-function renderResultado(r) {
+// --------------------------------------------------------------- revision de dolares
+//
+// Se pregunta UNA sola vez por cuenta: la respuesta queda guardada en GitHub y las
+// corridas siguientes ya no la vuelven a pedir. No se pre-selecciona ningun destino a
+// proposito: los emparejamientos automaticos por parecido de nombre fallan la mitad de
+// las veces (proponen meter la amortizacion acumulada dentro del bien de uso).
+
+function renderRevisionUsd() {
+  const opciones = cuentasMaestroUsd
+    .map(f => '<option value="' + f.codigo + '">' + f.codigo + ' - ' + f.nombre + '</option>').join("");
+  $("revisionUsdBody").innerHTML = pendientesUsd.map((c, i) =>
+    '<tr class="pending-row">' +
+      '<td>' + c.codigo + '</td>' +
+      '<td>' + c.nombre + '</td>' +
+      '<td class="num">' + c.saldo_usd.toFixed(2) + '</td>' +
+      '<td><select class="selUsd" data-idx="' + i + '">' +
+        '<option value="">— elegi a que linea del balance va —</option>' +
+        '<option value="__nada__">No cargarla en el balance en dolares</option>' +
+        opciones +
+      '</select></td>' +
+    '</tr>').join("");
+}
+
+$("btnConfirmarUsd").addEventListener("click", async () => {
+  const selects = document.querySelectorAll(".selUsd");
+  const nuevas = {};
+  for (let i = 0; i < selects.length; i++) {
+    if (!selects[i].value) {
+      $("revisionUsdStatus").innerHTML =
+        '<div class="status-msg bad">Falta decidir al menos una cuenta. Si alguna no va al balance, eleg&iacute; "No cargarla".</div>';
+      return;
+    }
+    nuevas[pendientesUsd[i].codigo] = selects[i].value === "__nada__" ? null : selects[i].value;
+  }
+  $("revisionUsdStatus").innerHTML = "";
+  $("btnConfirmarUsd").disabled = true;
+  try {
+    equivalencias = Object.assign({}, equivalencias, nuevas);
+    await ghcGuardarEquivalencias(equivalencias, "Balance Dolares: equivalencias confirmadas");
+    const wbu = await abrirWorkbook(bufferBaseUsd.slice(0));
+    const r = procesarDolares({ wb: wbu, cuentasExport, clasificacion, equivalencias, log });
+    wbBorradorUsd = wbu;
+    mostrar("cardRevisionUsd", false);
+    renderResultado(resumenBorrador, r.resumen);
+    $("cierreStatus").innerHTML =
+      '<div class="status-msg ok">Decisiones guardadas. No te las vuelve a preguntar.</div>';
+  } catch (e) {
+    $("revisionUsdStatus").innerHTML = '<div class="status-msg bad">' + e.message + '</div>';
+  } finally {
+    $("btnConfirmarUsd").disabled = false;
+  }
+});
+
+function renderResultado(r, rUsd) {
   const items = [
     { name: "Total en pesos del export", value: r.total.toFixed(2), ok: true,
       detail: "Excel recalcula los estados al abrir el archivo; el control L23 del Balance tiene que dar 0." },
@@ -331,7 +456,27 @@ function renderResultado(r) {
       </div>
     </div>`).join("");
 
+  if (rUsd) {
+    items.push(
+      { name: "Dolares: total del export", value: rUsd.total.toFixed(2), ok: true,
+        detail: "Es la cifra que tiene que dar el balance en dolares." },
+      { name: "Dolares: lineas con importe", value: String(rUsd.lineasConImporte), ok: true,
+        detail: "Sobre " + rUsd.cuentasMaestro + " cuentas del maestro. Los proveedores van agrupados en una sola linea." });
+    if (rUsd.ignoradas.length) {
+      items.push({ name: "Dolares: cuentas dejadas afuera", value: String(rUsd.ignoradas.length),
+        ok: true, detail: rUsd.ignoradas.join(", ") });
+    }
+  }
+
   const avisos = [];
+  if (rUsd && rUsd.sinFilaEnHoja1 && rUsd.sinFilaEnHoja1.length) {
+    avisos.push(
+      '<div class="check bad" style="display:block;">' +
+      '<div class="name">Dolares: ' + rUsd.sinFilaEnHoja1.length +
+      ' cuenta(s) del balance no tienen fila donde pegar el importe</div>' +
+      '<div class="detail">' + rUsd.sinFilaEnHoja1.join(", ") +
+      '. Estan en SALDOS pero no en Hoja1, asi que su importe queda en cero.</div></div>');
+  }
   if (r.duplicadas.length) {
     avisos.push(`
       <div class="check bad" style="display:block;">
@@ -345,25 +490,35 @@ function renderResultado(r) {
 
 // --------------------------------------------------------------- descarga y cierre
 
-$("btnDescargar").addEventListener("click", async () => {
-  if (!wbBorrador) return;
-  const buffer = await wbBorrador.xlsx.writeBuffer();
+async function descargar(wb, sufijo) {
+  const buffer = await wb.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url;
   const hoy = new Date();
-  a.download = `SCA_Balance_${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}_pesos.xlsx`;
+  a.href = url;
+  a.download = "SCA_Balance_" + hoy.getFullYear() + "-" +
+    String(hoy.getMonth() + 1).padStart(2, "0") + "_" + sufijo + ".xlsx";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+$("btnDescargar").addEventListener("click", async () => {
+  if (wbBorrador) await descargar(wbBorrador, "pesos");
+  if (wbBorradorUsd) await descargar(wbBorradorUsd, "dolares");
 });
 
 $("fileAprobar").addEventListener("change", () => {
   const f = $("fileAprobar").files[0];
   if (f) $("txtAprobar").textContent = f.name;
   $("btnAprobar").disabled = !f;
+});
+
+$("fileAprobarUsd").addEventListener("change", () => {
+  const f = $("fileAprobarUsd").files[0];
+  if (f) $("txtAprobarUsd").textContent = f.name;
 });
 
 $("btnAprobar").addEventListener("click", async () => {
@@ -399,7 +554,15 @@ $("btnAprobar").addEventListener("click", async () => {
       estado: nuevoEstado,
       mensaje: "Balance Pesos: nueva carga aprobada",
     });
-    st.innerHTML = '<div class="status-msg ok">Guardado como maestro definitivo.</div>';
+    const fu = $("fileAprobarUsd").files[0];
+    if (fu) {
+      const bufu = await fu.arrayBuffer();
+      const wbu = await abrirWorkbook(bufu.slice(0));
+      if (!wbu.getWorksheet("SALDOS")) throw new Error("El archivo de dolares no tiene la hoja 'SALDOS'.");
+      await ghcGuardarBaseUsd(bufu, "Balance Dolares: nueva carga aprobada");
+    }
+    st.innerHTML = '<div class="status-msg ok">Guardado como maestro definitivo' +
+      (fu ? " (pesos y dolares)" : " (pesos)") + '.</div>';
     setTimeout(() => location.reload(), 1200);
   } catch (e) {
     st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;

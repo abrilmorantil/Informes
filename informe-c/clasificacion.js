@@ -13,16 +13,21 @@
 // archivo. Uno dice "qué es cada cuenta", el otro "dónde está".
 
 const PREFIJO_PROVEEDORES_DEFECTO = "21101";
+const CODIGO_PROVEEDORES_DEFECTO = "21101000";
 
 function indexarClasificacion(mappingB) {
   const porCodigo = new Map();
   const madrePorHija = new Map();
   let prefijoProveedores = null;
+  let codigoProveedores = null;
 
   for (const x of mappingB || []) {
     if (!x || !x.code) continue;
     porCodigo.set(String(x.code), x);
-    if (x.type === "range" && x.prefix) prefijoProveedores = String(x.prefix);
+    if (x.type === "range" && x.prefix) {
+      prefijoProveedores = String(x.prefix);
+      codigoProveedores = String(x.code);   // la línea única donde se agrupan
+    }
     for (const h of (x.children || [])) {
       if (h && h.code) madrePorHija.set(String(h.code), { code: String(x.code), description: x.description });
     }
@@ -35,6 +40,7 @@ function indexarClasificacion(mappingB) {
     // acortarlo a 2110: ahí caen también "Provisión de Gastos" (211030000) y
     // "Previsión IGMP" (211060000), que no son proveedores.
     prefijoProveedores: prefijoProveedores || PREFIJO_PROVEEDORES_DEFECTO,
+    codigoProveedores: codigoProveedores || CODIGO_PROVEEDORES_DEFECTO,
     vacio: porCodigo.size === 0,
   };
 }
@@ -62,6 +68,6 @@ function categoriaDe(clasif, codigo) {
 if (typeof module !== "undefined") {
   module.exports = {
     indexarClasificacion, esProveedor, madreEnArchivo, categoriaDe,
-    PREFIJO_PROVEEDORES_DEFECTO,
+    PREFIJO_PROVEEDORES_DEFECTO, CODIGO_PROVEEDORES_DEFECTO,
   };
 }

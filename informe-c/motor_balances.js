@@ -11,7 +11,9 @@
 
 const PARAMS = {
   pesos: { hoja1ColClave: 1, hoja1ColValor: 5, saldosColsCuenta: [3, 4, 5], saldosColValor: 7, campoSaldo: "saldo_ars" },
-  dolares: { hoja1ColClave: 1, hoja1ColValor: 4, saldosColsCuenta: [3], saldosColValor: 3, campoSaldo: "saldo_usd" },
+  // dólares: la clave va en B y el VLOOKUP en C (medido en el archivo real), y el
+  // importe de Hoja1 en D. No es simétrico con pesos: son dos archivos distintos.
+  dolares: { hoja1ColClave: 1, hoja1ColValor: 4, saldosColsCuenta: [2], saldosColValor: 3, campoSaldo: "saldo_usd" },
 };
 
 const RE_CUENTA_TXT = /^\s*(\d{6,})\s*-\s*(.+?)\s*$/;
@@ -655,7 +657,7 @@ if (typeof module !== "undefined") {
   global.esProveedor = clasif.esProveedor;
   global.madreEnArchivo = clasif.madreEnArchivo;
   module.exports = {
-    PARAMS, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
+    PARAMS, textoPlano, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
     detectarNuevas, insertarCuentaEnSaldos, agregarLineaNota4,
     lineasDeNota4, procesarBalance, copiarPatronFila, actualizarSaldosManuales,
     madresResultados, insertarHijaEnMadre, filasQueAgrega,

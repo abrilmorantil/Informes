@@ -26,8 +26,8 @@
     <div>
       <h1>Balance Pesos y Dólares</h1>
       <p class="sub">
-        Cargá el export de Onvio "Balance de SyS por Cód. de Cta." y se actualiza el balance
-        formal en pesos. (Dólares se suma cuando estén validadas las equivalencias de códigos.)
+        Cargá el export de Onvio "Balance de SyS por Cód. de Cta." y se actualizan los dos
+        balances formales, el de pesos y el de dólares, en una sola corrida.
       </p>
     </div>
     <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
@@ -71,6 +71,24 @@
     <div id="altaStatus"></div>
   </div>
 
+  <!-- ---------- alta del maestro de dólares ---------- -->
+  <div class="card hidden" id="cardAltaUsd">
+    <h2>Falta el maestro de dólares</h2>
+    <p class="footer-note">
+      El balance en pesos ya está andando. Para que la misma corrida genere también el de
+      dólares, subí una vez el balance formal en dólares <b>guardado como .xlsx</b>
+      (en Excel: Archivo → Guardar como → "Libro de Excel (.xlsx)").
+    </p>
+    <label class="dropzone" style="margin-top:14px;">
+      <input type="file" id="fileBaseUsd" accept=".xlsx,.xls">
+      <div id="txtBaseUsd">Hacé clic para elegir el balance en dólares (.xlsx)</div>
+    </label>
+    <div style="margin-top:16px;">
+      <button id="btnGuardarAltaUsd" disabled>Guardar maestro de dólares</button>
+    </div>
+    <div id="altaUsdStatus"></div>
+  </div>
+
   <!-- ---------- ciclo de carga ---------- -->
   <div class="card hidden" id="cardExport">
     <h2>1. Export de Onvio</h2>
@@ -105,6 +123,26 @@
     <div id="nuevasStatus"></div>
   </div>
 
+  <div class="card hidden" id="cardRevisionUsd">
+    <h2>2b. Dólares: cuentas que no sé dónde van</h2>
+    <p class="footer-note">
+      El balance en dólares usa un plan de cuentas más viejo que el export, y estas cuentas
+      no se pueden ubicar solas con seguridad. <b>No te propongo un destino a propósito:</b>
+      probé emparejarlas por parecido de nombre y se equivoca la mitad de las veces (llega a
+      proponer meter una amortización acumulada dentro del bien de uso). Elegí vos a qué línea
+      va cada una. <b>Se pregunta una sola vez</b>: queda guardado para las próximas corridas.
+      Si alguna no corresponde a este balance, marcá "No cargarla".
+    </p>
+    <table>
+      <thead>
+        <tr><th>Código</th><th>Descripción</th><th class="num">Saldo u$s</th><th style="width:42%;">Va a</th></tr>
+      </thead>
+      <tbody id="revisionUsdBody"></tbody>
+    </table>
+    <div style="margin-top:16px;"><button id="btnConfirmarUsd">Confirmar y cargar dólares</button></div>
+    <div id="revisionUsdStatus"></div>
+  </div>
+
   <div class="card hidden" id="cardResultado">
     <h2>3. Resultado</h2>
     <div class="checks" id="checksBody"></div>
@@ -119,9 +157,10 @@
     <div class="paso">
       <div class="n">1</div>
       <div class="txt">
-        <b>Descargá el borrador</b> y abrilo en Excel. Podés hacerlo las veces que quieras:
-        mientras no lo apruebes, no se guarda nada.
-        <div style="margin-top:10px;"><button id="btnDescargar">Descargar borrador</button></div>
+        <b>Descargá los borradores</b> y abrilos en Excel. Baja el de pesos y, si el maestro
+        de dólares está cargado, también el de dólares. Podés hacerlo las veces que quieras:
+        mientras no los apruebes, no se guarda nada.
+        <div style="margin-top:10px;"><button id="btnDescargar">Descargar borradores</button></div>
       </div>
     </div>
 
@@ -137,11 +176,16 @@
     <div class="paso">
       <div class="n">3</div>
       <div class="txt">
-        <b>Subí ese mismo archivo acá y aprobalo.</b> Queda guardado como el maestro
-        definitivo y la próxima carga parte de él.
+        <b>Subí esos mismos archivos acá y aprobalos.</b> Quedan guardados como los maestros
+        definitivos y la próxima carga parte de ellos. El de dólares es opcional: si no lo
+        subís, se guarda solo el de pesos.
         <label class="dropzone" id="dzAprobar" style="margin-top:12px;">
           <input type="file" id="fileAprobar" accept=".xlsx">
-          <div id="txtAprobar">Hacé clic para elegir el archivo revisado</div>
+          <div id="txtAprobar">Hacé clic para elegir el balance en PESOS revisado</div>
+        </label>
+        <label class="dropzone" id="dzAprobarUsd" style="margin-top:10px;">
+          <input type="file" id="fileAprobarUsd" accept=".xlsx">
+          <div id="txtAprobarUsd">…y el balance en DÓLARES revisado (opcional)</div>
         </label>
         <div style="margin-top:12px;">
           <button id="btnAprobar" disabled>Aprobar y guardar</button>
@@ -191,6 +235,7 @@
 <script src="parser_balances.js"></script>
 <script src="clasificacion.js"></script>
 <script src="motor_balances.js"></script>
+<script src="dolares.js"></script>
 <script src="github_c.js"></script>
 <script src="app.js"></script>
 <script>

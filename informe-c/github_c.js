@@ -11,6 +11,8 @@ const GHC_SETTINGS_KEY = "informe_c_gh_settings";
 const GHC_CARPETA_DEFECTO = "informe-c";
 const GHC_ARCHIVO_BASE = "base_pesos.xlsx";
 const GHC_ARCHIVO_ESTADO = "estado_c.json";
+const GHC_ARCHIVO_BASE_USD = "base_dolares.xlsx";
+const GHC_ARCHIVO_EQUIV = "equivalencias_dolares.json";
 
 function loadGhcSettings() {
   try { return JSON.parse(localStorage.getItem(GHC_SETTINGS_KEY) || "{}"); }
@@ -127,6 +129,25 @@ async function ghcLeerBase() {
   const r = await ghcLeer(GHC_ARCHIVO_BASE);
   return r ? { buffer: ghcBase64ABuffer(r.contenidoBase64), sha: r.sha } : null;
 }
+async function ghcLeerBaseUsd() {
+  const r = await ghcLeer(GHC_ARCHIVO_BASE_USD);
+  return r ? { buffer: ghcBase64ABuffer(r.contenidoBase64), sha: r.sha } : null;
+}
+// Las equivalencias de dólares que la usuaria fue confirmando. Cada decisión se toma
+// UNA vez: acá quedan guardadas para todas las corridas siguientes.
+async function ghcLeerEquivalencias() {
+  const r = await ghcLeer(GHC_ARCHIVO_EQUIV);
+  if (!r) return {};
+  try { return JSON.parse(ghcBase64ToUtf8(r.contenidoBase64)); } catch (e) { return {}; }
+}
+async function ghcGuardarEquivalencias(equiv, mensaje) {
+  const sha = (await ghcLeer(GHC_ARCHIVO_EQUIV))?.sha;
+  await ghcEscribir(GHC_ARCHIVO_EQUIV, ghcUtf8ToBase64(JSON.stringify(equiv, null, 1)), sha, mensaje);
+}
+async function ghcGuardarBaseUsd(buffer, mensaje) {
+  const sha = (await ghcLeer(GHC_ARCHIVO_BASE_USD))?.sha;
+  await ghcEscribir(GHC_ARCHIVO_BASE_USD, ghcBufferABase64(buffer), sha, mensaje);
+}
 
 // El maestro primero (es el que más pesa y el más probable que falle): si algo se
 // corta, el estado sigue apuntando a la versión anterior y se puede reintentar.
@@ -141,5 +162,6 @@ if (typeof module !== "undefined") {
   module.exports = {
     loadGhcSettings, saveGhcSettings, hasGhcSettings,
     ghcLeer, ghcEscribir, ghcLeerEstado, ghcLeerBase, ghcGuardarTodo, ghcLeerMappingB,
+    ghcLeerBaseUsd, ghcGuardarBaseUsd, ghcLeerEquivalencias, ghcGuardarEquivalencias,
   };
 }

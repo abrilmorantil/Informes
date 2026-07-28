@@ -194,7 +194,7 @@ $("btnProcesar").addEventListener("click", async () => {
     // para saber qué es nuevo hay que mirar el maestro
     const wb = await abrirWorkbook(bufferBase.slice(0));
     const mapeo = derivarMapeoMaestro(wb, "pesos");
-    const nuevas = detectarNuevas(cuentasExport, mapeo);
+    const nuevas = detectarNuevas(cuentasExport, mapeo, "pesos");
     nuevasPendientes = nuevas.filter(n => !/^2110/.test(n.codigo));
     listasDestino = { madres: madresResultados(wb, "pesos"), lineasNota4: lineasDeNota4(wb) };
 

@@ -196,7 +196,7 @@ $("btnProcesar").addEventListener("click", async () => {
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const nuevas = detectarNuevas(cuentasExport, mapeo);
     nuevasPendientes = nuevas.filter(n => !/^2110/.test(n.codigo));
-    listasDestino = { conceptos: conceptosAnexo2(wb), lineasNota4: lineasDeNota4(wb) };
+    listasDestino = { madres: madresResultados(wb, "pesos"), lineasNota4: lineasDeNota4(wb) };
 
     const provNuevos = nuevas.length - nuevasPendientes.length;
     if (provNuevos > 0) {
@@ -222,12 +222,9 @@ function renderNuevas() {
   $("nuevasBody").innerHTML = nuevasPendientes.map((n, i) => {
     const esResultado = n.capitulo === "RESULTADOS";
     const destino = esResultado
-      ? `<select class="selConcepto" data-idx="${i}">
-           <option value="">— concepto del Anexo II —</option>
-           ${listasDestino.conceptos.map(c => `<option value="${c.fila}">${c.concepto}</option>`).join("")}
-         </select>
-         <select class="selColumna" data-idx="${i}" style="margin-top:6px;">
-           ${ANEXO2_COLUMNAS.map(c => `<option value="${c.col}">${c.nombre}</option>`).join("")}
+      ? `<select class="selMadre" data-idx="${i}">
+           <option value="">— ¿de qué cuenta madre es? —</option>
+           ${listasDestino.madres.map(m => `<option value="${m.fila}">${m.codigo} - ${m.nombre}</option>`).join("")}
          </select>`
       : `<select class="selLinea" data-idx="${i}">
            <option value="">— debajo de qué línea de la Nota 4 —</option>
@@ -249,13 +246,12 @@ $("btnConfirmarNuevas").addEventListener("click", async () => {
   for (let i = 0; i < nuevasPendientes.length; i++) {
     const n = nuevasPendientes[i];
     if (n.capitulo === "RESULTADOS") {
-      const sc = document.querySelector(`.selConcepto[data-idx="${i}"]`);
-      const scol = document.querySelector(`.selColumna[data-idx="${i}"]`);
+      const sc = document.querySelector(`.selMadre[data-idx="${i}"]`);
       if (!sc.value) {
-        $("nuevasStatus").innerHTML = '<div class="status-msg bad">Falta elegir el concepto de al menos una cuenta.</div>';
+        $("nuevasStatus").innerHTML = '<div class="status-msg bad">Falta elegir la cuenta madre de al menos una cuenta.</div>';
         return;
       }
-      destinos[n.codigo] = { filaConcepto: parseInt(sc.value, 10), columna: scol.value };
+      destinos[n.codigo] = { madreFila: parseInt(sc.value, 10) };
     } else {
       const sl = document.querySelector(`.selLinea[data-idx="${i}"]`);
       if (!sl.value) {

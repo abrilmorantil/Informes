@@ -46,8 +46,37 @@ function derivarMapeoMaestro(wb, moneda) {
   const cuentas = {};       // codigo -> {fila, col, clave, capitulo}
   const duplicadas = [];
 
+  // Qué columna es LA cuenta de la fila no lo decide el texto sino la fórmula: en
+  // RESULTADOS la columna D lleva el título de la familia (la "cuenta madre", con el
+  // subtotal en G) y la cuenta de verdad vive en E — a veces las dos en la misma
+  // fila. Tomar la primera columna con texto agarraba a la madre, tapaba a la hija y
+  // encima la hija aparecía después como "cuenta nueva" repetida. Por eso:
+  //   1. si la fila tiene VLOOKUP contra Hoja1, la clave es la columna que usa de
+  //      argumento (E en resultados, C en el activo);
+  //   2. si tiene otra fórmula de saldo (SUM / +F...) es una fila de subtotal de la
+  //      madre: no es una cuenta, se saltea;
+  //   3. si no tiene ninguna fórmula es una fila manual (el detalle de proveedores):
+  //      vale la primera columna con texto de cuenta, como siempre.
+  const RE_VLOOKUP_CLAVE = /VLOOKUP\(\s*\$?([A-Z]{1,3})\$?(\d+)\s*[,;]\s*Hoja1!/i;
+  const colAIdx = (s) => s.split("").reduce((n, ch) => n * 26 + (ch.charCodeAt(0) - 64), 0);
+
   for (let r = 1; r <= ws.rowCount; r++) {
-    for (const c of p.saldosColsCuenta) {
+    let colClave = null;
+    let tieneFormulaSaldo = false;
+    for (const c of [p.saldosColValor, p.saldosColValor - 1]) {
+      const v = ws.getCell(r, c).value;
+      if (!(v && typeof v === "object" && typeof v.formula === "string")) continue;
+      tieneFormulaSaldo = true;
+      const m = RE_VLOOKUP_CLAVE.exec(v.formula);
+      if (m && parseInt(m[2], 10) === r) { colClave = colAIdx(m[1]); break; }
+    }
+
+    let candidatas;
+    if (colClave !== null) candidatas = [colClave];
+    else if (tieneFormulaSaldo) continue;          // subtotal de una cuenta madre
+    else candidatas = p.saldosColsCuenta;          // fila manual
+
+    for (const c of candidatas) {
       const t = textoPlano(ws.getCell(r, c).value).trim();
       if (!t) continue;
       const m = RE_CUENTA_TXT.exec(t);
@@ -58,7 +87,7 @@ function derivarMapeoMaestro(wb, moneda) {
       } else {
         cuentas[codigo] = { fila: r, col: c, clave: t, nombre: m[2], capitulo: CAP_POR_DIGITO[codigo[0]] || null };
       }
-      break;              // la primera columna con texto de cuenta define la fila
+      break;
     }
   }
 
@@ -106,18 +135,24 @@ function reescribirHoja1(wb, cuentasExport, moneda, log = () => {}) {
 function normalizarRangosVlookup(wb, moneda, ultimaFilaHoja1, log = () => {}) {
   const p = PARAMS[moneda];
   const colValor = String.fromCharCode(64 + p.hoja1ColValor);   // E en pesos, D en dólares
-  const RE = new RegExp(`(Hoja1!\\$A\\$(\\d+):\\$${colValor}\\$)(\\d+)`, "gi");
+  const RE = new RegExp(`Hoja1!\\$A\\$(\\d+):\\$${colValor}\\$(\\d+)`, "gi");
   const ws = wb.getWorksheet("SALDOS");
   let corregidas = 0;
 
+  // También se normaliza el ARRANQUE del rango a la fila 2: hay VLOOKUPs que empiezan
+  // en $A$86 (donde arrancaban los gastos en el layout viejo) y si la sección queda
+  // más arriba tras reescribir Hoja1, esas cuentas se perderían en silencio. Las
+  // claves son únicas en Hoja1, así que agrandar el rango nunca cambia el resultado.
   ws.eachRow(row => row.eachCell(cell => {
     const v = cell.value;
     if (!v || typeof v !== "object" || typeof v.formula !== "string") return;
     let cambio = false;
-    const nueva = v.formula.replace(RE, (m, pre, desde, fin) => {
-      if (parseInt(fin, 10) >= ultimaFilaHoja1) return m;
+    const nueva = v.formula.replace(RE, (m, desde, fin) => {
+      const d = Math.min(parseInt(desde, 10), 2);
+      const f = Math.max(parseInt(fin, 10), ultimaFilaHoja1);
+      if (d === parseInt(desde, 10) && f === parseInt(fin, 10)) return m;
       cambio = true;
-      return `${pre}${ultimaFilaHoja1}`;
+      return `Hoja1!$A$${d}:$${colValor}$${f}`;
     });
     if (cambio) { cell.value = { formula: nueva }; corregidas++; }
   }));
@@ -261,24 +296,6 @@ function actualizarSaldosManuales(wb, mapeoMaestro, cuentasExport, moneda, log =
   return actualizadas;
 }
 
-// RESULTADOS: la cuenta nueva se suma al concepto elegido del Anexo II, en la columna
-// elegida (F=Administración, G=Comercialización, H=Exploración, I=Financieros).
-function agregarRefAnexo2(wb, moneda, filaConcepto, colLetra, filaSaldos, colSaldos, log = () => {}) {
-  const ws = wb.getWorksheet("Anexo II");
-  if (!ws) throw new Error("El maestro no tiene la hoja 'Anexo II'.");
-  const celda = ws.getCell(`${colLetra}${filaConcepto}`);
-  const ref = `SALDOS!${String.fromCharCode(64 + colSaldos)}${filaSaldos}`;
-  const v = celda.value;
-  if (v && typeof v === "object" && typeof v.formula === "string") {
-    celda.value = { formula: `${v.formula}+${ref}` };
-  } else if (typeof v === "number" && v !== 0) {
-    celda.value = { formula: `${v}+${ref}` };
-  } else {
-    celda.value = { formula: `+${ref}` };
-  }
-  log(`  Anexo II ${colLetra}${filaConcepto}: sumada la referencia a ${ref}.`);
-}
-
 // ACTIVO/PASIVO: se inserta una línea de detalle en la Nota 4 (hoja 'Activo y
 // Pasivo') debajo de la última línea del rubro elegido, copiando su patrón: la
 // etiqueta va en la columna de texto y la fórmula ±SALDOS!G<fila> en la de importes.
@@ -329,30 +346,105 @@ function lineasDeNota4(wb) {
   return lineas;
 }
 
-// Los conceptos del Anexo II, leídos del archivo: texto en B y un total
-// SUM(F<r>:I<r>) en E. Las cuatro columnas de destino son F/G/H/I.
-function conceptosAnexo2(wb) {
-  const ws = wb.getWorksheet("Anexo II");
+// Las cuentas madre de RESULTADOS: los estados NO leen las subcuentas — el Anexo II
+// referencia el subtotal G de la madre (+SALDOS!G324, etc.), así que una subcuenta
+// nueva solo tiene que caer adentro del bloque de su madre y el subtotal la absorbe.
+// Nada más: agregarle además una referencia en el Anexo II la contaría DOS veces.
+//
+// Una madre es una fila con texto de cuenta cuyo G no es un VLOOKUP sino la suma de
+// su familia: SUM(F<a>:F<b>) o una lista +F<x>+F<y> (a veces vacía, +F de su propia
+// fila). El texto del título vive en D; da igual, se toma de donde esté.
+function madresResultados(wb, moneda) {
+  const p = PARAMS[moneda];
+  const ws = wb.getWorksheet("SALDOS");
   if (!ws) return [];
-  const conceptos = [];
+  const madres = [];
+  const RE_RANGO = /^\s*\+?SUM\(F(\d+):F(\d+)\)\s*$/i;
+  const RE_LISTA = /^\s*(?:\+F\d+)+\s*$/i;
+
   for (let r = 1; r <= ws.rowCount; r++) {
-    const texto = textoPlano(ws.getCell(r, 2).value).trim();
-    if (!texto) continue;
-    const e = ws.getCell(r, 5).value;
-    if (e && typeof e === "object" && typeof e.formula === "string" &&
-        new RegExp(`SUM\\(F${r}:I${r}\\)`, "i").test(e.formula)) {
-      conceptos.push({ fila: r, concepto: texto });
+    const v = ws.getCell(r, p.saldosColValor).value;
+    if (!(v && typeof v === "object" && typeof v.formula === "string")) continue;
+    const f = v.formula;
+    if (/VLOOKUP/i.test(f)) continue;
+    let bloque = null;
+    const mR = RE_RANGO.exec(f);
+    if (mR) bloque = { tipo: "rango", desde: parseInt(mR[1], 10), hasta: parseInt(mR[2], 10) };
+    else if (RE_LISTA.test(f)) bloque = { tipo: "lista", filas: [...f.matchAll(/\+F(\d+)/gi)].map(x => parseInt(x[1], 10)) };
+    if (!bloque) continue;
+
+    let texto = null;
+    for (const c of p.saldosColsCuenta) {
+      const t = textoPlano(ws.getCell(r, c).value).trim();
+      if (RE_CUENTA_TXT.test(t)) { texto = t; break; }
     }
+    if (!texto) continue;
+    const m = RE_CUENTA_TXT.exec(texto);
+    madres.push({ fila: r, codigo: m[1], nombre: m[2], bloque });
   }
-  return conceptos;
+  return madres;
 }
 
-const ANEXO2_COLUMNAS = [
-  { col: "F", nombre: "Administración" },
-  { col: "G", nombre: "Comercialización" },
-  { col: "H", nombre: "Exploración" },
-  { col: "I", nombre: "Financieros" },
-];
+// Inserta una subcuenta nueva de RESULTADOS dentro del bloque de su cuenta madre.
+// Si el bloque es un rango SUM(Fa:Fb), la fila entra antes de la última para que el
+// rango se expanda solo con el shift; si es una lista +F..+F.., entra al final y se
+// le agrega su término al subtotal de la madre.
+function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = () => {}) {
+  const p = PARAMS[moneda];
+  const ws = wb.getWorksheet("SALDOS");
+  const madre = madresResultados(wb, moneda).find(x => x.fila === madreFila);
+  if (!madre) throw new Error(`No encontré la cuenta madre en la fila ${madreFila} de SALDOS. NO se generó ningún archivo.`);
+
+  // la fila modelo es una subcuenta con VLOOKUP: del propio bloque si tiene, si no
+  // la subcuenta de RESULTADOS más cercana (bloques vacíos)
+  const filasBloque = madre.bloque.tipo === "rango"
+    ? Array.from({ length: madre.bloque.hasta - madre.bloque.desde + 1 }, (_, i) => madre.bloque.desde + i)
+    : madre.bloque.filas;
+  const esHija = (r) => {
+    const v = ws.getCell(r, p.saldosColValor - 1).value;
+    return v && typeof v === "object" && /VLOOKUP/i.test(v.formula || "");
+  };
+  let filaModelo = filasBloque.filter(r => r !== madre.fila && esHija(r)).pop() || null;
+  if (filaModelo === null) {
+    const hijas = Object.values(mapeoMaestro.cuentas)
+      .filter(x => x.capitulo === "RESULTADOS" && esHija(x.fila))
+      .sort((a, b) => Math.abs(a.fila - madre.fila) - Math.abs(b.fila - madre.fila));
+    if (!hijas.length) throw new Error(`No hay ninguna subcuenta con fórmula en RESULTADOS para usar de modelo. NO se generó ningún archivo.`);
+    filaModelo = hijas[0].fila;
+  }
+
+  const filaNueva = madre.bloque.tipo === "rango"
+    ? Math.max(madre.bloque.desde, madre.bloque.hasta)      // antes de la última: el rango se expande
+    : Math.max(...madre.bloque.filas, madre.fila) + 1;      // al final de la lista
+
+  const mod = insertRowEn(wb, "SALDOS", filaNueva);
+  for (const info of Object.values(mapeoMaestro.cuentas)) {
+    if (info.fila >= filaNueva) info.fila += 1;
+  }
+  const filaModeloCorrida = filaModelo >= filaNueva ? filaModelo + 1 : filaModelo;
+
+  // clave en la columna que usa el VLOOKUP del modelo, fórmula en F
+  const vModelo = ws.getCell(filaModeloCorrida, p.saldosColValor - 1).value;
+  const mV = /VLOOKUP\(\s*\$?([A-Z]{1,3})\$?\d+/i.exec(vModelo.formula);
+  const colClave = mV[1].split("").reduce((n, ch) => n * 26 + (ch.charCodeAt(0) - 64), 0);
+  const clave = `${cuenta.codigo} - ${cuenta.nombre}`;
+  ws.getCell(filaNueva, colClave).value = clave;
+  ws.getCell(filaNueva, colClave).style = ws.getCell(filaModeloCorrida, colClave).style;
+  copiarPatronFila(ws, filaModeloCorrida, filaNueva, [p.saldosColValor - 1]);
+
+  // en los bloques de lista, el subtotal de la madre suma el término nuevo a mano
+  if (madre.bloque.tipo === "lista") {
+    const madreFilaCorrida = madre.fila >= filaNueva ? madre.fila + 1 : madre.fila;
+    const g = ws.getCell(madreFilaCorrida, p.saldosColValor).value;
+    ws.getCell(madreFilaCorrida, p.saldosColValor).value = { formula: `${g.formula}+F${filaNueva}` };
+  }
+
+  mapeoMaestro.cuentas[cuenta.codigo] = {
+    fila: filaNueva, col: colClave, clave, nombre: cuenta.nombre, capitulo: "RESULTADOS",
+  };
+  log(`  ${clave} insertada como subcuenta de "${madre.nombre}" (fila ${filaNueva}, ${mod} referencias reacomodadas).`);
+  return filaNueva;
+}
 
 // ---------------------------------------------------------------- la corrida
 
@@ -376,16 +468,28 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, log
     throw e;
   }
 
-  // primero las inserciones (mueven filas de SALDOS), después la reescritura de Hoja1
+  // primero las inserciones (mueven filas de SALDOS), después la reescritura de Hoja1.
+  // Cada inserción corre hacia abajo todo lo que está después, así que las filas de
+  // madre elegidas en el formulario (que se eligieron sobre el archivo sin tocar) se
+  // van corrigiendo a medida que se inserta — igual que el mapeo.
+  const ajustarDestinos = (filaInsertada) => {
+    for (const d of Object.values(destinosElegidos)) {
+      if (d && typeof d.madreFila === "number" && d.madreFila >= filaInsertada) d.madreFila += 1;
+    }
+  };
   for (const n of nuevas) {
     const destino = destinosElegidos[n.codigo];
-    const { filaNueva, colValor } = insertarCuentaEnSaldos(wb, mapeo, n, moneda, log);
-    if (esProveedor(n)) continue;
-    if (n.capitulo === "RESULTADOS") {
-      agregarRefAnexo2(wb, moneda, destino.filaConcepto, destino.columna, filaNueva, colValor, log);
-    } else {
-      agregarLineaNota4(wb, moneda, destino.lineaModelo, n, filaNueva, colValor, log);
+    if (n.capitulo === "RESULTADOS" && !esProveedor(n)) {
+      // adentro del bloque de su madre: el Anexo II lee el subtotal de la madre,
+      // así que no se toca ningún estado (tocarlo contaría el importe dos veces)
+      const fila = insertarHijaEnMadre(wb, mapeo, n, destino.madreFila, moneda, log);
+      ajustarDestinos(fila);
+      continue;
     }
+    const { filaNueva, colValor } = insertarCuentaEnSaldos(wb, mapeo, n, moneda, log);
+    ajustarDestinos(filaNueva);
+    if (esProveedor(n)) continue;
+    agregarLineaNota4(wb, moneda, destino.lineaModelo, n, filaNueva, colValor, log);
   }
 
   const ultimaFila = reescribirHoja1(wb, cuentasExport, moneda, log);
@@ -417,8 +521,8 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, log
 if (typeof module !== "undefined") {
   module.exports = {
     PARAMS, derivarMapeoMaestro, reescribirHoja1, normalizarRangosVlookup,
-    detectarNuevas, insertarCuentaEnSaldos, agregarRefAnexo2, agregarLineaNota4,
+    detectarNuevas, insertarCuentaEnSaldos, agregarLineaNota4,
     lineasDeNota4, procesarBalance, copiarPatronFila, actualizarSaldosManuales,
-    conceptosAnexo2, ANEXO2_COLUMNAS,
+    madresResultados, insertarHijaEnMadre,
   };
 }

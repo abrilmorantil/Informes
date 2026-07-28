@@ -100,6 +100,25 @@ async function ghcEscribir(nombre, contenidoBase64, sha, mensaje) {
   return await res.json();
 }
 
+// El mapping del Informe B vive en la RAÍZ del repositorio (su github.js usa
+// `s.path || "mapping.json"`), no dentro de la carpeta del Informe C, así que se lo
+// pide por ruta absoluta. Si no está, se sigue sin él: la app pregunta lo que no sabe.
+async function ghcLeerMappingB() {
+  const s = loadGhcSettings();
+  for (const ruta of ["mapping.json", "informe-b/mapping.json"]) {
+    const url = `https://api.github.com/repos/${s.repo}/contents/${encodeURI(ruta)}` +
+                `?ref=${encodeURIComponent(s.rama || "main")}&_=${Date.now()}`;
+    let res;
+    try { res = await fetch(url, { headers: ghcCabeceras(), cache: "no-store" }); }
+    catch (e) { return null; }
+    if (res.status === 404) continue;
+    if (!res.ok) return null;
+    const data = await res.json();
+    try { return JSON.parse(ghcBase64ToUtf8(data.content)); } catch (e) { return null; }
+  }
+  return null;
+}
+
 async function ghcLeerEstado() {
   const r = await ghcLeer(GHC_ARCHIVO_ESTADO);
   return r ? { estado: JSON.parse(ghcBase64ToUtf8(r.contenidoBase64)), sha: r.sha } : null;
@@ -121,6 +140,6 @@ async function ghcGuardarTodo({ bufferBase, estado, mensaje }) {
 if (typeof module !== "undefined") {
   module.exports = {
     loadGhcSettings, saveGhcSettings, hasGhcSettings,
-    ghcLeer, ghcEscribir, ghcLeerEstado, ghcLeerBase, ghcGuardarTodo,
+    ghcLeer, ghcEscribir, ghcLeerEstado, ghcLeerBase, ghcGuardarTodo, ghcLeerMappingB,
   };
 }

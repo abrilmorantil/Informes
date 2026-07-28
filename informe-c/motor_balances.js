@@ -16,6 +16,10 @@ const PARAMS = {
 
 const RE_CUENTA_TXT = /^\s*(\d{6,})\s*-\s*(.+?)\s*$/;
 
+// clasificacion.js se carga antes en index.html; en Node llegan por require abajo.
+const clasifEsProveedor = (c, cod) =>
+  (typeof esProveedor === "function" ? esProveedor(c, cod) : String(cod).startsWith("21101"));
+
 function textoPlano(v) {
   if (v === null || v === undefined) return "";
   if (typeof v === "object") {
@@ -557,7 +561,7 @@ function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = 
 
 // ---------------------------------------------------------------- la corrida
 
-function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, log = () => {} }) {
+function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, clasificacion = null, log = () => {} }) {
   const mapeo = derivarMapeoMaestro(wb, moneda);
   if (mapeo.duplicadas.length) {
     log(`  ⚠ SALDOS tiene cuentas repetidas: ` +
@@ -566,10 +570,29 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, log
   }
 
   const nuevas = detectarNuevas(cuentasExport, mapeo, moneda);
-  // Los proveedores nuevos (regla confirmada por la usuaria) no preguntan destino:
-  // en pesos cada uno inserta su fila en el detalle del pasivo, y el subtotal que
-  // es un rango los absorbe al expandirse. El resto sí necesita destino elegido.
-  const esProveedor = (n) => /^2110/.test(n.codigo);
+  const madres = madresResultados(wb, moneda);
+
+  // Los proveedores nuevos no preguntan destino: cada uno inserta su fila en el detalle
+  // del pasivo y el subtotal, que es un rango, los absorbe al expandirse. Cuáles son
+  // proveedores lo dice el prefijo configurado en el Informe B (21101), no un /^2110/
+  // a ojo: ahí caerían también "Provisión de Gastos" y "Previsión IGMP".
+  const esProveedor = (n) => clasifEsProveedor(clasificacion, n.codigo);
+
+  // Y la cuenta madre de un gasto nuevo tampoco se pregunta si el Informe B ya la tiene
+  // declarada: es la misma clasificación de cuentas, no hay por qué cargarla dos veces.
+  const resueltas = [];
+  for (const n of nuevas) {
+    if (esProveedor(n) || n.capitulo !== "RESULTADOS") continue;
+    if (destinosElegidos[n.codigo]) continue;
+    const m = madreEnArchivo(clasificacion, madres, n.codigo);
+    if (m) {
+      destinosElegidos[n.codigo] = { madreFila: m.fila };
+      resueltas.push(`${n.codigo} → ${m.codigo} ${m.nombre}`);
+    }
+  }
+  if (resueltas.length) {
+    log(`  ${resueltas.length} cuenta(s) nueva(s) ubicadas con la clasificación del Informe B: ${resueltas.join(", ")}.`);
+  }
   const sinDestino = nuevas.filter(n => !esProveedor(n) && !destinosElegidos[n.codigo]);
   if (sinDestino.length) {
     const e = new Error("Hay cuentas nuevas sin destino elegido.");
@@ -628,6 +651,9 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, log
 }
 
 if (typeof module !== "undefined") {
+  const clasif = require("./clasificacion.js");
+  global.esProveedor = clasif.esProveedor;
+  global.madreEnArchivo = clasif.madreEnArchivo;
   module.exports = {
     PARAMS, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
     detectarNuevas, insertarCuentaEnSaldos, agregarLineaNota4,

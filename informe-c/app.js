@@ -19,6 +19,7 @@ let logLineas = [];
 const log = (m) => { logLineas.push(String(m)); $("logBody").textContent = logLineas.join("\n"); };
 
 let altaBuffer = null;
+let clasificacion = null;   // la del Informe B, si esta disponible
 
 // --------------------------------------------------------------- arranque
 
@@ -37,6 +38,11 @@ async function arrancar() {
       return;
     }
     estado = e.estado;
+    // la clasificación de cuentas ya configurada en el Informe B (mismo repositorio)
+    try {
+      const mb = await ghcLeerMappingB();
+      if (mb) clasificacion = indexarClasificacion(mb);
+    } catch (err) { clasificacion = null; }
     const b = await ghcLeerBase();
     if (!b) throw new Error("Hay un estado guardado pero falta base_pesos.xlsx en el repositorio.");
     bufferBase = b.buffer;
@@ -195,13 +201,31 @@ $("btnProcesar").addEventListener("click", async () => {
     const wb = await abrirWorkbook(bufferBase.slice(0));
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const nuevas = detectarNuevas(cuentasExport, mapeo, "pesos");
-    nuevasPendientes = nuevas.filter(n => !/^2110/.test(n.codigo));
     listasDestino = { madres: madresResultados(wb, "pesos"), lineasNota4: lineasDeNota4(wb) };
 
-    const provNuevos = nuevas.length - nuevasPendientes.length;
-    if (provNuevos > 0) {
+    // no se pregunta ni por los proveedores ni por lo que el Informe B ya tiene clasificado
+    const provNuevos = nuevas.filter(n => esProveedor(clasificacion, n.codigo));
+    const resueltas = [];
+    nuevasPendientes = [];
+    for (const n of nuevas) {
+      if (esProveedor(clasificacion, n.codigo)) continue;
+      const m = n.capitulo === "RESULTADOS"
+        ? madreEnArchivo(clasificacion, listasDestino.madres, n.codigo) : null;
+      if (m) resueltas.push(`<b>${n.codigo}</b> ${n.nombre} → ${m.nombre}`);
+      else nuevasPendientes.push(n);
+    }
+
+    if (provNuevos.length) {
       $("exportStatus").innerHTML +=
-        `<div class="status-msg ok">${provNuevos} proveedor(es) nuevo(s) se insertan solos en el detalle del pasivo.</div>`;
+        `<div class="status-msg ok">${provNuevos.length} proveedor(es) nuevo(s) se insertan solos en el detalle del pasivo.</div>`;
+    }
+    if (resueltas.length) {
+      $("exportStatus").innerHTML +=
+        `<div class="status-msg ok">${resueltas.length} cuenta(s) nueva(s) ya estaban clasificadas en BALCOMPROBDOLARES y se ubican solas: ${resueltas.join(", ")}.</div>`;
+    }
+    if (!clasificacion) {
+      $("exportStatus").innerHTML +=
+        `<div class="status-msg">No pude leer la clasificación de BALCOMPROBDOLARES (mapping.json), así que voy a preguntar por cada cuenta nueva.</div>`;
     }
 
     if (nuevasPendientes.length) {
@@ -278,7 +302,7 @@ async function correrMotor(destinos) {
   // siempre desde una copia limpia del maestro guardado
   const wb = await abrirWorkbook(bufferBase.slice(0));
   const { resumen } = procesarBalance({
-    wb, cuentasExport, moneda: "pesos", destinosElegidos: destinos, log,
+    wb, cuentasExport, moneda: "pesos", destinosElegidos: destinos, clasificacion, log,
   });
   wbBorrador = wb;
   resumenBorrador = resumen;

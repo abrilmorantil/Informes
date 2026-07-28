@@ -24,6 +24,81 @@ function normNombre(s) {
     .toUpperCase().replace(/[^A-Z0-9]+/g, " ").trim();
 }
 
+// --------------------------------------------------- propuesta por código + nombre
+//
+// El plan viejo tiene un dígito menos en el grupo del medio: `114010005` (export) es
+// `11401005` (maestro). Esa regla SOLA no sirve —probada sobre las 142 cuentas viejas,
+// 14 de los 40 códigos que "resuelve" caen en otra cuenta—, y el parecido de nombre
+// solo tampoco. Pero exigiendo LAS DOS cosas a la vez se vuelve confiable: el código
+// candidato tiene que existir en el maestro Y el nombre tiene que corroborarlo.
+//
+// Lo importante es que los casos peligrosos quedan afuera por construcción: para
+// "124020001 Dep. Ac. Muebles y Útiles" el código candidato no existe, así que no hay
+// propuesta —en vez de proponer meterla dentro del bien de uso, como hacía el parecido
+// de nombre—. Control sobre las cuentas que ya tienen destino seguro: 0 choques.
+//
+// Aun así la propuesta NUNCA se aplica sola: se deja pre-elegida en la pantalla para
+// que la usuaria la confirme de un vistazo.
+
+const PALABRAS_VACIAS = ["DE", "DEL", "LA", "EL", "LOS", "LAS", "Y", "A", "EN", "CTA", "PART", "SA", "SRL"];
+
+function tokensNombre(s) {
+  return normNombre(s).split(" ").filter(t => t.length > 1 && PALABRAS_VACIAS.indexOf(t) < 0);
+}
+
+// "SALDO" casa con "SALDOS" y "GCIA" con "GCIA": se compara por prefijo, porque los
+// dos planes escriben la misma cuenta con abreviaturas distintas.
+function casanTokens(a, b) {
+  if (a === b) return true;
+  const corto = a.length <= b.length ? a : b;
+  const largo = a.length <= b.length ? b : a;
+  return corto.length >= 3 && largo.indexOf(corto) === 0;
+}
+
+function similitudNombre(n1, n2) {
+  const A = tokensNombre(n1), B = tokensNombre(n2);
+  if (!A.length || !B.length) return 0;
+  const usados = [];
+  let comun = 0;
+  for (const a of A) {
+    for (let j = 0; j < B.length; j++) {
+      if (usados.indexOf(j) < 0 && casanTokens(a, B[j])) { comun++; usados.push(j); break; }
+    }
+  }
+  return comun / Math.max(A.length, B.length);
+}
+
+// Los códigos del plan viejo que podrían corresponder a este: el mismo, y los que
+// resultan de sacarle un cero del grupo del medio.
+function codigosCandidatos(codigo) {
+  const c = String(codigo);
+  const out = [c];
+  for (let i = 3; i <= 6 && i < c.length; i++) {
+    if (c.charAt(i) === "0") {
+      const alt = c.slice(0, i) + c.slice(i + 1);
+      if (out.indexOf(alt) < 0) out.push(alt);
+    }
+  }
+  return out;
+}
+
+const SIMILITUD_MINIMA = 0.4;
+
+function proponerDestino(cuenta, cuentasMaestro) {
+  const porCodigo = new Map(cuentasMaestro.map(f => [f.codigo, f]));
+  let mejor = null;
+  for (const cod of codigosCandidatos(cuenta.codigo)) {
+    if (cod === cuenta.codigo) continue;          // ese ya lo probó la vía directa
+    const f = porCodigo.get(cod);
+    if (!f) continue;
+    const s = similitudNombre(cuenta.nombre, f.nombre);
+    if (s >= SIMILITUD_MINIMA && (!mejor || s > mejor.similitud)) {
+      mejor = { fila: f.fila, codigo: f.codigo, nombre: f.nombre, clave: f.clave, similitud: s };
+    }
+  }
+  return mejor;
+}
+
 // Las cuentas del maestro, tal como están escritas en su hoja SALDOS.
 function cuentasDelMaestro(wb, moneda) {
   const p = PARAMS[moneda];
@@ -184,5 +259,6 @@ if (typeof module !== "undefined") {
   global.esProveedor = require("./clasificacion.js").esProveedor;
   module.exports = {
     normNombre, cuentasDelMaestro, resolverDestinosDolares, volcarHoja1Dolares, procesarDolares,
+    proponerDestino, similitudNombre, codigosCandidatos,
   };
 }

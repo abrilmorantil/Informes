@@ -393,19 +393,36 @@ async function correrMotor(destinos) {
 // las veces (proponen meter la amortizacion acumulada dentro del bien de uso).
 
 function renderRevisionUsd() {
-  const opciones = cuentasMaestroUsd
-    .map(f => '<option value="' + f.codigo + '">' + f.codigo + ' - ' + f.nombre + '</option>').join("");
-  $("revisionUsdBody").innerHTML = pendientesUsd.map((c, i) =>
-    '<tr class="pending-row">' +
+  // Donde el código del plan viejo Y el nombre coinciden, se deja la propuesta ya
+  // elegida: son justo las que la usuaria igual iba a buscar a mano. No se aplica sola
+  // —queda a la vista para que la confirme— y donde no hay propuesta no se elige nada.
+  let conPropuesta = 0;
+  $("revisionUsdBody").innerHTML = pendientesUsd.map((c, i) => {
+    const prop = proponerDestino(c, cuentasMaestroUsd);
+    if (prop) conPropuesta++;
+    const opciones = cuentasMaestroUsd.map(f =>
+      '<option value="' + f.codigo + '"' + (prop && f.codigo === prop.codigo ? ' selected' : '') +
+      '>' + f.codigo + ' - ' + f.nombre + '</option>').join("");
+    return '<tr class="pending-row">' +
       '<td>' + c.codigo + '</td>' +
       '<td>' + c.nombre + '</td>' +
       '<td class="num">' + c.saldo_usd.toFixed(2) + '</td>' +
       '<td><select class="selUsd" data-idx="' + i + '">' +
-        '<option value="">— elegi a que linea del balance va —</option>' +
-        '<option value="__nada__">No cargarla en el balance en dolares</option>' +
+        '<option value=""' + (prop ? '' : ' selected') + '>— elegí a qué línea del balance va —</option>' +
+        '<option value="__nada__">No cargarla en el balance en dólares</option>' +
         opciones +
-      '</select></td>' +
-    '</tr>').join("");
+      '</select>' +
+      (prop ? '<div class="buscador-aviso">Propuesta: mismo código en el plan viejo (' +
+              prop.codigo + ') y nombre parecido. Revisala.</div>' : '') +
+      '</td>' +
+    '</tr>';
+  }).join("");
+  $("revisionUsdResumen").innerHTML = conPropuesta
+    ? '<div class="status-msg ok">' + conPropuesta + ' de ' + pendientesUsd.length +
+      ' vienen con una propuesta ya elegida, porque el código del plan viejo y el nombre ' +
+      'coinciden. Revisalas igual. Las otras ' + (pendientesUsd.length - conPropuesta) +
+      ' no tienen equivalente claro: esas las elegís vos.</div>'
+    : "";
   // acá son 203 opciones: el buscador es imprescindible
   conBuscadorTodos(".selUsd", "Buscar cuenta del balance en dólares…");
 }

@@ -56,7 +56,14 @@ function filasQueAgrega(formula, filaPropia) {
 // un JSON preparado de antemano que se puede desincronizar. El JSON extraído
 // (mapeo_balances_pesos_dolares.json) queda como referencia y para las listas de la
 // interfaz, pero la verdad es siempre el archivo.
-function derivarMapeoMaestro(wb, moneda) {
+// Compara nombres de cuenta sin acentos ni mayúsculas ni puntuación.
+function normaliza(t) {
+  return String(t === null || t === undefined ? "" : t)
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .toUpperCase().replace(/[^A-Z0-9]+/g, " ").trim();
+}
+
+function derivarMapeoMaestro(wb, moneda, clasificacion = null) {
   const p = PARAMS[moneda];
   const ws = wb.getWorksheet("SALDOS");
   if (!ws) throw new Error("El maestro no tiene la hoja 'SALDOS'.");
@@ -112,10 +119,22 @@ function derivarMapeoMaestro(wb, moneda) {
       const m = RE_CUENTA_TXT.exec(t);
       if (!m) continue;
       const codigo = m[1];
+      const ficha = { fila: r, col: c, clave: t, nombre: m[2], capitulo: CAP_POR_DIGITO[codigo[0]] || null };
       if (cuentas[codigo]) {
         duplicadas.push({ codigo, fila: r, filaPrevia: cuentas[codigo].fila });
+        // Con el código repetido, quedarse con la primera fila es arbitrario y puede
+        // mandar el importe a la cuenta equivocada. En el archivo real `422240000`
+        // está en la fila 167 como "Honorarios profesionales - Remediación" y en la
+        // 258 como "Gastos de Espectrometría"; el Informe B dice que ese código es
+        // Espectrometría, y esa es además la fila que alimenta el Anexo II. Así que
+        // ante un empate manda el nombre que tiene configurado el Informe B.
+        const dice = clasificacion && clasificacion.porCodigo.get(codigo);
+        if (dice && dice.description) {
+          const parece = (n) => normaliza(n) === normaliza(dice.description);
+          if (!parece(cuentas[codigo].nombre) && parece(ficha.nombre)) cuentas[codigo] = ficha;
+        }
       } else {
-        cuentas[codigo] = { fila: r, col: c, clave: t, nombre: m[2], capitulo: CAP_POR_DIGITO[codigo[0]] || null };
+        cuentas[codigo] = ficha;
       }
       break;
     }
@@ -593,7 +612,7 @@ function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = 
 // ---------------------------------------------------------------- la corrida
 
 function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, clasificacion = null, log = () => {} }) {
-  const mapeo = derivarMapeoMaestro(wb, moneda);
+  const mapeo = derivarMapeoMaestro(wb, moneda, clasificacion);
 
   // Solo se avisa de una cuenta repetida si esa cuenta VIENE en el export. Si no viene,
   // es un resto del plan de cuentas viejo: no recibe importe, no cambia ningún número y
@@ -693,7 +712,7 @@ if (typeof module !== "undefined") {
   global.esProveedor = clasif.esProveedor;
   global.madreEnArchivo = clasif.madreEnArchivo;
   module.exports = {
-    PARAMS, textoPlano, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
+    PARAMS, textoPlano, normaliza, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
     detectarNuevas, insertarCuentaEnSaldos, agregarLineaNota4,
     lineasDeNota4, procesarBalance, copiarPatronFila, actualizarSaldosManuales,
     madresResultados, insertarHijaEnMadre, filasQueAgrega,

@@ -119,14 +119,41 @@ function cuentasDelMaestro(wb, moneda) {
   return filas;
 }
 
+// Las claves que Hoja1 puede alimentar, normalizadas como compara Excel.
+function clavesDeHoja1(wb, moneda) {
+  const p = PARAMS[moneda];
+  const ws = wb.getWorksheet("Hoja1");
+  const out = new Set();
+  if (!ws) return out;
+  for (let r = 1; r <= ws.rowCount; r++) {
+    const v = ws.getCell(r, p.hoja1ColClave).value;
+    if (v && typeof v === "object" && typeof v.formula === "string") continue;
+    const t = String(v === null || v === undefined ? "" : v).trim().replace(/\s+/g, " ");
+    if (RE_CUENTA_TXT.test(t)) out.add(t.toUpperCase());
+  }
+  return out;
+}
+
 // A qué fila del maestro va cada cuenta del export. Devuelve también lo que no se pudo
 // resolver, para preguntarlo.
-function resolverDestinosDolares({ cuentasExport, cuentasMaestro, clasificacion, equivalencias = {} }) {
-  const porCodigo = new Map(cuentasMaestro.map(f => [f.codigo, f]));
+function resolverDestinosDolares({ cuentasExport, cuentasMaestro, clasificacion, equivalencias = {}, clavesHoja1 = null }) {
+  // Cuando el mismo código está DOS VECES en SALDOS con textos distintos, se elige la
+  // fila que Hoja1 puede alimentar. Pasa con "42111000", que figura como
+  // "Alquileres eq. De campo" (fila 120, la que está en Hoja1) y como
+  // "Alquiler de Eq. De campo" (fila 123, que no está). Quedándose con la última —que
+  // es lo que hacía— el importe iba a una fila donde el VLOOKUP del archivo nunca lo
+  // encuentra, y la cuenta quedaba en cero sin motivo aparente.
+  const sirve = (f) => !clavesHoja1 || clavesHoja1.has(f.clave.toUpperCase());
+  const porCodigo = new Map();
+  for (const f of cuentasMaestro) {
+    const previa = porCodigo.get(f.codigo);
+    if (!previa || (!sirve(previa) && sirve(f))) porCodigo.set(f.codigo, f);
+  }
   const porNombre = new Map();
   for (const f of cuentasMaestro) {
     const k = normNombre(f.nombre);
-    if (!porNombre.has(k)) porNombre.set(k, f);
+    const previa = porNombre.get(k);
+    if (!previa || (!sirve(previa) && sirve(f))) porNombre.set(k, f);
   }
   // La línea de proveedores se busca por el CÓDIGO que el Informe B tiene configurado
   // (21101000), no por el nombre: buscar /proveedor/ agarraba primero
@@ -237,7 +264,8 @@ function volcarHoja1Dolares(wb, destinos, moneda, log = () => {}) {
 // de sus líneas (o quedando explícitamente afuera).
 function procesarDolares({ wb, cuentasExport, clasificacion, equivalencias = {}, log = () => {} }) {
   const cuentasMaestro = cuentasDelMaestro(wb, "dolares");
-  const r = resolverDestinosDolares({ cuentasExport, cuentasMaestro, clasificacion, equivalencias });
+  const clavesHoja1 = clavesDeHoja1(wb, "dolares");
+  const r = resolverDestinosDolares({ cuentasExport, cuentasMaestro, clasificacion, equivalencias, clavesHoja1 });
 
   if (r.pendientes.length) {
     const e = new Error("Hay cuentas en dólares sin destino definido.");
@@ -279,6 +307,6 @@ if (typeof module !== "undefined") {
   global.esProveedor = require("./clasificacion.js").esProveedor;
   module.exports = {
     normNombre, cuentasDelMaestro, resolverDestinosDolares, volcarHoja1Dolares, procesarDolares,
-    proponerDestino, similitudNombre, codigosCandidatos,
+    proponerDestino, similitudNombre, codigosCandidatos, clavesDeHoja1,
   };
 }

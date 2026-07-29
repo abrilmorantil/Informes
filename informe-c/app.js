@@ -363,6 +363,8 @@ async function correrMotor(destinos) {
   // Dolares, si el maestro esta cargado. Si faltan decisiones se muestra la pantalla de
   // revision, y el balance en pesos igual queda listo para descargar.
   wbBorradorUsd = null;
+  totalesEERR = null;          // que no quede el de la corrida anterior
+  avisosEERR = [];
   let resumenUsd = null;
   if (bufferBaseUsd) {
     log("\nDOLARES");
@@ -380,9 +382,13 @@ async function correrMotor(destinos) {
       renderRevisionUsd();
       mostrar("cardRevisionUsd", true);
       log("  Faltan ubicar " + pendientesUsd.length + " cuenta(s) en dolares: ver el paso de revision.");
+      // sin el balance en dolares resuelto no hay EE RR: sus cifras salen de ahí
+      avisosEERR = [`primero hay que resolver las ${pendientesUsd.length} cuenta(s) ` +
+                    `pendientes del balance en dólares, de ahí salen sus cifras.`];
     }
   }
 
+  renderQueSeDescarga();
   renderResultado(resumen, resumenUsd);
   mostrar("cardResultado", true);
   mostrar("cardCierre", true);
@@ -451,6 +457,7 @@ $("btnConfirmarUsd").addEventListener("click", async () => {
     wbBorradorUsd = wbu;
     calcularEERR(wbu, r);
     mostrar("cardRevisionUsd", false);
+    renderQueSeDescarga();
     renderResultado(resumenBorrador, r.resumen);
     $("cierreStatus").innerHTML =
       '<div class="status-msg ok">Decisiones guardadas. No te las vuelve a preguntar.</div>';
@@ -566,13 +573,67 @@ async function descargar(wb, sufijo) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  return a.download;
+}
+
+// Qué archivos van a bajar. Antes no se decía en ningún lado, así que si el EE RR no salía
+// —queda en null cuando `calcularEERR` falla— no bajaba y no había manera de darse cuenta:
+// el motivo iba sólo al log.
+function textoDeDescarga({ hayPesos, hayDolares, hayEERR, avisos }) {
+  const items = [];
+  if (hayPesos) items.push(["ok", "Balance en pesos"]);
+  if (hayDolares) items.push(["ok", "Balance en dólares"]);
+  if (hayEERR) {
+    items.push(["ok", "Estado de Resultados (EE RR)"]);
+  } else if (hayDolares) {
+    items.push(["bad", "Estado de Resultados: NO se puede armar" +
+      ((avisos && avisos.length) ? " — " + avisos.join(" ") : "")]);
+  } else {
+    items.push(["", "Estado de Resultados: hace falta el balance en dólares, " +
+      "porque sus cifras salen de ahí." +
+      ((avisos && avisos.length) ? " " + avisos.join(" ") : "")]);
+  }
+  return items.map(([c, t]) =>
+    `<div class="status-msg ${c}">${c === "ok" ? "Baja: " : ""}${t}</div>`).join("");
+}
+
+// los tres archivos no se llaman parecido, así que quedan lejos entre sí en la carpeta de
+// descargas: hay que decir el nombre de cada uno
+function resumenDeDescarga(nombres, hayEERR) {
+  return `<div class="status-msg ok">` +
+    (nombres.length === 1 ? "Bajó 1 archivo:" : `Bajaron ${nombres.length} archivos:`) + `<br>` +
+    nombres.map(n => "<b>" + n + "</b>").join("<br>") +
+    (hayEERR ? "" : "<br>El EE RR no bajó, por lo que dice arriba.") +
+    `<br>Si el navegador preguntó si permitís varias descargas, hay que aceptarlo o ` +
+    `bajan sólo las primeras.</div>`;
+}
+
+function renderQueSeDescarga() {
+  const caja = $("quePasaAlDescargar");
+  if (!caja) return;
+  caja.innerHTML = textoDeDescarga({
+    hayPesos: !!wbBorrador, hayDolares: !!wbBorradorUsd,
+    hayEERR: !!totalesEERR, avisos: avisosEERR,
+  });
 }
 
 $("btnDescargar").addEventListener("click", async () => {
-  if (wbBorrador) await descargar(wbBorrador, "pesos");
-  if (wbBorradorUsd) await descargar(wbBorradorUsd, "dolares");
-  if (totalesEERR) descargarEERR();
+  const st = $("descargaStatus");
+  st.innerHTML = "";
+  const bajaron = [];
+  try {
+    if (wbBorrador) bajaron.push(await descargar(wbBorrador, "pesos"));
+    // el navegador bloquea las descargas seguidas de un mismo clic si van muy pegadas
+    if (wbBorradorUsd) { await esperar(400); bajaron.push(await descargar(wbBorradorUsd, "dolares")); }
+    if (totalesEERR) { await esperar(400); bajaron.push(descargarEERR()); }
+  } catch (e) {
+    st.innerHTML = `<div class="status-msg bad">Falló una descarga: ${e.message}</div>`;
+    return;
+  }
+  st.innerHTML = resumenDeDescarga(bajaron, !!totalesEERR);
 });
+
+const esperar = (ms) => new Promise(r => setTimeout(r, ms));
 
 // El EE RR sale como archivo aparte, con el layout del que se venía armando a mano.
 function descargarEERR() {
@@ -590,6 +651,7 @@ function descargarEERR() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  return a.download;
 }
 
 // El período del EE RR es el cierre del mes que se está cargando.

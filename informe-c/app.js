@@ -458,14 +458,17 @@ $("btnConfirmarUsd").addEventListener("click", async () => {
 });
 
 function renderResultado(r, rUsd) {
+  // Cada línea dice de qué balance habla: los dos se procesan en la misma corrida y
+  // sus hojas se llaman igual, así que un aviso sin moneda manda a mirar el archivo
+  // equivocado (las filas que nombra no existen en el otro).
   const items = [
-    { name: "Total en pesos del export", value: r.total.toFixed(2), ok: true,
+    { name: "Pesos: total del export", value: r.total.toFixed(2), ok: true,
       detail: "Excel recalcula los estados al abrir el archivo; el control L23 del Balance tiene que dar 0." },
-    { name: "Cuentas cargadas en Hoja1", value: String(r.cuentas), ok: true,
-      detail: "La zona de pegado quedó reescrita con el export fresco." },
-    { name: "Cuentas nuevas insertadas", value: String(r.nuevas), ok: true,
+    { name: "Pesos: cuentas cargadas en Hoja1", value: String(r.cuentas), ok: true,
+      detail: "La zona de pegado quedó actualizada con el export fresco." },
+    { name: "Pesos: cuentas nuevas insertadas", value: String(r.nuevas), ok: true,
       detail: "Con su fila en SALDOS y su referencia en los estados." },
-    { name: "Cuentas sin enganchar", value: String(r.noEnganchadas.length), ok: r.noEnganchadas.length === 0,
+    { name: "Pesos: cuentas sin enganchar", value: String(r.noEnganchadas.length), ok: r.noEnganchadas.length === 0,
       detail: r.noEnganchadas.length ? r.noEnganchadas.join(", ") : "Todas las cuentas del export quedaron enganchadas a SALDOS." },
   ];
   $("checksBody").innerHTML = items.map(c => `
@@ -501,9 +504,13 @@ function renderResultado(r, rUsd) {
   if (r.duplicadas.length) {
     avisos.push(`
       <div class="check bad" style="display:block;">
-        <div class="name">SALDOS tiene cuentas repetidas</div>
-        <div class="detail">${r.duplicadas.map(d => `${d.codigo} (filas ${d.filaPrevia} y ${d.fila})`).join(", ")}.
-        Se usa la primera de cada una; conviene limpiar el archivo en Excel.</div>
+        <div class="name">Pesos: la hoja SALDOS del balance en PESOS tiene cuentas repetidas</div>
+        <div class="detail">
+          ${r.duplicadas.map(d => `<b>${d.codigo}</b> (filas ${d.filaPrevia} y ${d.fila})`).join(", ")}.
+          Son las filas del archivo <b>de pesos</b>, no del de dólares: los dos tienen una hoja
+          llamada SALDOS y esas filas no coinciden. Se usa la primera de cada una; si querés,
+          limpialas en Excel.
+        </div>
       </div>`);
   }
   $("avisosBody").innerHTML = avisos.join("");

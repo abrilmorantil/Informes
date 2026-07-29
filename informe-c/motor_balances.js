@@ -232,7 +232,7 @@ function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
         `agregan a Hoja1: no forman parte de este balance.`);
   }
   for (const [codigo, filas] of repetidas) {
-    log(`  ⚠ Hoja1 tiene ${codigo} repetida en las filas ${filas.join(", ")}: se carga en la primera y las otras quedan en cero.`);
+    log(`  ⚠ Hoja1 del balance en ${moneda} tiene ${codigo} repetida en las filas ${filas.join(", ")}: se carga en la primera y las otras quedan en cero.`);
   }
   return ultimaFila;
 }
@@ -583,9 +583,9 @@ function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = 
 function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, clasificacion = null, log = () => {} }) {
   const mapeo = derivarMapeoMaestro(wb, moneda);
   if (mapeo.duplicadas.length) {
-    log(`  ⚠ SALDOS tiene cuentas repetidas: ` +
+    log(`  ⚠ SALDOS del balance en ${moneda} tiene cuentas repetidas: ` +
         mapeo.duplicadas.map(d => `${d.codigo} (filas ${d.filaPrevia} y ${d.fila})`).join(", ") +
-        `. Se usa la primera; conviene limpiar el archivo a mano.`);
+        `. Son filas de ESE archivo. Se usa la primera; conviene limpiarlas a mano.`);
   }
 
   const nuevas = detectarNuevas(cuentasExport, mapeo, moneda);

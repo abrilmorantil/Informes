@@ -26,6 +26,8 @@ let pendientesUsd = [];     // cuentas de dolares esperando destino
 let cuentasMaestroUsd = [];
 let wbBorradorUsd = null;
 let altaBufferUsd = null;
+let totalesEERR = null;        // los totales del Estado de Resultados de esta corrida
+let avisosEERR = [];
 
 // --------------------------------------------------------------- arranque
 
@@ -369,6 +371,7 @@ async function correrMotor(destinos) {
       const r = procesarDolares({ wb: wbu, cuentasExport, clasificacion, equivalencias, log });
       wbBorradorUsd = wbu;
       resumenUsd = r.resumen;
+      calcularEERR(wbu, r);
       mostrar("cardRevisionUsd", false);
     } catch (e) {
       if (!e.pendientesDolares) throw e;
@@ -446,6 +449,7 @@ $("btnConfirmarUsd").addEventListener("click", async () => {
     const wbu = await abrirWorkbook(bufferBaseUsd.slice(0));
     const r = procesarDolares({ wb: wbu, cuentasExport, clasificacion, equivalencias, log });
     wbBorradorUsd = wbu;
+    calcularEERR(wbu, r);
     mostrar("cardRevisionUsd", false);
     renderResultado(resumenBorrador, r.resumen);
     $("cierreStatus").innerHTML =
@@ -516,6 +520,37 @@ function renderResultado(r, rUsd) {
   $("avisosBody").innerHTML = avisos.join("");
 }
 
+// --------------------------------------------------------- Estado de Resultados
+//
+// Los totales del EE RR son los mismos que las hojas Anexo II y Resultados exponen por
+// fórmula. Como Excel todavía no las calculó, se reproducen acá a partir de los saldos
+// que la corrida acaba de resolver.
+function calcularEERR(wbUsd, resultadoDolares) {
+  totalesEERR = null;
+  avisosEERR = [];
+  try {
+    const porFila = new Map();
+    for (const d of resultadoDolares.destinos.values()) {
+      porFila.set(d.fila, d.aportes.reduce((a, x) => a + x.saldo, 0));
+    }
+    totalesEERR = totalesEstadoResultados(wbUsd, (f) => porFila.get(f) || 0);
+    const v = verificarEERR(totalesEERR);
+    avisosEERR = v.avisos;
+    log("\nESTADO DE RESULTADOS");
+    log(`  Gastos de operación ${totalesEERR.gastosOperacion.toFixed(2)} | ` +
+        `administración ${totalesEERR.gastosAdministracion.toFixed(2)} | ` +
+        `resultado del ejercicio ${totalesEERR.resultadoEjercicio.toFixed(2)}`);
+    for (const t of (totalesEERR.tomadoDeOtrasHojas || [])) {
+      log(`  ${t.hoja}!${t.celda} = ${t.valor.toFixed(2)} — es una hoja que la app no toca, ` +
+          `se usa el valor que tiene el maestro.`);
+    }
+    avisosEERR.forEach(a => log(`  ⚠ ${a}`));
+  } catch (e) {
+    avisosEERR = [e.message];
+    log(`  ⚠ No pude armar el Estado de Resultados: ${e.message}`);
+  }
+}
+
 // --------------------------------------------------------------- descarga y cierre
 
 async function descargar(wb, sufijo) {
@@ -536,7 +571,37 @@ async function descargar(wb, sufijo) {
 $("btnDescargar").addEventListener("click", async () => {
   if (wbBorrador) await descargar(wbBorrador, "pesos");
   if (wbBorradorUsd) await descargar(wbBorradorUsd, "dolares");
+  if (totalesEERR) descargarEERR();
 });
+
+// El EE RR sale como archivo aparte, con el layout del que se venía armando a mano.
+function descargarEERR() {
+  const anterior = (estado && estado.eerrAnterior) || null;
+  const datos = escribirLibroEERR({
+    actual: totalesEERR, anterior, periodoFin: periodoDelEERR(),
+    titulo: "SOUTHERN COPPER ARGENTINA S.R.L.",
+  });
+  const blob = new Blob([datos], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `EE_RR_${periodoDelEERR()}.xlsx`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// El período del EE RR es el cierre del mes que se está cargando.
+function periodoDelEERR() {
+  const h = (estado && estado.historial) || [];
+  const ult = h.length ? h[h.length - 1] : null;
+  if (ult && ult.periodoFin) return ult.periodoFin;
+  const hoy = new Date();
+  const fin = new Date(hoy.getFullYear(), hoy.getMonth(), 0);
+  const p = (n) => String(n).padStart(2, "0");
+  return `${fin.getFullYear()}-${p(fin.getMonth() + 1)}-${p(fin.getDate())}`;
+}
 
 $("fileAprobar").addEventListener("change", () => {
   const f = $("fileAprobar").files[0];
@@ -569,6 +634,10 @@ $("btnAprobar").addEventListener("click", async () => {
       if (!wb.getWorksheet(hoja)) throw new Error(`El archivo no tiene la hoja '${hoja}'. ¿Subiste el borrador correcto? NO se guardó nada.`);
     }
 
+    // El EE RR de este mes queda guardado: es el "MES ANTERIOR" de la corrida siguiente.
+    const eerrAnterior = totalesEERR
+      ? snapshotEERR(totalesEERR, periodoDelEERR())
+      : (estado && estado.eerrAnterior) || null;
     const nuevoEstado = {
       historial: [...(estado.historial || []), {
         fecha: new Date().toISOString(),
@@ -576,6 +645,7 @@ $("btnAprobar").addEventListener("click", async () => {
         nuevas: resumenBorrador ? resumenBorrador.nuevas : 0,
         totalPesos: resumenBorrador ? resumenBorrador.total : null,
       }],
+          eerrAnterior,
     };
     await ghcGuardarTodo({
       bufferBase: buf,

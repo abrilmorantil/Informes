@@ -15,6 +15,7 @@ let params = null;        // los parámetros del período
 let lineasOk = [];
 let lineasARevisar = [];
 let asiento = null;       // el asiento final, ya con la línea de balanceo
+let revisadasExcluidas = [];   // las que la usuaria dejó afuera en la revisión
 
 const nf = (x, d = 2) => (typeof x === "number" ? x : 0)
   .toLocaleString("es-AR", { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -229,6 +230,7 @@ $("btnConfirmarRevision").addEventListener("click", async () => {
   $("btnConfirmarRevision").disabled = true;
   try {
     const { incluidas, cambiosConfig } = aplicarDecisiones(lineasARevisar, decisiones);
+    revisadasExcluidas = lineasARevisar.filter(l => decisiones[l.codigo] !== "incluir");
     config = aplicarCambiosConfig(config, cambiosConfig);
     await ghdGuardarConfig(config, "Diferencia de cambio: clasificación de cuentas confirmada");
     mostrar("cardRevision", false);
@@ -300,6 +302,7 @@ function armarYMostrar(lineas) {
   mostrar("cardDescarga", true);
   // La descarga sólo se habilita si el asiento cierra: es la red de contención final.
   $("btnDescargar").disabled = !cierra;
+  $("btnDescargarLibro").disabled = !cierra;
   $("txtHabilitado").textContent = cierra
     ? ""
     : "Deshabilitado porque el asiento no cierra en 0.";
@@ -315,6 +318,24 @@ $("btnDescargar").addEventListener("click", () => {
   const a = document.createElement("a");
   a.href = url;
   a.download = `Importador_Ajuste_Conversion_${params.periodoFin}.xls`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+$("btnDescargarLibro").addEventListener("click", () => {
+  if (!asiento) return;
+  const datos = escribirLibroCalculo({
+    asiento, params, cfg: config,
+    revisadas: lineasARevisar, revisadasExcluidas,
+    titulo: `Southern Copper Argentina S.R.L. — cierre ${params.periodoFin}`,
+  });
+  const blob = new Blob([datos], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `Ajuste_Dif_Cambio_${params.periodoFin}.xlsx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

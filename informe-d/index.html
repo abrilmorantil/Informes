@@ -156,10 +156,16 @@
         <b>Descargá el importador</b> y subilo a Onvio. Sale con la misma estructura del
         modelo que usás hoy: hoja <i>Asientos</i>, pesos en cero y el importe en dólares
         con signo (positivo Debe MEP, negativo Haber MEP).
-        <div style="margin-top:10px;">
-          <button id="btnDescargar" disabled>Descargar importador</button>
-          <span class="mini" id="txtHabilitado" style="margin-left:10px;"></span>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button id="btnDescargar" disabled>Descargar importador (.xls)</button>
+          <button id="btnDescargarLibro" class="secundario" disabled>Descargar hoja de cálculo</button>
+          <span class="mini" id="txtHabilitado"></span>
         </div>
+        <p class="mini" style="margin-top:8px;">
+          El importador es el archivo que subís a Onvio. La hoja de cálculo es el libro de
+          trabajo para revisar y archivar: trae Parámetros, Resumen y notas, Cálculo e
+          Importador, con la misma estructura del prototipo.
+        </p>
       </div>
     </div>
     <div class="paso">
@@ -212,6 +218,7 @@
 <script src="parser_sys.js"></script>
 <script src="motor_difcambio.js"></script>
 <script src="importador_onvio.js"></script>
+<script src="libro_calculo.js"></script>
 <script src="github_d.js"></script>
 <script src="app.js"></script>
 </body>

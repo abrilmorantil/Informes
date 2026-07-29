@@ -614,16 +614,20 @@ function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = 
 function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, clasificacion = null, log = () => {} }) {
   const mapeo = derivarMapeoMaestro(wb, moneda, clasificacion);
 
-  // Solo se avisa de una cuenta repetida si esa cuenta VIENE en el export. Si no viene,
-  // es un resto del plan de cuentas viejo: no recibe importe, no cambia ningún número y
-  // avisar por ella es ruido. Si algún mes reaparece, el aviso vuelve solo y ahí se
-  // decide qué hacer con ella.
+  // Un código repetido en SALDOS queda avisado hasta que se resuelva, venga o no en el
+  // export: son dos cuentas distintas compartiendo código y hay que decidir cuál es la
+  // buena. Las que ya se resolvieron se borraron del archivo, así que el aviso no es
+  // ruido de fondo sino la lista de lo que falta decidir.
   const codigosDelExport = new Set(cuentasExport.map(c => String(c.codigo)));
-  const duplicadas = mapeo.duplicadas.filter(d => codigosDelExport.has(String(d.codigo)));
+  const duplicadas = mapeo.duplicadas;
   if (duplicadas.length) {
-    log(`  ⚠ SALDOS del balance en ${moneda} tiene repetida una cuenta que SÍ viene en el export: ` +
-        duplicadas.map(d => `${d.codigo} (filas ${d.filaPrevia} y ${d.fila})`).join(", ") +
-        `. Son filas de ESE archivo. Se usa la primera, así que conviene revisarlo.`);
+    const detalle = duplicadas.map(d => {
+      const viene = codigosDelExport.has(String(d.codigo));
+      return `${d.codigo} (filas ${d.filaPrevia} y ${d.fila}${viene ? ", y viene en el export" : ""})`;
+    });
+    log(`  ⚠ SALDOS del balance en ${moneda}: ${duplicadas.length} código(s) usados por dos ` +
+        `cuentas distintas, pendientes de resolver: ${detalle.join(", ")}. ` +
+        `Son filas de ESE archivo. Mientras tanto se usa la primera.`);
   }
 
   const nuevas = detectarNuevas(cuentasExport, mapeo, moneda);

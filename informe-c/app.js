@@ -504,12 +504,12 @@ function renderResultado(r, rUsd) {
   if (r.duplicadas.length) {
     avisos.push(`
       <div class="check bad" style="display:block;">
-        <div class="name">Pesos: una cuenta del export está repetida en la hoja SALDOS</div>
+        <div class="name">Pesos: ${r.duplicadas.length} código(s) usados por dos cuentas distintas, pendientes de resolver</div>
         <div class="detail">
           ${r.duplicadas.map(d => `<b>${d.codigo}</b> (filas ${d.filaPrevia} y ${d.fila})`).join(", ")}.
           Son filas del archivo <b>de pesos</b>, no del de dólares: los dos tienen una hoja
-          llamada SALDOS y sus filas no coinciden. Como esa cuenta sí viene en el export, se
-          carga en la primera de las dos; conviene revisar cuál corresponde.
+          llamada SALDOS y sus filas no coinciden. Mientras no se decida cuál es la correcta
+          se usa la primera; hoy las dos están en cero, así que no altera ningún importe.
         </div>
       </div>`);
   }

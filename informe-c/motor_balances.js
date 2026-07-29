@@ -167,7 +167,18 @@ function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
   };
 
   let filasPorCodigo = indice();
-  const repetidas = [...filasPorCodigo.entries()].filter(([, f]) => f.length > 1);
+  const codigosDelExport = new Set(cuentasExport.map(c => String(c.codigo)));
+
+  // Una clave repetida en Hoja1 solo se avisa si las dos filas están escritas DISTINTO.
+  // Si el texto es idéntico —los 7 casos del archivo real— la repetición es inofensiva:
+  // el VLOOKUP de SALDOS se queda con la primera y acá también se carga la primera, así
+  // que la copia queda en cero y no cambia ningún número. Avisar por eso es ruido.
+  // Si el texto difiere, en cambio, no está claro cuál va a encontrar el VLOOKUP y hay
+  // que mirarlo; y si además la cuenta no viene en el export, tampoco importa.
+  const textoDe = (r) => String(ws.getCell(r, p.hoja1ColClave).value || "")
+    .trim().replace(/\s+/g, " ").toUpperCase();
+  const repetidas = [...filasPorCodigo.entries()].filter(([cod, f]) =>
+    f.length > 1 && codigosDelExport.has(String(cod)) && new Set(f.map(textoDe)).size > 1);
 
   // cada corrida REEMPLAZA: lo que no venga en el export queda en cero, no arrastra
   for (const filas of filasPorCodigo.values()) {
@@ -232,7 +243,8 @@ function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
         `agregan a Hoja1: no forman parte de este balance.`);
   }
   for (const [codigo, filas] of repetidas) {
-    log(`  ⚠ Hoja1 del balance en ${moneda} tiene ${codigo} repetida en las filas ${filas.join(", ")}: se carga en la primera y las otras quedan en cero.`);
+    log(`  ⚠ Hoja1 del balance en ${moneda} tiene ${codigo} en las filas ${filas.join(", ")} ` +
+        `escrita de dos maneras distintas: se carga en la primera, pero conviene revisar cuál busca SALDOS.`);
   }
   return ultimaFila;
 }
@@ -582,10 +594,17 @@ function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = 
 
 function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, clasificacion = null, log = () => {} }) {
   const mapeo = derivarMapeoMaestro(wb, moneda);
-  if (mapeo.duplicadas.length) {
-    log(`  ⚠ SALDOS del balance en ${moneda} tiene cuentas repetidas: ` +
-        mapeo.duplicadas.map(d => `${d.codigo} (filas ${d.filaPrevia} y ${d.fila})`).join(", ") +
-        `. Son filas de ESE archivo. Se usa la primera; conviene limpiarlas a mano.`);
+
+  // Solo se avisa de una cuenta repetida si esa cuenta VIENE en el export. Si no viene,
+  // es un resto del plan de cuentas viejo: no recibe importe, no cambia ningún número y
+  // avisar por ella es ruido. Si algún mes reaparece, el aviso vuelve solo y ahí se
+  // decide qué hacer con ella.
+  const codigosDelExport = new Set(cuentasExport.map(c => String(c.codigo)));
+  const duplicadas = mapeo.duplicadas.filter(d => codigosDelExport.has(String(d.codigo)));
+  if (duplicadas.length) {
+    log(`  ⚠ SALDOS del balance en ${moneda} tiene repetida una cuenta que SÍ viene en el export: ` +
+        duplicadas.map(d => `${d.codigo} (filas ${d.filaPrevia} y ${d.fila})`).join(", ") +
+        `. Son filas de ESE archivo. Se usa la primera, así que conviene revisarlo.`);
   }
 
   const nuevas = detectarNuevas(cuentasExport, mapeo, moneda);
@@ -663,7 +682,7 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, cla
       cuentas: cuentasExport.length,
       nuevas: nuevas.length,
       total,
-      duplicadas: mapeo.duplicadas,
+      duplicadas,
       noEnganchadas: noEnganchadas.map(c => `${c.codigo} - ${c.nombre}`),
     },
   };

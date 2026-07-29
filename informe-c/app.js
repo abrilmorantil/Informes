@@ -144,7 +144,7 @@ $("fileBase").addEventListener("change", async () => {
       <div class="check ok" style="display:block;">
         <div class="name">Maestro de pesos reconocido: ${n} cuentas en SALDOS</div>
         <div class="detail">${mapeo.duplicadas.length
-          ? `Ojo: hay ${mapeo.duplicadas.length} cuentas repetidas (${mapeo.duplicadas.map(d => d.codigo).join(", ")}). Se usa la primera de cada una; conviene limpiarlas en Excel cuando puedas.`
+          ? `Hay ${mapeo.duplicadas.length} código(s) que figuran dos veces (${mapeo.duplicadas.map(d => d.codigo).join(", ")}). Se usa la primera de cada uno. Solo importa si alguno llega a venir en el export; mientras tanto son restos del plan de cuentas viejo.`
           : "Sin cuentas repetidas."}</div>
       </div>`;
     mostrar("altaDeteccion", true);
@@ -504,12 +504,12 @@ function renderResultado(r, rUsd) {
   if (r.duplicadas.length) {
     avisos.push(`
       <div class="check bad" style="display:block;">
-        <div class="name">Pesos: la hoja SALDOS del balance en PESOS tiene cuentas repetidas</div>
+        <div class="name">Pesos: una cuenta del export está repetida en la hoja SALDOS</div>
         <div class="detail">
           ${r.duplicadas.map(d => `<b>${d.codigo}</b> (filas ${d.filaPrevia} y ${d.fila})`).join(", ")}.
-          Son las filas del archivo <b>de pesos</b>, no del de dólares: los dos tienen una hoja
-          llamada SALDOS y esas filas no coinciden. Se usa la primera de cada una; si querés,
-          limpialas en Excel.
+          Son filas del archivo <b>de pesos</b>, no del de dólares: los dos tienen una hoja
+          llamada SALDOS y sus filas no coinciden. Como esa cuenta sí viene en el export, se
+          carga en la primera de las dos; conviene revisar cuál corresponde.
         </div>
       </div>`);
   }

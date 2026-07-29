@@ -5,22 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Informes — Southern Copper Argentina</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 <div class="wrap">
-  <h1>Informes</h1>
-  <p class="sub">Southern Copper Argentina S.R.L.</p>
+  <header class="portada">
+    <div class="linea"></div>
+    <span class="eyebrow">Southern Copper Argentina S.R.L.</span>
+    <h1>Informes</h1>
+    <p class="sub">
+      Cada informe toma el export del sistema y arma el archivo del mes, con los controles
+      de consistencia hechos antes de darlo por bueno.
+    </p>
+  </header>
 
   <div class="informes" id="informes"></div>
 </div>
 
 <script>
 // Para sumar un informe nuevo: agregá una entrada acá y su carpeta al lado de las otras.
+// El orden de esta lista es el que se ve en pantalla.
 const INFORMES = [
   {
-    titulo: "Balance de comprobación USD",
+    titulo: "Asto",
+    descripcion: "Arma el asiento de diferencia de cambio del cierre: re-expresa las cuentas " +
+                 "monetarias al tipo de cambio del período, pregunta por las dudosas y genera " +
+                 "el importador de Onvio.",
+    origen: "Balance de Sumas y Saldos bimonetario",
+    url: "informe-d/index.html",
+  },
+  {
+    titulo: "Balance de comprobación por Centros de costos",
     descripcion: "Carga los saldos del mes en el balance maestro por centro de costo, " +
                  "inserta las cuentas nuevas en su lugar y reacomoda las fórmulas.",
     origen: "Export de Onvio",
@@ -34,28 +51,24 @@ const INFORMES = [
     url: "informe-b/index.html",
   },
   {
-    titulo: "Balance Pesos y Dólares",
-    descripcion: "Actualiza el balance formal (estados contables completos) desde el export " +
-                 "por código de cuenta. Por ahora genera el de pesos; dólares se suma cuando " +
-                 "estén validadas las equivalencias de códigos.",
+    titulo: "Balance Pesos y Dólares + EE RR",
+    descripcion: "Actualiza los dos balances formales (estados contables completos) desde el " +
+                 "export por código de cuenta y, en la misma corrida, arma el Estado de " +
+                 "Resultados.",
     origen: "Export de Onvio (ambas monedas)",
     url: "informe-c/index.html",
   },
-  {
-    titulo: "Ajuste por Conversión",
-    descripcion: "Arma el asiento de diferencia de cambio del cierre: re-expresa las cuentas " +
-                 "monetarias al tipo de cambio del período, pregunta por las dudosas y genera " +
-                 "el importador de Onvio.",
-    origen: "Balance de Sumas y Saldos bimonetario",
-    url: "informe-d/index.html",
-  },
 ];
 
-document.getElementById("informes").innerHTML = INFORMES.map(i => `
+document.getElementById("informes").innerHTML = INFORMES.map((i, n) => `
   <a class="informe-card" href="${i.url}">
+    <span class="indice">${String(n + 1).padStart(2, "0")}</span>
     <h2>${i.titulo}</h2>
     <p>${i.descripcion}</p>
-    <div class="origen">${i.origen}</div>
+    <div class="origen">
+      <span>${i.origen}</span>
+      <span class="flecha" aria-hidden="true">→</span>
+    </div>
   </a>`).join("");
 </script>
 </body>

@@ -391,6 +391,78 @@ async function cargarEstadoB() {
   renderEstadoB();
 }
 
+// --- Traer los saldos de un informe del mes pasado ya terminado ---------------
+
+let saldosImportados = null;
+
+const inputSaldos = document.getElementById("fileSaldos");
+if (inputSaldos) {
+  inputSaldos.addEventListener("change", async (ev) => {
+    const archivo = ev.target.files[0];
+    const texto = document.getElementById("textoSaldos");
+    const st = document.getElementById("importarStatus");
+    const btn = document.getElementById("btnImportarSaldos");
+    saldosImportados = null;
+    btn.disabled = true;
+    if (!archivo) { texto.textContent = "Elegí el informe terminado (.xlsx)"; st.innerHTML = ""; return; }
+
+    texto.textContent = archivo.name;
+    st.innerHTML = '<div class="status-msg">Leyendo el archivo…</div>';
+    try {
+      const wb = await abrirLibroDeSaldos(await archivo.arrayBuffer(), archivo.name);
+      const r = leerSaldosDeBalcomp(wb);
+      if (!r.cuentas) {
+        st.innerHTML = '<div class="status-msg bad">' + r.avisos.join(" ") + '</div>';
+        return;
+      }
+      saldosImportados = r.saldos;
+      const total = Object.values(r.saldos).reduce((a, v) => a + v, 0);
+      st.innerHTML =
+        '<div class="status-msg ok">Encontré <b>' + r.cuentas + ' cuentas</b> en la hoja "' +
+        r.hoja + '". Suma de saldos: ' + total.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+        '. Comparalo con el total del informe antes de importar.</div>' +
+        r.avisos.map(a => '<div class="status-msg">' + a + '</div>').join("");
+      btn.disabled = false;
+    } catch (e) {
+      st.innerHTML = '<div class="status-msg bad">No pude leer el archivo: ' + e.message + '</div>';
+    }
+  });
+}
+
+const btnImportarB = document.getElementById("btnImportarSaldos");
+if (btnImportarB) {
+  btnImportarB.addEventListener("click", async () => {
+    const st = document.getElementById("importarStatus");
+    const periodo = document.getElementById("periodoSaldos").value.trim();
+    if (!hasGhSettings()) {
+      st.innerHTML = '<div class="status-msg bad">Configurá GitHub primero: los saldos se guardan ahí.</div>';
+      return;
+    }
+    if (!periodo) {
+      st.innerHTML = '<div class="status-msg bad">Poné de qué mes es el informe que subiste.</div>';
+      return;
+    }
+    if (!saldosImportados) return;
+    if (estadoB.ultimo_periodo && !confirm(
+        `Ya hay saldos registrados de ${estadoB.ultimo_periodo}. Importar los de ${periodo} los reemplaza. ¿Seguimos?`)) {
+      return;
+    }
+    btnImportarB.disabled = true;
+    st.innerHTML = '<div class="status-msg">Guardando los saldos…</div>';
+    try {
+      const archivo = document.getElementById("fileSaldos").files[0];
+      estadoB = await sembrarEstadoB(estadoB, periodo, saldosImportados, archivo ? archivo.name : null);
+      renderEstadoB();
+      st.innerHTML = '<div class="status-msg ok">Listo: quedaron guardados los saldos de ' + periodo +
+        '. La próxima corrida trae la columna "Saldo anterior" ya cargada.</div>';
+    } catch (e) {
+      st.innerHTML = '<div class="status-msg bad">' + e.message + '</div>';
+    } finally {
+      btnImportarB.disabled = false;
+    }
+  });
+}
+
 const btnRegistrarB = document.getElementById("btnRegistrarMes");
 if (btnRegistrarB) {
   btnRegistrarB.addEventListener("click", async () => {

@@ -104,6 +104,32 @@ async function guardarEstadoB(estado, periodo, lineas) {
   return nuevo;
 }
 
+// Siembra la memoria con los saldos leídos de un informe ya terminado. A diferencia de
+// `guardarEstadoB`, acá no se calcula nada: los saldos ya vienen cerrados del archivo.
+// Sirve para arrancar sin tener que cargar la columna a mano una última vez.
+async function sembrarEstadoB(estado, periodo, saldos, origen) {
+  const limpios = {};
+  for (const [codigo, v] of Object.entries(saldos || {})) {
+    if (typeof v === "number" && isFinite(v)) limpios[codigo] = Math.round(v * 100) / 100;
+  }
+  if (!Object.keys(limpios).length) throw new Error("El archivo no traía ningún saldo para importar.");
+
+  const total = Object.values(limpios).reduce((a, v) => a + v, 0);
+  const historial = [...(estado.historial || []).filter(h => h.periodo !== periodo), {
+    periodo,
+    fecha: new Date().toISOString(),
+    cuentas: Object.keys(limpios).length,
+    total: Math.round(total * 100) / 100,
+    importado: origen || true,
+  }].sort((a, b) => String(a.periodo).localeCompare(String(b.periodo)));
+
+  const nuevo = { ultimo_periodo: periodo, saldos: limpios, historial };
+  await ghbEscribirArchivo(ARCHIVO_ESTADO_B, JSON.stringify(nuevo, null, 1),
+                           `BALCOMPROBDOLARES: importa los saldos de ${periodo}`);
+  return nuevo;
+}
+
 if (typeof module !== "undefined") {
-  module.exports = { ARCHIVO_ESTADO_B, ESTADO_B_VACIO, saldosDeCierre, leerEstadoB, guardarEstadoB };
+  module.exports = { ARCHIVO_ESTADO_B, ESTADO_B_VACIO, saldosDeCierre, leerEstadoB,
+                     guardarEstadoB, sembrarEstadoB };
 }

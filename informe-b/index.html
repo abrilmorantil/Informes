@@ -125,6 +125,31 @@
     <button class="gear-btn" onclick="openSettings()">⚙ Configuración de GitHub</button>
   </div>
 
+  <div class="card" id="cardSaldos">
+    <h2>Saldos del mes anterior</h2>
+    <div id="estadoBBox"></div>
+    <details id="importarSaldos" style="margin-top:14px;">
+      <summary style="cursor:pointer; font-size:14px; color:var(--ink-soft);">
+        Traer los saldos de un informe ya terminado
+      </summary>
+      <p class="footer-note" style="margin-top:10px;">
+        Subí el BALCOMPROBDOLARES del mes pasado, terminado, y se toma de ahí el saldo final
+        de cada cuenta. Es para arrancar: de ahí en adelante los saldos los guarda la app sola.
+      </p>
+      <label class="dropzone" style="padding:18px;">
+        <input type="file" id="fileSaldos" accept=".xlsx,.xls">
+        <div id="textoSaldos">Elegí el informe terminado (.xlsx)</div>
+      </label>
+      <div style="margin-top:12px;">
+        <label style="font-size:13px; color:var(--ink-soft);">¿De qué mes es ese informe?</label>
+        <input type="text" id="periodoSaldos" placeholder="05-2026" style="max-width:160px; margin:6px 0 12px;">
+        <br>
+        <button id="btnImportarSaldos" class="secundario" disabled>Importar estos saldos</button>
+      </div>
+      <div id="importarStatus"></div>
+    </details>
+  </div>
+
   <div class="card" id="cardUpload">
     <h2>1. Export de SISE</h2>
     <label class="dropzone" id="dropzone">
@@ -161,14 +186,13 @@
 
   <div class="card hidden" id="cardFinal">
     <h2>4. Descargar balance</h2>
-    <p class="footer-note">El saldo anterior queda en blanco, en amarillo, para pegar a mano el informe del mes pasado.</p>
+    <p class="footer-note">La columna "Saldo anterior" sale con los saldos del mes registrado. Lo que quede en amarillo es una cuenta sin saldo guardado, para completar a mano.</p>
     <p class="footer-note" id="finalWarning" style="color:var(--warn); font-weight:600;">
       Todavía queda algo en rojo en la validación de arriba. Resolvelo antes de generar el archivo.
     </p>
     <label style="font-size:13px; color:var(--ink-soft);">Período (para el nombre del archivo)</label>
     <input type="text" id="periodo" value="" style="max-width:160px; margin:6px 0 16px;">
     <br>
-    <div id="estadoBBox" style="margin-bottom:14px;"></div>
     <button id="btnFinalizar" disabled>Generar y descargar .xlsx</button>
 
     <div style="margin-top:22px; padding-top:20px; border-top:1px solid var(--line);">
@@ -208,6 +232,7 @@
 <script src="writer.js"></script>
 <script src="github.js"></script>
 <script src="estado_b.js"></script>
+<script src="importar_saldos.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -36,21 +36,53 @@ function _numeroB(cell) {
 const _norm = (t) => _textoB(t).normalize("NFD").replace(/[̀-ͯ]/g, "")
   .toUpperCase().replace(/\s+/g, " ").trim();
 
+const MESES_B = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
+                 "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
+
+// El informe hecho a mano no rotula las columnas "Saldo anterior" y "Saldo Final": las
+// llama por su fecha ("Saldo al 30 de Abril de 2026"). Se les saca la fecha para poder
+// ordenarlas — la más nueva es el saldo final, la más vieja el anterior.
+function _fechaDeEncabezado(t) {
+  let m = /^SALDO AL (\d{1,2}) DE ([A-Z]+)(?: DE)? (\d{4})/.exec(t);
+  if (m) {
+    let mes = MESES_B.indexOf(m[2]);
+    if (mes < 0 && m[2] === "SETIEMBRE") mes = 8;
+    if (mes >= 0) return { orden: +m[3] * 10000 + (mes + 1) * 100 + +m[1], texto: t };
+  }
+  m = /^SALDO AL (\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/.exec(t);
+  if (m) return { orden: +m[3] * 10000 + +m[2] * 100 + +m[1], texto: t };
+  return null;
+}
+
 // Busca la fila de encabezados y devuelve en qué columna quedó cada cosa.
 function ubicarColumnasBalcomp(ws) {
   for (let r = 1; r <= Math.min(ws.rowCount, 40); r++) {
     const cols = {};
-    for (let c = 1; c <= Math.min(ws.columnCount, 20); c++) {
+    const porFecha = [];
+    for (let c = 1; c <= Math.min(ws.columnCount, 30); c++) {
       const t = _norm(ws.getCell(r, c).value);
       if (!t) continue;
-      if (/^CUENTA/.test(t)) cols.cuenta = c;
+      if (/^CUENTA/.test(t)) { if (!cols.cuenta) cols.cuenta = c; }
       else if (/^SALDO ANTERIOR/.test(t)) cols.anterior = c;
+      else if (/^SALDO FINAL/.test(t)) cols.final = c;
       else if (/^DEBITO/.test(t)) cols.debe = c;
       else if (/^CREDITO/.test(t)) cols.haber = c;
-      else if (/^SALDO FINAL/.test(t)) cols.final = c;
       else if (/^MOVIMIENTO/.test(t)) cols.movimiento = c;
+      else {
+        const f = _fechaDeEncabezado(t);
+        if (f) porFecha.push({ col: c, ...f });
+      }
     }
-    if (cols.cuenta && (cols.final || (cols.debe && cols.haber))) {
+    // las columnas rotuladas con fecha completan lo que no vino rotulado a secas
+    if (porFecha.length) {
+      porFecha.sort((a, b) => a.orden - b.orden);
+      const ultima = porFecha[porFecha.length - 1];
+      if (!cols.final) { cols.final = ultima.col; cols.etiquetaFinal = ultima.texto; }
+      if (!cols.anterior && porFecha.length > 1) cols.anterior = porFecha[0].col;
+    }
+    // hace falta el saldo final, o el anterior más los movimientos para reconstruirlo.
+    // Débitos y créditos SOLOS no alcanzan: darían el movimiento del mes, no el saldo.
+    if (cols.cuenta && (cols.final || (cols.anterior && cols.debe && cols.haber))) {
       return { fila: r, ...cols };
     }
   }
@@ -65,7 +97,9 @@ function leerSaldosDeBalcomp(wb) {
     if (!cols) continue;
 
     const saldos = {};
-    let reconstruidos = 0, sinDato = 0;
+    const filaDe = {};
+    let filas = 0, reconstruidos = 0, sinDato = 0;
+    const repetidos = [];
     for (let r = cols.fila + 1; r <= ws.rowCount; r++) {
       const texto = _textoB(ws.getCell(r, cols.cuenta).value).trim();
       const m = RE_CUENTA_B.exec(texto);
@@ -73,30 +107,56 @@ function leerSaldosDeBalcomp(wb) {
 
       let final = cols.final ? _numeroB(ws.getCell(r, cols.final)) : null;
       if (final === null) {
-        // el archivo no pasó por Excel: se rehace la cuenta con la misma fórmula
-        const ant = cols.anterior ? (_numeroB(ws.getCell(r, cols.anterior)) || 0) : 0;
+        // la celda es una fórmula sin resultado guardado (el archivo no pasó por Excel):
+        // se rehace con la misma cuenta que hace el archivo
+        if (!cols.anterior || (!cols.debe && !cols.haber)) { sinDato++; continue; }
+        const ant = _numeroB(ws.getCell(r, cols.anterior)) || 0;
         const d = cols.debe ? (_numeroB(ws.getCell(r, cols.debe)) || 0) : 0;
         const h = cols.haber ? (_numeroB(ws.getCell(r, cols.haber)) || 0) : 0;
-        if (!cols.debe && !cols.haber) { sinDato++; continue; }
         final = ant + (d - h);
         reconstruidos++;
       }
-      saldos[m[1]] = Math.round(final * 100) / 100;
+      filas++;
+      final = Math.round(final * 100) / 100;
+      // un código repetido pisaría al anterior sin que se note: hay que avisarlo
+      if (Object.prototype.hasOwnProperty.call(saldos, m[1])) {
+        repetidos.push({ codigo: m[1], nombre: m[2], filas: [filaDe[m[1]], r],
+                         valores: [saldos[m[1]], final] });
+      }
+      saldos[m[1]] = final;
+      filaDe[m[1]] = r;
     }
 
     const n = Object.keys(saldos).length;
     if (!n) continue;
-    if (reconstruidos) {
-      avisos.push(`${reconstruidos} de ${n} saldos se recalcularon como saldo anterior + ` +
-                  `(débitos − créditos), porque el archivo no traía el resultado guardado. ` +
-                  `Si lo abrís y guardás en Excel antes de subirlo, se toman tal cual están.`);
+
+    if (cols.etiquetaFinal) {
+      avisos.push(`El saldo de cada cuenta se tomó de la columna "${cols.etiquetaFinal}". ` +
+                  `Si no es esa, no importes.`);
     }
-    if (sinDato) avisos.push(`${sinDato} fila(s) sin importes que no se pudieron leer.`);
-    return { saldos, cuentas: n, avisos, columnas: cols, hoja: ws.name };
+    if (reconstruidos) {
+      avisos.push(`${reconstruidos} de ${filas} filas no traían el saldo final calculado, ` +
+                  `así que se rehizo como saldo anterior + (débitos − créditos), que es la ` +
+                  `fórmula del propio archivo.`);
+    }
+    for (const d of repetidos) {
+      const iguales = Math.abs(d.valores[0] - d.valores[1]) < 0.005;
+      avisos.push(`El código ${d.codigo} ("${d.nombre}") está en las filas ` +
+        `${d.filas.join(" y ")}${iguales
+          ? `, con el mismo saldo (${d.valores[1]}). Se guardó una sola vez.`
+          : `, con saldos distintos (${d.valores[0]} y ${d.valores[1]}). Se guardó el de la ` +
+            `fila ${d.filas[1]}: revisalo antes de importar.`}`);
+    }
+    if (sinDato) {
+      avisos.push(`${sinDato} fila(s) quedaron afuera porque no se les pudo determinar el saldo.`);
+    }
+    return { saldos, cuentas: n, filas, repetidos, avisos, columnas: cols, hoja: ws.name };
   }
-  return { saldos: {}, cuentas: 0, hoja: null, columnas: null,
-           avisos: ["No encontré la tabla del balance: hace falta una columna de cuenta y, " +
-                    "o bien 'Saldo Final', o bien las de débitos y créditos."] };
+  return { saldos: {}, cuentas: 0, filas: 0, repetidos: [], hoja: null, columnas: null,
+           avisos: ["No encontré la tabla del balance. Hace falta una columna de cuenta y una " +
+                    "de saldo final — puede llamarse 'Saldo Final' o con su fecha, como " +
+                    "'Saldo al 31 de Mayo de 2026'. Con débitos y créditos solos no alcanza: " +
+                    "darían el movimiento del mes, no el saldo."] };
 }
 
 // ExcelJS no lee `.xls` (el formato viejo), y el informe del mes pasado bien puede estar

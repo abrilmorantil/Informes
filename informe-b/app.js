@@ -417,10 +417,20 @@ if (inputSaldos) {
       }
       saldosImportados = r.saldos;
       const total = Object.values(r.saldos).reduce((a, v) => a + v, 0);
+      // el residuo de un peso sale de redondear cada saldo a dos decimales. Ojo: esto es
+      // una condición necesaria y NO suficiente — la columna de movimientos también netea
+      // a cero, así que el control de verdad es el nombre de la columna, que se avisa aparte.
+      const cierra = Math.abs(total) <= 1;
+      const fmt = (v) => v.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       st.innerHTML =
-        '<div class="status-msg ok">Encontré <b>' + r.cuentas + ' cuentas</b> en la hoja "' +
-        r.hoja + '". Suma de saldos: ' + total.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
-        '. Comparalo con el total del informe antes de importar.</div>' +
+        '<div class="status-msg ' + (cierra ? "ok" : "") + '">Encontré <b>' + r.cuentas +
+        ' cuentas</b> en la hoja "' + r.hoja + '"' +
+        (r.filas !== r.cuentas ? ', leídas de ' + r.filas + ' filas' : '') + '. ' +
+        (cierra
+          ? "La suma de los saldos cierra en cero, como tiene que dar un balance."
+          : "<b>Ojo:</b> la suma de los saldos da " + fmt(total) + ", y en un balance " +
+            "tendría que cerrar en cero. Revisá que sea la columna correcta.") +
+        '</div>' +
         r.avisos.map(a => '<div class="status-msg">' + a + '</div>').join("");
       btn.disabled = false;
     } catch (e) {

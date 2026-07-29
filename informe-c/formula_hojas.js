@@ -96,6 +96,86 @@ function insertRowEn(wb, nombreHoja, insertAtRow) {
   return modificadas;
 }
 
+// Borrar una fila es la operación inversa: lo que está debajo sube uno. Es MUCHO más
+// delicada que insertar, porque cualquier fórmula que apunte a la fila borrada queda
+// en #REF! y eso se propaga a los estados. Por eso primero se comprueba que nadie la
+// referencie y, si alguien lo hace, se corta sin tocar el archivo.
+function borrarFilaEn(wb, nombreHoja, filaBorrada) {
+  const ws = wb.getWorksheet(nombreHoja);
+  if (!ws) throw new Error(`El archivo no tiene la hoja '${nombreHoja}'.`);
+
+  const reHoja = new RegExp(`'?${escaparRegex(nombreHoja)}'?!\\$?[A-Z]{1,3}\\$?${filaBorrada}(?!\\d)`);
+  const reLocal = new RegExp(`(?<![A-Z0-9_$!.])\\$?[A-Z]{1,3}\\$?${filaBorrada}(?!\\d)`);
+  const culpables = [];
+  wb.worksheets.forEach(w => {
+    const esLaHoja = w.name === nombreHoja;
+    w.eachRow((row, r) => row.eachCell(cell => {
+      const v = cell.value;
+      if (!v || typeof v !== "object" || typeof v.formula !== "string") return;
+      if (esLaHoja && r === filaBorrada) return;        // la propia fila se va con ella
+      const f = v.formula;
+      // los rangos se achican solos; lo que rompe es una referencia suelta a esa fila
+      const sinRangos = f.replace(/\$?[A-Z]{1,3}\$?\d+\s*:\s*\$?[A-Z]{1,3}\$?\d+/g, " ");
+      if (reHoja.test(sinRangos) || (esLaHoja && reLocal.test(sinRangos))) {
+        culpables.push(`${w.name}!${cell.address} = ${f}`);
+      }
+    }));
+  });
+  if (culpables.length) {
+    throw new Error(
+      `No borro ${nombreHoja}!${filaBorrada}: hay ${culpables.length} fórmula(s) que la ` +
+      `referencian y quedarían en #REF!. ` + culpables.slice(0, 4).join(" | ")
+    );
+  }
+
+  const nombreRe = new RegExp(`'?${escaparRegex(nombreHoja)}'?!`);
+  let modificadas = 0;
+  wb.worksheets.forEach(w => {
+    const esLaHoja = w.name === nombreHoja;
+    w.eachRow(row => row.eachCell(cell => {
+      const v = cell.value;
+      if (!v || typeof v !== "object" || typeof v.formula !== "string") return;
+      let nueva = v.formula;
+      if (nombreRe.test(nueva)) nueva = bajarUno(nueva, nombreHoja, filaBorrada, false);
+      if (esLaHoja) nueva = bajarUno(nueva, nombreHoja, filaBorrada, true);
+      if (nueva === v.formula) return;
+      // El resultado cacheado SÍ se conserva, al revés que al insertar: tras borrar una
+      // fila, `G258` pasa a decir `G257` pero apunta al mismo contenido de siempre, así
+      // que el valor sigue siendo el correcto. Descartarlo dejaría el maestro sin los
+      // resultados que el motor usa para leer el nombre de las cuentas que lo toman de
+      // una fórmula (`SALDOS!E426 = +Hoja1!A267`), y esas cuentas desaparecerían.
+      cell.value = v.result === undefined ? { formula: nueva } : { formula: nueva, result: v.result };
+      modificadas++;
+    }));
+  });
+
+  ws.spliceRows(filaBorrada, 1);
+  return modificadas;
+}
+
+// Resta uno a toda referencia a filas POSTERIORES a la borrada, dentro de `nombreHoja`.
+function bajarUno(formula, nombreHoja, filaBorrada, local) {
+  const menos = (row) => {
+    const n = parseInt(row, 10);
+    return n > filaBorrada ? n - 1 : n;
+  };
+  if (!local) {
+    const RE = new RegExp(
+      `('?${escaparRegex(nombreHoja)}'?!)(\\$?)([A-Z]{1,3})(\\$?)(\\d+)` +
+      `(?::(\\$?)([A-Z]{1,3})(\\$?)(\\d+))?`, "g");
+    return formula.replace(RE, (m, pre, dc1, c1, df1, r1, dc2, c2, df2, r2) => {
+      const uno = `${pre}${dc1}${c1}${df1}${menos(r1)}`;
+      if (c2 === undefined) return uno;
+      return `${uno}:${dc2}${c2}${df2}${menos(r2)}`;
+    });
+  }
+  const guardados = [];
+  const guardar = (m) => `${FH_MARCA}${guardados.push(m) - 1}${FH_MARCA}`;
+  let f = formula.replace(FH_TEXTO_ENTRE_COMILLAS, guardar).replace(FH_REF_CON_HOJA, guardar);
+  f = f.replace(FH_REF_LOCAL, (m, d1, col, d2, row) => `${d1}${col}${d2}${menos(row)}`);
+  return f.replace(FH_MARCA_RE, (_, i) => guardados[Number(i)]);
+}
+
 if (typeof module !== "undefined") {
-  module.exports = { crearShifters, shiftAllFormulasEn, insertRowEn };
+  module.exports = { crearShifters, shiftAllFormulasEn, insertRowEn, borrarFilaEn };
 }

@@ -10,6 +10,8 @@ let currentMappingSha = null;
 // no, del propio sitio estático como fallback de solo lectura)
 // --------------------------------------------------------------------
 
+let estadoB = { ultimo_periodo: null, saldos: {}, historial: [] };
+
 async function loadMapping() {
   const statusEl = document.getElementById("mappingStatus");
   if (hasGhSettings()) {
@@ -349,7 +351,7 @@ document.getElementById("btnFinalizar").addEventListener("click", async () => {
     alert("Todavía queda algo en rojo en la validación. Resolvelo antes de generar el archivo.");
     return;
   }
-  const wb = await writeOutputXlsx(lastResult.lineas, periodo);
+  const wb = await writeOutputXlsx(lastResult.lineas, periodo, estadoB.saldos);
   const buffer = await wb.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);
@@ -363,7 +365,63 @@ document.getElementById("btnFinalizar").addEventListener("click", async () => {
 });
 
 // --------------------------------------------------------------------
+// Saldos del mes anterior
+// --------------------------------------------------------------------
+
+function renderEstadoB() {
+  const caja = document.getElementById("estadoBBox");
+  if (!caja) return;
+  const n = Object.keys(estadoB.saldos || {}).length;
+  if (!estadoB.ultimo_periodo) {
+    caja.innerHTML =
+      '<div class="status-msg">Todavía no hay ningún mes registrado, así que la columna ' +
+      '"Saldo anterior" va a salir en amarillo para completarla a mano. Cuando registres ' +
+      'este mes, el próximo ya la trae cargada.</div>';
+    return;
+  }
+  caja.innerHTML =
+    '<div class="status-msg ok">Último mes registrado: <b>' + estadoB.ultimo_periodo +
+    '</b> — ' + n + ' cuentas con saldo guardado. La columna "Saldo anterior" del archivo ' +
+    'sale con esos importes.</div>';
+}
+
+async function cargarEstadoB() {
+  if (!hasGhSettings()) return;
+  estadoB = await leerEstadoB();
+  renderEstadoB();
+}
+
+const btnRegistrarB = document.getElementById("btnRegistrarMes");
+if (btnRegistrarB) {
+  btnRegistrarB.addEventListener("click", async () => {
+    const periodo = document.getElementById("periodo").value;
+    const st = document.getElementById("registrarStatus");
+    if (!periodo) {
+      st.innerHTML = '<div class="status-msg bad">Poné el período antes de registrarlo.</div>';
+      return;
+    }
+    if (!lastResult || !lastResult.lineas || !lastResult.allOk) {
+      st.innerHTML = '<div class="status-msg bad">Primero procesá el export y dejá la validación en verde.</div>';
+      return;
+    }
+    btnRegistrarB.disabled = true;
+    st.innerHTML = '<div class="status-msg">Guardando los saldos…</div>';
+    try {
+      estadoB = await guardarEstadoB(estadoB, periodo, lastResult.lineas);
+      renderEstadoB();
+      st.innerHTML = '<div class="status-msg ok">Listo: ' + periodo + ' quedó registrado. ' +
+        'El mes que viene la columna "Saldo anterior" se completa sola.</div>';
+    } catch (e) {
+      st.innerHTML = '<div class="status-msg bad">' + e.message + '</div>';
+    } finally {
+      btnRegistrarB.disabled = false;
+    }
+  });
+}
+
+// --------------------------------------------------------------------
 // Arranque
 // --------------------------------------------------------------------
 
 loadMapping();
+cargarEstadoB();

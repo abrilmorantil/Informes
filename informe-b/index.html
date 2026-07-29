@@ -168,7 +168,18 @@
     <label style="font-size:13px; color:var(--ink-soft);">Período (para el nombre del archivo)</label>
     <input type="text" id="periodo" value="" style="max-width:160px; margin:6px 0 16px;">
     <br>
+    <div id="estadoBBox" style="margin-bottom:14px;"></div>
     <button id="btnFinalizar" disabled>Generar y descargar .xlsx</button>
+
+    <div style="margin-top:22px; padding-top:20px; border-top:1px solid var(--line);">
+      <p class="footer-note" style="margin-top:0;">
+        <b>Registrá el mes cuando el archivo esté bien.</b> Guarda el saldo de cierre de cada
+        cuenta, y la próxima corrida trae la columna "Saldo anterior" ya cargada en vez de
+        dejarla en amarillo para pegarla a mano.
+      </p>
+      <button id="btnRegistrarMes" class="secundario">Registrar los saldos de este mes</button>
+      <div id="registrarStatus"></div>
+    </div>
   </div>
 </div>
 
@@ -196,6 +207,7 @@
 <script src="core.js"></script>
 <script src="writer.js"></script>
 <script src="github.js"></script>
+<script src="estado_b.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

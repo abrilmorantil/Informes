@@ -4,7 +4,12 @@ if (typeof ExcelJS === "undefined" && typeof require !== "undefined") {
   var ExcelJS = require("exceljs");
 }
 
-async function writeOutputXlsx(lineas, periodo) {
+// `saldosAnteriores` es {codigo: saldo} de la corrida del mes pasado. Si viene, la
+// columna "Saldo anterior" sale ya cargada; si falta una cuenta, esa celda queda
+// amarilla para completarla a mano, que es como funcionaba todo antes.
+async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
+  const previos = saldosAnteriores || {};
+  const hayPrevios = Object.keys(previos).length > 0;
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet("Sheet1");
 
@@ -16,7 +21,9 @@ async function writeOutputXlsx(lineas, periodo) {
   ws.getCell("B1").font = bold;
   ws.getCell("B2").value = "BALANCE DE COMPROBACION - DOLARES";
   ws.getCell("B3").value = periodo;
-  ws.getCell("B4").value = "Columna C (Saldo anterior, en amarillo): pegar a mano del informe del mes pasado.";
+  ws.getCell("B4").value = hayPrevios
+    ? "Columna C (Saldo anterior): la trae la app del mes registrado anterior. Lo que quede en amarillo es una cuenta sin saldo guardado."
+    : "Columna C (Saldo anterior, en amarillo): pegar a mano del informe del mes pasado.";
   ws.getCell("B4").font = { italic: true, size: 9 };
 
   const headers = ["Cuenta Contable", "Saldo anterior", "Debitos del Mes Dolares",
@@ -39,7 +46,9 @@ async function writeOutputXlsx(lineas, periodo) {
     }
     ws.getCell(row, 2).value = `${l.code} - ${l.description}`;
     const cCell = ws.getCell(row, 3);
-    cCell.fill = yellowFill;
+    const previo = previos[l.code];
+    if (typeof previo === "number") cCell.value = round2(previo);
+    else cCell.fill = yellowFill;      // sin saldo guardado: se completa a mano
     cCell.numFmt = numFmt;
     const d = ws.getCell(row, 4); d.value = round2(l.debe); d.numFmt = numFmt;
     const e = ws.getCell(row, 5); e.value = round2(l.haber); e.numFmt = numFmt;

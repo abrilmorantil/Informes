@@ -1,0 +1,20 @@
+{
+ "_comentario": "Configuracion del asiento de Ajuste por Conversion (diferencia de cambio). Sale de ESPEC_Ajuste_Diferencia_Cambio.md, seccion 10. Las decisiones que toma la usuaria en la pantalla de revision se agregan solas a noMonetariasExactas (excluir) o a monetariasConfirmadas (incluir), asi no se vuelve a preguntar el mes siguiente.",
+ "prefijosNoMonetarios": [
+  "1240",
+  "1250"
+ ],
+ "noMonetariasExactas": [
+  "114010016",
+  "114050005",
+  "211050000"
+ ],
+ "prefijoProveedores": "21101",
+ "cuentaBalanceo": "423050000",
+ "denomBalanceo": "Diferencia de Cambio USD",
+ "materialidad": 0.005,
+ "concepto": "Ajuste por Conversión",
+ "monetariasConfirmadas": [],
+ "umbralRatio": 0.3,
+ "umbralAbs": 500
+}

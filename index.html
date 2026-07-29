@@ -41,6 +41,14 @@ const INFORMES = [
     origen: "Export de Onvio (ambas monedas)",
     url: "informe-c/index.html",
   },
+  {
+    titulo: "Ajuste por Conversión",
+    descripcion: "Arma el asiento de diferencia de cambio del cierre: re-expresa las cuentas " +
+                 "monetarias al tipo de cambio del período, pregunta por las dudosas y genera " +
+                 "el importador de Onvio.",
+    origen: "Balance de Sumas y Saldos bimonetario",
+    url: "informe-d/index.html",
+  },
 ];
 
 document.getElementById("informes").innerHTML = INFORMES.map(i => `

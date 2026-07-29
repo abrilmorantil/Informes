@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ajuste por Conversión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilos.css">
+<script src="../informe-a/vendor/xlsx.full.min.js"></script>
+<style>
+  .paso{display:flex; gap:14px; align-items:flex-start; margin-bottom:18px;}
+  .paso .n{
+    flex:0 0 26px; height:26px; border-radius:50%; background:var(--clay); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;
+  }
+  .paso .txt{font-size:14px; line-height:1.55; padding-top:3px;}
+  .params{display:flex; gap:16px; flex-wrap:wrap; margin-top:16px;}
+  .params > div{flex:1; min-width:150px;}
+  .params label{font-size:13px; color:var(--ink-soft); display:block; margin-bottom:6px;}
+  .cierre-ok{font-variant-numeric:tabular-nums; font-weight:600;}
+  .mini{font-size:12px; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="volver" href="../index.html">← Informes</a>
+
+  <div class="topbar">
+    <div>
+      <h1>Ajuste por Conversión</h1>
+      <p class="sub">
+        Arma el asiento de diferencia de cambio a partir del Balance de Sumas y Saldos
+        bimonetario y los dos tipos de cambio de cierre, y genera el importador de Onvio.
+      </p>
+    </div>
+    <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
+  </div>
+
+  <div id="cargando" class="card">
+    <p class="footer-note" style="margin:0;">Cargando…</p>
+  </div>
+
+  <div class="card hidden" id="cardSinConfig">
+    <h2>Falta configurar GitHub</h2>
+    <p class="footer-note">
+      Acá se guarda la clasificación de cuentas (cuáles son no monetarias y cuáles ya
+      confirmaste), para no volver a preguntarte lo mismo cada mes. Se configura una vez.
+    </p>
+    <div style="margin-top:14px;"><button onclick="abrirConfig()">Configurar ahora</button></div>
+  </div>
+
+  <!-- ---------- 1. SyS ---------- -->
+  <div class="card hidden" id="cardSys">
+    <h2>1. Balance de Sumas y Saldos</h2>
+    <p class="footer-note" id="txtUltimo" style="margin-bottom:10px;"></p>
+    <p class="footer-note">
+      Subí el SyS <b>bimonetario y sin el ajuste</b> del período (el que trae el saldo en
+      pesos y el saldo en dólares en libros). Es el único insumo de datos del asiento.
+    </p>
+    <label class="dropzone">
+      <input type="file" id="fileSys" accept=".xls,.xlsx">
+      <div id="txtSys">Hacé clic para elegir el archivo (SyS del período, sin ajuste)</div>
+    </label>
+    <div id="sysStatus"></div>
+  </div>
+
+  <!-- ---------- 2. parámetros ---------- -->
+  <div class="card hidden" id="cardParams">
+    <h2>2. Cierre del período</h2>
+    <p class="footer-note">
+      El tipo de cambio <b>comprador</b> se aplica a las cuentas del ACTIVO y el
+      <b>vendedor</b> a las del PASIVO.
+    </p>
+    <div class="params">
+      <div>
+        <label>Fecha de cierre</label>
+        <input type="text" id="pFecha" placeholder="2026-06-30">
+      </div>
+      <div>
+        <label>T.C. compra (activo)</label>
+        <input type="text" id="pCompra" placeholder="1473">
+      </div>
+      <div>
+        <label>T.C. venta (pasivo)</label>
+        <input type="text" id="pVenta" placeholder="1482">
+      </div>
+      <div>
+        <label>Número de asiento</label>
+        <input type="text" id="pAsiento" value="1">
+      </div>
+    </div>
+    <div style="margin-top:16px;">
+      <button id="btnCalcular">Calcular</button>
+      <span class="spinner hidden" id="spinner">Calculando…</span>
+    </div>
+    <div id="paramsStatus"></div>
+  </div>
+
+  <!-- ---------- 3. revisión ---------- -->
+  <div class="card hidden" id="cardRevision">
+    <h2>3. Cuentas para revisar antes de seguir</h2>
+    <p class="footer-note">
+      Estas cuentas ajustan un importe grande y desproporcionado respecto de su saldo en
+      libros, que es la firma de una cuenta <b>no monetaria</b> mal incluida (un bien de uso
+      o un cargo diferido se mantiene al cambio histórico, así que su "ajuste" sería todo
+      su saldo). Ninguna entra al asiento sin que vos lo confirmes.
+      <b>Se pregunta una sola vez</b>: la decisión queda guardada para los meses siguientes.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th><th>Denominación</th><th class="num">Saldo $</th>
+          <th class="num">USD libros</th><th class="num">USD teórico</th>
+          <th class="num">Ajuste USD</th><th>Decisión</th>
+        </tr>
+      </thead>
+      <tbody id="revisionBody"></tbody>
+    </table>
+    <div style="margin-top:16px;">
+      <button id="btnConfirmarRevision">Confirmar y armar el asiento</button>
+      <span class="spinner hidden" id="spinnerRevision">Guardando la clasificación…</span>
+    </div>
+    <div id="revisionStatus"></div>
+  </div>
+
+  <!-- ---------- 4. resultado ---------- -->
+  <div class="card hidden" id="cardResultado">
+    <h2>4. Asiento calculado</h2>
+    <div class="checks" id="checksBody"></div>
+    <div id="avisosBody" style="margin-top:16px;"></div>
+
+    <p class="footer-note" style="margin-top:20px; margin-bottom:6px;">
+      Detalle del cálculo (las mismas columnas de la hoja "Cálculo")
+    </p>
+    <div style="max-height:420px; overflow:auto; border:1px solid var(--line); border-radius:8px;">
+      <table style="margin:0;">
+        <thead>
+          <tr>
+            <th>Código</th><th>Denominación</th><th>Sección</th><th class="num">T.C.</th>
+            <th class="num">Saldo $</th><th class="num">USD teórico</th>
+            <th class="num">USD libros</th><th class="num">Ajuste USD</th>
+          </tr>
+        </thead>
+        <tbody id="calculoBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ---------- 5. descarga ---------- -->
+  <div class="card hidden" id="cardDescarga">
+    <h2>5. Importador para Onvio</h2>
+    <div class="paso">
+      <div class="n">1</div>
+      <div class="txt">
+        <b>Descargá el importador</b> y subilo a Onvio. Sale con la misma estructura del
+        modelo que usás hoy: hoja <i>Asientos</i>, pesos en cero y el importe en dólares
+        con signo (positivo Debe MEP, negativo Haber MEP).
+        <div style="margin-top:10px;">
+          <button id="btnDescargar" disabled>Descargar importador</button>
+          <span class="mini" id="txtHabilitado" style="margin-left:10px;"></span>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="n">2</div>
+      <div class="txt">
+        <b>Dejá registrado el asiento.</b> Guarda el período y el importe de la cuenta de
+        balanceo en el historial, para tener a mano lo que se generó cada mes.
+        <div style="margin-top:10px;">
+          <button id="btnRegistrar">Registrar en el historial</button>
+          <span class="spinner hidden" id="spinnerRegistrar">Guardando…</span>
+        </div>
+      </div>
+    </div>
+    <div id="descargaStatus"></div>
+  </div>
+
+  <div class="card hidden" id="cardHistorial">
+    <h2>Asientos anteriores</h2>
+    <table>
+      <thead><tr><th>Período</th><th class="num">Líneas</th><th class="num">Balanceo USD</th><th>Fecha</th></tr></thead>
+      <tbody id="historialBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modalConfig">
+  <div class="modal">
+    <h2>Configuración de GitHub</h2>
+    <p class="footer-note">
+      Acá se guarda la clasificación de cuentas de este informe. El token queda guardado
+      solo en este navegador. Podés usar el mismo token y repositorio que en los otros.
+    </p>
+    <label>Token de acceso personal <a class="help-link" href="#" id="comoToken">(¿cómo lo genero?)</a></label>
+    <input type="text" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <label>Usuario/organización y repositorio</label>
+    <input type="text" id="cfgRepo" placeholder="tuusuario/Informes">
+    <label>Rama</label>
+    <input type="text" id="cfgRama" placeholder="main" value="main">
+    <label>Carpeta dentro del repositorio</label>
+    <input type="text" id="cfgCarpeta" placeholder="informe-d" value="informe-d">
+    <div style="margin-top:18px; display:flex; gap:10px;">
+      <button onclick="guardarConfig()">Guardar y probar</button>
+      <button class="secundario" onclick="cerrarConfig()">Cancelar</button>
+    </div>
+    <div id="configStatus"></div>
+  </div>
+</div>
+
+<script src="../buscador.js"></script>
+<script src="parser_sys.js"></script>
+<script src="motor_difcambio.js"></script>
+<script src="importador_onvio.js"></script>
+<script src="github_d.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

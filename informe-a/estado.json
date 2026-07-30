@@ -1,10 +1,16 @@
 {
- "ultimo_mes_cerrado": "2026-05",
+ "ultimo_mes_cerrado": "2026-06",
  "historial": [
   {
    "periodo": "2026-05",
    "fecha": "2026-07-25T17:50:01.798Z",
    "lineas": 49,
+   "nuevas": 0
+  },
+  {
+   "periodo": "2026-06",
+   "fecha": "2026-07-30T13:09:20.369Z",
+   "lineas": 48,
    "nuevas": 0
   }
  ]

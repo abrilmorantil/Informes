@@ -1,3 +1,15 @@
 {
- "historial": []
+ "historial": [],
+ "eerrAnterior": {
+  "periodo": "2026-05-31",
+  "gastosOperacion": -559321.59,
+  "gastosAdministracion": -491629.55000000005,
+  "ajusteTraduccion": 12131.025017611903,
+  "otrosIngresos": 0,
+  "antesDeImpuestos": -1038820.1149823882,
+  "resultadoEjercicio": -1038820.1149823882,
+  "ingresosOperacion": 0,
+  "extraordinarios": 0,
+  "impuesto": 0
+ }
 }

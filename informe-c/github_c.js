@@ -158,10 +158,19 @@ async function ghcGuardarTodo({ bufferBase, estado, mensaje }) {
   await ghcEscribir(GHC_ARCHIVO_ESTADO, ghcUtf8ToBase64(JSON.stringify(estado, null, 1)), shaEstado, mensaje);
 }
 
+// Guarda SOLO el estado, sin tocar el maestro. `ghcGuardarTodo` reescribe los dos, y para
+// registrar el EE RR del mes anterior no hay ningún maestro nuevo que subir: hacerlo pasar
+// por ahí obligaría a mandar el archivo tal como está, con el riesgo de pisarlo.
+async function ghcGuardarEstado(estado, mensaje) {
+  const sha = (await ghcLeer(GHC_ARCHIVO_ESTADO))?.sha;
+  await ghcEscribir(GHC_ARCHIVO_ESTADO, ghcUtf8ToBase64(JSON.stringify(estado, null, 1)), sha, mensaje);
+}
+
 if (typeof module !== "undefined") {
   module.exports = {
     loadGhcSettings, saveGhcSettings, hasGhcSettings,
     ghcLeer, ghcEscribir, ghcLeerEstado, ghcLeerBase, ghcGuardarTodo, ghcLeerMappingB,
     ghcLeerBaseUsd, ghcGuardarBaseUsd, ghcLeerEquivalencias, ghcGuardarEquivalencias,
+    ghcGuardarEstado,
   };
 }

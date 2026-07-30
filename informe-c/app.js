@@ -65,6 +65,8 @@ async function arrancar() {
       : "Todavía no se cargó ningún export.";
 
     mostrar("cargando", false);
+    mostrar("cardEerrAnterior", true);
+    renderEerrAnterior();
     mostrar("cardExport", true);
     renderHistorial();
   } catch (err) {
@@ -652,6 +654,95 @@ function descargarEERR() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   return a.download;
+}
+
+// --------------------------------------------------------- mes anterior del EE RR
+
+// El EE RR compara contra el mes anterior, que sale de `estado.eerrAnterior`. Ese dato lo
+// deja cada cierre, así que la primera vez no existe y la columna MES ANTERIOR sale vacía:
+// para arrancar se importa del informe del mes pasado ya terminado.
+function textoEerrAnterior(ant) {
+  if (!ant) {
+    return '<div class="status-msg">Todavía no hay un mes anterior registrado, así que la ' +
+      'columna MES ANTERIOR del EE RR va a salir vacía. Cargá el informe del mes pasado ' +
+      'acá abajo, o va a completarse sola a partir del próximo cierre.</div>';
+  }
+  const f = (v) => (typeof v === "number" ? v.toLocaleString("es-AR",
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—");
+  return '<div class="status-msg ok">Mes anterior registrado: <b>' + (ant.periodo || "sin fecha") +
+    '</b>.<br>Gastos de operación ' + f(ant.gastosOperacion) +
+    ' | administración ' + f(ant.gastosAdministracion) +
+    ' | resultado del ejercicio ' + f(ant.resultadoEjercicio) +
+    '<br>Con esto el EE RR sale con la columna MES ANTERIOR completa.</div>';
+}
+
+function renderEerrAnterior() {
+  const caja = $("eerrAnteriorBox");
+  if (!caja) return;
+  caja.innerHTML = textoEerrAnterior((estado && estado.eerrAnterior) || null);
+}
+
+let eerrImportado = null;
+
+if ($("fileEerr")) {
+  $("fileEerr").addEventListener("change", async (ev) => {
+    const archivo = ev.target.files[0];
+    const st = $("importarEerrStatus");
+    const btn = $("btnImportarEerr");
+    eerrImportado = null;
+    btn.disabled = true;
+    if (!archivo) { $("txtEerr").textContent = "Elegí el EE RR terminado (.xlsx o .xls)"; st.innerHTML = ""; return; }
+    $("txtEerr").textContent = archivo.name;
+    st.innerHTML = '<div class="status-msg">Leyendo el archivo…</div>';
+    try {
+      const r = leerEERRDeArchivo(abrirLibroEERR(await archivo.arrayBuffer()));
+      if (!r.totales) {
+        st.innerHTML = `<div class="status-msg bad">${r.avisos.join(" ")}</div>`;
+        return;
+      }
+      eerrImportado = r.totales;
+      const hayDudas = r.avisos.some(a => /^Ojo|^No encontré/.test(a));
+      st.innerHTML = `<div class="status-msg ${hayDudas ? "bad" : "ok"}">` +
+        textoEerrAnterior(Object.assign({ periodo: "el que pongas abajo" }, r.totales))
+          .replace(/^<div class="status-msg[^"]*">/, "").replace(/<\/div>$/, "") + "</div>" +
+        r.avisos.map(a => `<div class="status-msg${/^Ojo|^No encontré/.test(a) ? " bad" : ""}">${a}</div>`).join("");
+      $("btnImportarEerr").disabled = false;
+    } catch (e) {
+      st.innerHTML = `<div class="status-msg bad">No pude leer el archivo: ${e.message}</div>`;
+    }
+  });
+}
+
+if ($("btnImportarEerr")) {
+  $("btnImportarEerr").addEventListener("click", async () => {
+    const st = $("importarEerrStatus");
+    const periodo = $("periodoEerr").value.trim();
+    if (!eerrImportado) return;
+    if (!periodo) {
+      st.innerHTML = '<div class="status-msg bad">Poné la fecha de cierre de ese informe (por ejemplo 2026-05-31).</div>';
+      return;
+    }
+    if (estado && estado.eerrAnterior && !confirm(
+        `Ya hay un mes anterior registrado (${estado.eerrAnterior.periodo}). Reemplazarlo por ${periodo}?`)) {
+      return;
+    }
+    $("btnImportarEerr").disabled = true;
+    st.innerHTML = '<div class="status-msg">Guardando…</div>';
+    try {
+      const nuevo = Object.assign({}, estado, {
+        eerrAnterior: Object.assign({ periodo }, eerrImportado),
+      });
+      await ghcGuardarEstado(nuevo, `EE RR: registra el mes anterior (${periodo})`);
+      estado = nuevo;
+      renderEerrAnterior();
+      st.innerHTML = '<div class="status-msg ok">Listo. El EE RR que emitas ahora va a salir ' +
+        'con la columna MES ANTERIOR completa.</div>';
+    } catch (e) {
+      st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
+    } finally {
+      $("btnImportarEerr").disabled = false;
+    }
+  });
 }
 
 // El período del EE RR es el cierre del mes que se está cargando.

@@ -91,6 +91,32 @@
   </div>
 
   <!-- ---------- ciclo de carga ---------- -->
+  <div class="card hidden" id="cardEerrAnterior">
+    <h2>Mes anterior del EE RR</h2>
+    <div id="eerrAnteriorBox"></div>
+    <details id="importarEerr" style="margin-top:14px;">
+      <summary style="cursor:pointer; font-size:14px; color:var(--ink-soft);">
+        Cargar el EE RR del mes anterior
+      </summary>
+      <p class="footer-note" style="margin-top:10px;">
+        Subí el Estado de Resultados del mes pasado, terminado, y se toma de ahí su columna
+        MES ACTUAL: lo que ahí era el mes pasa a ser el mes anterior del próximo. Es sólo
+        para arrancar — después queda guardado en cada cierre.
+      </p>
+      <label class="dropzone" style="padding:18px;">
+        <input type="file" id="fileEerr" accept=".xlsx,.xls">
+        <div id="txtEerr">Elegí el EE RR terminado (.xlsx o .xls)</div>
+      </label>
+      <div style="margin-top:12px;">
+        <label style="font-size:13px; color:var(--ink-soft);">Fecha de cierre de ese informe</label>
+        <input type="text" id="periodoEerr" placeholder="2026-05-31" style="max-width:180px; margin:6px 0 12px;">
+        <br>
+        <button id="btnImportarEerr" class="secundario" disabled>Registrar este EE RR</button>
+      </div>
+      <div id="importarEerrStatus"></div>
+    </details>
+  </div>
+
   <div class="card hidden" id="cardExport">
     <h2>1. Export de Onvio</h2>
     <p class="footer-note" id="txtUltimaCarga" style="margin-bottom:10px;"></p>
@@ -252,6 +278,7 @@
 <script src="dolares.js"></script>
 <script src="eerr.js"></script>
 <script src="libro_eerr.js"></script>
+<script src="importar_eerr.js"></script>
 <script src="github_c.js"></script>
 <script src="app.js"></script>
 <script>

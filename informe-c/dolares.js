@@ -288,6 +288,11 @@ function procesarDolares({ wb, cuentasExport, clasificacion, equivalencias = {},
   const total = cuentasExport.reduce((a, c) => a + c.saldo_usd, 0);
   const cargado = [...r.destinos.values()].reduce((a, d) => a + d.aportes.reduce((b, x) => b + x.saldo, 0), 0);
   return {
+    // `destinos` va afuera porque el EE RR lo necesita: sus cifras son fórmulas que Excel
+    // todavía no calculó, así que se reproducen a partir del importe que quedó en cada
+    // fila de SALDOS. Sin esto `calcularEERR` fallaba con "Cannot read properties of
+    // undefined (reading 'values')" y el Estado de Resultados no se armaba nunca.
+    destinos: r.destinos,
     resumen: {
       moneda: "dolares",
       cuentasMaestro: cuentasMaestro.length,

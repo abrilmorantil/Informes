@@ -14,16 +14,12 @@ function _Xe() {
   return typeof XLSX !== "undefined" ? XLSX : require("../informe-a/vendor/xlsx.full.min.js");
 }
 
-// "2026-06-30" -> {anio, mes, dia, nombreMes, nombreMesAnterior}
+// "2026-06-30" -> {anio, mes, dia, nombreMes}
 function partesPeriodo(periodoFin) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(periodoFin));
   if (!m) throw new Error(`Período inválido: ${periodoFin}. Se espera 2026-06-30.`);
   const anio = +m[1], mes = +m[2], dia = +m[3];
-  return {
-    anio, mes, dia,
-    nombreMes: MESES_EERR[mes - 1],
-    nombreMesAnterior: MESES_EERR[(mes + 10) % 12],
-  };
+  return { anio, mes, dia, nombreMes: MESES_EERR[mes - 1] };
 }
 
 function nombreHojaEERR(periodoFin) {
@@ -52,7 +48,9 @@ function construirLibroEERR({ actual, anterior, periodoFin, titulo }) {
   // encabezado (filas 1 a 4, combinadas B:E como en el original)
   set(B, 0, txt(titulo || "SOUTHERN COPPER ARGENTINA S.R.L."));
   set(B, 1, txt("ESTADO DE RESULTADOS"));
-  set(B, 2, txt(`Período del 01 de ${p.nombreMesAnterior} al ${p.dia} de ${p.nombreMes} de ${p.anio}`));
+  // El período es el mes que se está emitiendo, del 1 al último día: "del 01 al 30 de junio
+  // de 2026". Decía "del 01 de mayo al 30 de junio", que es otro período.
+  set(B, 2, txt(`Período del 01 al ${p.dia} de ${p.nombreMes} de ${p.anio}`));
   set(B, 3, txt("En Dólares"));
 
   set(C, 6, txt("MES ANTERIOR"));

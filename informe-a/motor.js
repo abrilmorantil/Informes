@@ -183,10 +183,39 @@ function agregarRefDistDeGastos(wsDist, distRow, distCol, colSaldoSs, ssRow) {
   }
   // ExcelJS guarda el texto de la fórmula sin el '=' inicial.
   if (v && typeof v === "object" && typeof v.formula === "string") {
+    // Si la referencia ya está, no se agrega de nuevo: sumaría el importe dos veces. El
+    // texto de la fórmula manda sobre lo que diga el mapeo, que puede venir desactualizado.
+    if (formulaTieneRef(v.formula, colSaldoSs, ssRow)) return false;
     celda.value = { formula: `${v.formula}+${ref}` };
   } else {
     celda.value = { formula: `+${ref}` };
   }
+  return true;
+}
+
+function formulaTieneRef(formula, col, fila) {
+  const re = new RegExp(`'Sumas y Saldos'!\\$?${col}\\$?${fila}(?!\\d)`);
+  return re.test(formula);
+}
+
+// La columna "CR" de Dist.de gastos junta los HABER de todos los centros de costo, y la
+// columna "MOVIMIENTO MES DR" la suma: `SUM(F:V)+E`. Las columnas de centro traen el SALDO
+// (debe − haber), así que saldo + haber = debe, y por eso DR da el débito del mes.
+//
+// El motor sólo agregaba referencias a la columna del centro. Si una categoría no tenía ya
+// una fórmula en CR —47 de las 95 no la tienen— su haber no aparecía en ningún lado: la
+// columna quedaba en cero y DR salía corto por el mismo importe.
+function columnaCrDeDist(wsDist) {
+  for (let r = 1; r <= 12; r++) {
+    for (let c = 1; c <= Math.min(wsDist.columnCount, 30); c++) {
+      const v = wsDist.getCell(r, c).value;
+      const t = (v && typeof v === "object")
+        ? (v.richText ? v.richText.map(x => x.text).join("") : String(v.result ?? ""))
+        : String(v == null ? "" : v);
+      if (t.trim().toUpperCase() === "CR") return wsDist.getColumn(c).letter;
+    }
+  }
+  return null;
 }
 
 // ---------------------------------------------------------------- etapa 1
@@ -285,6 +314,11 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
     throw new Error(
       "El archivo no tiene las hojas esperadas ('Sumas y Saldos', 'Dist.de gastos', 'SyS')."
     );
+  }
+  const colCr = columnaCrDeDist(wsDist);
+  const haberesAgregados = [];
+  if (!colCr) {
+    log("\n⚠ No encontré la columna 'CR' en Dist.de gastos: los haberes no se van a cargar ahí.");
   }
   if (!periodo) throw new Error("Falta indicar el período que se está cargando.");
   const { mes } = parsearPeriodo(periodo);
@@ -403,7 +437,25 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
       }
     }
 
+    // y que su HABER esté referenciado en la columna CR, que es la que los junta
+    if (colCr && Number(linea.haber)) {
+      const distRow = filaDistDeCategoria(mapeo, cuenta.categoria);
+      if (distRow) {
+        if (agregarRefDistDeGastos(wsDist, distRow, colCr, ccBlock.col_haber, cuenta.ss_row)) {
+          haberesAgregados.push(
+            `${codigo} (${cuenta.categoria}) — haber de ${ccBlock.nombre_balance}: ` +
+            `${Number(linea.haber).toFixed(2)}`);
+        }
+      }
+    }
+
     escribirLineaSys(wsSys, filasSys, linea, codigo);
+  }
+
+  if (haberesAgregados.length) {
+    log(`\nSe engancharon ${haberesAgregados.length} haber(es) a la columna CR de ` +
+        `Dist.de gastos, que antes no los traía:`);
+    haberesAgregados.forEach(h => log(`  ${h}`));
   }
 
   if (sinCc.length) {
@@ -463,5 +515,6 @@ if (typeof module !== "undefined") {
     esCuentaDeResultado, separarCuentasDeResultado, resumirFueraDelBalance,
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
     norm, limpiar, colAIndice, indiceACol,
+    columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
   };
 }

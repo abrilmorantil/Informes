@@ -59,6 +59,8 @@ async function arrancar() {
 
     mostrar("cargando", false);
     mostrar("cardPeriodo", true);
+    mostrar("cardAcumulados", true);
+    renderAcumulados();
     mostrar("cardOnvio", true);
     renderHistorial();
   } catch (err) {
@@ -503,5 +505,88 @@ $("btnCerrarMes").addEventListener("click", async () => {
     mostrar("spinnerCierre", false);
   }
 });
+
+// ------------------------------------------------------------ Gastos Acumulados
+
+// Esa hoja quedó fuera del sistema mucho tiempo, así que el maestro la tiene parada en un mes
+// viejo. Se siembra una sola vez con el último informe terminado a mano y de ahí en adelante
+// la mantiene `avanzarGastosAcumulados` en cada cierre.
+let acumImportado = null;
+
+async function renderAcumulados() {
+  const caja = $("acumuladosBox");
+  if (!caja || !bufferBase) return;
+  try {
+    const wb = await abrirWorkbook(bufferBase.slice(0));
+    const d = leerGastosAcumulados(wb);
+    if (d.error) { caja.innerHTML = `<div class="status-msg bad">${d.error}</div>`; return; }
+    const alDia = estado && estado.ultimo_mes_cerrado
+      && parsearPeriodo(estado.ultimo_mes_cerrado).mes + 1 === d.mes;
+    caja.innerHTML = `<div class="status-msg ${alDia ? "ok" : ""}">La hoja está en ` +
+      `<b>${d.rotuloAcum}</b> con el mes en curso en <b>${d.rotuloMes}</b>.` +
+      (alDia ? "" : ` Ojo: el último mes cerrado es ${estado.ultimo_mes_cerrado}, así que ` +
+        `el acumulado está atrasado y le faltan meses.`) + `</div>`;
+  } catch (e) {
+    caja.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
+  }
+}
+
+if ($("fileAcum")) {
+  $("fileAcum").addEventListener("change", async (ev) => {
+    const archivo = ev.target.files[0];
+    const st = $("importarAcumStatus");
+    acumImportado = null;
+    $("btnImportarAcum").disabled = true;
+    if (!archivo) { $("txtAcum").textContent = "Elegí el informe terminado (.xlsx)"; st.innerHTML = ""; return; }
+    $("txtAcum").textContent = archivo.name;
+    st.innerHTML = '<div class="status-msg">Leyendo el archivo…</div>';
+    try {
+      const d = leerGastosAcumulados(await abrirWorkbook(await archivo.arrayBuffer()));
+      if (d.error) { st.innerHTML = `<div class="status-msg bad">${d.error}</div>`; return; }
+      acumImportado = d;
+      const sig = MESES_IMP[d.mes] || "(cambio de ejercicio)";
+      st.innerHTML = `<div class="status-msg ok">El archivo es de <b>${d.rotuloMes}</b>, con ` +
+        `<b>${d.rotuloAcum}</b> y ${d.proyectos.length} proyectos. Al tomarlo, el maestro va a ` +
+        `quedar en <b>ENERO - ${d.rotuloMes.toUpperCase()}</b> y el mes en curso en <b>${sig}</b>.</div>`;
+      $("btnImportarAcum").disabled = false;
+    } catch (e) {
+      st.innerHTML = `<div class="status-msg bad">No pude leer el archivo: ${e.message}</div>`;
+    }
+  });
+}
+
+if ($("btnImportarAcum")) {
+  $("btnImportarAcum").addEventListener("click", async () => {
+    const st = $("importarAcumStatus");
+    if (!acumImportado) return;
+    $("btnImportarAcum").disabled = true;
+    st.innerHTML = '<div class="status-msg">Guardando…</div>';
+    try {
+      const wb = await abrirWorkbook(bufferBase.slice(0));
+      const anio = parsearPeriodo(estado.ultimo_mes_cerrado || "2026-01").anio;
+      const rep = sembrarGastosAcumulados(wb, acumImportado, anio);
+      const buffer = await wb.xlsx.writeBuffer();
+      await guardarTodo({
+        bufferBase: buffer, mapeo: mapeoGuardado, estado,
+        mensaje: `Gastos Acumulados: se toma el acumulado de ${acumImportado.rotuloMes}`,
+      });
+      bufferBase = buffer;
+      await renderAcumulados();
+      st.innerHTML = `<div class="status-msg ok">Listo: ${rep.actualizados.length} proyectos ` +
+        `actualizados. La hoja quedó en <b>${rep.rotuloAcum}</b> con el mes en curso en ` +
+        `<b>${rep.rotuloMes}</b>.</div>` +
+        (rep.sinCorrespondencia.length
+          ? `<div class="status-msg">Sin correspondencia en el archivo que subiste: ` +
+            `${rep.sinCorrespondencia.join(", ")}. Quedaron como estaban.</div>` : "") +
+        (rep.anterioresCambiados.length
+          ? `<div class="status-msg">Se actualizó además "años anteriores" en ` +
+            `${rep.anterioresCambiados.length} proyecto(s), porque el archivo traía otro valor.</div>` : "");
+    } catch (e) {
+      st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
+    } finally {
+      $("btnImportarAcum").disabled = false;
+    }
+  });
+}
 
 arrancar();

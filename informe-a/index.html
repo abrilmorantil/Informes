@@ -93,6 +93,29 @@
     </p>
   </div>
 
+  <div class="card hidden" id="cardAcumulados">
+    <h2>Gastos Acumulados</h2>
+    <div id="acumuladosBox"></div>
+    <details id="importarAcum" style="margin-top:14px;">
+      <summary style="cursor:pointer; font-size:14px; color:var(--ink-soft);">
+        Cargar el informe terminado del mes anterior
+      </summary>
+      <p class="footer-note" style="margin-top:10px;">
+        Esta hoja estuvo mucho tiempo fuera del sistema, así que quedó parada en un mes viejo.
+        Subí el último informe que terminaste a mano y se toma de ahí el acumulado. De ahí en
+        adelante se actualiza sola cada vez que cerrás un mes.
+      </p>
+      <label class="dropzone" style="padding:18px;">
+        <input type="file" id="fileAcum" accept=".xlsx,.xlsm">
+        <div id="txtAcum">Elegí el informe terminado (.xlsx)</div>
+      </label>
+      <div style="margin-top:12px;">
+        <button id="btnImportarAcum" class="secundario" disabled>Tomar este acumulado</button>
+      </div>
+      <div id="importarAcumStatus"></div>
+    </details>
+  </div>
+
   <div class="card hidden" id="cardOnvio">
     <h2>1. Export de Onvio</h2>
     <label class="dropzone" id="dzOnvio">
@@ -210,6 +233,7 @@
 <script src="meses.js"></script>
 <script src="mapeo.js"></script>
 <script src="motor.js"></script>
+<script src="importar_acumulados.js"></script>
 <script src="github.js"></script>
 <script src="app.js"></script>
 </body>

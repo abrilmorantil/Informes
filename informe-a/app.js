@@ -472,7 +472,8 @@ $("btnCerrarMes").addEventListener("click", async () => {
       );
     }
 
-    aprobarMes({ wb, periodo: periodoActual, log });
+    // el mapeo y las líneas hacen falta para pasar el mes al acumulado de "Gastos Acumulados"
+    aprobarMes({ wb, periodo: periodoActual, mapeo: mapeoBorrador || mapeoGuardado, lineas, log });
 
     const nuevoEstado = {
       ultimo_mes_cerrado: periodoActual,

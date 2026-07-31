@@ -489,14 +489,83 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
 
 // Cierra el mes: reemplaza la fórmula de la columna del mes por el número que
 // calculó Excel. Se hace sobre el archivo que la usuaria revisó y volvió a subir.
-function aprobarMes({ wb, periodo, log = () => {} }) {
+const MESES_ACUM = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
+                    "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
+
+// Lo que gastó cada centro de costo en el mes: es lo mismo que la fila TOTAL GASTOS de su
+// columna en Dist.de gastos, pero calculado acá a partir de las líneas del export en vez de
+// leerlo del archivo. Leerlo sería depender del último resultado que Excel dejó guardado, y
+// si el archivo no se abrió después de la corrida anterior ese número es de otro mes.
+function totalesPorProyecto(lineas, mapeo) {
+  const total = {};
+  for (const l of separarCuentasDeResultado(lineas).deResultado) {
+    const bloque = resolverCcBlock(mapeo, l.cc_nombre_onvio);
+    if (!bloque) continue;
+    total[bloque.nombre_balance] = (total[bloque.nombre_balance] || 0) + (Number(l.saldo) || 0);
+  }
+  return total;
+}
+
+// Pasa el mes que se cierra a la columna del acumulado del año y corre los rótulos al mes
+// siguiente: cerrando junio, "ENERO - MAYO" pasa a "ENERO - JUNIO" y la columna del mes
+// pasa a decir "JULIO".
+//
+// La columna "ACUMULADO AÑOS ANTERIORES" NO se toca nunca: es de la usuaria.
+function avanzarGastosAcumulados({ wb, mapeo, lineas, periodo, log = () => {} }) {
+  const ws = wb.getWorksheet("Gastos Acumulados");
+  if (!ws) return { filas: 0 };
+  const { anio, mes } = parsearPeriodo(periodo);
+
+  if (mes === 12) {
+    log("\n⚠ Se está cerrando diciembre: el pase del acumulado del año a 'ACUMULADO AÑOS " +
+        "ANTERIORES' es un cambio de ejercicio y se hace a mano. La hoja 'Gastos Acumulados' " +
+        "queda como está.");
+    return { filas: 0 };
+  }
+
+  const totales = totalesPorProyecto(lineas, mapeo);
+  let filas = 0, sinProyecto = [];
+  for (let r = 1; r <= ws.rowCount; r++) {
+    const nombre = String(ws.getCell(r, 1).value || "").trim();
+    if (!nombre || !ws.getCell(r, 4).formula) continue;      // fila de proyecto: A + fórmula en D
+    const bloque = resolverCcBlock(mapeo, nombre);
+    if (!bloque) { sinProyecto.push(nombre); continue; }
+    const delMes = totales[bloque.nombre_balance] || 0;
+    const acum = ws.getCell(r, 3);
+    const previo = typeof acum.value === "number" ? acum.value : 0;
+    acum.value = Math.round((previo + delMes) * 100) / 100;
+    filas++;
+  }
+
+  // los rótulos pasan al mes siguiente
+  ws.getCell(3, 1).value = `${MESES_ACUM[mes]} ${anio}`;
+  ws.getCell(11, 3).value = `ENERO - ${MESES_ACUM[mes - 1]}`;
+  ws.getCell(11, 4).value = MESES_ACUM[mes];
+
+  log(`\nGastos Acumulados: ${MESES_ACUM[mes - 1]} pasó al acumulado del año en ${filas} ` +
+      `proyecto(s). Ahora dice "ENERO - ${MESES_ACUM[mes - 1]}" y el mes en curso es ` +
+      `${MESES_ACUM[mes]}. La columna de años anteriores no se tocó.`);
+  if (sinProyecto.length) {
+    log(`  ⚠ Sin centro de costo que les corresponda: ${sinProyecto.join(", ")}`);
+  }
+  return { filas, sinProyecto };
+}
+
+function aprobarMes({ wb, periodo, mapeo, lineas, log = () => {} }) {
   const wsDist = wb.getWorksheet("Dist.de gastos");
   if (!wsDist) throw new Error("El archivo no tiene la hoja 'Dist.de gastos'.");
   const { mes } = parsearPeriodo(periodo);
   const congeladas = congelarColumnaMes(wsDist, mes, log);
+  // el mes que se cierra pasa al acumulado del año de "Gastos Acumulados"
+  let acumulados = { filas: 0 };
+  if (mapeo && lineas) {
+    acumulados = avanzarGastosAcumulados({ wb, mapeo, lineas, periodo, log });
+  } else {
+    log("\n⚠ No se actualizó 'Gastos Acumulados': hacen falta las líneas del export y el mapeo.");
+  }
   wb.calcProperties = wb.calcProperties || {};
   wb.calcProperties.fullCalcOnLoad = true;
-  return { congeladas };
+  return { congeladas, acumulados };
 }
 
 if (typeof module !== "undefined") {
@@ -516,5 +585,6 @@ if (typeof module !== "undefined") {
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
     norm, limpiar, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
+    avanzarGastosAcumulados, totalesPorProyecto,
   };
 }

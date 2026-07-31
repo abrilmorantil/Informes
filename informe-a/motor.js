@@ -551,6 +551,34 @@ function avanzarGastosAcumulados({ wb, mapeo, lineas, periodo, log = () => {} })
   return { filas, sinProyecto };
 }
 
+// Deshace el cierre de un mes: su columna vuelve a seguir al movimiento (=D<fila>) en vez de
+// tener el importe fijo, así se lo puede volver a cargar. Es el inverso de congelarColumnaMes.
+//
+// Lo que NO deshace, a propósito: las cuentas que se hayan dado de alta en ese mes quedan en
+// el mapeo y en el archivo (borrarlas correría todas las filas de vuelta), y el acumulado de
+// "Gastos Acumulados" no se descuenta — si el mes que se reabre ya se había acumulado, hay
+// que volver a sembrarlo con el informe terminado.
+function reabrirMes({ wb, periodo, log = () => {} }) {
+  const wsDist = wb.getWorksheet("Dist.de gastos");
+  if (!wsDist) throw new Error("El archivo no tiene la hoja 'Dist.de gastos'.");
+  const { mes } = parsearPeriodo(periodo);
+
+  const vivosAntes = mesesVivos(wsDist).filter(m => m.mes !== mes);
+  if (vivosAntes.length) {
+    throw new Error(
+      `No puedo reabrir ${nombreMes(mes)}: ya hay otro mes abierto ` +
+      `(${vivosAntes.map(v => v.nombre).join(", ")}). Cerralo o descartalo primero. ` +
+      `NO se guardó nada.`
+    );
+  }
+
+  const filas = activarColumnaMes(wsDist, mes, log);
+  wb.calcProperties = wb.calcProperties || {};
+  wb.calcProperties.fullCalcOnLoad = true;
+  log(`  ${nombreMes(mes)} quedó abierto de nuevo: se puede volver a cargar su export.`);
+  return { mes, filas };
+}
+
 function aprobarMes({ wb, periodo, mapeo, lineas, log = () => {} }) {
   const wsDist = wb.getWorksheet("Dist.de gastos");
   if (!wsDist) throw new Error("El archivo no tiene la hoja 'Dist.de gastos'.");
@@ -585,6 +613,6 @@ if (typeof module !== "undefined") {
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
     norm, limpiar, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
-    avanzarGastosAcumulados, totalesPorProyecto,
+    avanzarGastosAcumulados, totalesPorProyecto, reabrirMes,
   };
 }

@@ -61,6 +61,9 @@ async function arrancar() {
     mostrar("cardPeriodo", true);
     mostrar("cardAcumulados", true);
     renderAcumulados();
+    if ($("txtReabrir") && estado.ultimo_mes_cerrado) {
+      $("txtReabrir").textContent = etiquetaPeriodo(estado.ultimo_mes_cerrado);
+    }
     mostrar("cardOnvio", true);
     renderHistorial();
   } catch (err) {
@@ -505,6 +508,52 @@ $("btnCerrarMes").addEventListener("click", async () => {
     mostrar("spinnerCierre", false);
   }
 });
+
+// ------------------------------------------------------------ reabrir un mes
+
+// Deshace el último cierre para poder volver a cargar ese mes. Es una operación destructiva
+// sobre el maestro, así que se confirma y se dice exactamente qué queda y qué no.
+if ($("btnReabrir")) {
+  $("btnReabrir").addEventListener("click", async () => {
+    const st = $("reabrirStatus");
+    const ultimo = estado && estado.ultimo_mes_cerrado;
+    if (!ultimo) {
+      st.innerHTML = '<div class="status-msg bad">No hay ningún mes cerrado para reabrir.</div>';
+      return;
+    }
+    if (!confirm(
+        `Reabrir ${etiquetaPeriodo(ultimo)}?\n\n` +
+        `Su columna vuelve a seguir el movimiento y vas a poder cargar ese mes de nuevo.\n` +
+        `Las cuentas dadas de alta en ese mes quedan como están.`)) return;
+
+    $("btnReabrir").disabled = true;
+    st.innerHTML = '<div class="status-msg">Reabriendo…</div>';
+    try {
+      const wb = await abrirWorkbook(bufferBase.slice(0));
+      const salida = [];
+      reabrirMes({ wb, periodo: ultimo, log: (t) => salida.push(t) });
+      const buffer = await wb.xlsx.writeBuffer();
+
+      const historial = (estado.historial || []).filter(h => h.periodo !== ultimo);
+      const nuevoEstado = {
+        ultimo_mes_cerrado: historial.length ? historial[historial.length - 1].periodo : null,
+        historial,
+      };
+      await guardarTodo({
+        bufferBase: buffer, mapeo: mapeoGuardado, estado: nuevoEstado,
+        mensaje: `Se reabre ${ultimo} para volver a cargarlo`,
+      });
+      bufferBase = buffer;
+      estado = nuevoEstado;
+      st.innerHTML = `<div class="status-msg ok">${etiquetaPeriodo(ultimo)} quedó abierto de ` +
+        `nuevo. Actualizá la página (Ctrl+Shift+R) y cargá su export.</div>`;
+    } catch (e) {
+      st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
+    } finally {
+      $("btnReabrir").disabled = false;
+    }
+  });
+}
 
 // ------------------------------------------------------------ Gastos Acumulados
 

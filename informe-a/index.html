@@ -91,6 +91,17 @@
     <p class="footer-note" style="margin-top:12px;">
       El mes sale del historial guardado: no se puede saltear ninguno ni cerrar dos veces el mismo.
     </p>
+    <details style="margin-top:10px;">
+      <summary style="cursor:pointer; font-size:13px; color:var(--ink-soft);">
+        Reabrir el último mes cerrado
+      </summary>
+      <p class="footer-note" style="margin-top:10px;">
+        Deja el mes abierto de nuevo para volver a cargarlo. Las cuentas que se hayan dado de
+        alta en ese mes quedan como están.
+      </p>
+      <button id="btnReabrir" class="secundario">Reabrir <span id="txtReabrir">—</span></button>
+      <div id="reabrirStatus"></div>
+    </details>
   </div>
 
   <div class="card hidden" id="cardAcumulados">

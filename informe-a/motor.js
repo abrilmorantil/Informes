@@ -321,7 +321,7 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
     log("\n⚠ No encontré la columna 'CR' en Dist.de gastos: los haberes no se van a cargar ahí.");
   }
   if (!periodo) throw new Error("Falta indicar el período que se está cargando.");
-  const { mes } = parsearPeriodo(periodo);
+  const { anio, mes } = parsearPeriodo(periodo);
 
   // Solo puede haber un mes "vivo" (el que sigue al movimiento del mes). Si quedó
   // otro sin cerrar, cargar ahora le escribiría los importes de este mes encima y
@@ -338,6 +338,11 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
   // Excel recalcula al abrir: las fórmulas nuevas se escriben sin resultado.
   wb.calcProperties = wb.calcProperties || {};
   wb.calcProperties.fullCalcOnLoad = true;
+
+  // El encabezado de "Sumas y Saldos" (A2, formato mmm-yy) lleva el mes del informe y nadie
+  // lo actualizaba: el maestro venía diciendo "abr-26" con el archivo ya en julio. Es el
+  // título de la hoja principal, así que no puede quedar en el mes de cuando se armó.
+  fecharSumasYSaldos(wsSs, anio, mes, log);
 
   log(`${lineas.length} líneas de cuenta leídas del export.`);
 
@@ -504,6 +509,26 @@ function totalesPorProyecto(lineas, mapeo) {
     total[bloque.nombre_balance] = (total[bloque.nombre_balance] || 0) + (Number(l.saldo) || 0);
   }
   return total;
+}
+
+// Pone el mes del informe en el encabezado de "Sumas y Saldos". La celda es una FECHA real
+// con formato `mmm-yy`, no un texto, así que se escribe como fecha: si se le pusiera "jul-26"
+// Excel lo tomaría como texto y perdería el formato. Se usa el día 1 porque lo que se muestra
+// es el mes, y sólo se toca si la celda ya era una fecha — si alguien puso otra cosa ahí, se
+// avisa en vez de pisarla.
+function fecharSumasYSaldos(ws, anio, mes, log = () => {}) {
+  const celda = ws.getCell("A2");
+  const previo = celda.value;
+  if (previo instanceof Date && !isNaN(previo.getTime())) {
+    if (previo.getUTCFullYear() === anio && previo.getUTCMonth() + 1 === mes) return null;
+    celda.value = new Date(Date.UTC(anio, mes - 1, 1));
+    log(`\nEl encabezado de 'Sumas y Saldos' pasó de ${previo.getUTCMonth() + 1}/` +
+        `${previo.getUTCFullYear()} a ${mes}/${anio}.`);
+    return { antes: previo, despues: celda.value };
+  }
+  log(`\n⚠ El encabezado de 'Sumas y Saldos' (A2) no es una fecha, así que lo dejé como ` +
+      `está. Hay que ponerle el mes a mano.`);
+  return null;
 }
 
 // La fila de TOTALES de "Gastos Acumulados" trae el total del acumulado del año como un
@@ -686,6 +711,6 @@ if (typeof module !== "undefined") {
     norm, limpiar, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
     avanzarGastosAcumulados, totalesPorProyecto, reabrirMes,
-    repararTotalGastosAcumulados,
+    repararTotalGastosAcumulados, fecharSumasYSaldos,
   };
 }

@@ -68,6 +68,7 @@ async function arrancar() {
     mostrar("cardEerrAnterior", true);
     renderEerrAnterior();
     mostrar("cardExport", true);
+    await proponerPeriodo();
     renderHistorial();
   } catch (err) {
     mostrar("cargando", false);
@@ -352,6 +353,14 @@ $("btnConfirmarNuevas").addEventListener("click", async () => {
 });
 
 async function correrMotor(destinos) {
+  // el período se confirma antes de generar nada: de él salen las fechas de adentro de los
+  // informes y el nombre de los archivos
+  periodoConfirmado = fpPartes(($("periodoBalance").value || "").trim());
+  if (!periodoConfirmado) {
+    throw new Error("Falta confirmar el período que se emite, con el formato 2026-07-31. " +
+                    "De ahí salen las fechas de los balances y el nombre de los archivos.");
+  }
+
   logLineas = [];
   // siempre desde una copia limpia del maestro guardado
   const wb = await abrirWorkbook(bufferBase.slice(0));
@@ -359,6 +368,7 @@ async function correrMotor(destinos) {
   const { resumen } = procesarBalance({
     wb, cuentasExport, moneda: "pesos", destinosElegidos: destinos, clasificacion, log,
   });
+  ponerFechasDelPeriodo(wb, "pesos", periodoConfirmado);
   wbBorrador = wb;
   resumenBorrador = resumen;
 
@@ -373,6 +383,7 @@ async function correrMotor(destinos) {
     const wbu = await abrirWorkbook(bufferBaseUsd.slice(0));
     try {
       const r = procesarDolares({ wb: wbu, cuentasExport, clasificacion, equivalencias, log });
+      ponerFechasDelPeriodo(wbu, "dólares", periodoConfirmado);
       wbBorradorUsd = wbu;
       resumenUsd = r.resumen;
       calcularEERR(wbu, r);
@@ -562,6 +573,81 @@ function calcularEERR(wbUsd, resultadoDolares) {
   }
 }
 
+// ------------------------------------------------------------------ período que se emite
+
+// Los maestros se reusan mes a mes: sus fechas son las del mes pasado hasta que alguien las
+// cambia, y nadie avisa. Además el nombre del archivo salía con la fecha de HOY, que no tiene
+// nada que ver con el período. Por eso el período se confirma siempre antes de generar, y de
+// él salen tanto las fechas de adentro como el nombre de los archivos. Ver `fechas.js`.
+let periodoConfirmado = null;
+
+// El cierre que cada maestro declara hoy, leído de `Balance!F5`.
+async function cierreDelMaestro(buffer) {
+  if (!buffer) return null;
+  const wb = await abrirWorkbook(buffer.slice(0));
+  const ws = wb.getWorksheet("Balance");
+  return ws ? fpCierreDeCelda(ws.getCell("F5")) : null;
+}
+
+// Se propone el mes siguiente al que el maestro trae. Es lo más fiel: el maestro sabe hasta
+// dónde llegó. Si no se puede leer, se deja vacío y se pide a mano en vez de inventar.
+async function proponerPeriodo() {
+  const campo = $("periodoBalance");
+  if (!campo) return;
+  let propuesto = null, origen = "";
+  try {
+    const cierre = await cierreDelMaestro(bufferBase);
+    if (cierre) {
+      propuesto = fpMesSiguiente(cierre);
+      origen = `el maestro está cerrado a ${fpDescribir(cierre)}`;
+    }
+  } catch (e) { /* se pide a mano */ }
+  if (propuesto) campo.value = fpISO(propuesto);
+  campo.dataset.origen = origen;
+  campo.addEventListener("input", renderPeriodo);
+  renderPeriodo();
+}
+
+function renderPeriodo() {
+  const campo = $("periodoBalance"), caja = $("periodoBalanceInfo");
+  if (!campo || !caja) return;
+  const p = fpPartes(campo.value.trim());
+  if (!p) {
+    caja.innerHTML = `<span class="status-msg bad">Poné la fecha de cierre del período, ` +
+      `con el formato <b>2026-07-31</b>.</span>`;
+    return;
+  }
+  caja.innerHTML =
+    (campo.dataset.origen ? `Se propuso porque ${campo.dataset.origen}. ` : "") +
+    `Los balances van a decir <b>${fpDescribir(p)}</b> y los archivos se van a llamar ` +
+    `<b>SCA_Balance_${p.anio}-${String(p.mes).padStart(2, "0")}_pesos.xlsx</b> y ` +
+    `<b>…_dolares.xlsx</b>.`;
+}
+
+// Pone en el libro las fechas del período confirmado. Devuelve qué cambió, para el log.
+function ponerFechasDelPeriodo(wb, moneda, nuevo) {
+  const ws = wb.getWorksheet("Balance");
+  const viejo = ws ? fpCierreDeCelda(ws.getCell("F5")) : null;
+  if (!viejo) {
+    log(`\n⚠ ${moneda.toUpperCase()}: no pude leer del archivo a qué fecha está cerrado, ` +
+        `así que las fechas de adentro quedaron como estaban. Hay que revisarlas a mano.`);
+    return null;
+  }
+  if (fpIguales(viejo, nuevo)) {
+    log(`\n${moneda.toUpperCase()}: las fechas ya decían ${fpDescribir(nuevo)}, no hubo que tocarlas.`);
+    return { cambios: [], otrasFechas: [] };
+  }
+  const r = fpReescribirLibro(wb, viejo, nuevo);
+  log(`\n${moneda.toUpperCase()}: las fechas pasaron de ${fpDescribir(viejo)} a ` +
+      `${fpDescribir(nuevo)} en ${r.cambios.length} celda(s).`);
+  r.cambios.forEach(c => log(`  ${c.hoja}!${c.celda}: "${c.antes}" -> "${c.despues}"`));
+  if (r.otrasFechas.length) {
+    log(`  Otras fechas del archivo, que NO se tocaron por no ser la del cierre: ` +
+        `${r.otrasFechas.join(", ")}.`);
+  }
+  return r;
+}
+
 // --------------------------------------------------------- control del capital (Pat.Neto)
 
 // `Pat.Neto` arma el capital con números escritos a mano, así que cuando entra un aporte el
@@ -677,10 +763,12 @@ async function descargar(wb, sufijo) {
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  const hoy = new Date();
   a.href = url;
-  a.download = "SCA_Balance_" + hoy.getFullYear() + "-" +
-    String(hoy.getMonth() + 1).padStart(2, "0") + "_" + sufijo + ".xlsx";
+  // el nombre sale del PERÍODO, no de la fecha de hoy: un balance de julio bajado en agosto
+  // se llamaba "2026-08" y no había forma de distinguirlo del de agosto
+  const p = periodoConfirmado;
+  a.download = "SCA_Balance_" + p.anio + "-" + String(p.mes).padStart(2, "0") +
+    "_" + sufijo + ".xlsx";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -868,8 +956,11 @@ if ($("btnImportarEerr")) {
   });
 }
 
-// El período del EE RR es el cierre del mes que se está cargando.
+// El período del EE RR es el cierre del mes que se está cargando: el que se confirmó al
+// generar. Antes salía del historial —o sea, del mes ANTERIOR— y si no había historial se
+// deducía de la fecha de hoy, que no tiene nada que ver con el período que se emite.
 function periodoDelEERR() {
+  if (periodoConfirmado) return fpISO(periodoConfirmado);
   const h = (estado && estado.historial) || [];
   const ult = h.length ? h[h.length - 1] : null;
   if (ult && ult.periodoFin) return ult.periodoFin;

@@ -129,6 +129,14 @@
       <input type="file" id="fileExport" accept=".xls,.xlsx">
       <div id="txtExport">Hacé clic para elegir el archivo (Balance de SyS por Cód. de Cta., acumulado)</div>
     </label>
+    <!-- El periodo se confirma siempre: los maestros se reusan mes a mes y sus fechas
+         quedan viejas sin que nada avise. Ver fechas.js. -->
+    <div style="margin-top:18px;">
+      <label>Período que se emite (fecha de cierre)
+        <input type="text" id="periodoBalance" placeholder="2026-07-31" style="max-width:180px;">
+      </label>
+      <div id="periodoBalanceInfo" class="footer-note" style="margin-top:6px;"></div>
+    </div>
     <div style="margin-top:16px;">
       <button id="btnProcesar" disabled>Procesar</button>
       <span class="spinner hidden" id="spinner">Cargando los importes…</span>
@@ -286,6 +294,7 @@
 <script src="eerr.js"></script>
 <script src="libro_eerr.js"></script>
 <script src="importar_eerr.js"></script>
+<script src="../fechas.js"></script>
 <script src="capital.js"></script>
 <script src="github_c.js"></script>
 <script src="app.js"></script>

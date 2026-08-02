@@ -592,6 +592,20 @@ function avanzarGastosAcumulados({ wb, mapeo, lineas, periodo, log = () => {} })
     return { filas: 0 };
   }
 
+  // La hoja dice de qué mes es su columna "mes en curso". Si no es el que se está cerrando,
+  // el acumulado no está donde debería y sumarle el mes lo cuenta dos veces —o saltea uno—
+  // sin que nada lo delate: los rótulos quedan iguales igual. Pasó de verdad al sembrar la
+  // hoja con un informe terminado sin registrar además ese mes como cerrado.
+  const rotuloMes = String(ws.getCell(11, 4).value || "").trim().toUpperCase();
+  if (rotuloMes && rotuloMes !== MESES_ACUM[mes - 1]) {
+    throw new Error(
+      `"Gastos Acumulados" tiene el mes en curso en ${rotuloMes} y se está cerrando ` +
+      `${MESES_ACUM[mes - 1]}. Si sumara el mes ahí, el acumulado del año quedaría mal ` +
+      `(contaría un mes dos veces o saltearía uno) y nada lo mostraría. NO se cerró el mes: ` +
+      `primero hay que dejar esa hoja en ${MESES_ACUM[mes - 1]}.`
+    );
+  }
+
   const totales = totalesPorProyecto(lineas, mapeo);
   let filas = 0;
   const sinProyecto = [], conFila = new Set();

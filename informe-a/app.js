@@ -569,12 +569,21 @@ async function renderAcumulados() {
     const wb = await abrirWorkbook(bufferBase.slice(0));
     const d = leerGastosAcumulados(wb);
     if (d.error) { caja.innerHTML = `<div class="status-msg bad">${d.error}</div>`; return; }
-    const alDia = estado && estado.ultimo_mes_cerrado
-      && parsearPeriodo(estado.ultimo_mes_cerrado).mes + 1 === d.mes;
-    caja.innerHTML = `<div class="status-msg ${alDia ? "ok" : ""}">La hoja está en ` +
-      `<b>${d.rotuloAcum}</b> con el mes en curso en <b>${d.rotuloMes}</b>.` +
-      (alDia ? "" : ` Ojo: el último mes cerrado es ${estado.ultimo_mes_cerrado}, así que ` +
-        `el acumulado está atrasado y le faltan meses.`) + `</div>`;
+    // El mes en curso de la hoja tiene que ser el que sigue al último cerrado. Puede estar
+    // atrasado (le faltan meses) o adelantado (ya contó un mes que el balance no cerró);
+    // antes las dos cosas se anunciaban como "atrasado", que es la mitad de las veces al revés.
+    const esperado = estado && estado.ultimo_mes_cerrado
+      ? parsearPeriodo(estado.ultimo_mes_cerrado).mes + 1 : null;
+    const desfase = esperado === null ? 0 : d.mes - esperado;
+    const detalle = desfase === 0 ? "" :
+      desfase > 0
+        ? ` Ojo: el balance tiene cerrado hasta ${etiquetaPeriodo(estado.ultimo_mes_cerrado)}, ` +
+          `así que esta hoja va <b>${desfase} mes adelantada</b> y ya contó un mes que el ` +
+          `balance todavía no cerró. Registrá ese informe acá abajo antes de seguir.`
+        : ` Ojo: el balance tiene cerrado hasta ${etiquetaPeriodo(estado.ultimo_mes_cerrado)}, ` +
+          `así que a esta hoja le faltan <b>${-desfase} mes(es)</b>.`;
+    caja.innerHTML = `<div class="status-msg ${desfase === 0 ? "ok" : "bad"}">La hoja está en ` +
+      `<b>${d.rotuloAcum}</b> con el mes en curso en <b>${d.rotuloMes}</b>.${detalle}</div>`;
   } catch (e) {
     caja.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
   }
@@ -592,11 +601,31 @@ if ($("fileAcum")) {
     try {
       const d = leerGastosAcumulados(await abrirWorkbook(await archivo.arrayBuffer()));
       if (d.error) { st.innerHTML = `<div class="status-msg bad">${d.error}</div>`; return; }
-      acumImportado = d;
+      // El archivo terminado no sólo trae el acumulado: es el mes ya hecho. Se registra
+      // entero —pasa a ser el archivo base y ese mes queda cerrado— para que las tres cosas
+      // (estado, Dist.de gastos y Gastos Acumulados) queden en el mismo mes. Sembrar sólo el
+      // acumulado dejaba la hoja un mes adelantada y el cierre siguiente contaba doble.
+      const wbSubido = await abrirWorkbook(await archivo.arrayBuffer());
+      const vivos = mesesVivos(wbSubido.getWorksheet("Dist.de gastos"));
+      if (vivos.length !== 1) {
+        st.innerHTML = `<div class="status-msg bad">Este archivo tiene ` +
+          `${vivos.length === 0 ? "todos los meses cerrados" : "más de un mes sin cerrar (" +
+          vivos.map(m => m.nombre).join(", ") + ")"}, así que no puedo saber cuál registrar.</div>`;
+        return;
+      }
+      if (vivos[0].mes !== d.mes) {
+        st.innerHTML = `<div class="status-msg bad">El archivo no es coherente consigo mismo: ` +
+          `"Gastos Acumulados" dice que el mes es <b>${d.rotuloMes}</b> pero en Dist.de gastos ` +
+          `el mes sin cerrar es <b>${vivos[0].nombre}</b>.</div>`;
+        return;
+      }
+      acumImportado = { datos: d, wb: wbSubido, mes: d.mes };
       const sig = MESES_IMP[d.mes] || "(cambio de ejercicio)";
-      st.innerHTML = `<div class="status-msg ok">El archivo es de <b>${d.rotuloMes}</b>, con ` +
-        `<b>${d.rotuloAcum}</b> y ${d.proyectos.length} proyectos. Al tomarlo, el maestro va a ` +
-        `quedar en <b>ENERO - ${d.rotuloMes.toUpperCase()}</b> y el mes en curso en <b>${sig}</b>.</div>`;
+      st.innerHTML = `<div class="status-msg ok">Es el informe de <b>${d.rotuloMes}</b> ` +
+        `(${d.proyectos.length} proyectos). Al registrarlo: pasa a ser el archivo base, ` +
+        `<b>${d.rotuloMes}</b> queda cerrado, el acumulado queda en ` +
+        `<b>ENERO - ${d.rotuloMes.toUpperCase()}</b> y el próximo a cargar es <b>${sig}</b>, ` +
+        `ya sólo con el export de Onvio.</div>`;
       $("btnImportarAcum").disabled = false;
     } catch (e) {
       st.innerHTML = `<div class="status-msg bad">No pude leer el archivo: ${e.message}</div>`;
@@ -611,19 +640,35 @@ if ($("btnImportarAcum")) {
     $("btnImportarAcum").disabled = true;
     st.innerHTML = '<div class="status-msg">Guardando…</div>';
     try {
-      const wb = await abrirWorkbook(bufferBase.slice(0));
+      // el archivo terminado pasa a ser el maestro, con su mes ya cerrado: así el estado,
+      // Dist.de gastos y Gastos Acumulados quedan los tres en el mismo mes
+      const wb = acumImportado.wb;
       const anio = parsearPeriodo(estado.ultimo_mes_cerrado || "2026-01").anio;
-      const rep = sembrarGastosAcumulados(wb, acumImportado, anio);
+      const periodo = formatearPeriodo({ anio, mes: acumImportado.mes });
+
+      const rep = sembrarGastosAcumulados(wb, acumImportado.datos, anio);
+      // sin mapeo ni líneas a propósito: el acumulado ya lo dejó puesto `sembrar`, acá sólo
+      // hay que congelar la columna del mes con los importes que calculó Excel
+      aprobarMes({ wb, periodo, log: () => {} });
+
+      const mapeo = derivarMapeo(wb);
+      const nuevoEstado = {
+        ultimo_mes_cerrado: periodo,
+        historial: [...(estado.historial || []),
+                    { periodo, fecha: new Date().toISOString(), registrado: true }],
+      };
       const buffer = await wb.xlsx.writeBuffer();
       await guardarTodo({
-        bufferBase: buffer, mapeo: mapeoGuardado, estado,
-        mensaje: `Gastos Acumulados: se toma el acumulado de ${acumImportado.rotuloMes}`,
+        bufferBase: buffer, mapeo, estado: nuevoEstado,
+        mensaje: `Balance USD: se registra el informe terminado de ${etiquetaPeriodo(periodo)}`,
       });
       bufferBase = buffer;
+      estado = nuevoEstado;
+      mapeoGuardado = mapeo;
       await renderAcumulados();
-      st.innerHTML = `<div class="status-msg ok">Listo: ${rep.actualizados.length} proyectos ` +
-        `actualizados. La hoja quedó en <b>${rep.rotuloAcum}</b> con el mes en curso en ` +
-        `<b>${rep.rotuloMes}</b>.</div>` +
+      st.innerHTML = `<div class="status-msg ok">Registrado <b>${etiquetaPeriodo(periodo)}</b>. ` +
+        `El acumulado quedó en <b>${rep.rotuloAcum}</b> y el próximo a cargar es ` +
+        `<b>${rep.rotuloMes}</b>, ya sólo con el export.</div>` +
         (rep.sinCorrespondencia.length
           ? `<div class="status-msg">Sin correspondencia en el archivo que subiste: ` +
             `${rep.sinCorrespondencia.join(", ")}. Quedaron como estaban.</div>` : "") +

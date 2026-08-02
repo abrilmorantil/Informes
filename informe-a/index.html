@@ -109,19 +109,19 @@
     <div id="acumuladosBox"></div>
     <details id="importarAcum" style="margin-top:14px;">
       <summary style="cursor:pointer; font-size:14px; color:var(--ink-soft);">
-        Cargar el informe terminado del mes anterior
+        Registrar un informe terminado a mano
       </summary>
       <p class="footer-note" style="margin-top:10px;">
-        Esta hoja estuvo mucho tiempo fuera del sistema, así que quedó parada en un mes viejo.
-        Subí el último informe que terminaste a mano y se toma de ahí el acumulado. De ahí en
-        adelante se actualiza sola cada vez que cerrás un mes.
+        Subí el último informe que terminaste a mano. <b>Pasa a ser el archivo base</b>, su mes
+        queda cerrado y el acumulado queda al día. De ahí en adelante cargás cada mes con el
+        export de Onvio, nada más.
       </p>
       <label class="dropzone" style="padding:18px;">
         <input type="file" id="fileAcum" accept=".xlsx,.xlsm">
         <div id="txtAcum">Elegí el informe terminado (.xlsx)</div>
       </label>
       <div style="margin-top:12px;">
-        <button id="btnImportarAcum" class="secundario" disabled>Tomar este acumulado</button>
+        <button id="btnImportarAcum" class="secundario" disabled>Registrar este informe</button>
       </div>
       <div id="importarAcumStatus"></div>
     </details>

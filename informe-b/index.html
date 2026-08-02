@@ -99,14 +99,23 @@
   /* desplegable con búsqueda adentro (ver ../buscador.js) — el mismo de los otros informes */
   .combo{position:relative; display:block;}
   .combo-real{display:none;}
-  .combo-boton{
+  /* con `button.` delante: el button{} general lo pinta con el color de accion y sus reglas
+     :hover / :disabled tienen mas especificidad que una clase sola */
+  button.combo-boton{
     width:100%; display:flex; align-items:center; gap:10px; text-align:left;
-    font-family:inherit; font-size:13px; padding:9px 12px; color:var(--ink);
+    font-family:inherit; font-size:13px; font-weight:400; padding:9px 12px; color:var(--ink);
     background:var(--cream); border:1px solid var(--line); border-radius:8px; cursor:pointer;
+    box-shadow:none; transform:none;
   }
-  .combo-boton:hover{border-color:var(--clay);}
-  .combo-boton[aria-expanded="true"]{border-color:var(--clay); background:#fff;}
-  .combo-boton.sin-elegir .combo-valor{color:var(--ink-soft);}
+  button.combo-boton:hover{
+    background:var(--cream); color:var(--ink); border-color:var(--clay);
+    box-shadow:none; transform:none;
+  }
+  button.combo-boton:active{transform:none; box-shadow:none;}
+  button.combo-boton[aria-expanded="true"]{
+    border-color:var(--clay); background:#fff; color:var(--ink);
+  }
+  button.combo-boton.sin-elegir .combo-valor{color:var(--ink-soft);}
   .combo-valor{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
   .combo-flecha{color:var(--ink-soft); font-size:11px; flex:none;}
   .combo-panel{

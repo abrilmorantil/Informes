@@ -232,17 +232,26 @@ a.help-link:hover{text-decoration-color:var(--clay);}
 .combo{position:relative; display:block;}
 .combo-real{display:none;}
 
-.combo-boton{
+/* Va con `button.` delante a propósito: el `button{}` general del sitio lo pinta con el color
+   de acción, y sus reglas `button:hover` y `button:disabled` tienen más especificidad que una
+   clase sola, así que le ganaban y el desplegable salía marrón adentro de la tabla. */
+button.combo-boton{
   width:100%; display:flex; align-items:center; gap:10px; text-align:left;
-  font-family:inherit; font-size:13px; padding:9px 12px; color:var(--ink);
+  font-family:inherit; font-size:13px; font-weight:400; padding:9px 12px; color:var(--ink);
   background:var(--cream-alto); border:1px solid var(--line-fuerte);
   border-radius:var(--radio-chico); cursor:pointer; transition:var(--transicion);
+  box-shadow:none; transform:none;
 }
-.combo-boton:hover{border-color:var(--clay);}
-.combo-boton[aria-expanded="true"]{
-  border-color:var(--clay); background:#fff; box-shadow:0 0 0 3px rgba(181,98,46,.14);
+button.combo-boton:hover{
+  background:var(--cream-alto); color:var(--ink); border-color:var(--clay);
+  box-shadow:none; transform:none;
 }
-.combo-boton.sin-elegir .combo-valor{color:var(--ink-soft);}
+button.combo-boton:active{transform:none; box-shadow:none;}
+button.combo-boton[aria-expanded="true"]{
+  border-color:var(--clay); background:#fff; color:var(--ink);
+  box-shadow:0 0 0 3px rgba(181,98,46,.14);
+}
+button.combo-boton.sin-elegir .combo-valor{color:var(--ink-soft);}
 .combo-valor{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .combo-flecha{color:var(--ink-soft); font-size:11px; flex:none;}
 

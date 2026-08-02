@@ -390,6 +390,7 @@ async function correrMotor(destinos) {
     }
   }
 
+  revisarCapital();
   renderQueSeDescarga();
   renderResultado(resumen, resumenUsd);
   mostrar("cardResultado", true);
@@ -459,7 +460,8 @@ $("btnConfirmarUsd").addEventListener("click", async () => {
     wbBorradorUsd = wbu;
     calcularEERR(wbu, r);
     mostrar("cardRevisionUsd", false);
-    renderQueSeDescarga();
+    revisarCapital();
+  renderQueSeDescarga();
     renderResultado(resumenBorrador, r.resumen);
     $("cierreStatus").innerHTML =
       '<div class="status-msg ok">Decisiones guardadas. No te las vuelve a preguntar.</div>';
@@ -560,6 +562,114 @@ function calcularEERR(wbUsd, resultadoDolares) {
   }
 }
 
+// --------------------------------------------------------- control del capital (Pat.Neto)
+
+// `Pat.Neto` arma el capital con números escritos a mano, así que cuando entra un aporte el
+// Activo lo refleja y el Patrimonio Neto no: el balance sale abierto exactamente por esa
+// diferencia. Ver el encabezado de `capital.js`. Acá se controla antes de dejar descargar.
+let capitalPendiente = [];
+
+const fmtImporte = (n) => (typeof n === "number"
+  ? n.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  : String(n));
+
+function revisarCapital() {
+  capitalPendiente = [];
+  const libros = [["pesos", wbBorrador], ["dólares", wbBorradorUsd]];
+  for (const [moneda, wb] of libros) {
+    if (!wb) continue;
+    let c;
+    try { c = controlarCapital(wb); } catch (e) { c = { ok: false, motivo: e.message }; }
+    if (c.ok || c.sinHoja) continue;
+    capitalPendiente.push({ moneda, wb, control: c });
+    log(`\n⚠ ${moneda.toUpperCase()}: el capital de "Pat.Neto" no coincide con la cuenta ` +
+        `Capital Suscripto` +
+        (c.falta !== undefined
+          ? `. Declarado ${fmtImporte(c.declarado.total)}, contable ` +
+            `${fmtImporte(c.contable.valor)}: faltan ${fmtImporte(c.falta)}. ` +
+            `El balance va a salir abierto por ese importe.`
+          : `: ${c.motivo}`));
+  }
+  renderCapital();
+}
+
+function renderCapital() {
+  const caja = $("capitalBox");
+  if (!caja) return;
+  mostrar("cardCapital", capitalPendiente.length > 0);
+  if (!capitalPendiente.length) { caja.innerHTML = ""; return; }
+
+  const noResueltos = capitalPendiente.filter(p => p.control.falta === undefined);
+  const filas = capitalPendiente.filter(p => p.control.falta !== undefined).map(p => `
+    <tr>
+      <td><b>${p.moneda}</b></td>
+      <td class="num">${fmtImporte(p.control.declarado.total)}</td>
+      <td class="num">${fmtImporte(p.control.contable.valor)}</td>
+      <td class="num"><b>${fmtImporte(p.control.falta)}</b></td>
+    </tr>`).join("");
+
+  caja.innerHTML = `
+    <div class="status-msg bad">El balance <b>no cierra</b>. La cuenta
+      <b>Capital Suscripto</b> no coincide con lo que declara la hoja <b>Pat.Neto</b>, que
+      lleva el capital escrito a mano. La diferencia es, exactamente, lo que le falta al
+      Patrimonio Neto.</div>
+    <table class="tabla">
+      <thead><tr><th>Balance</th><th class="num">Declarado en Pat.Neto</th>
+        <th class="num">Cuenta Capital Suscripto</th><th class="num">Falta</th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table>
+    ${noResueltos.length ? noResueltos.map(p =>
+      `<div class="status-msg bad">${p.moneda}: ${p.control.motivo}</div>`).join("") : ""}
+    <p>Si la diferencia es un <b>aumento de capital</b>, poné con qué texto tiene que figurar
+      —lo mismo que dice la línea del aumento anterior, con la fecha del aporte— y se carga en
+      <b>Pat.Neto</b> de cada balance con el importe de su moneda. Si no lo es, hay que
+      revisar el maestro: así como está, el balance no se puede emitir.</p>
+    <label>Texto de la línea
+      <input type="text" id="txtAumentoCapital" placeholder="Aumento de capital 31/07/2026"
+             style="max-width:320px;">
+    </label>
+    <button id="btnCargarCapital" class="secundario">Cargar el aumento en Pat.Neto</button>
+    <div id="capitalStatus"></div>`;
+
+  $("btnCargarCapital").addEventListener("click", () => {
+    const st = $("capitalStatus");
+    const etiqueta = $("txtAumentoCapital").value.trim();
+    if (!etiqueta) {
+      st.innerHTML = `<div class="status-msg bad">Falta el texto de la línea.</div>`;
+      return;
+    }
+    const hechos = [];
+    try {
+      for (const p of capitalPendiente) {
+        if (p.control.falta === undefined) continue;
+        const r = agregarAumentoDeCapital(p.wb, { etiqueta, importe: p.control.falta });
+        hechos.push(`<b>${p.moneda}</b>: ${fmtImporte(r.importe)} en la fila ${r.fila} de Pat.Neto` +
+          (r.totalesArreglados.length
+            ? `, y se corrigió ${r.totalesArreglados.map(t => t.celda).join(", ")} para que la sume`
+            : ""));
+        log(`\n${p.moneda.toUpperCase()}: "${etiqueta}" por ${fmtImporte(r.importe)} ` +
+            `cargado en Pat.Neto fila ${r.fila}. El capital quedó en ` +
+            `${fmtImporte(r.control.declarado.total)}, igual que la cuenta.`);
+        r.totalesArreglados.forEach(t =>
+          log(`  La fila de cierre no sumaba esa fila: ${t.celda} pasó de ${t.antes} a ${t.despues}.`));
+      }
+    } catch (e) {
+      st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
+      return;
+    }
+    revisarCapital();
+    renderQueSeDescarga();
+    const caja2 = $("capitalStatus");
+    if (caja2) {
+      caja2.innerHTML = `<div class="status-msg ok">Cargado: ${hechos.join("; ")}. ` +
+        `Ya se puede descargar.</div>`;
+    } else {
+      $("descargaStatus").innerHTML =
+        `<div class="status-msg ok">Cargado: ${hechos.join("; ")}. Ya se puede descargar.</div>`;
+    }
+  });
+}
+
 // --------------------------------------------------------------- descarga y cierre
 
 async function descargar(wb, sufijo) {
@@ -582,6 +692,12 @@ async function descargar(wb, sufijo) {
 // —queda en null cuando `calcularEERR` falla— no bajaba y no había manera de darse cuenta:
 // el motivo iba sólo al log.
 function textoDeDescarga({ hayPesos, hayDolares, hayEERR, avisos }) {
+  if (capitalPendiente.length) {
+    return `<div class="status-msg bad">No baja nada: el capital de "Pat.Neto" no coincide ` +
+      `con la cuenta Capital Suscripto en ` +
+      capitalPendiente.map(p => p.moneda).join(" y ") +
+      `, así que el balance saldría abierto. Hay que resolverlo arriba.</div>`;
+  }
   const items = [];
   if (hayPesos) items.push(["ok", "Balance en pesos"]);
   if (hayDolares) items.push(["ok", "Balance en dólares"]);
@@ -622,6 +738,13 @@ function renderQueSeDescarga() {
 $("btnDescargar").addEventListener("click", async () => {
   const st = $("descargaStatus");
   st.innerHTML = "";
+  // un balance que no cierra no se emite: es justo lo que este control viene a evitar
+  if (capitalPendiente.length) {
+    st.innerHTML = `<div class="status-msg bad">No se descarga nada todavía: el capital de ` +
+      `"Pat.Neto" no coincide con la cuenta Capital Suscripto, así que el balance saldría ` +
+      `abierto. Está el detalle más arriba.</div>`;
+    return;
+  }
   const bajaron = [];
   try {
     if (wbBorrador) bajaron.push(await descargar(wbBorrador, "pesos"));

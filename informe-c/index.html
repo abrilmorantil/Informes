@@ -185,6 +185,13 @@
     <pre class="log" id="logBody"></pre>
   </div>
 
+  <!-- El capital de Pat.Neto está escrito a mano: si la cuenta Capital Suscripto se movió y
+       nadie cargó el aumento, el balance sale abierto por esa diferencia. Ver capital.js. -->
+  <div class="card hidden" id="cardCapital">
+    <h2>El balance no cierra: falta capital</h2>
+    <div id="capitalBox"></div>
+  </div>
+
   <div class="card hidden" id="cardCierre">
     <h2>4. Revisar y aprobar</h2>
 
@@ -279,6 +286,7 @@
 <script src="eerr.js"></script>
 <script src="libro_eerr.js"></script>
 <script src="importar_eerr.js"></script>
+<script src="capital.js"></script>
 <script src="github_c.js"></script>
 <script src="app.js"></script>
 <script>

@@ -69,6 +69,7 @@ async function arrancar() {
     renderEerrAnterior();
     mostrar("cardExport", true);
     await proponerPeriodo();
+    mostrar("cardGuardados", true);
     renderHistorial();
   } catch (err) {
     mostrar("cargando", false);
@@ -82,9 +83,17 @@ async function arrancar() {
 
 function renderHistorial() {
   const h = (estado && estado.historial) || [];
+  const ultimo = (estado && estado.ultimo_periodo_cerrado) ||
+    (h.length ? h[h.length - 1].periodo : null);
+  if (ultimo) {
+    const p = fpPartes(ultimo);
+    $("txtUltimoCierre").innerHTML = `Último período cerrado: <b>${p ? fpDescribir(p) : ultimo}</b>.`;
+  }
   if (!h.length) return;
+  // Las cargas viejas no guardaban el período: se muestran con guión en vez de inventarlo.
   $("historialBody").innerHTML = h.slice().reverse().map(x => `
     <tr>
+      <td>${x.periodo || "—"}</td>
       <td>${x.fecha ? new Date(x.fecha).toLocaleDateString("es-AR") : "—"}</td>
       <td class="num">${x.cuentas ?? "—"}</td>
       <td class="num">${x.nuevas ?? 0}</td>
@@ -92,6 +101,59 @@ function renderHistorial() {
     </tr>`).join("");
   mostrar("cardHistorial", true);
 }
+
+// ------------------------------------------------------- volver a bajar lo guardado
+
+// Los maestros viven en el repositorio y no en la máquina de la usuaria, así que sin esto la
+// única forma de tener el archivo bueno a mano era volver a correr el informe entero.
+function bajarBuffer(buffer, nombre) {
+  const blob = new Blob([buffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nombre;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  return nombre;
+}
+
+// El nombre lleva el período del último cierre, para que no queden dos "base_pesos.xlsx" en
+// la carpeta de descargas sin manera de distinguirlos.
+function sufijoDelUltimoCierre() {
+  const h = (estado && estado.historial) || [];
+  const ultimo = (estado && estado.ultimo_periodo_cerrado) ||
+    (h.length ? h[h.length - 1].periodo : null);
+  const p = ultimo ? fpPartes(ultimo) : null;
+  return p ? `${p.anio}-${String(p.mes).padStart(2, "0")}` : "guardado";
+}
+
+async function bajarGuardado(cual) {
+  const st = $("guardadosStatus");
+  st.innerHTML = '<div class="status-msg">Bajando del repositorio…</div>';
+  try {
+    const suf = sufijoDelUltimoCierre();
+    if (cual === "pesos") {
+      const b = await ghcLeerBase();
+      if (!b) throw new Error("No hay un maestro de pesos guardado.");
+      st.innerHTML = `<div class="status-msg ok">Bajó <b>` +
+        `${bajarBuffer(b.buffer, `SCA_Balance_${suf}_pesos.xlsx`)}</b>.</div>`;
+    } else {
+      const b = await ghcLeerBaseUsd();
+      if (!b) throw new Error("No hay un maestro de dólares guardado.");
+      st.innerHTML = `<div class="status-msg ok">Bajó <b>` +
+        `${bajarBuffer(b.buffer, `SCA_Balance_${suf}_dolares.xlsx`)}</b>.</div>`;
+    }
+  } catch (e) {
+    st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
+  }
+}
+
+if ($("btnBajarPesos")) $("btnBajarPesos").addEventListener("click", () => bajarGuardado("pesos"));
+if ($("btnBajarDolares")) $("btnBajarDolares").addEventListener("click", () => bajarGuardado("dolares"));
 
 // --------------------------------------------------------------- configuración
 
@@ -991,19 +1053,24 @@ $("btnAprobar").addEventListener("click", async () => {
     const eerrAnterior = totalesEERR
       ? snapshotEERR(totalesEERR, periodoDelEERR())
       : (estado && estado.eerrAnterior) || null;
+    // Se guarda QUÉ PERÍODO se cerró, no sólo la fecha en que se apretó el botón: el
+    // historial mostraba "30/7/2026" y no había forma de saber a qué mes correspondía.
+    const periodoCerrado = periodoDelEERR();
     const nuevoEstado = {
+      ultimo_periodo_cerrado: periodoCerrado,
       historial: [...(estado.historial || []), {
+        periodo: periodoCerrado,
         fecha: new Date().toISOString(),
         cuentas: resumenBorrador ? resumenBorrador.cuentas : null,
         nuevas: resumenBorrador ? resumenBorrador.nuevas : 0,
         totalPesos: resumenBorrador ? resumenBorrador.total : null,
       }],
-          eerrAnterior,
+      eerrAnterior,
     };
     await ghcGuardarTodo({
       bufferBase: buf,
       estado: nuevoEstado,
-      mensaje: "Balance Pesos: nueva carga aprobada",
+      mensaje: `Balance Pesos: cierre de ${periodoCerrado}`,
     });
     const fu = $("fileAprobarUsd").files[0];
     if (fu) {

@@ -78,6 +78,11 @@ async function arrancar() {
 
 function renderHistorial() {
   const h = (estado && estado.historial) || [];
+  if (estado && estado.ultimo_mes_cerrado) {
+    mostrar("cardGuardados", true);
+    $("txtUltimoCierreA").innerHTML =
+      `Es el balance tal como quedó al cerrar <b>${etiquetaPeriodo(estado.ultimo_mes_cerrado)}</b>.`;
+  }
   if (!h.length) return;
   $("historialBody").innerHTML = h.slice().reverse().map(x => `
     <tr>
@@ -551,6 +556,39 @@ if ($("btnReabrir")) {
       st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
     } finally {
       $("btnReabrir").disabled = false;
+    }
+  });
+}
+
+// ------------------------------------------------------- volver a bajar lo guardado
+
+// El maestro vive en el repositorio y no en la máquina, así que sin esto la única forma de
+// tener el archivo bueno a mano era volver a correr el mes entero.
+if ($("btnBajarBase")) {
+  $("btnBajarBase").addEventListener("click", async () => {
+    const st = $("guardadosStatus");
+    st.innerHTML = '<div class="status-msg">Bajando del repositorio…</div>';
+    try {
+      const b = await leerBase();
+      if (!b) throw new Error("No hay un balance guardado todavía.");
+      // el nombre lleva el último mes cerrado, para no juntar en Descargas varios
+      // "base_actual.xlsx" sin manera de distinguirlos
+      const suf = (estado && estado.ultimo_mes_cerrado) || "guardado";
+      const nombre = `BALANCE_DE_COMPROBACION_USD_${suf}.xlsx`;
+      const blob = new Blob([b.buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = nombre;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      st.innerHTML = `<div class="status-msg ok">Bajó <b>${nombre}</b>.</div>`;
+    } catch (e) {
+      st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
     }
   });
 }

@@ -263,10 +263,23 @@
     <div id="cierreStatus"></div>
   </div>
 
+  <!-- Los maestros viven en el repositorio, no en la maquina: sin esto la unica forma de
+       tener el archivo bueno a mano era volver a correr el informe entero. -->
+  <div class="card hidden" id="cardGuardados">
+    <h2>Archivos guardados</h2>
+    <p class="footer-note" id="txtUltimoCierre"></p>
+    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button id="btnBajarPesos" class="secundario">Bajar el balance en pesos</button>
+      <button id="btnBajarDolares" class="secundario">Bajar el balance en dólares</button>
+    </div>
+    <div id="guardadosStatus"></div>
+  </div>
+
   <div class="card hidden" id="cardHistorial">
-    <h2>Cargas anteriores</h2>
+    <h2>Períodos cerrados</h2>
     <table>
-      <thead><tr><th>Fecha</th><th class="num">Cuentas</th><th class="num">Nuevas</th><th class="num">Total $</th></tr></thead>
+      <thead><tr><th>Período</th><th>Cerrado el</th><th class="num">Cuentas</th>
+        <th class="num">Nuevas</th><th class="num">Total $</th></tr></thead>
       <tbody id="historialBody"></tbody>
     </table>
   </div>

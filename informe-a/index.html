@@ -208,6 +208,17 @@
     <div id="cierreStatus"></div>
   </div>
 
+  <!-- El maestro vive en el repositorio, no en la maquina: sin esto la unica forma de tener
+       el archivo bueno a mano era volver a correr el mes entero. -->
+  <div class="card hidden" id="cardGuardados">
+    <h2>Archivo guardado</h2>
+    <p class="footer-note" id="txtUltimoCierreA"></p>
+    <div style="margin-top:12px;">
+      <button id="btnBajarBase" class="secundario">Bajar el balance guardado</button>
+    </div>
+    <div id="guardadosStatus"></div>
+  </div>
+
   <div class="card hidden" id="cardHistorial">
     <h2>Meses cerrados</h2>
     <table>

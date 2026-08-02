@@ -506,6 +506,50 @@ function totalesPorProyecto(lineas, mapeo) {
   return total;
 }
 
+// La fila de TOTALES de "Gastos Acumulados" trae el total del acumulado del año como un
+// número fijo, no como fórmula: sus cuatro vecinas (años anteriores, mes, total y acumulado a
+// la fecha) sí son =SUM(). Como el motor reescribe la columna del acumulado fila por fila, ese
+// número queda con el total de la corrida anterior y la hoja muestra importes correctos que no
+// suman. Es el mismo caso que la fila TOTALES y la columna BQ de "Sumas y Saldos".
+//
+// El rango NO se hardcodea: se copia del de una vecina de la MISMA fila, así sigue solo a
+// cualquier inserción de filas, igual que lo hace Excel con las otras cuatro.
+function repararTotalGastosAcumulados(ws, colAcum) {
+  const RANGO = /SUM\(\s*\$?([A-Z]{1,3})\$?(\d+)\s*:\s*\$?\1\$?(\d+)\s*\)/i;
+  for (let r = 1; r <= ws.rowCount; r++) {
+    for (let c = 1; c <= Math.min(ws.columnCount, 15); c++) {
+      if (c === colAcum) continue;
+      const f = ws.getCell(r, c).formula;
+      const m = f && String(f).match(RANGO);
+      if (!m) continue;
+
+      const desde = Number(m[2]), hasta = Number(m[3]);
+      const letra = ws.getColumn(colAcum).letter;
+      const celda = ws.getCell(r, colAcum);
+      const previo = typeof celda.value === "number" ? celda.value : null;
+
+      // el resultado se calcula acá además de escribir la fórmula, así el total ya es el bueno
+      // sin depender de que el archivo pase por Excel. Si alguna celda del rango es una fórmula
+      // sin resultado guardado no se inventa nada: se deja que lo calcule Excel al abrir.
+      let suma = 0, calculable = true;
+      for (let fila = desde; fila <= hasta; fila++) {
+        const v = ws.getCell(fila, colAcum).value;
+        if (v === null || v === undefined) continue;
+        if (typeof v === "number") { suma += v; continue; }
+        if (typeof v === "object" && typeof v.result === "number") { suma += v.result; continue; }
+        if (typeof v === "object" && v.formula !== undefined) { calculable = false; break; }
+      }
+      const formula = `SUM(${letra}${desde}:${letra}${hasta})`;
+      celda.value = calculable
+        ? { formula, result: Math.round(suma * 100) / 100 }
+        : { formula };
+
+      return { fila: r, formula, previo, nuevo: calculable ? Math.round(suma * 100) / 100 : null };
+    }
+  }
+  return null;
+}
+
 // Pasa el mes que se cierra a la columna del acumulado del año y corre los rótulos al mes
 // siguiente: cerrando junio, "ENERO - MAYO" pasa a "ENERO - JUNIO" y la columna del mes
 // pasa a decir "JULIO".
@@ -524,12 +568,14 @@ function avanzarGastosAcumulados({ wb, mapeo, lineas, periodo, log = () => {} })
   }
 
   const totales = totalesPorProyecto(lineas, mapeo);
-  let filas = 0, sinProyecto = [];
+  let filas = 0;
+  const sinProyecto = [], conFila = new Set();
   for (let r = 1; r <= ws.rowCount; r++) {
     const nombre = String(ws.getCell(r, 1).value || "").trim();
     if (!nombre || !ws.getCell(r, 4).formula) continue;      // fila de proyecto: A + fórmula en D
     const bloque = resolverCcBlock(mapeo, nombre);
     if (!bloque) { sinProyecto.push(nombre); continue; }
+    conFila.add(bloque.nombre_balance);
     const delMes = totales[bloque.nombre_balance] || 0;
     const acum = ws.getCell(r, 3);
     const previo = typeof acum.value === "number" ? acum.value : 0;
@@ -537,18 +583,44 @@ function avanzarGastosAcumulados({ wb, mapeo, lineas, periodo, log = () => {} })
     filas++;
   }
 
+  // Un centro de costo que gastó este mes y no tiene fila en la hoja es plata que se pierde sin
+  // dejar rastro: no entra al acumulado y el total tampoco la muestra. Ese es el aviso que
+  // importa. Las filas de `sinProyecto` son proyectos dados de baja: mientras no traigan saldo
+  // no hay nada que hacer con ellas, así que se informan sin alarma.
+  const sinFila = Object.entries(totales)
+    .filter(([nombre, saldo]) => Math.abs(saldo) >= 0.005 && !conFila.has(nombre))
+    .map(([nombre, saldo]) => ({ nombre, saldo: Math.round(saldo * 100) / 100 }))
+    .sort((a, b) => Math.abs(b.saldo) - Math.abs(a.saldo));
+
   // los rótulos pasan al mes siguiente
   ws.getCell(3, 1).value = `${MESES_ACUM[mes]} ${anio}`;
   ws.getCell(11, 3).value = `ENERO - ${MESES_ACUM[mes - 1]}`;
   ws.getCell(11, 4).value = MESES_ACUM[mes];
 
+  const total = repararTotalGastosAcumulados(ws, 3);
+
   log(`\nGastos Acumulados: ${MESES_ACUM[mes - 1]} pasó al acumulado del año en ${filas} ` +
       `proyecto(s). Ahora dice "ENERO - ${MESES_ACUM[mes - 1]}" y el mes en curso es ` +
       `${MESES_ACUM[mes]}. La columna de años anteriores no se tocó.`);
-  if (sinProyecto.length) {
-    log(`  ⚠ Sin centro de costo que les corresponda: ${sinProyecto.join(", ")}`);
+  if (total) {
+    log(`  El total del acumulado (fila ${total.fila}) pasó a ser =${total.formula}` +
+        (total.previo !== null ? `, que antes era el número fijo ${total.previo.toFixed(2)}` : "") +
+        (total.nuevo !== null ? ` y ahora da ${total.nuevo.toFixed(2)}` : "") + ".");
+  } else {
+    log("  ⚠ No encontré la fila de totales de la hoja: revisá a mano que el total del " +
+        "acumulado sume la columna entera.");
   }
-  return { filas, sinProyecto };
+  if (sinFila.length) {
+    log(`  ⚠ Gastaron este mes y NO tienen fila en la hoja "Gastos Acumulados" del archivo ` +
+        `original, así que su gasto quedó afuera del acumulado: ` +
+        sinFila.map(x => `${x.nombre} (${x.saldo.toFixed(2)})`).join(", ") +
+        `. Hay que agregarles la fila a mano.`);
+  }
+  if (sinProyecto.length) {
+    log(`  Sin centro de costo que les corresponda, no vinieron con saldo: ` +
+        `${sinProyecto.join(", ")}. Quedaron como estaban.`);
+  }
+  return { filas, sinProyecto, sinFila, total };
 }
 
 // Deshace el cierre de un mes: su columna vuelve a seguir al movimiento (=D<fila>) en vez de
@@ -614,5 +686,6 @@ if (typeof module !== "undefined") {
     norm, limpiar, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
     avanzarGastosAcumulados, totalesPorProyecto, reabrirMes,
+    repararTotalGastosAcumulados,
   };
 }

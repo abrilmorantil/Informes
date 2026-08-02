@@ -629,7 +629,14 @@ if ($("btnImportarAcum")) {
             `${rep.sinCorrespondencia.join(", ")}. Quedaron como estaban.</div>` : "") +
         (rep.anterioresCambiados.length
           ? `<div class="status-msg">Se actualizó además "años anteriores" en ` +
-            `${rep.anterioresCambiados.length} proyecto(s), porque el archivo traía otro valor.</div>` : "");
+            `${rep.anterioresCambiados.length} proyecto(s), porque el archivo traía otro valor.</div>` : "") +
+        (rep.total
+          ? `<div class="status-msg">El total del acumulado (fila ${rep.total.fila}) tenía un ` +
+            `número fijo${rep.total.previo !== null ? ` de ${rep.total.previo.toFixed(2)}` : ""} y ` +
+            `ahora es <b>=${rep.total.formula}</b>` +
+            `${rep.total.nuevo !== null ? `, que da <b>${rep.total.nuevo.toFixed(2)}</b>` : ""}.</div>`
+          : `<div class="status-msg bad">No encontré la fila de totales de la hoja: revisá a mano ` +
+            `que el total del acumulado sume la columna entera.</div>`);
     } catch (e) {
       st.innerHTML = `<div class="status-msg bad">${e.message}</div>`;
     } finally {

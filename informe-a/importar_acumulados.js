@@ -129,17 +129,24 @@ function sembrarGastosAcumulados(wbMaestro, datos, anio) {
   ws.getCell(cols.fila, cols.colMes).value = MESES_IMP[datos.mes];
   ws.getCell(3, 1).value = `${MESES_IMP[datos.mes]} ${anio}`;
 
+  // el total del acumulado es un número fijo en la fila de TOTALES: si no se rehace, queda con
+  // el importe viejo y la hoja muestra importes correctos que no suman (ver el comentario de
+  // `repararTotalGastosAcumulados` en motor.js).
+  const total = repararTotalGastosAcumulados(ws, cols.colAcum);
+
   wbMaestro.calcProperties = wbMaestro.calcProperties || {};
   wbMaestro.calcProperties.fullCalcOnLoad = true;
 
   return {
-    actualizados, sinCorrespondencia, anterioresCambiados,
+    actualizados, sinCorrespondencia, anterioresCambiados, total,
     rotuloAcum: `ENERO - ${MESES_IMP[datos.mes - 1]}`,
     rotuloMes: MESES_IMP[datos.mes],
   };
 }
 
 if (typeof module !== "undefined") {
+  // en el navegador motor.js se carga antes que este archivo y comparten el ámbito global
+  global.repararTotalGastosAcumulados = require("./motor.js").repararTotalGastosAcumulados;
   module.exports = { MESES_IMP, ubicarGastosAcumulados, leerGastosAcumulados,
                      sembrarGastosAcumulados };
 }

@@ -594,34 +594,25 @@ async function cierreDelMaestro(buffer) {
 async function proponerPeriodo() {
   const campo = $("periodoBalance");
   if (!campo) return;
-  let propuesto = null, origen = "";
+  let propuesto = null;
   try {
     const cierre = await cierreDelMaestro(bufferBase);
-    if (cierre) {
-      propuesto = fpMesSiguiente(cierre);
-      origen = `el maestro está cerrado a ${fpDescribir(cierre)}`;
-    }
+    if (cierre) propuesto = fpMesSiguiente(cierre);
   } catch (e) { /* se pide a mano */ }
   if (propuesto) campo.value = fpISO(propuesto);
-  campo.dataset.origen = origen;
   campo.addEventListener("input", renderPeriodo);
   renderPeriodo();
 }
 
+// Sólo se dice algo cuando la fecha no sirve. Si es válida no hace falta explicar nada: el
+// campo ya muestra el período, y contar ademas de dónde salió la propuesta y cómo se van a
+// llamar los archivos era texto que se lee una vez y despues estorba todos los meses.
 function renderPeriodo() {
   const campo = $("periodoBalance"), caja = $("periodoBalanceInfo");
   if (!campo || !caja) return;
-  const p = fpPartes(campo.value.trim());
-  if (!p) {
-    caja.innerHTML = `<span class="status-msg bad">Poné la fecha de cierre del período, ` +
-      `con el formato <b>2026-07-31</b>.</span>`;
-    return;
-  }
-  caja.innerHTML =
-    (campo.dataset.origen ? `Se propuso porque ${campo.dataset.origen}. ` : "") +
-    `Los balances van a decir <b>${fpDescribir(p)}</b> y los archivos se van a llamar ` +
-    `<b>SCA_Balance_${p.anio}-${String(p.mes).padStart(2, "0")}_pesos.xlsx</b> y ` +
-    `<b>…_dolares.xlsx</b>.`;
+  caja.innerHTML = fpPartes(campo.value.trim()) ? ""
+    : `<span class="status-msg bad">Poné la fecha de cierre del período, con el formato ` +
+      `<b>2026-07-31</b>.</span>`;
 }
 
 // Pone en el libro las fechas del período confirmado. Devuelve qué cambió, para el log.
@@ -862,7 +853,11 @@ function descargarEERR() {
 // El EE RR compara contra el mes anterior, que sale de `estado.eerrAnterior`. Ese dato lo
 // deja cada cierre, así que la primera vez no existe y la columna MES ANTERIOR sale vacía:
 // para arrancar se importa del informe del mes pasado ya terminado.
-function textoEerrAnterior(ant) {
+// `detalle` sólo se pide al importar: ahí los tres importes son la única forma de ver que se
+// leyó la columna correcta del informe que se sube, y conviene mirarlos antes de confirmar.
+// En el estado permanente son ruido: se muestran cada vez que se abre la página sin que haya
+// nada que decidir.
+function textoEerrAnterior(ant, detalle) {
   if (!ant) {
     return '<div class="status-msg">Todavía no hay un mes anterior registrado, así que la ' +
       'columna MES ANTERIOR del EE RR va a salir vacía. Cargá el informe del mes pasado ' +
@@ -871,10 +866,11 @@ function textoEerrAnterior(ant) {
   const f = (v) => (typeof v === "number" ? v.toLocaleString("es-AR",
     { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—");
   return '<div class="status-msg ok">Mes anterior registrado: <b>' + (ant.periodo || "sin fecha") +
-    '</b>.<br>Gastos de operación ' + f(ant.gastosOperacion) +
-    ' | administración ' + f(ant.gastosAdministracion) +
-    ' | resultado del ejercicio ' + f(ant.resultadoEjercicio) +
-    '<br>Con esto el EE RR sale con la columna MES ANTERIOR completa.</div>';
+    '</b>.' + (detalle
+      ? '<br>Gastos de operación ' + f(ant.gastosOperacion) +
+        ' | administración ' + f(ant.gastosAdministracion) +
+        ' | resultado del ejercicio ' + f(ant.resultadoEjercicio)
+      : '') + '</div>';
 }
 
 function renderEerrAnterior() {
@@ -904,7 +900,7 @@ if ($("fileEerr")) {
       eerrImportado = r.totales;
       const hayDudas = r.avisos.some(a => /^Ojo|^No encontré/.test(a));
       st.innerHTML = `<div class="status-msg ${hayDudas ? "bad" : "ok"}">` +
-        textoEerrAnterior(Object.assign({ periodo: "el que pongas abajo" }, r.totales))
+        textoEerrAnterior(Object.assign({ periodo: "el que pongas abajo" }, r.totales), true)
           .replace(/^<div class="status-msg[^"]*">/, "").replace(/<\/div>$/, "") + "</div>" +
         r.avisos.map(a => `<div class="status-msg${/^Ojo|^No encontré/.test(a) ? " bad" : ""}">${a}</div>`).join("");
       $("btnImportarEerr").disabled = false;

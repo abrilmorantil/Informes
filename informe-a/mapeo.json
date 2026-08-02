@@ -1950,12 +1950,10 @@
    ]
   },
   "412600000": {
-   "ss_row": 307,
+   "ss_row": 308,
    "label": "Recupero de Seguros",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
+   "categoria": "PATENTES",
    "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -1971,29 +1969,8 @@
    ]
   },
   "421010000": {
-   "ss_row": 178,
-   "label": "Refrigerios - Adm Catamarca",
-   "categoria": "REFRIGERIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421020000": {
    "ss_row": 179,
-   "label": "Servicios Públicos - Adm Catamarca",
+   "label": "Refrigerios - Adm Catamarca",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2010,6 +1987,26 @@
     "PROYECTO SOL",
     "REGIONAL CATAMARCA",
     "LA HOYADA"
+   ]
+  },
+  "421020000": {
+   "ss_row": 180,
+   "label": "Servicios Públicos - Adm Catamarca",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
    ]
   },
   "421030000": {
@@ -2071,175 +2068,8 @@
    ]
   },
   "421070000": {
-   "ss_row": 268,
-   "label": "Movilidad y viáticos Adm.",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "SHEYLA",
-    "SHEYLA I",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "LAS SANTAS"
-   ]
-  },
-  "421080000": {
-   "ss_row": 343,
-   "label": "Servicios de construccion Rel. Comunit. Catamarca",
-   "categoria": "GASTOS COMUNICACIONES",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421090000": {
-   "ss_row": 181,
-   "label": "Seguridad e Higiene Adm Gral Catamarca",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421100000": {
-   "ss_row": 180,
-   "label": "Seguridad - Adm Catamarca",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421110000": {
-   "ss_row": 182,
-   "label": "Comunicaciones - Adm Catamarca",
-   "categoria": "GASTOS COMUNICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421120000": {
-   "ss_row": 183,
-   "label": "Servicios Informaticos - Adm Catamarca",
-   "categoria": "GASTOS COMPUTACIÓN",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421130000": {
-   "ss_row": 184,
-   "label": "Ferreteria - Adm Catamarca",
-   "categoria": "FERRETERÍA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421140000": {
-   "ss_row": 185,
-   "label": "Gastos varios oficina - Adm Catamarca",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421150000": {
    "ss_row": 269,
-   "label": "Refrigerios Gs campo Catamarca",
+   "label": "Movilidad y viáticos Adm.",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
     "SHEYLA",
@@ -2261,9 +2091,153 @@
     "LAS SANTAS"
    ]
   },
-  "421160000": {
+  "421080000": {
+   "ss_row": 344,
+   "label": "Servicios de construccion Rel. Comunit. Catamarca",
+   "categoria": "ALQUILERES VARIOS",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421090000": {
+   "ss_row": 182,
+   "label": "Seguridad e Higiene Adm Gral Catamarca",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421100000": {
+   "ss_row": 181,
+   "label": "Seguridad - Adm Catamarca",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421110000": {
+   "ss_row": 183,
+   "label": "Comunicaciones - Adm Catamarca",
+   "categoria": "GASTOS COMPUTACIÓN",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421120000": {
+   "ss_row": 184,
+   "label": "Servicios Informaticos - Adm Catamarca",
+   "categoria": "FERRETERÍA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421130000": {
+   "ss_row": 185,
+   "label": "Ferreteria - Adm Catamarca",
+   "categoria": "GASTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421140000": {
+   "ss_row": 186,
+   "label": "Gastos varios oficina - Adm Catamarca",
+   "categoria": "CARGAS SOCIALES CAMPO",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421150000": {
    "ss_row": 270,
-   "label": "Alojamiento Gs de campo Catamarca",
+   "label": "Refrigerios Gs campo Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
     "SHEYLA",
@@ -2285,10 +2259,10 @@
     "LAS SANTAS"
    ]
   },
-  "421170000": {
-   "ss_row": 330,
-   "label": "Alojamiento Rel. Comunitarias Catamarca",
-   "categoria": "ALOJAMIENTO",
+  "421160000": {
+   "ss_row": 271,
+   "label": "Alojamiento Gs de campo Catamarca",
+   "categoria": "CARGAS SOCIALES CAMPO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -2303,12 +2277,13 @@
     "GASTOS GENERALES",
     "PROYECTO SOL",
     "LA HOYADA",
-    "REGIONAL CATAMARCA"
+    "REGIONAL CATAMARCA",
+    "LAS SANTAS"
    ]
   },
-  "421180000": {
+  "421170000": {
    "ss_row": 331,
-   "label": "Movilidad y viáticos Rel. Comunitarias Catamarca",
+   "label": "Alojamiento Rel. Comunitarias Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
     "LA HOYADA",
@@ -2327,70 +2302,18 @@
     "PROYECTO SOL"
    ]
   },
+  "421180000": {
+   "ss_row": 332,
+   "label": "Movilidad y viáticos Rel. Comunitarias Catamarca",
+   "categoria": "GASTOS COMPUTACIÓN",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
   "421190000": {
-   "ss_row": 186,
-   "label": "Gastos en personal - Adm Catamarca",
-   "categoria": "CARGAS SOCIALES CAMPO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421200000": {
-   "ss_row": 208,
-   "label": "Intereses resarcitorios Adm Gral Catamarca",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421210000": {
-   "ss_row": 390,
-   "label": "Canon Minero - Vigencia y Penalidades",
-   "categoria": "CANON",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421310000": {
    "ss_row": 187,
-   "label": "Honorarios Profesionales - Adm Catamarca",
+   "label": "Gastos en personal - Adm Catamarca",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2409,9 +2332,34 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421320000": {
+  "421200000": {
+   "ss_row": 209,
+   "label": "Intereses resarcitorios Adm Gral Catamarca",
+   "categoria": null,
+   "ccs_en_dist": []
+  },
+  "421210000": {
+   "ss_row": 391,
+   "label": "Canon Minero - Vigencia y Penalidades",
+   "categoria": "GASTOS VEHICULOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421310000": {
    "ss_row": 188,
-   "label": "Alquiler inmueble - Adm Catamarca",
+   "label": "Honorarios Profesionales - Adm Catamarca",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2429,30 +2377,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421330000": {
-   "ss_row": 333,
-   "label": "Refrigerios Rel. comunitarias Catamarca",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421340000": {
+  "421320000": {
    "ss_row": 189,
-   "label": "Gastos de limpieza - Adm Catamarca",
+   "label": "Alquiler inmueble - Adm Catamarca",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2471,18 +2398,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421350000": {
-   "ss_row": 332,
-   "label": "Servicios movimiento de suelos -Rel.Comunit. Catamarca",
-   "categoria": "GASTOS COMPUTACIÓN",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421360000": {
+  "421330000": {
    "ss_row": 334,
-   "label": "Gastos Varios Rel. Comunitarias Catamarca",
+   "label": "Refrigerios Rel. comunitarias Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2501,9 +2419,50 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421370000": {
+  "421340000": {
+   "ss_row": 190,
+   "label": "Gastos de limpieza - Adm Catamarca",
+   "categoria": "HONORARIOS LEGALES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421350000": {
+   "ss_row": 333,
+   "label": "Servicios movimiento de suelos -Rel.Comunit. Catamarca",
+   "categoria": "LIBRERIA Y PAPELERIA",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421360000": {
    "ss_row": 335,
-   "label": "Gs Computación - Rel. Comunitarias Catamarca",
+   "label": "Gastos Varios Rel. Comunitarias Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2520,9 +2479,9 @@
     "PROYECTO SOL"
    ]
   },
-  "421380000": {
+  "421370000": {
    "ss_row": 336,
-   "label": "Libreria - Rel. Comunitarias Catamarca",
+   "label": "Gs Computación - Rel. Comunitarias Catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2540,9 +2499,50 @@
     "LA HOYADA"
    ]
   },
+  "421380000": {
+   "ss_row": 337,
+   "label": "Libreria - Rel. Comunitarias Catamarca",
+   "categoria": "CARGAS SOCIALES CAMPO",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
   "421410000": {
-   "ss_row": 272,
+   "ss_row": 273,
    "label": "Combustible Gs de campo Catamarca",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421420000": {
+   "ss_row": 272,
+   "label": "Gtos en personal Gs. de campo Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2562,51 +2562,9 @@
     "LAS SANTAS"
    ]
   },
-  "421420000": {
-   "ss_row": 271,
-   "label": "Gtos en personal Gs. de campo Catamarca",
-   "categoria": "CARGAS SOCIALES CAMPO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "LAS SANTAS"
-   ]
-  },
   "421430000": {
-   "ss_row": 190,
-   "label": "Honorarios legales  Adm Catamarca",
-   "categoria": "HONORARIOS LEGALES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421440000": {
    "ss_row": 191,
-   "label": "Movilidad y Viáticos Adm Catamarca",
+   "label": "Honorarios legales  Adm Catamarca",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2626,10 +2584,10 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421450000": {
-   "ss_row": 337,
-   "label": "Gs. en Personal Rel. Comunitarias Catamarca",
-   "categoria": "CARGAS SOCIALES CAMPO",
+  "421440000": {
+   "ss_row": 192,
+   "label": "Movilidad y Viáticos Adm Catamarca",
+   "categoria": "GASTOS LEGALES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -2645,10 +2603,18 @@
     "PROYECTO SOL"
    ]
   },
+  "421450000": {
+   "ss_row": 338,
+   "label": "Gs. en Personal Rel. Comunitarias Catamarca",
+   "categoria": "ALQUILER DE MAQUINARIA",
+   "ccs_en_dist": [
+    "LA HOYADA"
+   ]
+  },
   "421460000": {
-   "ss_row": 193,
+   "ss_row": 194,
    "label": "Libreria y papeleria Adm catamarca",
-   "categoria": "LIBRERIA Y PAPELERIA",
+   "categoria": "CANON",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -2685,50 +2651,8 @@
    ]
   },
   "421480000": {
-   "ss_row": 194,
-   "label": "Canon Minero - Adm Catamarca",
-   "categoria": "CANON",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421490000": {
-   "ss_row": 273,
-   "label": "Alquiler Inmueble Gs. de campo Catamarca",
-   "categoria": "GASTOS COMUNICACIONES",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421500000": {
    "ss_row": 195,
-   "label": "Gastos de vehiculos Adm Catamarca",
+   "label": "Canon Minero - Adm Catamarca",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2747,9 +2671,30 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421510000": {
+  "421490000": {
+   "ss_row": 274,
+   "label": "Alquiler Inmueble Gs. de campo Catamarca",
+   "categoria": "GASTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "LAS SANTAS"
+   ]
+  },
+  "421500000": {
    "ss_row": 196,
-   "label": "Gs Computación - Adm Catamarca",
+   "label": "Gastos de vehiculos Adm Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2767,9 +2712,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421520000": {
+  "421510000": {
    "ss_row": 197,
-   "label": "Alojamiento Adm gral Catamarca",
+   "label": "Gs Computación - Adm Catamarca",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2787,9 +2732,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "421530000": {
+  "421520000": {
    "ss_row": 198,
-   "label": "Servicio de Internet Adm Catamarca",
+   "label": "Alojamiento Adm gral Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2808,9 +2753,570 @@
     "REGIONAL CATAMARCA"
    ]
   },
+  "421530000": {
+   "ss_row": 199,
+   "label": "Servicio de Internet Adm Catamarca",
+   "categoria": "MOVILIDAD Y VIÁTICOS",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
   "421540000": {
-   "ss_row": 281,
+   "ss_row": 282,
    "label": "Monitoreo de suelos y aguas - Gs de Campo Cat.",
+   "categoria": "GASTOS EN CONSTRUCCIÓN",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421550000": {
+   "ss_row": 343,
+   "label": "Materiales de construccion Rel. Comunit. Catam",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421560000": {
+   "ss_row": 201,
+   "label": "Alquileres varios - Adm Catamarca",
+   "categoria": "REPARAC.Y MANTENC.",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421570000": {
+   "ss_row": 390,
+   "label": "Publicaciones -  Vigencia y Penalidades Catamarca",
+   "categoria": "CANON",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421580000": {
+   "ss_row": 349,
+   "label": "Servicio Notarial Rel Comunitaria Catamarca",
+   "categoria": "HONORARIOS PROFESIONALES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA"
+   ]
+  },
+  "421590000": {
+   "ss_row": 350,
+   "label": "Honorarios profesionales Rel Comunitaria Catamarca",
+   "categoria": "COMBUSTIBLE",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421600000": {
+   "ss_row": 275,
+   "label": "Gastos Varios Gs de Campo Catamarca",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "SHEYLA",
+    "LAS SANTAS",
+    "LA HOYADA"
+   ]
+  },
+  "421610000": {
+   "ss_row": 203,
+   "label": "Combustible Adm. Gral Catamarca",
+   "categoria": "INDUMENTARIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421620000": {
+   "ss_row": 292,
+   "label": "Servicio de Topografia Gs Campo Catamarca",
+   "categoria": "GASTOS VEHICULOS",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421630000": {
+   "ss_row": 293,
+   "label": "Mensajeria Gs Campo Catamarca",
+   "categoria": "GASTOS EXPLORACION",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421640000": {
+   "ss_row": 294,
+   "label": "Gastos vehiculos Gs Campo Catamarca",
+   "categoria": "GASTOS VEHICULOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "LAS SANTAS"
+   ]
+  },
+  "421650000": {
+   "ss_row": 296,
+   "label": "Servicios de Cartografia Gs de campo Catamarca",
+   "categoria": "IMPUESTOS VARIOS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421660000": {
+   "ss_row": 297,
+   "label": "Insumos para muestras Gs Campo Catamarca",
+   "categoria": "ALQUILERES VEHÍCULOS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421670000": {
+   "ss_row": 276,
+   "label": "Comunicaciones Gs Campo Catamarca",
+   "categoria": "TRASLADOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "LAS SANTAS"
+   ]
+  },
+  "421680000": {
+   "ss_row": 277,
+   "label": "Servicio de transporte Gs Campo Catamarca",
+   "categoria": "LIBRERIA Y PAPELERIA",
+   "ccs_en_dist": [
+    "SHEYLA",
+    "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421690000": {
+   "ss_row": 278,
+   "label": "Gs de Campamento Gs de Campo Catamarca",
+   "categoria": "GASTOS VARIOS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421700000": {
+   "ss_row": 279,
+   "label": "Indumentaria de Trabajo Gastos de campo Catamarca",
+   "categoria": "LIBRERIA Y PAPELERIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "LAS SANTAS"
+   ]
+  },
+  "421710000": {
+   "ss_row": 205,
+   "label": "Tasa Municipal Adm Catamarca",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421800000": {
+   "ss_row": 342,
+   "label": "Alquiler maquinaria limpieza Rel. Comun. Catamarca",
+   "categoria": "GASTOS VARIOS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421810000": {
+   "ss_row": 299,
+   "label": "Impuestos no computables Gs Campo Catamarca",
+   "categoria": "ALQUILERES VEHÍCULOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "LAS SANTAS"
+   ]
+  },
+  "421820000": {
+   "ss_row": 300,
+   "label": "Alquiler de vehiculos - Gs Campo Catamarca",
+   "categoria": "REPARAC.Y MANTENC.",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421830000": {
+   "ss_row": 301,
+   "label": "Capacitaciones Gs Campo Catamarca",
+   "categoria": "ALQUILER DE MAQUINARIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421840000": {
+   "ss_row": 302,
+   "label": "Alquiler Maquinaria Gs Campo Catamarca",
+   "categoria": "REPARAC.Y MANTENC.",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "SHEYLA",
+    "SHEYLA I",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "LAS SANTAS"
+   ]
+  },
+  "421850000": {
+   "ss_row": 303,
+   "label": "Gst de Mantenimiento Gst Campo Catamarca",
+   "categoria": "DONACIONES",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "421900000": {
+   "ss_row": 200,
+   "label": "Encomienda Adm Catamarca",
+   "categoria": "ALQUILERES VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "421920000": {
+   "ss_row": 280,
+   "label": "Libreria y Papeleria Gs Campo Catamarca",
+   "categoria": "GASTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "421930000": {
+   "ss_row": 281,
+   "label": "Gs Varios Oficina Gs Campo Catamarca",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
     "SHEYLA",
@@ -2832,69 +3338,9 @@
     "PROYECTO SOL"
    ]
   },
-  "421550000": {
-   "ss_row": 342,
-   "label": "Materiales de construccion Rel. Comunit. Catam",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421560000": {
-   "ss_row": 200,
-   "label": "Alquileres varios - Adm Catamarca",
-   "categoria": "ALQUILERES VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421570000": {
-   "ss_row": 389,
-   "label": "Publicaciones -  Vigencia y Penalidades Catamarca",
-   "categoria": "PUBLICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421580000": {
+  "421940000": {
    "ss_row": 348,
-   "label": "Servicio Notarial Rel Comunitaria Catamarca",
+   "label": "Alquiler Inmueble Rel. Comun. Catamarca",
    "categoria": "HONORARIOS LEGALES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -2912,517 +3358,21 @@
     "LA HOYADA"
    ]
   },
-  "421590000": {
-   "ss_row": 349,
-   "label": "Honorarios profesionales Rel Comunitaria Catamarca",
-   "categoria": "HONORARIOS PROFESIONALES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA"
-   ]
-  },
-  "421600000": {
-   "ss_row": 274,
-   "label": "Gastos Varios Gs de Campo Catamarca",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "LAS SANTAS"
-   ]
-  },
-  "421610000": {
-   "ss_row": 202,
-   "label": "Combustible Adm. Gral Catamarca",
-   "categoria": "COMBUSTIBLE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421620000": {
-   "ss_row": 291,
-   "label": "Servicio de Topografia Gs Campo Catamarca",
-   "categoria": "GASTOS VEHICULOS",
-   "ccs_en_dist": [
-    "SHEYLA",
-    "SHEYLA I",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421630000": {
-   "ss_row": 292,
-   "label": "Mensajeria Gs Campo Catamarca",
-   "categoria": "GASTOS VEHICULOS",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421640000": {
-   "ss_row": 293,
-   "label": "Gastos vehiculos Gs Campo Catamarca",
-   "categoria": "GASTOS EXPLORACION",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421650000": {
-   "ss_row": 295,
-   "label": "Servicios de Cartografia Gs de campo Catamarca",
-   "categoria": "GASTOS DE MUESTREOS",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA"
-   ]
-  },
-  "421660000": {
-   "ss_row": 296,
-   "label": "Insumos para muestras Gs Campo Catamarca",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421670000": {
-   "ss_row": 275,
-   "label": "Comunicaciones Gs Campo Catamarca",
-   "categoria": "GASTOS COMUNICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "SHEYLA",
-    "LAS SANTAS",
-    "LA HOYADA"
-   ]
-  },
-  "421680000": {
-   "ss_row": 276,
-   "label": "Servicio de transporte Gs Campo Catamarca",
-   "categoria": "TRASLADOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "LAS SANTAS"
-   ]
-  },
-  "421690000": {
-   "ss_row": 277,
-   "label": "Gs de Campamento Gs de Campo Catamarca",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "SHEYLA",
-    "LA HOYADA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421700000": {
-   "ss_row": 278,
-   "label": "Indumentaria de Trabajo Gastos de campo Catamarca",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421710000": {
-   "ss_row": 204,
-   "label": "Tasa Municipal Adm Catamarca",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "421800000": {
-   "ss_row": 341,
-   "label": "Alquiler maquinaria limpieza Rel. Comun. Catamarca",
-   "categoria": "ALQUILER DE MAQUINARIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421810000": {
-   "ss_row": 298,
-   "label": "Impuestos no computables Gs Campo Catamarca",
-   "categoria": "GASTOS DE CAPACITACION",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421820000": {
-   "ss_row": 299,
-   "label": "Alquiler de vehiculos - Gs Campo Catamarca",
-   "categoria": "ALQUILERES VEHÍCULOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "LAS SANTAS"
-   ]
-  },
-  "421830000": {
-   "ss_row": 300,
-   "label": "Capacitaciones Gs Campo Catamarca",
-   "categoria": "REPARAC.Y MANTENC.",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421840000": {
-   "ss_row": 301,
-   "label": "Alquiler Maquinaria Gs Campo Catamarca",
-   "categoria": "ALQUILER DE MAQUINARIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421850000": {
-   "ss_row": 302,
-   "label": "Gst de Mantenimiento Gst Campo Catamarca",
-   "categoria": "REPARAC.Y MANTENC.",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "SHEYLA",
-    "SHEYLA I",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "LAS SANTAS"
-   ]
-  },
-  "421900000": {
-   "ss_row": 199,
-   "label": "Encomienda Adm Catamarca",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "421920000": {
-   "ss_row": 279,
-   "label": "Libreria y Papeleria Gs Campo Catamarca",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "LAS SANTAS"
-   ]
-  },
-  "421930000": {
-   "ss_row": 280,
-   "label": "Gs Varios Oficina Gs Campo Catamarca",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "421940000": {
-   "ss_row": 347,
-   "label": "Alquiler Inmueble Rel. Comun. Catamarca",
-   "categoria": "GASTOS VEHICULOS",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
   "421950000": {
-   "ss_row": 361,
+   "ss_row": 362,
    "label": "Mensajeria Muestreo Geof. Sup. Catamarca",
-   "categoria": "MENSAJERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
+   "categoria": null,
+   "ccs_en_dist": []
   },
   "421970000": {
-   "ss_row": 285,
+   "ss_row": 286,
    "label": "Honorarios Profesionales Gs Campo Catamarca",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
+    "SHEYLA",
+    "SHEYLA I",
     "LA HOYADA",
+    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -3439,9 +3389,9 @@
    ]
   },
   "421980000": {
-   "ss_row": 287,
+   "ss_row": 288,
    "label": "Seguridad Gs Campo Catamarca",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -3455,14 +3405,14 @@
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
     "PROYECTO SOL",
-    "LAS SANTAS",
-    "LA HOYADA"
+    "LA HOYADA",
+    "LAS SANTAS"
    ]
   },
   "421990000": {
-   "ss_row": 201,
+   "ss_row": 202,
    "label": "Mantenimiento Adm. Gral Catamarca",
-   "categoria": "REPARAC.Y MANTENC.",
+   "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -3596,9 +3546,9 @@
    ]
   },
   "423010000": {
-   "ss_row": 146,
+   "ss_row": 147,
    "label": "Gastos y comisiones bancarias",
-   "categoria": "GASTOS Y COMISIONES BANCARIAS",
+   "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -3752,9 +3702,9 @@
    ]
   },
   "425100000": {
-   "ss_row": 176,
+   "ss_row": 177,
    "label": "Tasas Ambientales – Adm. General",
-   "categoria": "GASTOS LEGALES",
+   "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -3771,11 +3721,10 @@
    ]
   },
   "425110000": {
-   "ss_row": 131,
+   "ss_row": 132,
    "label": "REFRIGERIOS ADM. GRAL.",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -3791,27 +3740,8 @@
    ]
   },
   "425120000": {
-   "ss_row": 132,
-   "label": "MOVILIDAD Y VIATICOS ADM GENERAL",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425130000": {
    "ss_row": 133,
-   "label": "EXPENSAS DEPTO GEOLOGOS ADM GRAL",
+   "label": "MOVILIDAD Y VIATICOS ADM GENERAL",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -3828,9 +3758,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425140000": {
+  "425130000": {
    "ss_row": 134,
-   "label": "INTERESES RESARCITORIOS ADM. GRAL.",
+   "label": "EXPENSAS DEPTO GEOLOGOS ADM GRAL",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -3848,9 +3778,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "425150000": {
+  "425140000": {
    "ss_row": 135,
-   "label": "ALQUILER INMUEBLE ADM. GRAL.",
+   "label": "INTERESES RESARCITORIOS ADM. GRAL.",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -3867,9 +3797,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425160000": {
+  "425150000": {
    "ss_row": 136,
-   "label": "CUOTA SOCIETARIA MINERA ADM. GRAL.",
+   "label": "ALQUILER INMUEBLE ADM. GRAL.",
    "categoria": "GASTOS EN TRÁMITES",
    "ccs_en_dist": [
     "REGIONAL CATAMARCA",
@@ -3887,9 +3817,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425170000": {
+  "425160000": {
    "ss_row": 137,
-   "label": "MENSAJERIA ADM. GRAL.",
+   "label": "CUOTA SOCIETARIA MINERA ADM. GRAL.",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
     "REGIONAL CATAMARCA",
@@ -3907,9 +3837,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425180000": {
+  "425170000": {
    "ss_row": 138,
-   "label": "COMUNICACIONES ADM. GRAL.",
+   "label": "MENSAJERIA ADM. GRAL.",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -3926,11 +3856,33 @@
     "PROYECTO SOL"
    ]
   },
-  "425190000": {
-   "ss_row": 140,
-   "label": "HONORARIOS PROFESIONALES ADM. GRAL",
-   "categoria": "HONORARIOS PROFESIONALES",
+  "425180000": {
+   "ss_row": 139,
+   "label": "COMUNICACIONES ADM. GRAL.",
+   "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "425190000": {
+   "ss_row": 141,
+   "label": "HONORARIOS PROFESIONALES ADM. GRAL",
+   "categoria": "COMBUSTIBLE",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -3946,27 +3898,8 @@
    ]
   },
   "425200000": {
-   "ss_row": 142,
-   "label": "COMBUSTIBLE ADM. GRAL.",
-   "categoria": "COMBUSTIBLE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425210000": {
    "ss_row": 143,
-   "label": "GST. DE CAPACITACIÓN ADM. GRAL",
+   "label": "COMBUSTIBLE ADM. GRAL.",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -3983,8 +3916,28 @@
     "PROYECTO SOL"
    ]
   },
+  "425210000": {
+   "ss_row": 144,
+   "label": "GST. DE CAPACITACIÓN ADM. GRAL",
+   "categoria": "GASTOS Y COMISIONES BANCARIAS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
   "425220000": {
-   "ss_row": 145,
+   "ss_row": 146,
    "label": "GASTOS Y COMISIONES BANCARIAS ADM. GRAL.",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -4003,27 +3956,8 @@
    ]
   },
   "425230000": {
-   "ss_row": 147,
-   "label": "IMP.A LOS DÉBITOS Y CRÉDITOS BANCARIOS ADM. GRAL.",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425240000": {
    "ss_row": 148,
-   "label": "SEGUROS ADM. GRAL.",
+   "label": "IMP.A LOS DÉBITOS Y CRÉDITOS BANCARIOS ADM. GRAL.",
    "categoria": "SEGUROS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4040,9 +3974,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425250000": {
+  "425240000": {
    "ss_row": 149,
-   "label": "AMORTIZACIONES ADM. GRAL.",
+   "label": "SEGUROS ADM. GRAL.",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
     "REGIONAL CATAMARCA",
@@ -4060,12 +3994,11 @@
     "PROYECTO SOL"
    ]
   },
-  "425260000": {
-   "ss_row": 168,
-   "label": "SELLADOS ADM GRAL.",
-   "categoria": "GASTOS EN TRÁMITES",
+  "425250000": {
+   "ss_row": 150,
+   "label": "AMORTIZACIONES ADM. GRAL.",
+   "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -4080,9 +4013,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425270000": {
+  "425260000": {
    "ss_row": 169,
-   "label": "IMPUESTOS VARIOS ADM GRAL.",
+   "label": "SELLADOS ADM GRAL.",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4099,9 +4032,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425280000": {
+  "425270000": {
    "ss_row": 170,
-   "label": "PUBLICACIONES Adm Gral",
+   "label": "IMPUESTOS VARIOS ADM GRAL.",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4118,9 +4051,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425290000": {
+  "425280000": {
    "ss_row": 171,
-   "label": "GS COMPUTACIÓN ADM GRAL.",
+   "label": "PUBLICACIONES Adm Gral",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4137,28 +4070,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425300000": {
-   "ss_row": 150,
-   "label": "GASTOS VARIOS OFICINA ADM. GRAL",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425310000": {
+  "425290000": {
    "ss_row": 172,
-   "label": "VACACIONES ADM GRAL.",
+   "label": "GS COMPUTACIÓN ADM GRAL.",
    "categoria": "VACACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4175,9 +4089,29 @@
     "PROYECTO SOL"
    ]
   },
-  "425320000": {
+  "425300000": {
+   "ss_row": 151,
+   "label": "GASTOS VARIOS OFICINA ADM. GRAL",
+   "categoria": "GASTOS COMPUTACIÓN",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "425310000": {
    "ss_row": 173,
-   "label": "CATASTRO MINERO ADM GRAL.",
+   "label": "VACACIONES ADM GRAL.",
    "categoria": "CATASTRO MINERO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4195,107 +4129,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "425330000": {
-   "ss_row": 177,
-   "label": "Impuestos País - Adm Gral.",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425400000": {
-   "ss_row": 152,
-   "label": "SERVICIOS INFORMÁTICOS ADM GRAL",
-   "categoria": "GASTOS COMPUTACIÓN",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "425500000": {
-   "ss_row": 153,
-   "label": "SERVICIOS PUBLICOS ADM GRAL",
-   "categoria": "REPARAC.Y MANTENC.",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425600000": {
-   "ss_row": 154,
-   "label": "GST. MANTENIMIENTO ADM GRAL.",
-   "categoria": "REPARAC.Y MANTENC.",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425700000": {
-   "ss_row": 157,
-   "label": "ALOJAMIENTO ADM. GRAL",
-   "categoria": "ALOJAMIENTO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "425800000": {
-   "ss_row": 158,
-   "label": "SERV. CADETERÍA ADM GRAL",
+  "425320000": {
+   "ss_row": 174,
+   "label": "CATASTRO MINERO ADM GRAL.",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4312,10 +4148,10 @@
     "PROYECTO SOL"
    ]
   },
-  "425810000": {
-   "ss_row": 167,
-   "label": "TASA MUNICIPAL ADM GRAL.",
-   "categoria": "IMPUESTOS VARIOS",
+  "425330000": {
+   "ss_row": 178,
+   "label": "Impuestos País - Adm Gral.",
+   "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -4329,50 +4165,13 @@
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
     "PROYECTO SOL",
+    "LA HOYADA",
     "REGIONAL CATAMARCA"
    ]
   },
-  "425820000": {
-   "ss_row": 155,
-   "label": "TASAS RETRIBUTIVAS MINERÍA ADM GRAL.",
-   "categoria": "TASAS RETRIBUTIVA MINERÌA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425830000": {
-   "ss_row": 192,
-   "label": "Remediación Ambiental Adm General",
-   "categoria": "GASTOS LEGALES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425840000": {
-   "ss_row": 156,
-   "label": "Servicios Notariales Administracion Gral.",
+  "425400000": {
+   "ss_row": 153,
+   "label": "SERVICIOS INFORMÁTICOS ADM GRAL",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
     "REGIONAL CATAMARCA",
@@ -4390,9 +4189,66 @@
     "PROYECTO SOL"
    ]
   },
-  "425900000": {
+  "425500000": {
+   "ss_row": 154,
+   "label": "SERVICIOS PUBLICOS ADM GRAL",
+   "categoria": "REPARAC.Y MANTENC.",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "425600000": {
+   "ss_row": 155,
+   "label": "GST. MANTENIMIENTO ADM GRAL.",
+   "categoria": "TASAS RETRIBUTIVA MINERÌA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "425700000": {
+   "ss_row": 158,
+   "label": "ALOJAMIENTO ADM. GRAL",
+   "categoria": "MENSAJERIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "425800000": {
    "ss_row": 159,
-   "label": "GS. EN PERSONAL ADM GRAL",
+   "label": "SERV. CADETERÍA ADM GRAL",
    "categoria": "CARGAS SOCIALES CAMPO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4409,11 +4265,12 @@
     "PROYECTO SOL"
    ]
   },
-  "425910000": {
-   "ss_row": 160,
-   "label": "PUBLICIDAD ADM GRAL",
-   "categoria": "GASTOS DE REPRESENTACIÓN",
+  "425810000": {
+   "ss_row": 168,
+   "label": "TASA MUNICIPAL ADM GRAL.",
+   "categoria": "GASTOS EN TRÁMITES",
    "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -4428,9 +4285,29 @@
     "PROYECTO SOL"
    ]
   },
-  "425920000": {
-   "ss_row": 161,
-   "label": "LIBRERIA Y PAPELERIA ADM GRAL",
+  "425820000": {
+   "ss_row": 156,
+   "label": "TASAS RETRIBUTIVAS MINERÍA ADM GRAL.",
+   "categoria": "REPARAC.Y MANTENC.",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "425830000": {
+   "ss_row": 193,
+   "label": "Remediación Ambiental Adm General",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4448,9 +4325,68 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "425930000": {
+  "425840000": {
+   "ss_row": 157,
+   "label": "Servicios Notariales Administracion Gral.",
+   "categoria": "ALOJAMIENTO",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "425900000": {
+   "ss_row": 160,
+   "label": "GS. EN PERSONAL ADM GRAL",
+   "categoria": "GASTOS DE REPRESENTACIÓN",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "425910000": {
+   "ss_row": 161,
+   "label": "PUBLICIDAD ADM GRAL",
+   "categoria": "LIBRERIA Y PAPELERIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "425920000": {
    "ss_row": 162,
-   "label": "OBRA SOCIAL ADICIONAL ADM GRAL",
+   "label": "LIBRERIA Y PAPELERIA ADM GRAL",
    "categoria": "OBRA SOCIAL",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4467,9 +4403,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425940000": {
+  "425930000": {
    "ss_row": 163,
-   "label": "HONORARIOS LEGALES ADM. GRAL",
+   "label": "OBRA SOCIAL ADICIONAL ADM GRAL",
    "categoria": "HONORARIOS LEGALES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4487,9 +4423,9 @@
     "LA HOYADA"
    ]
   },
-  "425950000": {
+  "425940000": {
    "ss_row": 164,
-   "label": "SEGURIDAD ADM. GRAL",
+   "label": "HONORARIOS LEGALES ADM. GRAL",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4507,28 +4443,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "425960000": {
-   "ss_row": 174,
-   "label": "ENCOMIENDA ADM GRAL.",
-   "categoria": "MENSAJERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "425970000": {
+  "425950000": {
    "ss_row": 165,
-   "label": "GS. LIMPIEZA ADM. GRAL",
+   "label": "SEGURIDAD ADM. GRAL",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4546,9 +4463,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "425980000": {
+  "425960000": {
    "ss_row": 175,
-   "label": "Intereses Adm. Gral.",
+   "label": "ENCOMIENDA ADM GRAL.",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4565,9 +4482,9 @@
     "PROYECTO SOL"
    ]
   },
-  "425990000": {
+  "425970000": {
    "ss_row": 166,
-   "label": "GST. VEHICULOS ADM GRAL",
+   "label": "GS. LIMPIEZA ADM. GRAL",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4584,10 +4501,49 @@
     "PROYECTO SOL"
    ]
   },
+  "425980000": {
+   "ss_row": 176,
+   "label": "Intereses Adm. Gral.",
+   "categoria": "GASTOS LEGALES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "425990000": {
+   "ss_row": 167,
+   "label": "GST. VEHICULOS ADM GRAL",
+   "categoria": "IMPUESTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
   "426100000": {
-   "ss_row": 247,
+   "ss_row": 248,
    "label": "SEGUROS GS CAMPO",
-   "categoria": "SUELDOS CAMPO",
+   "categoria": "CARGAS SOCIALES OFICINA",
    "ccs_en_dist": [
     "LAS SANTAS",
     "OFICINA GENERAL",
@@ -4605,30 +4561,8 @@
    ]
   },
   "426110000": {
-   "ss_row": 210,
-   "label": "REFRIGERIOS GST. CAMPO",
-   "categoria": "REFRIGERIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "SHEYLA I",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "426120000": {
    "ss_row": 211,
-   "label": "MOVILIDAD Y VIATICOS GST. CAMPO",
+   "label": "REFRIGERIOS GST. CAMPO",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4647,10 +4581,29 @@
     "REGIONAL CATAMARCA"
    ]
   },
+  "426120000": {
+   "ss_row": 212,
+   "label": "MOVILIDAD Y VIATICOS GST. CAMPO",
+   "categoria": "ALQUILERES INMUEBLES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
   "426130000": {
-   "ss_row": 222,
+   "ss_row": 223,
    "label": "GASTOS DE LIMPIEZA Gs CAMPO",
-   "categoria": "GASTOS EXPLORACION",
+   "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
     "LAS SANTAS",
     "OFICINA GENERAL",
@@ -4670,27 +4623,8 @@
    ]
   },
   "426140000": {
-   "ss_row": 212,
-   "label": "EXPENSAS DEPTO GEOLOGOS GST CAMPO",
-   "categoria": "ALQUILERES INMUEBLES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426150000": {
    "ss_row": 213,
-   "label": "SERVICIOS PUBLICOS GST. CAMPO",
+   "label": "EXPENSAS DEPTO GEOLOGOS GST CAMPO",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4706,6 +4640,25 @@
     "GASTOS GENERALES",
     "PROYECTO SOL",
     "LA HOYADA"
+   ]
+  },
+  "426150000": {
+   "ss_row": 214,
+   "label": "SERVICIOS PUBLICOS GST. CAMPO",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
    ]
   },
   "426160000": {
@@ -4728,28 +4681,8 @@
    ]
   },
   "426170000": {
-   "ss_row": 215,
-   "label": "ALQUILER COCHERAS GST. CAMPO",
-   "categoria": "ALQUILERES INMUEBLES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "426180000": {
    "ss_row": 216,
-   "label": "GST CAMPAMENTO GST CAMPO",
+   "label": "ALQUILER COCHERAS GST. CAMPO",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4767,9 +4700,9 @@
     "LA HOYADA"
    ]
   },
-  "426190000": {
+  "426180000": {
    "ss_row": 217,
-   "label": "GST VARIOS OFICINA GST CAMPO",
+   "label": "GST CAMPAMENTO GST CAMPO",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4787,9 +4720,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "426200000": {
+  "426190000": {
    "ss_row": 218,
-   "label": "COMBUSTIBLE GST CAMPO",
+   "label": "GST VARIOS OFICINA GST CAMPO",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4808,9 +4741,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "426210000": {
+  "426200000": {
    "ss_row": 219,
-   "label": "SERVICIOS INFORMATICOS GST. CAMPO",
+   "label": "COMBUSTIBLE GST CAMPO",
    "categoria": "PATENTES",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -4828,9 +4761,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426220000": {
+  "426210000": {
    "ss_row": 220,
-   "label": "ALQUILER INMUEBLE GST CAMPO",
+   "label": "SERVICIOS INFORMATICOS GST. CAMPO",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -4849,9 +4782,9 @@
     "LA HOYADA"
    ]
   },
-  "426230000": {
+  "426220000": {
    "ss_row": 221,
-   "label": "MENSAJERIA GST CAMPO",
+   "label": "ALQUILER INMUEBLE GST CAMPO",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -4870,10 +4803,10 @@
     "PROYECTO SOL"
    ]
   },
-  "426240000": {
-   "ss_row": 223,
-   "label": "GST DE VEHICULOS GST. CAMPO",
-   "categoria": "REPARAC.Y MANTENC.",
+  "426230000": {
+   "ss_row": 222,
+   "label": "MENSAJERIA GST CAMPO",
+   "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
     "LAS SANTAS",
     "OFICINA GENERAL",
@@ -4892,9 +4825,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "426250000": {
+  "426240000": {
    "ss_row": 224,
-   "label": "GST. MANTENIMIENTO GST CAMPO",
+   "label": "GST DE VEHICULOS GST. CAMPO",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -4912,9 +4845,9 @@
     "LAS SANTAS"
    ]
   },
-  "426260000": {
+  "426250000": {
    "ss_row": 225,
-   "label": "ALOJAMIENTO GST. CAMPO",
+   "label": "GST. MANTENIMIENTO GST CAMPO",
    "categoria": "GASTOS EN TRÁMITES",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -4934,9 +4867,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "426270000": {
+  "426260000": {
    "ss_row": 226,
-   "label": "GST VARIOS CAMPO GST. CAMPO",
+   "label": "ALOJAMIENTO GST. CAMPO",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -4956,9 +4889,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "426280000": {
+  "426270000": {
    "ss_row": 227,
-   "label": "GST EN PERSONAL GST. CAMPO",
+   "label": "GST VARIOS CAMPO GST. CAMPO",
    "categoria": "FOTOCOPIAS",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -4980,9 +4913,9 @@
     "LA HOYADA"
    ]
   },
-  "426290000": {
+  "426280000": {
    "ss_row": 228,
-   "label": "CONVENIO DE ACCESO GST CAMPO",
+   "label": "GST EN PERSONAL GST. CAMPO",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5001,9 +4934,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "426310000": {
+  "426290000": {
    "ss_row": 229,
-   "label": "ALQUILERES VARIOS GST CAMPO",
+   "label": "CONVENIO DE ACCESO GST CAMPO",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5022,9 +4955,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426320000": {
+  "426310000": {
    "ss_row": 230,
-   "label": "CANON GST CAMPO",
+   "label": "ALQUILERES VARIOS GST CAMPO",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5042,29 +4975,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426330000": {
-   "ss_row": 232,
-   "label": "INSUMOS DE CAMPO GST CAMPO",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426340000": {
+  "426320000": {
    "ss_row": 231,
-   "label": "CATASTRO MINERO GS CAMPO",
+   "label": "CANON GST CAMPO",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5082,70 +4995,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426350000": {
-   "ss_row": 254,
-   "label": "PATENTES GST. CAMPO",
-   "categoria": "PATENTES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426360000": {
-   "ss_row": 260,
-   "label": "VACACIONES GST CAMPO",
-   "categoria": "INSPECCIONES",
-   "ccs_en_dist": [
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426370000": {
-   "ss_row": 303,
-   "label": "Informes de evaluación económica Gs Campo",
-   "categoria": "DONACIONES",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426380000": {
+  "426330000": {
    "ss_row": 233,
-   "label": "Gastos de licitación Gst Campo",
+   "label": "INSUMOS DE CAMPO GST CAMPO",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5163,9 +5015,92 @@
     "PROYECTO SOL"
    ]
   },
-  "426410000": {
+  "426340000": {
+   "ss_row": 232,
+   "label": "CATASTRO MINERO GS CAMPO",
+   "categoria": "GASTOS VARIOS",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426350000": {
+   "ss_row": 255,
+   "label": "PATENTES GST. CAMPO",
+   "categoria": "GASTOS EN CONSTRUCCIÓN",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426360000": {
+   "ss_row": 261,
+   "label": "VACACIONES GST CAMPO",
+   "categoria": "DONACIONES",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA"
+   ]
+  },
+  "426370000": {
+   "ss_row": 304,
+   "label": "Informes de evaluación económica Gs Campo",
+   "categoria": "ELECTRICIDAD, GAS Y AGUA",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "426380000": {
    "ss_row": 234,
-   "label": "SELLADOS GST CAMPO",
+   "label": "Gastos de licitación Gst Campo",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5184,9 +5119,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "426430000": {
+  "426410000": {
    "ss_row": 235,
-   "label": "SERV. DE DIGITALIZACIÓN GST CAMPO",
+   "label": "SELLADOS GST CAMPO",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5206,9 +5141,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426440000": {
+  "426430000": {
    "ss_row": 236,
-   "label": "HONORARIOS PROFESIONALES GST CAMPO",
+   "label": "SERV. DE DIGITALIZACIÓN GST CAMPO",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5229,9 +5164,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426450000": {
+  "426440000": {
    "ss_row": 237,
-   "label": "GS FERRETERÍA GST CAMPO",
+   "label": "HONORARIOS PROFESIONALES GST CAMPO",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -5248,12 +5183,32 @@
     "PROYECTO SOL"
    ]
   },
-  "426460000": {
+  "426450000": {
    "ss_row": 238,
-   "label": "TRASLADOS GS CAMPO",
+   "label": "GS FERRETERÍA GST CAMPO",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
     "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "426460000": {
+   "ss_row": 239,
+   "label": "TRASLADOS GS CAMPO",
+   "categoria": "LIBRERIA Y PAPELERIA",
+   "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -5270,31 +5225,10 @@
    ]
   },
   "426470000": {
-   "ss_row": 239,
+   "ss_row": 240,
    "label": "LIBRERÍA Y PAPELERÍA GST CAMPO",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426480000": {
-   "ss_row": 241,
-   "label": "ADQUISICION INF GEOLOGICA GS. CAMPO",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
-    "LA HOYADA",
     "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -5307,12 +5241,13 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "LA HOYADA"
    ]
   },
-  "426490000": {
+  "426480000": {
    "ss_row": 242,
-   "label": "REMEDIACION AMBIENTAL GS CAMPO",
+   "label": "ADQUISICION INF GEOLOGICA GS. CAMPO",
    "categoria": "ALQUILER DE MAQUINARIA",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5330,9 +5265,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426500000": {
+  "426490000": {
    "ss_row": 243,
-   "label": "TASAS AMBIENTALES GS CAMPO",
+   "label": "REMEDIACION AMBIENTAL GS CAMPO",
    "categoria": "CATERING",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5350,12 +5285,11 @@
     "PROYECTO SOL"
    ]
   },
-  "426510000": {
-   "ss_row": 250,
-   "label": "MATERIALES DE CAMPO GST CAMPO",
-   "categoria": "SEGUROS",
+  "426500000": {
+   "ss_row": 244,
+   "label": "TASAS AMBIENTALES GS CAMPO",
+   "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
-    "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -5367,12 +5301,13 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "LAS SANTAS"
    ]
   },
-  "426520000": {
+  "426510000": {
    "ss_row": 251,
-   "label": "ALQUILER EQUIPOS GST CAMPO",
+   "label": "MATERIALES DE CAMPO GST CAMPO",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5390,9 +5325,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426530000": {
+  "426520000": {
    "ss_row": 252,
-   "label": "GST DE CAPACITACIÓN GST CAMPO",
+   "label": "ALQUILER EQUIPOS GST CAMPO",
    "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
     "REGIONAL CATAMARCA",
@@ -5411,9 +5346,9 @@
     "LAS SANTAS"
    ]
   },
-  "426540000": {
+  "426530000": {
    "ss_row": 253,
-   "label": "GASTOS EXPLORACIÓN GST.CAMPO",
+   "label": "GST DE CAPACITACIÓN GST CAMPO",
    "categoria": "PATENTES",
    "ccs_en_dist": [
     "LA HOYADA",
@@ -5433,12 +5368,11 @@
     "LAS SANTAS"
    ]
   },
-  "426550000": {
-   "ss_row": 240,
-   "label": "GS Y COMISIONES BANCARIAS GS CAMPO",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+  "426540000": {
+   "ss_row": 254,
+   "label": "GASTOS EXPLORACIÓN GST.CAMPO",
+   "categoria": "PATENTES",
    "ccs_en_dist": [
-    "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -5451,14 +5385,16 @@
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
     "PROYECTO SOL",
-    "LA HOYADA"
+    "LAS SANTAS"
    ]
   },
-  "426560000": {
-   "ss_row": 387,
-   "label": "Publicaciones -  Vigencia y Penalidades",
-   "categoria": "PUBLICACIONES",
+  "426550000": {
+   "ss_row": 241,
+   "label": "GS Y COMISIONES BANCARIAS GS CAMPO",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
+    "LA HOYADA",
+    "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -5473,9 +5409,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426570000": {
+  "426560000": {
    "ss_row": 388,
-   "label": "Tasas Retributivas Minería – Vigencia y Penalidades",
+   "label": "Publicaciones -  Vigencia y Penalidades",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -5492,10 +5428,10 @@
     "PROYECTO SOL"
    ]
   },
-  "426580000": {
-   "ss_row": 284,
-   "label": "Servicios de construccion Gs de Campo Catam.",
-   "categoria": "GASTOS EN CONSTRUCCIÓN",
+  "426570000": {
+   "ss_row": 389,
+   "label": "Tasas Retributivas Minería – Vigencia y Penalidades",
+   "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -5508,35 +5444,33 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL",
+    "PROYECTO SOL"
+   ]
+  },
+  "426580000": {
+   "ss_row": 285,
+   "label": "Servicios de construccion Gs de Campo Catam.",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "ccs_en_dist": [
     "LA HOYADA",
-    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
     "LAS SANTAS"
    ]
   },
   "426590000": {
-   "ss_row": 244,
-   "label": "ALQUILER DE VEHICULOS GS DE CAMPO",
-   "categoria": "ALQUILERES VEHÍCULOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426600000": {
    "ss_row": 245,
-   "label": "GASTOS COMPUTACION GS CAMPO",
+   "label": "ALQUILER DE VEHICULOS GS DE CAMPO",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -5554,59 +5488,11 @@
     "LAS SANTAS"
    ]
   },
-  "426610000": {
-   "ss_row": 288,
-   "label": "Movilidad y viáticos Gs Campo Catamarca",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
+  "426600000": {
+   "ss_row": 246,
+   "label": "GASTOS COMPUTACION GS CAMPO",
+   "categoria": "SUELDOS OFICINA",
    "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "LAS SANTAS"
-   ]
-  },
-  "426620000": {
-   "ss_row": 392,
-   "label": "Uso eventual de agua en proyectos - Vigencia y penalidades",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "426630000": {
-   "ss_row": 394,
-   "label": "Honorarios profesionales Vigencia y Penalidades",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426640000": {
-   "ss_row": 282,
-   "label": "Gasto de representación Gs. Campo",
-   "categoria": "GASTOS EN CONSTRUCCIÓN",
-   "ccs_en_dist": [
-    "LA HOYADA",
     "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -5622,9 +5508,9 @@
     "PROYECTO SOL"
    ]
   },
-  "426650000": {
+  "426610000": {
    "ss_row": 289,
-   "label": "Adquisición de inform. Geofísica Gs Campo Cat",
+   "label": "Movilidad y viáticos Gs Campo Catamarca",
    "categoria": "OBRA SOCIAL",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5643,9 +5529,59 @@
     "PROYECTO SOL"
    ]
   },
-  "426660000": {
+  "426620000": {
+   "ss_row": 393,
+   "label": "Uso eventual de agua en proyectos - Vigencia y penalidades",
+   "categoria": "GASTOS LEGALES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426630000": {
+   "ss_row": 395,
+   "label": "Honorarios profesionales Vigencia y Penalidades",
+   "categoria": "HONORARIOS PROFESIONALES",
+   "ccs_en_dist": [
+    "EXPLORACIÓN REGIONAL",
+    "LA HOYADA"
+   ]
+  },
+  "426640000": {
+   "ss_row": 283,
+   "label": "Gasto de representación Gs. Campo",
+   "categoria": "GS. LIMPIEZA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "LAS SANTAS"
+   ]
+  },
+  "426650000": {
    "ss_row": 290,
-   "label": "Informes Ambientales Gs Campo Cat",
+   "label": "Adquisición de inform. Geofísica Gs Campo Cat",
    "categoria": "PERDIDA DE MATERIALES",
    "ccs_en_dist": [
     "LAS SANTAS",
@@ -5665,10 +5601,34 @@
     "REGIONAL CATAMARCA"
    ]
   },
+  "426660000": {
+   "ss_row": 291,
+   "label": "Informes Ambientales Gs Campo Cat",
+   "categoria": "GASTOS VEHICULOS",
+   "ccs_en_dist": [
+    "SHEYLA",
+    "SHEYLA I",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
   "426670000": {
-   "ss_row": 308,
+   "ss_row": 309,
    "label": "Patentes Gasto Campo Catamarca",
-   "categoria": "PATENTES",
+   "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -5685,9 +5645,9 @@
    ]
   },
   "426700000": {
-   "ss_row": 246,
+   "ss_row": 247,
    "label": "IMPUESTO VARIOS GS CAMPO",
-   "categoria": "SUELDOS OFICINA",
+   "categoria": "SUELDOS CAMPO",
    "ccs_en_dist": [
     "LAS SANTAS",
     "OFICINA GENERAL",
@@ -5705,11 +5665,10 @@
    ]
   },
   "426800000": {
-   "ss_row": 248,
+   "ss_row": 249,
    "label": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
-   "categoria": "CARGAS SOCIALES OFICINA",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
-    "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -5721,13 +5680,15 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "LAS SANTAS",
+    "REGIONAL CATAMARCA"
    ]
   },
   "426810000": {
-   "ss_row": 283,
+   "ss_row": 284,
    "label": "Gastos de limpieza Gts campo Catam",
-   "categoria": "GS. LIMPIEZA",
+   "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -5747,321 +5708,8 @@
    ]
   },
   "426820000": {
-   "ss_row": 264,
-   "label": "Obra social Adicional Gst de campo",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426840000": {
-   "ss_row": 255,
-   "label": "Expensas Gs Campo",
-   "categoria": "GASTOS EN CONSTRUCCIÓN",
-   "ccs_en_dist": [
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426850000": {
-   "ss_row": 305,
-   "label": "Donaciones Gs de Campo Catamarca",
-   "categoria": "DONACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426860000": {
-   "ss_row": 304,
-   "label": "Ferretería Gs Campo Catamarca",
-   "categoria": "ELECTRICIDAD, GAS Y AGUA",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426870000": {
-   "ss_row": 306,
-   "label": "Servicios publicos Gs. Campo Catamarca",
-   "categoria": "PATENTES",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426880000": {
-   "ss_row": 313,
-   "label": "Tasas Municipales Gs Campo",
-   "categoria": "REFRIGERIOS",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426900000": {
-   "ss_row": 249,
-   "label": "SERV. SEGURIDAD E INVESTIGACIÓN GS CAMPO",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "426910000": {
-   "ss_row": 256,
-   "label": "INDUMENTARIA DE TRABAJO GS CAMPO",
-   "categoria": "INDUMENTARIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "426920000": {
-   "ss_row": 257,
-   "label": "INTERESES GST CAMPO",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426930000": {
-   "ss_row": 258,
-   "label": "INFORMES AMBIENTALES GST CAMPO",
-   "categoria": "DEPRECIACION",
-   "ccs_en_dist": [
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426940000": {
-   "ss_row": 259,
-   "label": "TASAS RETRIBUTIVAS MINERÍA GST CAMPO",
-   "categoria": "TASAS RETRIBUTIVA MINERÌA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426950000": {
-   "ss_row": 312,
-   "label": "Servicio de Topografía Gs de Campo",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "426960000": {
-   "ss_row": 261,
-   "label": "ANÁLISIS MUESTRAS GS CAMPO",
-   "categoria": "DONACIONES",
-   "ccs_en_dist": [
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA"
-   ]
-  },
-  "426970000": {
-   "ss_row": 262,
-   "label": "Encomienda Gs Campo",
-   "categoria": "ALOJAMIENTO",
-   "ccs_en_dist": [
-    "LAS SANTAS",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "426980000": {
-   "ss_row": 263,
-   "label": "Donaciones Gs de Campo",
-   "categoria": "DONACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "426990000": {
    "ss_row": 265,
-   "label": "Cuota Societaria Gs de Campo",
+   "label": "Obra social Adicional Gst de campo",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6081,10 +5729,53 @@
     "LAS SANTAS"
    ]
   },
-  "427110000": {
-   "ss_row": 315,
-   "label": "MOVILIDAD Y VIATICOS REL. COMUNITARIAS",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
+  "426840000": {
+   "ss_row": 256,
+   "label": "Expensas Gs Campo",
+   "categoria": "INDUMENTARIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "426850000": {
+   "ss_row": 306,
+   "label": "Donaciones Gs de Campo Catamarca",
+   "categoria": "PATENTES",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "426860000": {
+   "ss_row": 305,
+   "label": "Ferretería Gs Campo Catamarca",
+   "categoria": "DONACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6101,10 +5792,268 @@
     "LAS SANTAS"
    ]
   },
-  "427120000": {
+  "426870000": {
+   "ss_row": 307,
+   "label": "Servicios publicos Gs. Campo Catamarca",
+   "categoria": "COMISIONES, INTERESES, MULTAS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426880000": {
+   "ss_row": 314,
+   "label": "Tasas Municipales Gs Campo",
+   "categoria": "GS. LIMPIEZA",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "LAS SANTAS"
+   ]
+  },
+  "426900000": {
+   "ss_row": 250,
+   "label": "SERV. SEGURIDAD E INVESTIGACIÓN GS CAMPO",
+   "categoria": "SEGUROS",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426910000": {
+   "ss_row": 257,
+   "label": "INDUMENTARIA DE TRABAJO GS CAMPO",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "426920000": {
+   "ss_row": 258,
+   "label": "INTERESES GST CAMPO",
+   "categoria": "DEPRECIACION",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426930000": {
+   "ss_row": 259,
+   "label": "INFORMES AMBIENTALES GST CAMPO",
+   "categoria": "TASAS RETRIBUTIVA MINERÌA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "426940000": {
+   "ss_row": 260,
+   "label": "TASAS RETRIBUTIVAS MINERÍA GST CAMPO",
+   "categoria": "INSPECCIONES",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426950000": {
+   "ss_row": 313,
+   "label": "Servicio de Topografía Gs de Campo",
+   "categoria": "REFRIGERIOS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "426960000": {
+   "ss_row": 262,
+   "label": "ANÁLISIS MUESTRAS GS CAMPO",
+   "categoria": "ALOJAMIENTO",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426970000": {
+   "ss_row": 263,
+   "label": "Encomienda Gs Campo",
+   "categoria": "DONACIONES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "426980000": {
+   "ss_row": 264,
+   "label": "Donaciones Gs de Campo",
+   "categoria": "IMPUESTOS VARIOS",
+   "ccs_en_dist": [
+    "LAS SANTAS",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "426990000": {
+   "ss_row": 266,
+   "label": "Cuota Societaria Gs de Campo",
+   "categoria": "IMPUESTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "427110000": {
    "ss_row": 316,
-   "label": "REFRIGERIOS REL. COMUNITARIAS",
+   "label": "MOVILIDAD Y VIATICOS REL. COMUNITARIAS",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "427120000": {
+   "ss_row": 317,
+   "label": "REFRIGERIOS REL. COMUNITARIAS",
+   "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
     "LA HOYADA",
     "REGIONAL CATAMARCA",
@@ -6124,30 +6073,8 @@
    ]
   },
   "427140000": {
-   "ss_row": 317,
-   "label": "GASTOS DE LIMPIEZA REL. COMUNITARIAS",
-   "categoria": "COMBUSTIBLE",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "427150000": {
    "ss_row": 318,
-   "label": "ALQUILER VEHICULOS REL. COMUNITARIAS",
+   "label": "GASTOS DE LIMPIEZA REL. COMUNITARIAS",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6166,9 +6093,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "427160000": {
+  "427150000": {
    "ss_row": 319,
-   "label": "GASTOS Y COMISIONES BANCARIAS REL. COMUNITARIAS",
+   "label": "ALQUILER VEHICULOS REL. COMUNITARIAS",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6185,9 +6112,9 @@
     "PROYECTO SOL"
    ]
   },
-  "427170000": {
+  "427160000": {
    "ss_row": 320,
-   "label": "COMBUSTIBLE REL. COMUNITARIAS",
+   "label": "GASTOS Y COMISIONES BANCARIAS REL. COMUNITARIAS",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6204,9 +6131,9 @@
     "PROYECTO SOL"
    ]
   },
-  "427180000": {
+  "427170000": {
    "ss_row": 321,
-   "label": "GST. FERRETERIA REL. COMUNITARIAS",
+   "label": "COMBUSTIBLE REL. COMUNITARIAS",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6225,29 +6152,9 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "427190000": {
-   "ss_row": 356,
-   "label": "Gastos y comisiones bancarias Rel. comunitarias Catamarca",
-   "categoria": "GASTOS Y COMISIONES BANCARIAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA"
-   ]
-  },
-  "427210000": {
+  "427180000": {
    "ss_row": 322,
-   "label": "CONVENIO DE ACCESO REL. COMUNITARIAS",
+   "label": "GST. FERRETERIA REL. COMUNITARIAS",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
     "LA HOYADA",
@@ -6265,9 +6172,18 @@
     "PROYECTO SOL"
    ]
   },
-  "427220000": {
+  "427190000": {
+   "ss_row": 357,
+   "label": "Gastos y comisiones bancarias Rel. comunitarias Catamarca",
+   "categoria": "GASTOS DE MUESTREOS",
+   "ccs_en_dist": [
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "427210000": {
    "ss_row": 323,
-   "label": "ALQUILERES VARIOS REL. COMUNITARIAS",
+   "label": "CONVENIO DE ACCESO REL. COMUNITARIAS",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6284,9 +6200,9 @@
     "PROYECTO SOL"
    ]
   },
-  "427230000": {
+  "427220000": {
    "ss_row": 324,
-   "label": "ALOJAMIENTO REL.COMUNITARIAS",
+   "label": "ALQUILERES VARIOS REL. COMUNITARIAS",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6303,9 +6219,9 @@
     "PROYECTO SOL"
    ]
   },
-  "427240000": {
+  "427230000": {
    "ss_row": 325,
-   "label": "GASTOS EN PERSONAL REL. COMUNITARIAS",
+   "label": "ALOJAMIENTO REL.COMUNITARIAS",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
     "LA HOYADA",
@@ -6324,9 +6240,9 @@
     "PROYECTO SOL"
    ]
   },
-  "427250000": {
+  "427240000": {
    "ss_row": 326,
-   "label": "PATENTES REL. COMUNITARIAS",
+   "label": "GASTOS EN PERSONAL REL. COMUNITARIAS",
    "categoria": "PATENTES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6344,10 +6260,10 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "427260000": {
-   "ss_row": 328,
-   "label": "Gastos de vehiculos  Rel. Comunitarias",
-   "categoria": "GASTOS VEHICULOS",
+  "427250000": {
+   "ss_row": 327,
+   "label": "PATENTES REL. COMUNITARIAS",
+   "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6365,10 +6281,30 @@
     "REGIONAL CATAMARCA"
    ]
   },
+  "427260000": {
+   "ss_row": 329,
+   "label": "Gastos de vehiculos  Rel. Comunitarias",
+   "categoria": "GASTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA"
+   ]
+  },
   "427270000": {
-   "ss_row": 327,
+   "ss_row": 328,
    "label": "Comunicaciones Rel. Comunitarias",
-   "categoria": "GASTOS COMUNICACIONES",
+   "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6387,9 +6323,9 @@
    ]
   },
   "427280000": {
-   "ss_row": 329,
+   "ss_row": 330,
    "label": "Gastos Varios Rel. Comunitarias",
-   "categoria": "GASTOS VARIOS",
+   "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6403,20 +6339,13 @@
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
     "PROYECTO SOL",
-    "LA HOYADA"
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
    ]
   },
   "427290000": {
-   "ss_row": 338,
-   "label": "Gastos en calefacción Rel. Comunitarias",
-   "categoria": "ALQUILER DE MAQUINARIA",
-   "ccs_en_dist": [
-    "LA HOYADA"
-   ]
-  },
-  "427300000": {
    "ss_row": 339,
-   "label": "Libreria y papeleria  Rel. Comunitarias",
+   "label": "Gastos en calefacción Rel. Comunitarias",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6434,9 +6363,9 @@
     "LA HOYADA"
    ]
   },
-  "427310000": {
+  "427300000": {
    "ss_row": 340,
-   "label": "Gs representación Rel. comunitarias",
+   "label": "Libreria y papeleria  Rel. Comunitarias",
    "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
     "LA HOYADA",
@@ -6454,8 +6383,27 @@
     "PROYECTO SOL"
    ]
   },
+  "427310000": {
+   "ss_row": 341,
+   "label": "Gs representación Rel. comunitarias",
+   "categoria": "ALQUILER DE MAQUINARIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
   "427320000": {
-   "ss_row": 354,
+   "ss_row": 355,
    "label": "Impuestos no computables Rel. Comunitarias",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -6474,76 +6422,9 @@
    ]
   },
   "427330000": {
-   "ss_row": 355,
+   "ss_row": 356,
    "label": "Impuestos no computables Rel. Comunitarias Catamarca",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "427400000": {
-   "ss_row": 344,
-   "label": "Honorarios Profesionales - Rel. Comunitarias",
-   "categoria": "ALQUILERES VARIOS",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "427500000": {
-   "ss_row": 345,
-   "label": "Gastos de oficina - Relaciones Comun.",
-   "categoria": "GASTOS LEGALES",
-   "ccs_en_dist": [
-    "LA HOYADA"
-   ]
-  },
-  "427510000": {
-   "ss_row": 352,
-   "label": "Encomienda Rel. Com. Catamarca",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "427520000": {
-   "ss_row": 353,
-   "label": "Combustibles Rel. Comunitarias Catamarca",
-   "categoria": "COMBUSTIBLE",
+   "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6557,12 +6438,20 @@
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
     "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
+    "LA HOYADA"
    ]
   },
-  "427700000": {
+  "427400000": {
+   "ss_row": 345,
+   "label": "Honorarios Profesionales - Rel. Comunitarias",
+   "categoria": "GASTOS LEGALES",
+   "ccs_en_dist": [
+    "LA HOYADA"
+   ]
+  },
+  "427500000": {
    "ss_row": 346,
-   "label": "Comunicaciones Rel. comunitarias Catamarca",
+   "label": "Gastos de oficina - Relaciones Comun.",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6581,10 +6470,49 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "427800000": {
-   "ss_row": 350,
-   "label": "Gst Vehículos Rel. comunitarias Catamarca",
+  "427510000": {
+   "ss_row": 353,
+   "label": "Encomienda Rel. Com. Catamarca",
    "categoria": "COMBUSTIBLE",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "427520000": {
+   "ss_row": 354,
+   "label": "Combustibles Rel. Comunitarias Catamarca",
+   "categoria": "IMPUESTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "427700000": {
+   "ss_row": 347,
+   "label": "Comunicaciones Rel. comunitarias Catamarca",
+   "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
     "LA HOYADA",
     "REGIONAL CATAMARCA",
@@ -6602,9 +6530,9 @@
     "PROYECTO SOL"
    ]
   },
-  "427900000": {
+  "427800000": {
    "ss_row": 351,
-   "label": "Donaciones Rel. comunitarias Catamarca",
+   "label": "Gst Vehículos Rel. comunitarias Catamarca",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6621,10 +6549,30 @@
     "PROYECTO SOL"
    ]
   },
+  "427900000": {
+   "ss_row": 352,
+   "label": "Donaciones Rel. comunitarias Catamarca",
+   "categoria": "IMPUESTOS VARIOS",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
   "428100000": {
-   "ss_row": 358,
+   "ss_row": 359,
    "label": "GASTOS VARIOS CAMPO MUESTREO GEOF. SUP",
-   "categoria": "GASTOS VARIOS",
+   "categoria": "MENSAJERIA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6637,15 +6585,13 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
+    "PROYECTO SOL"
    ]
   },
   "428200000": {
-   "ss_row": 360,
+   "ss_row": 361,
    "label": "Análisis de Muestras Muestreo Geof. Sup.",
-   "categoria": "GASTOS DE MUESTREOS",
+   "categoria": "MENSAJERIA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6662,9 +6608,9 @@
    ]
   },
   "428300000": {
-   "ss_row": 359,
+   "ss_row": 360,
    "label": "MENSJAERIA MUESTREO GEOF. SUP.",
-   "categoria": "MENSAJERIA",
+   "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6681,46 +6627,8 @@
    ]
   },
   "429100000": {
-   "ss_row": 363,
-   "label": "LIBRERÍA Y PAPELERÍA E. PERFORACIÓN",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429110000": {
-   "ss_row": 375,
-   "label": "Remediación Ambiental E. Perforacion",
-   "categoria": "GASTOS LEGALES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429200000": {
    "ss_row": 364,
-   "label": "GASTOS EN PERSONAL E. PERFORACIÓN",
+   "label": "LIBRERÍA Y PAPELERÍA E. PERFORACIÓN",
    "categoria": "CARGAS SOCIALES CAMPO",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6737,47 +6645,9 @@
     "PROYECTO SOL"
    ]
   },
-  "429210000": {
-   "ss_row": 373,
-   "label": "Gastos Campamento - E. Perforacion",
-   "categoria": "GASTOS CAMPAMENTO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429220000": {
-   "ss_row": 374,
-   "label": "Ferreteria - E. Perforacion",
-   "categoria": "FERRETERÍA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429240000": {
+  "429110000": {
    "ss_row": 376,
-   "label": "Encomiendas - E. Perforacion",
+   "label": "Remediación Ambiental E. Perforacion",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6794,85 +6664,9 @@
     "PROYECTO SOL"
    ]
   },
-  "429250000": {
-   "ss_row": 377,
-   "label": "Análisis Geoquimicos - E. Perforación",
-   "categoria": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429260000": {
-   "ss_row": 378,
-   "label": "Gastos de Seguridad - E. Perforación",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429270000": {
-   "ss_row": 379,
-   "label": "Indumentaria de Trabajo - E. Perforacion",
-   "categoria": "INDUMENTARIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429280000": {
-   "ss_row": 380,
-   "label": "Análisis Muestras de agua- E. Perforación.",
-   "categoria": "GASTOS DE MUESTREOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429300000": {
+  "429200000": {
    "ss_row": 365,
-   "label": "SERVICIO DE PERFORACIÓN E. PERFORACIÓN",
+   "label": "GASTOS EN PERSONAL E. PERFORACIÓN",
    "categoria": "GASTOS DE PERFORACIÓN",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -6889,10 +6683,10 @@
     "PROYECTO SOL"
    ]
   },
-  "429310000": {
-   "ss_row": 381,
-   "label": "Gastos de vehiculos - E. Perforacion",
-   "categoria": "GASTOS VEHICULOS",
+  "429210000": {
+   "ss_row": 374,
+   "label": "Gastos Campamento - E. Perforacion",
+   "categoria": "FERRETERÍA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -6908,142 +6702,9 @@
     "PROYECTO SOL"
    ]
   },
-  "429400000": {
-   "ss_row": 366,
-   "label": "COMUNICACIONES E. PERFORACIÓN",
-   "categoria": "GASTOS COMUNICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429500000": {
-   "ss_row": 367,
-   "label": "REFRIGERIOS E. PERFORCIÓN",
-   "categoria": "REFRIGERIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429700000": {
-   "ss_row": 369,
-   "label": "SEGUROS E PERFORACIÒN",
-   "categoria": "SEGUROS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429800000": {
-   "ss_row": 368,
-   "label": "COMBUSTIBLE E PERFORACION",
-   "categoria": "COMBUSTIBLE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429900000": {
-   "ss_row": 370,
-   "label": "Alquiler varios - E. Perforacion",
-   "categoria": "ALQUILERES VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429910000": {
-   "ss_row": 371,
-   "label": "Movilidad y Viáticos E Perforacion",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429920000": {
-   "ss_row": 372,
-   "label": "Alojamiento E- Perforacion",
-   "categoria": "ALOJAMIENTO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "429930000": {
-   "ss_row": 382,
-   "label": "Tasa ambiental -E. Perforacion",
+  "429220000": {
+   "ss_row": 375,
+   "label": "Ferreteria - E. Perforacion",
    "categoria": "GASTOS LEGALES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -7060,9 +6721,66 @@
     "PROYECTO SOL"
    ]
   },
-  "429940000": {
-   "ss_row": 383,
-   "label": "Análisis de Muestras - E. Perforacion",
+  "429240000": {
+   "ss_row": 377,
+   "label": "Encomiendas - E. Perforacion",
+   "categoria": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429250000": {
+   "ss_row": 378,
+   "label": "Análisis Geoquimicos - E. Perforación",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429260000": {
+   "ss_row": 379,
+   "label": "Gastos de Seguridad - E. Perforación",
+   "categoria": "INDUMENTARIA",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429270000": {
+   "ss_row": 380,
+   "label": "Indumentaria de Trabajo - E. Perforacion",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -7079,9 +6797,218 @@
     "PROYECTO SOL"
    ]
   },
-  "429950000": {
+  "429280000": {
+   "ss_row": 381,
+   "label": "Análisis Muestras de agua- E. Perforación.",
+   "categoria": "GASTOS VEHICULOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429300000": {
+   "ss_row": 366,
+   "label": "SERVICIO DE PERFORACIÓN E. PERFORACIÓN",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429310000": {
+   "ss_row": 382,
+   "label": "Gastos de vehiculos - E. Perforacion",
+   "categoria": "GASTOS LEGALES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429400000": {
+   "ss_row": 367,
+   "label": "COMUNICACIONES E. PERFORACIÓN",
+   "categoria": "REFRIGERIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429500000": {
+   "ss_row": 368,
+   "label": "REFRIGERIOS E. PERFORCIÓN",
+   "categoria": "COMBUSTIBLE",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429700000": {
+   "ss_row": 370,
+   "label": "SEGUROS E PERFORACIÒN",
+   "categoria": "ALQUILERES VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429800000": {
+   "ss_row": 369,
+   "label": "COMBUSTIBLE E PERFORACION",
+   "categoria": "SEGUROS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429900000": {
+   "ss_row": 371,
+   "label": "Alquiler varios - E. Perforacion",
+   "categoria": "MOVILIDAD Y VIÁTICOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429910000": {
+   "ss_row": 372,
+   "label": "Movilidad y Viáticos E Perforacion",
+   "categoria": "ALOJAMIENTO",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429920000": {
+   "ss_row": 373,
+   "label": "Alojamiento E- Perforacion",
+   "categoria": "GASTOS CAMPAMENTO",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429930000": {
+   "ss_row": 383,
+   "label": "Tasa ambiental -E. Perforacion",
+   "categoria": "GASTOS DE MUESTREOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ]
+  },
+  "429940000": {
    "ss_row": 384,
-   "label": "Servicio de Transporte de muestras E. Perforacion",
+   "label": "Análisis de Muestras - E. Perforacion",
    "categoria": "TRASLADOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -7098,9 +7025,9 @@
     "PROYECTO SOL"
    ]
   },
-  "429960000": {
+  "429950000": {
    "ss_row": 385,
-   "label": "Donación E. Perforacion",
+   "label": "Servicio de Transporte de muestras E. Perforacion",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -7117,8 +7044,14 @@
     "PROYECTO SOL"
    ]
   },
+  "429960000": {
+   "ss_row": 386,
+   "label": "Donación E. Perforacion",
+   "categoria": null,
+   "ccs_en_dist": []
+  },
   "431010000": {
-   "ss_row": 397,
+   "ss_row": 398,
    "label": "Análisis Muestras - F Analisis Quimicos de Perf.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -7137,53 +7070,9 @@
    ]
   },
   "431020000": {
-   "ss_row": 396,
+   "ss_row": 397,
    "label": "Libreria y Papeleria-F Analisis Quimico Perf. Catamarca",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA"
-   ]
-  },
-  "431030000": {
-   "ss_row": 286,
-   "label": "Adquisición de Inform. Geologica Gs de campo Cat",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
-   "ccs_en_dist": [
-    "SHEYLA",
-    "SHEYLA I",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "431040000": {
-   "ss_row": 391,
-   "label": "Gastos de Vehiculos - Vigencia y Penalidades",
-   "categoria": "GASTOS VEHICULOS",
+   "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -7199,70 +7088,36 @@
     "PROYECTO SOL"
    ]
   },
+  "431030000": {
+   "ss_row": 287,
+   "label": "Adquisición de Inform. Geologica Gs de campo Cat",
+   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS",
+    "LA HOYADA"
+   ]
+  },
+  "431040000": {
+   "ss_row": 392,
+   "label": "Gastos de Vehiculos - Vigencia y Penalidades",
+   "categoria": null,
+   "ccs_en_dist": []
+  },
   "431050000": {
-   "ss_row": 266,
-   "label": "Impuesto Pais - Gs Campo",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "431060000": {
-   "ss_row": 297,
-   "label": "Análisis de muestras Gs de Campo Catamarca",
-   "categoria": "ALQUILERES VEHÍCULOS",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LAS SANTAS"
-   ]
-  },
-  "431070000": {
-   "ss_row": 203,
-   "label": "Indumentaria de Trabajo Adm. Catamarca",
-   "categoria": "INDUMENTARIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "431080000": {
    "ss_row": 267,
-   "label": "Impuestos no computables - Gs de campo",
+   "label": "Impuesto Pais - Gs Campo",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
     "SHEYLA",
@@ -7284,11 +7139,78 @@
     "LAS SANTAS"
    ]
   },
-  "431090000": {
-   "ss_row": 393,
-   "label": "Tasas Ambientales – Vigencia y Penalidades",
-   "categoria": "GASTOS LEGALES",
+  "431060000": {
+   "ss_row": 298,
+   "label": "Análisis de muestras Gs de Campo Catamarca",
+   "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
+    "LA HOYADA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
+  "431070000": {
+   "ss_row": 204,
+   "label": "Indumentaria de Trabajo Adm. Catamarca",
+   "categoria": "IMPUESTOS VARIOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "431080000": {
+   "ss_row": 268,
+   "label": "Impuestos no computables - Gs de campo",
+   "categoria": "MOVILIDAD Y VIÁTICOS",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "SHEYLA",
+    "SHEYLA I",
+    "LA HOYADA",
+    "REGIONAL CATAMARCA",
+    "LAS SANTAS"
+   ]
+  },
+  "431090000": {
+   "ss_row": 394,
+   "label": "Tasas Ambientales – Vigencia y Penalidades",
+   "categoria": "LIBRERIA Y PAPELERIA",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -7304,27 +7226,8 @@
    ]
   },
   "431100000": {
-   "ss_row": 207,
+   "ss_row": 208,
    "label": "Imp. Bienes, Acc. y Part. Soc. – Adm. General",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "431110000": {
-   "ss_row": 206,
-   "label": "Intereses - Adm. Catamarca",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -7343,10 +7246,10 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "431120000": {
-   "ss_row": 398,
-   "label": "Análisis Muestras- F Analisis Quimicos de Perf Catamarca",
-   "categoria": "GASTOS DE MUESTREOS",
+  "431110000": {
+   "ss_row": 207,
+   "label": "Intereses - Adm. Catamarca",
+   "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -7361,6 +7264,12 @@
     "GASTOS GENERALES",
     "PROYECTO SOL"
    ]
+  },
+  "431120000": {
+   "ss_row": 399,
+   "label": "Análisis Muestras- F Analisis Quimicos de Perf Catamarca",
+   "categoria": null,
+   "ccs_en_dist": []
   },
   "432010000": {
    "ss_row": 121,
@@ -7382,27 +7291,8 @@
    ]
   },
   "433010000": {
-   "ss_row": 309,
-   "label": "Intereses Gs Campo Catamarca",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "433020000": {
    "ss_row": 310,
-   "label": "Adquisición de inform. Geofísica Gs Campo",
+   "label": "Intereses Gs Campo Catamarca",
    "categoria": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
    "ccs_en_dist": [
     "OFICINA GENERAL",
@@ -7419,12 +7309,31 @@
     "PROYECTO SOL"
    ]
   },
+  "433020000": {
+   "ss_row": 311,
+   "label": "Adquisición de inform. Geofísica Gs Campo",
+   "categoria": "GASTOS COMUNICACIONES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "LAS SANTAS"
+   ]
+  },
   "433030000": {
-   "ss_row": 141,
+   "ss_row": 142,
    "label": "Honorarios Profesionales Adm. Gral. USD",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -7440,9 +7349,29 @@
    ]
   },
   "433040000": {
-   "ss_row": 214,
+   "ss_row": 215,
    "label": "Servicio de Internet USD",
-   "categoria": "GASTOS COMUNICACIONES",
+   "categoria": "ALQUILERES INMUEBLES",
+   "ccs_en_dist": [
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
+   ]
+  },
+  "433050000": {
+   "ss_row": 140,
+   "label": "Comunicaciones Adm. Gral USD",
+   "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -7458,10 +7387,10 @@
     "PROYECTO SOL"
    ]
   },
-  "433050000": {
-   "ss_row": 139,
-   "label": "Comunicaciones Adm. Gral USD",
-   "categoria": "GASTOS COMUNICACIONES",
+  "433060000": {
+   "ss_row": 206,
+   "label": "Servicio de Internet Adm Catamarca.USD",
+   "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -7479,11 +7408,13 @@
     "REGIONAL CATAMARCA"
    ]
   },
-  "433060000": {
-   "ss_row": 205,
-   "label": "Servicio de Internet Adm Catamarca.USD",
-   "categoria": "GASTOS COMUNICACIONES",
+  "433070000": {
+   "ss_row": 295,
+   "label": "Gst de Vehículos Gst de Campo USD",
+   "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -7495,13 +7426,14 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "LA HOYADA"
    ]
   },
-  "433070000": {
-   "ss_row": 294,
-   "label": "Gst de Vehículos Gst de Campo USD",
-   "categoria": "GASTOS VEHICULOS",
+  "433080000": {
+   "ss_row": 152,
+   "label": "Gastos Varios de Adm Gral USD",
+   "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
@@ -7515,35 +7447,15 @@
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
     "PROYECTO SOL",
-    "LA HOYADA",
-    "LAS SANTAS"
-   ]
-  },
-  "433080000": {
-   "ss_row": 151,
-   "label": "Gastos Varios de Adm Gral USD",
-   "categoria": "GASTOS COMPUTACIÓN",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "REGIONAL CATAMARCA"
    ]
   },
   "433090000": {
-   "ss_row": 311,
+   "ss_row": 312,
    "label": "Comunicaciones Gastos de campo USD",
-   "categoria": "GASTOS COMUNICACIONES",
+   "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -7579,7 +7491,7 @@
    ]
   },
   "433110000": {
-   "ss_row": 144,
+   "ss_row": 145,
    "label": "Gastos bancarios Adm general (u$s)",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -7594,8 +7506,7 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
+    "PROYECTO SOL"
    ]
   }
  },
@@ -8079,7 +7990,8 @@
     344,
     346,
     349,
-    394
+    394,
+    395
    ]
   },
   {
@@ -8751,7 +8663,7 @@
    "ss_rows": []
   }
  ],
- "fila_totales": 400,
+ "fila_totales": 401,
  "ccs_sin_columna_dist": [
   "SAMENTA",
   "TRES CONOS",

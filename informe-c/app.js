@@ -638,13 +638,9 @@ function ponerFechasDelPeriodo(wb, moneda, nuevo) {
     return { cambios: [], otrasFechas: [] };
   }
   const r = fpReescribirLibro(wb, viejo, nuevo);
-  log(`\n${moneda.toUpperCase()}: las fechas pasaron de ${fpDescribir(viejo)} a ` +
-      `${fpDescribir(nuevo)} en ${r.cambios.length} celda(s).`);
-  r.cambios.forEach(c => log(`  ${c.hoja}!${c.celda}: "${c.antes}" -> "${c.despues}"`));
-  if (r.otrasFechas.length) {
-    log(`  Otras fechas del archivo, que NO se tocaron por no ser la del cierre: ` +
-        `${r.otrasFechas.join(", ")}.`);
-  }
+  const hojas = [...new Set(r.cambios.map(c => c.hoja))];
+  log(`\n${moneda.toUpperCase()}: las fechas pasaron a ${fpDescribir(nuevo)} — ` +
+      `${r.cambios.length} celda(s) en ${hojas.join(", ")}.`);
   return r;
 }
 
@@ -668,13 +664,10 @@ function revisarCapital() {
     try { c = controlarCapital(wb); } catch (e) { c = { ok: false, motivo: e.message }; }
     if (c.ok || c.sinHoja) continue;
     capitalPendiente.push({ moneda, wb, control: c });
-    log(`\n⚠ ${moneda.toUpperCase()}: el capital de "Pat.Neto" no coincide con la cuenta ` +
-        `Capital Suscripto` +
+    log(`\n⚠ ${moneda.toUpperCase()}: al capital de "Pat.Neto" le faltan ` +
         (c.falta !== undefined
-          ? `. Declarado ${fmtImporte(c.declarado.total)}, contable ` +
-            `${fmtImporte(c.contable.valor)}: faltan ${fmtImporte(c.falta)}. ` +
-            `El balance va a salir abierto por ese importe.`
-          : `: ${c.motivo}`));
+          ? `${fmtImporte(c.falta)} contra la cuenta Capital Suscripto.`
+          : `datos: ${c.motivo}`));
   }
   renderCapital();
 }
@@ -695,26 +688,23 @@ function renderCapital() {
     </tr>`).join("");
 
   caja.innerHTML = `
-    <div class="status-msg bad">El balance <b>no cierra</b>. La cuenta
-      <b>Capital Suscripto</b> no coincide con lo que declara la hoja <b>Pat.Neto</b>, que
-      lleva el capital escrito a mano. La diferencia es, exactamente, lo que le falta al
-      Patrimonio Neto.</div>
+    <div class="status-msg bad">La cuenta <b>Capital Suscripto</b> no coincide con lo que
+      declara <b>Pat.Neto</b>, así que el balance saldría abierto por esa diferencia.</div>
     <table class="tabla">
-      <thead><tr><th>Balance</th><th class="num">Declarado en Pat.Neto</th>
-        <th class="num">Cuenta Capital Suscripto</th><th class="num">Falta</th></tr></thead>
+      <thead><tr><th>Balance</th><th class="num">Pat.Neto</th>
+        <th class="num">Cuenta</th><th class="num">Falta</th></tr></thead>
       <tbody>${filas}</tbody>
     </table>
     ${noResueltos.length ? noResueltos.map(p =>
       `<div class="status-msg bad">${p.moneda}: ${p.control.motivo}</div>`).join("") : ""}
-    <p>Si la diferencia es un <b>aumento de capital</b>, poné con qué texto tiene que figurar
-      —lo mismo que dice la línea del aumento anterior, con la fecha del aporte— y se carga en
-      <b>Pat.Neto</b> de cada balance con el importe de su moneda. Si no lo es, hay que
-      revisar el maestro: así como está, el balance no se puede emitir.</p>
+    <p class="footer-note">Si es un aumento de capital, poné el texto con la fecha del aporte
+      y se carga en cada balance con el importe de su moneda. Si no lo es, hay que revisar el
+      maestro.</p>
     <label>Texto de la línea
       <input type="text" id="txtAumentoCapital" placeholder="Aumento de capital 31/07/2026"
              style="max-width:320px;">
     </label>
-    <button id="btnCargarCapital" class="secundario">Cargar el aumento en Pat.Neto</button>
+    <button id="btnCargarCapital" class="secundario">Cargar el aumento</button>
     <div id="capitalStatus"></div>`;
 
   $("btnCargarCapital").addEventListener("click", () => {

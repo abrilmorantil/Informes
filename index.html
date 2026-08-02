@@ -27,35 +27,33 @@
 <script>
 // Para sumar un informe nuevo: agregá una entrada acá y su carpeta al lado de las otras.
 // El orden de esta lista es el que se ve en pantalla.
+// `origen` dice EXACTAMENTE qué archivo hay que bajar del sistema. Es el dato que más se
+// consulta y el más fácil de equivocar: los dos balances usan un Sumas y Saldos de Onvio,
+// pero uno lo quiere por centro de costos y mensual, y el otro por código de cuenta y
+// acumulado. Bajar el que no es da números que parecen razonables y están mal.
 const INFORMES = [
   {
     titulo: "Asto",
-    descripcion: "Arma el asiento de diferencia de cambio del cierre: re-expresa las cuentas " +
-                 "monetarias al tipo de cambio del período, pregunta por las dudosas y genera " +
-                 "el importador de Onvio.",
-    origen: "Balance de Sumas y Saldos bimonetario",
+    descripcion: "Arma el asiento de diferencia de cambio del cierre y el importador de Onvio.",
+    origen: "Onvio › Sumas y Saldos bimonetario (pesos y dólares)",
     url: "informe-d/index.html",
   },
   {
     titulo: "Balance de comprobación por Centros de costos",
-    descripcion: "Carga los saldos del mes en el balance maestro por centro de costo, " +
-                 "inserta las cuentas nuevas en su lugar y reacomoda las fórmulas.",
-    origen: "Export de Onvio",
+    descripcion: "Carga los saldos del mes en el balance maestro e inserta las cuentas nuevas.",
+    origen: "Onvio › Sumas y Saldos por CENTRO DE COSTOS — del MES",
     url: "informe-a/index.html",
   },
   {
     titulo: "BALCOMPROBDOLARES",
-    descripcion: "Arma el balance de comprobación en dólares, clasifica las cuentas nuevas " +
-                 "y corre la cascada de validación antes de generar el archivo.",
-    origen: "Export de SISE",
+    descripcion: "Arma el balance de comprobación en dólares y clasifica las cuentas nuevas.",
+    origen: "SISE › Balance de comprobación",
     url: "informe-b/index.html",
   },
   {
     titulo: "Balance Pesos y Dólares + EE RR",
-    descripcion: "Actualiza los dos balances formales (estados contables completos) desde el " +
-                 "export por código de cuenta y, en la misma corrida, arma el Estado de " +
-                 "Resultados.",
-    origen: "Export de Onvio (ambas monedas)",
+    descripcion: "Actualiza los dos balances formales y, en la misma corrida, el Estado de Resultados.",
+    origen: "Onvio › Sumas y Saldos por CÓDIGO DE CUENTA — ACUMULADO del ejercicio",
     url: "informe-c/index.html",
   },
 ];

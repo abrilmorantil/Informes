@@ -209,20 +209,65 @@ a.help-link:hover{text-decoration-color:var(--clay);}
   line-height:1.65;
 }
 
-/* ---- buscador de listas largas (ver buscador.js) ---- */
-.buscador{display:block;}
-.buscador-input{
-  margin-bottom:6px; font-size:12.5px; padding:7px 10px;
-  background:var(--cream-alto); border:1px solid var(--line-fuerte); border-radius:var(--radio-chico);
-  font-family:inherit; width:100%; color:var(--ink); transition:var(--transicion);
+/* ---- qué archivo hay que bajar ----
+   Es el dato que más se consulta y el más fácil de equivocar: los dos balances salen de un
+   Sumas y Saldos de Onvio, pero uno lo quiere por centro de costos y mensual y el otro por
+   código de cuenta y acumulado. Va arriba de todo y en una sola línea. */
+.instruccion{
+  display:flex; gap:11px; align-items:flex-start;
+  background:var(--cream-alto); border:1px solid var(--line-fuerte);
+  border-left:3px solid var(--clay); border-radius:var(--radio-chico);
+  padding:11px 14px; margin-bottom:16px;
+  font-size:12.5px; line-height:1.55; color:var(--ink-medio);
 }
-.buscador-input:focus{
-  outline:none; border-color:var(--clay); background:#fff;
-  box-shadow:0 0 0 3px rgba(181,98,46,.14);
+.instruccion b{color:var(--ink); font-weight:600;}
+.instruccion .que{
+  flex:none; font-weight:700; color:var(--clay); text-transform:uppercase;
+  font-size:10.5px; letter-spacing:.07em; padding-top:2px;
 }
-.buscador-input::placeholder{color:var(--ink-soft);}
-.buscador-aviso{font-size:11.5px; color:var(--ink-soft); margin-top:5px;}
-.buscador-aviso.vacio{color:var(--warn); font-weight:600;}
+
+/* ---- buscador de listas largas (ver buscador.js) ----
+   Un solo control: el botón abre el panel y adentro está la búsqueda. El <select> real
+   queda escondido y es el que guarda el valor. */
+.combo{position:relative; display:block;}
+.combo-real{display:none;}
+
+.combo-boton{
+  width:100%; display:flex; align-items:center; gap:10px; text-align:left;
+  font-family:inherit; font-size:13px; padding:9px 12px; color:var(--ink);
+  background:var(--cream-alto); border:1px solid var(--line-fuerte);
+  border-radius:var(--radio-chico); cursor:pointer; transition:var(--transicion);
+}
+.combo-boton:hover{border-color:var(--clay);}
+.combo-boton[aria-expanded="true"]{
+  border-color:var(--clay); background:#fff; box-shadow:0 0 0 3px rgba(181,98,46,.14);
+}
+.combo-boton.sin-elegir .combo-valor{color:var(--ink-soft);}
+.combo-valor{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.combo-flecha{color:var(--ink-soft); font-size:11px; flex:none;}
+
+.combo-panel{
+  position:absolute; z-index:40; left:0; right:0; top:calc(100% + 4px);
+  background:#fff; border:1px solid var(--line-fuerte); border-radius:var(--radio-chico);
+  box-shadow:0 10px 30px rgba(60,40,20,.16); padding:8px;
+}
+.combo-buscar{
+  width:100%; font-family:inherit; font-size:12.5px; padding:7px 10px; color:var(--ink);
+  background:var(--cream-alto); border:1px solid var(--line-fuerte);
+  border-radius:var(--radio-chico);
+}
+.combo-buscar:focus{outline:none; border-color:var(--clay); background:#fff;}
+.combo-buscar::placeholder{color:var(--ink-soft);}
+
+.combo-lista{max-height:260px; overflow-y:auto; margin-top:6px;}
+.combo-opcion{
+  padding:7px 10px; border-radius:8px; font-size:12.5px; cursor:pointer;
+  color:var(--ink-medio); line-height:1.4;
+}
+.combo-opcion:hover, .combo-opcion.marcada{background:var(--cream-alto); color:var(--ink);}
+.combo-opcion.elegida{font-weight:600; color:var(--ink);}
+.combo-aviso{font-size:11.5px; color:var(--ink-soft); margin-top:6px; padding:0 4px;}
+.combo-aviso.vacio{color:var(--warn); font-weight:600;}
 
 /* ---- pantalla de inicio ---- */
 .portada{margin-bottom:44px;}

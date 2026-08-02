@@ -55,10 +55,12 @@
   <div class="card hidden" id="cardSys">
     <h2>1. Balance de Sumas y Saldos</h2>
     <p class="footer-note" id="txtUltimo" style="margin-bottom:10px;"></p>
-    <p class="footer-note">
-      Subí el SyS <b>bimonetario y sin el ajuste</b> del período (el que trae el saldo en
-      pesos y el saldo en dólares en libros). Es el único insumo de datos del asiento.
-    </p>
+    <div class="instruccion">
+      <span class="que">Bajá</span>
+      <span>De Onvio, el <b>Sumas y Saldos bimonetario</b> del período, <b>sin el ajuste</b>
+        — el que trae saldo en pesos y saldo en dólares en libros. Es el único insumo del
+        asiento.</span>
+    </div>
     <label class="dropzone">
       <input type="file" id="fileSys" accept=".xls,.xlsx">
       <div id="txtSys">Hacé clic para elegir el archivo (SyS del período, sin ajuste)</div>
@@ -102,12 +104,17 @@
   <div class="card hidden" id="cardRevision">
     <h2>3. Cuentas para revisar antes de seguir</h2>
     <p class="footer-note">
-      Estas cuentas ajustan un importe grande y desproporcionado respecto de su saldo en
-      libros, que es la firma de una cuenta <b>no monetaria</b> mal incluida (un bien de uso
-      o un cargo diferido se mantiene al cambio histórico, así que su "ajuste" sería todo
-      su saldo). Ninguna entra al asiento sin que vos lo confirmes.
-      <b>Se pregunta una sola vez</b>: la decisión queda guardada para los meses siguientes.
+      Podrían ser cuentas <b>no monetarias</b>, que no van al asiento. Ninguna entra sin que
+      lo confirmes. <b>Se pregunta una sola vez</b>: queda guardado para los meses siguientes.
     </p>
+    <details style="margin-bottom:14px;">
+      <summary style="cursor:pointer; font-size:12.5px; color:var(--ink-soft);">Por qué se marcan</summary>
+      <p class="footer-note" style="margin-top:8px;">
+        Ajustan un importe grande y desproporcionado respecto de su saldo en libros, que es la
+        firma de una no monetaria mal incluida: un bien de uso o un cargo diferido se mantiene
+        al cambio histórico, así que su "ajuste" sería todo su saldo.
+      </p>
+    </details>
     <table>
       <thead>
         <tr>

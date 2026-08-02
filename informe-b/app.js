@@ -184,44 +184,21 @@ function renderUnmapped(unmapped, categorias) {
           ${categorias.map(c => `<option value="${c}" ${c === u.suggested_category ? "selected" : ""}>${c}</option>`).join("")}
         </select>
       </td>
-      <td style="position:relative;">
-        <input type="text" class="parentSearch" data-idx="${idx}" autocomplete="off"
-               placeholder="buscá por nombre o código…"
-               oninput="onParentSearch(this)" onfocus="onParentSearch(this)" onblur="hideParentDropdown(this)">
-        <input type="hidden" class="parentCode" data-idx="${idx}">
-        <div class="parentDropdown" style="display:none;"></div>
+      <td>
+        <select data-idx="${idx}" class="parentCode">
+          <option value="">— sin cuenta madre —</option>
+          ${window._candidatasMadre.map(c =>
+            `<option value="${c.code}">${c.code} — ${c.description}</option>`).join("")}
+        </select>
       </td>
     `;
     body.appendChild(tr);
   });
-}
 
-function onParentSearch(input) {
-  const q = input.value.trim().toLowerCase();
-  const dropdown = input.parentElement.querySelector(".parentDropdown");
-  const candidatas = window._candidatasMadre || [];
-  const matches = q === "" ? candidatas.slice(0, 25)
-    : candidatas.filter(c => c.description.toLowerCase().includes(q) || c.code.includes(q)).slice(0, 25);
-  if (matches.length === 0) { dropdown.style.display = "none"; return; }
-  dropdown.innerHTML = matches.map(c =>
-    `<div class="parentOption" data-code="${c.code}" onmousedown="pickParent(this)">
-       <span class="pcode">${c.code}</span> ${c.description}
-     </div>`).join("");
-  dropdown.style.display = "block";
-}
-
-function pickParent(el) {
-  const wrapper = el.closest("td");
-  wrapper.querySelector(".parentSearch").value = el.textContent.trim();
-  wrapper.querySelector(".parentCode").value = el.dataset.code;
-  wrapper.querySelector(".parentDropdown").style.display = "none";
-}
-
-function hideParentDropdown(input) {
-  setTimeout(() => {
-    const dropdown = input.parentElement.querySelector(".parentDropdown");
-    if (dropdown) dropdown.style.display = "none";
-  }, 150);
+  // El mismo desplegable con búsqueda adentro que usan los otros informes. Antes acá había
+  // un typeahead propio: había que escribir para que apareciera algo, no se podía abrir la
+  // lista y mirarla, y cortaba en 25 resultados sin decirlo.
+  conBuscadorTodos(".parentCode", "Buscar cuenta madre…");
 }
 
 function renderChecks(checks) {
@@ -296,7 +273,7 @@ document.getElementById("btnClasificar").addEventListener("click", async () => {
   const parents = document.querySelectorAll(".parentCode");
   const nuevas = lastResult.unmapped.map((u, idx) => ({
     code: u.code, description: u.description,
-    category: cats[idx].value, parent_code: parents[idx].value.trim() || null,
+    category: cats[idx].value, parent_code: (parents[idx].value || "").trim() || null,
   }));
 
   document.getElementById("spinnerClasificar").classList.remove("hidden");

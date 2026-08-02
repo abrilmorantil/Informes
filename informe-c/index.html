@@ -120,11 +120,11 @@
   <div class="card hidden" id="cardExport">
     <h2>1. Export de Onvio</h2>
     <p class="footer-note" id="txtUltimaCarga" style="margin-bottom:10px;"></p>
-    <p class="footer-note" style="margin-bottom:10px;">
-      Tiene que ser el <b>acumulado del ejercicio</b>, que es con el que se llenan los dos
-      balances formales — no el de un mes suelto. Es el reporte con el que venís
-      completándolos a mano.
-    </p>
+    <div class="instruccion">
+      <span class="que">Bajá</span>
+      <span>De Onvio, el <b>Sumas y Saldos por código de cuenta</b>, <b>acumulado del
+        ejercicio</b>. No el de un mes suelto: con el mensual los balances dan mal.</span>
+    </div>
     <label class="dropzone" id="dzExport">
       <input type="file" id="fileExport" accept=".xls,.xlsx">
       <div id="txtExport">Hacé clic para elegir el archivo (Balance de SyS por Cód. de Cta., acumulado)</div>
@@ -147,12 +147,17 @@
   <div class="card hidden" id="cardNuevas">
     <h2>2. Cuentas nuevas detectadas</h2>
     <p class="footer-note">
-      Estas cuentas vienen en el export pero todavía no están en el balance. Elegí el destino
-      de cada una: las de gastos se insertan como subcuenta de su cuenta madre (el Anexo II
-      lee el subtotal de la madre, así que no hay nada más que elegir), y las patrimoniales
-      se insertan debajo de una línea de la Nota 4. Los proveedores nuevos no aparecen acá:
-      se insertan solos en el detalle del pasivo.
+      Vienen en el export pero todavía no están en el balance. Elegí el destino de cada una.
     </p>
+    <details style="margin-bottom:14px;">
+      <summary style="cursor:pointer; font-size:12.5px; color:var(--ink-soft);">Cómo se insertan</summary>
+      <p class="footer-note" style="margin-top:8px;">
+        Las de gastos van como subcuenta de su cuenta madre (el Anexo II lee el subtotal de la
+        madre, así que no hay nada más que elegir). Las patrimoniales van debajo de una línea
+        de la Nota 4. Los proveedores nuevos no aparecen acá: se insertan solos en el detalle
+        del pasivo.
+      </p>
+    </details>
     <table>
       <thead>
         <tr><th>Código</th><th>Descripción</th><th>Capítulo</th><th class="num">Saldo $</th><th style="width:36%;">Destino</th></tr>
@@ -166,14 +171,21 @@
   <div class="card hidden" id="cardRevisionUsd">
     <h2>2b. Dólares: cuentas que no sé dónde van</h2>
     <p class="footer-note">
-      El balance en dólares usa un plan de cuentas más viejo que el export. Donde el código
-      viejo <b>y</b> el nombre coinciden, te dejo la propuesta ya elegida —igual conviene que
-      la mires—. Donde no hay equivalente claro no te propongo nada a propósito: emparejar
-      solo por parecido de nombre se equivoca la mitad de las veces (llega a proponer meter
-      una amortización acumulada dentro del bien de uso), así que ahí elegís vos.
-      <b>Se pregunta una sola vez</b>: queda guardado para las próximas corridas. Si alguna
-      no corresponde a este balance, marcá "No cargarla".
+      Elegí a qué cuenta del balance va cada una, o marcá "No cargarla".
+      <b>Se pregunta una sola vez</b>: queda guardado para las próximas corridas.
     </p>
+    <details style="margin-bottom:14px;">
+      <summary style="cursor:pointer; font-size:12.5px; color:var(--ink-soft);">
+        Por qué algunas vienen propuestas y otras no
+      </summary>
+      <p class="footer-note" style="margin-top:8px;">
+        El balance en dólares usa un plan de cuentas más viejo que el export. Donde el código
+        viejo <b>y</b> el nombre coinciden, la propuesta viene ya elegida —igual conviene
+        mirarla—. Donde no hay equivalente claro no se propone nada a propósito: emparejar
+        sólo por parecido de nombre se equivoca la mitad de las veces (llega a proponer meter
+        una amortización acumulada dentro del bien de uso).
+      </p>
+    </details>
     <div id="revisionUsdResumen"></div>
     <table>
       <thead>

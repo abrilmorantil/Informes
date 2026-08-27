@@ -170,7 +170,7 @@ function copiarFormulasDeFila(wsSs, filaDestino, filaOrigen, log = () => {}) {
   return copiadas;
 }
 
-function agregarRefDistDeGastos(wsDist, distRow, distCol, colSaldoSs, ssRow) {
+function agregarRefDistDeGastos(wsDist, distRow, distCol, colSaldoSs, ssRow, signo = "+") {
   const celda = wsDist.getCell(`${distCol}${distRow}`);
   const ref = `'Sumas y Saldos'!${colSaldoSs}${ssRow}`;
   const v = celda.value;
@@ -186,9 +186,9 @@ function agregarRefDistDeGastos(wsDist, distRow, distCol, colSaldoSs, ssRow) {
     // Si la referencia ya está, no se agrega de nuevo: sumaría el importe dos veces. El
     // texto de la fórmula manda sobre lo que diga el mapeo, que puede venir desactualizado.
     if (formulaTieneRef(v.formula, colSaldoSs, ssRow)) return false;
-    celda.value = { formula: `${v.formula}+${ref}` };
+    celda.value = { formula: `${v.formula}${signo}${ref}` };
   } else {
-    celda.value = { formula: `+${ref}` };
+    celda.value = { formula: `${signo}${ref}` };
   }
   return true;
 }
@@ -196,6 +196,100 @@ function agregarRefDistDeGastos(wsDist, distRow, distCol, colSaldoSs, ssRow) {
 function formulaTieneRef(formula, col, fila) {
   const re = new RegExp(`'Sumas y Saldos'!\\$?${col}\\$?${fila}(?!\\d)`);
   return re.test(formula);
+}
+
+// Saca de una celda de Dist.de gastos la referencia a una fila de 'Sumas y Saldos'.
+// Es la inversa de agregarRefDistDeGastos, y hace falta para MOVER una cuenta de
+// categoría: primero hay que sacarla de donde está hoy.
+//
+// Sólo sabe sacar referencias SUMADAS (`+'Sumas y Saldos'!E226`). Si la referencia
+// aparece restada o dentro de una función, no la toca y corta con un error: la
+// columna CR tiene fórmulas con signos y con referencias a otras celdas de la hoja,
+// y recortarlas a ciegas daría un número mal sin que se note.
+function quitarRefDistDeGastos(wsDist, distRow, distCol, colSs, ssRow) {
+  const celda = wsDist.getCell(`${distCol}${distRow}`);
+  const v = celda.value;
+  if (v && typeof v === "object" && v.sharedFormula) {
+    throw new Error(
+      `La celda Dist.de gastos!${distCol}${distRow} usa una fórmula compartida. ` +
+      `El archivo tiene que abrirse con abrirWorkbook(). NO se modificó nada.`
+    );
+  }
+  if (!(v && typeof v === "object" && typeof v.formula === "string")) return 0;
+
+  const original = v.formula;
+  const re = new RegExp(`'Sumas y Saldos'!\\$?${colSs}\\$?${ssRow}(?!\\d)`);
+  let out = original;
+  const signos = [];
+  for (;;) {
+    const m = re.exec(out);
+    if (!m) break;
+    const i = m.index;
+    const fin = i + m[0].length;
+    let antes = out.slice(0, i).replace(/\s+$/, "");
+    // El término puede venir sumado (`+ref`), restado (`-ref`) o con las dos cosas
+    // (`+-ref`, que el archivo real usa en la columna CR). El signo se DEVUELVE para
+    // que quien mueva la cuenta la vuelva a poner igual: si se reagregara sumando algo
+    // que estaba restado, el total cambiaría sin que nadie lo note.
+    let signo = "+";
+    if (antes === "") {
+      // la referencia arranca la fórmula
+    } else if (antes.endsWith("-")) {
+      signo = "-";
+      antes = antes.slice(0, -1).replace(/\s+$/, "");
+      if (antes.endsWith("+")) antes = antes.slice(0, -1);   // el caso `+-ref`
+    } else if (antes.endsWith("+")) {
+      antes = antes.slice(0, -1);
+    } else {
+      throw new Error(
+        `En Dist.de gastos!${distCol}${distRow} la cuenta de la fila ${ssRow} está dentro de ` +
+        `una función o multiplicando ("…${original.slice(Math.max(0, i - 14), fin + 4)}…"). ` +
+        `No la toco: hay que corregir esa fórmula a mano. NO se modificó nada.`
+      );
+    }
+    out = antes + out.slice(fin);
+    signos.push(signo);
+  }
+  if (!signos.length) return { quitadas: 0, signos: [] };
+
+  out = out.replace(/^\s*\+(?![-])/, "").replace(/[+\-]\s*$/, "").trim();
+  // Si no quedó nada, la celda pasa a valer 0: era la única cuenta que sumaba.
+  celda.value = out ? { formula: out } : 0;
+  return { quitadas: signos.length, signos };
+}
+
+// Todas las celdas de Dist.de gastos que hoy suman esta fila de 'Sumas y Saldos'.
+// Es la fuente de verdad de a qué categorías va una cuenta: el mapeo guarda una sola
+// etiqueta, pero las fórmulas pueden tenerla repartida entre varias filas.
+// Se busca CUALQUIER referencia a la fila de la cuenta, sea cual sea la columna de
+// 'Sumas y Saldos' que lea. La versión anterior sólo miraba la columna SALDO de cada
+// centro de costo, y por eso no veía las 38 referencias del archivo que leen el DEBE o
+// el HABER (las columnas R y S, que las dos leen SHEYLA). Esas quedaban sin mover: la
+// cuenta terminaba sumando en la categoría nueva Y en la vieja a la vez.
+//
+// La columna de 'Sumas y Saldos' se conserva tal cual al mover: cambiar de categoría
+// cambia DÓNDE se suma el importe, no QUÉ celda se lee.
+function refsDeCuentaEnDist(wsDist, mapeo, ssRow, filasCategoria) {
+  const colCr = columnaCrDeDist(wsDist);
+  const cols = Object.keys(mapeo.dist_col_to_cc);
+  if (colCr) cols.push(colCr);
+  const re = new RegExp(`'Sumas y Saldos'!\\$?([A-Z]{1,3})\\$?${ssRow}(?!\\d)`, "g");
+  const encontradas = [];
+  for (const distRow of filasCategoria) {
+    for (const distCol of cols) {
+      const f = wsDist.getCell(`${distCol}${distRow}`).value;
+      if (!(f && typeof f === "object" && typeof f.formula === "string")) continue;
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(f.formula)) !== null) {
+        encontradas.push({
+          distRow, distCol, colSs: m[1],
+          tipo: distCol === colCr ? "haber" : "saldo",
+        });
+      }
+    }
+  }
+  return encontradas;
 }
 
 // La columna "CR" de Dist.de gastos junta los HABER de todos los centros de costo, y la
@@ -216,6 +310,322 @@ function columnaCrDeDist(wsDist) {
     }
   }
   return null;
+}
+
+// ------------------------------------------------- crear una categoría nueva
+//
+// Hasta ahora crear categorías era un paso manual en Excel. Hace falta cuando una
+// cuenta no encaja en ninguna de las que ya existen.
+//
+// Dónde se inserta: la fila TOTAL GASTOS suma rangos por columna, y esos rangos NO
+// terminan todos en la misma fila (en el archivo real 16 columnas llegan hasta la 101,
+// 15 hasta la 100 y una hasta la 102 — una inconsistencia que ya venía). Se inserta
+// dentro del rango MÁS CORTO, así la categoría nueva queda comprendida por todos y
+// ninguno hay que tocar. Insertar después del más corto la dejaría fuera del total en
+// esas 15 columnas, en silencio.
+function filaTotalGastosDeDist(wsDist) {
+  for (let r = 8; r <= wsDist.rowCount; r++) {
+    const t = textoPlano(wsDist.getCell(r, 3));
+    if (t && t.toUpperCase().includes("TOTAL GASTOS")) return r;
+  }
+  return null;
+}
+
+function crearCategoriaEnDist({ wb, mapeo, nombre, log = () => {} }) {
+  const wsDist = wb.getWorksheet("Dist.de gastos");
+  const limpio = String(nombre == null ? "" : nombre).trim();
+  if (!limpio) throw new Error("La categoría necesita un nombre.");
+  if (mapeo.categorias.some(c => c.desc === limpio)) {
+    throw new Error(`La categoría "${limpio}" ya existe en Dist.de gastos.`);
+  }
+  const filaTot = filaTotalGastosDeDist(wsDist);
+  if (!filaTot) throw new Error("No encontré la fila 'TOTAL GASTOS' en Dist.de gastos.");
+
+  // el final del rango más corto de la fila de totales
+  let finMinimo = null;
+  for (let c = 4; c <= wsDist.columnCount; c++) {
+    const v = wsDist.getCell(filaTot, c).value;
+    if (!(v && typeof v === "object" && typeof v.formula === "string")) continue;
+    for (const m of v.formula.matchAll(/[A-Z]{1,3}\d+:[A-Z]{1,3}(\d+)/g)) {
+      const fin = parseInt(m[1], 10);
+      if (finMinimo === null || fin < finMinimo) finMinimo = fin;
+    }
+  }
+  if (finMinimo === null) throw new Error("La fila TOTAL GASTOS no tiene rangos que pueda leer.");
+  const insertAt = finMinimo;
+
+  if (typeof insertRowEn !== "function") {
+    throw new Error("Falta formula_hojas.js: sin él no se pueden insertar filas en Dist.de gastos.");
+  }
+  const mod = insertRowEn(wb, "Dist.de gastos", insertAt);
+  log(`  Insertada la fila ${insertAt} en Dist.de gastos (${mod} referencias reacomodadas).`);
+
+  // el mapeo queda corrido una fila
+  for (const c of mapeo.categorias) if (c.dist_row >= insertAt) c.dist_row += 1;
+
+  // la fila modelo es la que ahora quedó debajo: la que ocupaba este lugar
+  const modelo = insertAt + 1;
+  const fila = wsDist.getRow(insertAt);
+  wsDist.getRow(modelo).eachCell({ includeEmpty: false }, (cell, c) => {
+    fila.getCell(c).style = cell.style;
+  });
+
+  wsDist.getCell(insertAt, 3).value = limpio;
+  // MOVIMIENTO MES: la misma fórmula que las demás categorías, con su propia fila
+  const dModelo = wsDist.getCell(modelo, 4).value;
+  if (dModelo && typeof dModelo === "object" && typeof dModelo.formula === "string") {
+    wsDist.getCell(insertAt, 4).value = {
+      formula: dModelo.formula.replace(new RegExp(`\\b([A-Z]{1,3})${modelo}\\b`, "g"),
+                                       (_, col) => `${col}${insertAt}`),
+    };
+  }
+  // Columnas de mes: los meses YA CERRADOS van en 0 —la categoría no existía, así que
+  // no tuvo movimiento— y el TOTAL AÑO copia su fórmula. Los meses todavía sin abrir
+  // quedan vacíos, igual que en el resto de las categorías.
+  //
+  // Las columnas de CENTRO DE COSTO y la CR se saltean a propósito: ahí es donde viven
+  // las referencias a las cuentas, y copiarlas de la fila modelo le daría a la categoría
+  // nueva una copia de las cuentas de su vecina — o sea, sumar esos importes dos veces.
+  // La categoría nace vacía y se llena moviéndole cuentas.
+  const colCr = columnaCrDeDist(wsDist);
+  const esDeCuentas = (c) => {
+    const letra = indiceACol(c);
+    return letra === colCr || Object.prototype.hasOwnProperty.call(mapeo.dist_col_to_cc, letra);
+  };
+  for (let c = 5; c <= wsDist.columnCount; c++) {
+    if (esDeCuentas(c)) continue;
+    const v = wsDist.getCell(modelo, c).value;
+    if (v === null || v === undefined) continue;
+    if (typeof v === "object" && typeof v.formula === "string") {
+      wsDist.getCell(insertAt, c).value = {
+        formula: v.formula.replace(new RegExp(`\\b([A-Z]{1,3})${modelo}\\b`, "g"),
+                                   (_, col) => `${col}${insertAt}`),
+      };
+    } else if (typeof v === "number") {
+      wsDist.getCell(insertAt, c).value = 0;
+    }
+  }
+
+  const nueva = { desc: limpio, dist_row: insertAt, ss_rows: [] };
+  mapeo.categorias.push(nueva);
+  mapeo.categorias.sort((a, b) => a.dist_row - b.dist_row);
+  log(`  Categoría "${limpio}" creada en la fila ${insertAt} de Dist.de gastos.`);
+  return nueva;
+}
+
+// Índice de todo el tablero en UNA sola pasada: fila de 'Sumas y Saldos' -> filas de
+// Dist.de gastos que la suman. El panel necesita el estado de las 282 cuentas juntas, y
+// preguntarlo cuenta por cuenta con refsDeCuentaEnDist serían casi medio millón de
+// lecturas de celda; así son unas mil setecientas.
+// Se devuelven SEPARADOS el saldo y el haber, porque son dos problemas distintos:
+// que el SALDO de una cuenta esté repartido en varias categorías (146 cuentas), y que
+// el saldo esté en una sola pero su HABER —que vive en la columna CR— esté enganchado
+// en otra (9 cuentas). Mezclarlos daba un número que no se entendía.
+function mapaDeDistribucion(wsDist, mapeo) {
+  const colsCc = Object.keys(mapeo.dist_col_to_cc);
+  const colCr = columnaCrDeDist(wsDist);
+  const saldo = new Map();
+  const haber = new Map();
+  const re = /'Sumas y Saldos'!\$?([A-Z]{1,3})\$?(\d+)/g;
+  const anotar = (mapa, fila, distRow) => {
+    if (!mapa.has(fila)) mapa.set(fila, new Set());
+    mapa.get(fila).add(distRow);
+  };
+  for (const c of mapeo.categorias) {
+    for (const col of colCr ? colsCc.concat([colCr]) : colsCc) {
+      const v = wsDist.getCell(`${col}${c.dist_row}`).value;
+      if (!(v && typeof v === "object" && typeof v.formula === "string")) continue;
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(v.formula)) !== null) {
+        anotar(col === colCr ? haber : saldo, parseInt(m[2], 10), c.dist_row);
+      }
+    }
+  }
+  return { saldo, haber };
+}
+
+// Crea la fila de una cuenta que todavía no está en el balance, dentro del bloque de
+// su categoría, y la registra en el mapeo. La usan los dos caminos que dan de alta una
+// cuenta: la corrida mensual (cuando el export trae una cuenta nueva) y el panel de
+// categorización (cuando se agrega una a mano). Es la misma función a propósito: son
+// la misma operación y no pueden divergir.
+function insertarCuentaEnBalance({ wb, wsSs, mapeo, codigo, label, categoria, log = () => {} }) {
+  wsSs = wsSs || wb.getWorksheet("Sumas y Saldos");
+  if (mapeo.cuentas[codigo]) {
+    throw new Error(`La cuenta ${codigo} ya está en el balance, en la fila ${mapeo.cuentas[codigo].ss_row}.`);
+  }
+  const limpio = String(label == null ? "" : label).trim();
+  if (!limpio) {
+    // Sin nombre en la columna B el motor no la registra: quedaría invisible y la
+    // corrida siguiente le insertaría OTRA fila. Es el caso de la fila 131.
+    throw new Error("La cuenta necesita un nombre: sin nombre el motor no la reconoce y la duplicaría.");
+  }
+  const cat = resolverCategoriaDestino(mapeo, categoria);
+  if (!cat) {
+    throw new Error(
+      `"${categoria}" no es una categoría existente. Crear categorías nuevas en ` +
+      `Dist.de gastos no está soportado; elegí una de la lista.`
+    );
+  }
+
+  const insertAt = cat.ss_rows.length ? Math.max(...cat.ss_rows) + 1 : mapeo.fila_totales;
+  const mod = insertRowSumasYSaldos(wsSs, wb, insertAt);
+  log(`  Insertada fila ${insertAt} en Sumas y Saldos (${mod} referencias de fórmula reacomodadas).`);
+
+  // el mapeo en memoria queda corrido una fila
+  for (const info of Object.values(mapeo.cuentas)) {
+    if (info.ss_row >= insertAt) info.ss_row += 1;
+  }
+  for (const c2 of mapeo.categorias) {
+    c2.ss_rows = c2.ss_rows.map(r => (r >= insertAt ? r + 1 : r));
+  }
+  if (mapeo.fila_totales >= insertAt) mapeo.fila_totales += 1;
+
+  wsSs.getCell(insertAt, 1).value = parseInt(codigo, 10);
+  wsSs.getCell(insertAt, 2).value = limpio;
+  // la fila de abajo es la que estaba antes en esta posición: sirve de molde
+  copiarFormulasDeFila(wsSs, insertAt, insertAt + 1, log);
+
+  const cuenta = { ss_row: insertAt, label: limpio, categoria: cat.desc, ccs_en_dist: [] };
+  mapeo.cuentas[codigo] = cuenta;
+  cat.ss_rows.push(insertAt);
+  cat.ss_rows.sort((a, b) => a - b);
+  return cuenta;
+}
+
+// ------------------------------------------------- edición de la categorización
+//
+// Estas tres operaciones son las que usa el panel "Configurar categorización". Todas
+// trabajan sobre el workbook y sobre el mapeo A LA VEZ, a propósito: la etiqueta del
+// mapeo sola no mueve ningún importe (sólo decide dónde se engancha una referencia
+// nueva), así que cambiarla sin tocar las fórmulas daría la sensación de haber
+// arreglado algo que sigue igual.
+
+function _filasDeCategorias(mapeo) {
+  return mapeo.categorias.map(c => c.dist_row);
+}
+
+// Elegir la categoría por su NOMBRE es ambiguo: en el archivo real hay 95 filas de
+// categoría con sólo 91 nombres distintos — ALQUILERES VARIOS está en las filas 19 y 55,
+// ACUERDO DE INVERSIONES en la 75 y la 80, ROBO en la 81 y la 101, GASTOS DE
+// ESPECTROMETRÍA en la 85 y la 89. Buscando por nombre se agarraba siempre la primera,
+// en silencio. Por eso lo que se pasa es la FILA, y el nombre queda como respaldo para
+// no romper nada que todavía mande texto.
+function resolverCategoriaDestino(mapeo, valor) {
+  if (valor === null || valor === undefined || valor === "") return null;
+  const n = Number(valor);
+  if (Number.isInteger(n) && n > 0) {
+    const porFila = mapeo.categorias.find(x => x.dist_row === n);
+    if (porFila) return porFila;
+  }
+  const iguales = mapeo.categorias.filter(x => x.desc === valor);
+  if (iguales.length > 1) {
+    throw new Error(
+      `"${valor}" figura ${iguales.length} veces en Dist.de gastos (filas ` +
+      `${iguales.map(x => x.dist_row).join(", ")}), así que no se sabe a cuál va. ` +
+      `Elegila desde "Configurar categorización", que distingue la fila.`
+    );
+  }
+  return iguales[0] || null;
+}
+
+function _sincronizarSsRows(mapeo, ssRow, distRowDestino) {
+  for (const c of mapeo.categorias) {
+    const i = c.ss_rows.indexOf(ssRow);
+    if (c.dist_row === distRowDestino) {
+      if (i === -1) c.ss_rows.push(ssRow);
+    } else if (i !== -1) {
+      c.ss_rows.splice(i, 1);
+    }
+  }
+  const d = mapeo.categorias.find(c => c.dist_row === distRowDestino);
+  if (d) d.ss_rows.sort((a, b) => a - b);
+}
+
+// Mueve TODAS las referencias de una cuenta a una sola categoría. Como cada cuenta
+// suma una vez por columna (verificado en el archivo real: 0 pares cuenta/columna
+// repetidos), mover las referencias de fila no cambia ningún total: el importe sigue
+// sumando en la misma columna, sólo que en el renglón de la categoría correcta.
+function moverCuentaDeCategoria({ wb, mapeo, codigo, categoriaDestino, log = () => {} }) {
+  const wsDist = wb.getWorksheet("Dist.de gastos");
+  const cuenta = mapeo.cuentas[codigo];
+  if (!cuenta) throw new Error(`La cuenta ${codigo} no está en el mapeo.`);
+  const destino = resolverCategoriaDestino(mapeo, categoriaDestino);
+  if (!destino) {
+    throw new Error(
+      `"${categoriaDestino}" no es una categoría existente. Crear categorías nuevas ` +
+      `sigue siendo un paso manual en el Excel.`
+    );
+  }
+
+  const refs = refsDeCuentaEnDist(wsDist, mapeo, cuenta.ss_row, _filasDeCategorias(mapeo));
+  const fuera = refs.filter(r => r.distRow !== destino.dist_row);
+
+  // Primero se sacan TODAS y recién después se agregan: así una referencia que ya
+  // estaba en el destino no se duplica ni se pierde. El signo con el que estaba cada
+  // una se conserva: en la columna CR hay cuatro que están RESTADAS, y reagregarlas
+  // sumando les cambiaría el signo al importe sin que se note.
+  for (const r of fuera) {
+    const q = quitarRefDistDeGastos(wsDist, r.distRow, r.distCol, r.colSs, cuenta.ss_row);
+    r.signo = (q.signos && q.signos[0]) || "+";
+  }
+  for (const r of fuera) {
+    agregarRefDistDeGastos(wsDist, destino.dist_row, r.distCol, r.colSs, cuenta.ss_row, r.signo);
+  }
+
+  const ccDeCol = {};
+  for (const [col, info] of Object.entries(mapeo.dist_col_to_cc)) ccDeCol[col] = info.nombre_balance;
+  cuenta.categoria = destino.desc;
+  cuenta.excluida = false;
+  cuenta.ccs_en_dist = [...new Set(refs.filter(r => r.tipo === "saldo").map(r => ccDeCol[r.distCol]))]
+    .filter(Boolean);
+  _sincronizarSsRows(mapeo, cuenta.ss_row, destino.dist_row);
+
+  log(`${codigo} ${cuenta.label}: ${fuera.length} referencia(s) movidas a "${destino.desc}" (fila ${destino.dist_row}).`);
+  return { movidas: fuera.length, yaEstaban: refs.length - fuera.length, categoria: destino.desc };
+}
+
+// Saca la cuenta de la distribución sin borrarle la fila. La fila queda en
+// 'Sumas y Saldos' con su saldo, pero deja de sumar en ninguna categoría.
+// NO se la borra del mapeo: si se la sacara, la corrida siguiente la vería como
+// cuenta nueva y le insertaría OTRA fila, duplicando el importe. Queda marcada
+// como excluida, que además es lo que evita que se vuelva a preguntar por ella.
+function quitarCuentaDeDistribucion({ wb, mapeo, codigo, log = () => {} }) {
+  const wsDist = wb.getWorksheet("Dist.de gastos");
+  const cuenta = mapeo.cuentas[codigo];
+  if (!cuenta) throw new Error(`La cuenta ${codigo} no está en el mapeo.`);
+
+  const refs = refsDeCuentaEnDist(wsDist, mapeo, cuenta.ss_row, _filasDeCategorias(mapeo));
+  for (const r of refs) quitarRefDistDeGastos(wsDist, r.distRow, r.distCol, r.colSs, cuenta.ss_row);
+  // (el signo no importa acá: la cuenta deja de sumar en ningún lado)
+
+  cuenta.categoria = null;
+  cuenta.excluida = true;
+  cuenta.ccs_en_dist = [];
+  for (const c of mapeo.categorias) {
+    const i = c.ss_rows.indexOf(cuenta.ss_row);
+    if (i !== -1) c.ss_rows.splice(i, 1);
+  }
+  log(`${codigo} ${cuenta.label}: ${refs.length} referencia(s) quitadas. Ya no se distribuye.`);
+  return { quitadas: refs.length };
+}
+
+// Cambia el nombre que se ve en 'Sumas y Saldos'. Es seguro: el VLOOKUP de cada fila
+// busca por el CÓDIGO de la columna A (`VLOOKUP("1_"&A131,…)`), así que la columna B
+// es sólo texto y cambiarla no mueve ningún importe. Sí importa que NO quede vacía:
+// el motor registra una cuenta sólo si tiene código Y nombre, así que una fila sin
+// nombre queda invisible y la corrida siguiente la inserta de nuevo, duplicada.
+function renombrarCuenta({ wb, mapeo, codigo, nombre, log = () => {} }) {
+  const cuenta = mapeo.cuentas[codigo];
+  if (!cuenta) throw new Error(`La cuenta ${codigo} no está en el mapeo.`);
+  const limpio = String(nombre == null ? "" : nombre).trim();
+  if (!limpio) throw new Error("El nombre no puede quedar vacío.");
+  wb.getWorksheet("Sumas y Saldos").getCell(`B${cuenta.ss_row}`).value = limpio;
+  const antes = cuenta.label;
+  cuenta.label = limpio;
+  log(`${codigo}: "${antes}" pasa a llamarse "${limpio}".`);
+  return { antes, ahora: limpio };
 }
 
 // ---------------------------------------------------------------- etapa 1
@@ -271,6 +681,9 @@ function detectarPendientes(lineas, mapeo) {
     const codigo = linea.cuenta_codigo;
     if (vistas.has(codigo)) continue;
     const cuenta = mapeo.cuentas[codigo];
+    // Una cuenta excluida a propósito desde el panel no se vuelve a preguntar: la
+    // decisión de dejarla afuera ya está tomada y guardada.
+    if (cuenta && cuenta.excluida) continue;
     if (cuenta === undefined || !cuenta.categoria) {
       vistas.add(codigo);
       pendientes.push({
@@ -304,7 +717,7 @@ function detectarCcSinColumna(lineas, mapeo) {
 
 // ---------------------------------------------------------------- etapa 2
 
-function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = () => {} }) {
+function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], periodo, log = () => {} }) {
   mapeo = JSON.parse(JSON.stringify(mapeo));
 
   const wsSs = wb.getWorksheet("Sumas y Saldos");
@@ -355,6 +768,32 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
         fuera.map(c => `${c.codigo} ${c.label} (${c.saldo.toFixed(2)})`).join(", "));
   }
 
+  // Cuentas que se decidió NO incluir: o bien se contestó "no incluirla" en la pregunta
+  // de cuentas nuevas, o bien se las sacó desde el panel de categorización. No se les
+  // escribe línea en SyS ni se les crea fila, así que su importe queda fuera del balance
+  // a propósito — y por eso tampoco tiene que entrar en el total, que es la cifra de
+  // control. Quedan anotadas en el mapeo para no volver a preguntar por ellas.
+  for (const codigo of excluidas) {
+    const c = mapeo.cuentas[codigo];
+    if (c) {
+      c.excluida = true;
+      c.categoria = null;
+    } else {
+      const l = lineas.find(x => x.cuenta_codigo === codigo);
+      mapeo.cuentas[codigo] = {
+        ss_row: null, label: (l && l.cuenta_label) || "", categoria: null,
+        excluida: true, ccs_en_dist: [],
+      };
+    }
+  }
+  const esExcluida = (l) => !!(mapeo.cuentas[l.cuenta_codigo] || {}).excluida;
+  const dejadasAfuera = resumirFueraDelBalance(lineas.filter(esExcluida));
+  lineas = lineas.filter(l => !esExcluida(l));
+  if (dejadasAfuera.length) {
+    log(`  ${dejadasAfuera.length} cuenta(s) dejadas afuera a propósito: ` +
+        dejadasAfuera.map(c => `${c.codigo} ${c.label} (${c.saldo.toFixed(2)})`).join(", "));
+  }
+
   limpiarSys(wsSys, log);
   const filasSys = filasDeDatosSys(wsSys);
 
@@ -373,44 +812,18 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
       if (!categoria) {
         throw new Error(`Falta elegir la categoría de la cuenta nueva ${codigo} - ${linea.cuenta_label}.`);
       }
-      const cat = mapeo.categorias.find(c => c.desc === categoria);
-      if (!cat) {
-        throw new Error(
-          `"${categoria}" no es una categoría existente. Crear categorías nuevas en ` +
-          `Dist.de gastos no está soportado; elegí una de la lista.`
-        );
-      }
-
-      const insertAt = cat.ss_rows.length ? Math.max(...cat.ss_rows) + 1 : mapeo.fila_totales;
-      const mod = insertRowSumasYSaldos(wsSs, wb, insertAt);
-      log(`  Insertada fila ${insertAt} en Sumas y Saldos (${mod} referencias de fórmula reacomodadas).`);
-
-      // el mapeo en memoria queda corrido una fila
-      for (const info of Object.values(mapeo.cuentas)) {
-        if (info.ss_row >= insertAt) info.ss_row += 1;
-      }
-      for (const c2 of mapeo.categorias) {
-        c2.ss_rows = c2.ss_rows.map(r => (r >= insertAt ? r + 1 : r));
-      }
-      if (mapeo.fila_totales >= insertAt) mapeo.fila_totales += 1;
-
-      wsSs.getCell(insertAt, 1).value = parseInt(codigo, 10);
-      wsSs.getCell(insertAt, 2).value = linea.cuenta_label;
-      // la fila de abajo es la que estaba antes en esta posición: sirve de molde
-      copiarFormulasDeFila(wsSs, insertAt, insertAt + 1, log);
-
-      cuenta = { ss_row: insertAt, label: linea.cuenta_label, categoria, ccs_en_dist: [] };
-      mapeo.cuentas[codigo] = cuenta;
-      cat.ss_rows.push(insertAt);
+      cuenta = insertarCuentaEnBalance({
+        wb, wsSs, mapeo, codigo, label: linea.cuenta_label, categoria, log,
+      });
       nuevas++;
     } else if (!cuenta.categoria) {
       const categoria = categoriasElegidas[codigo];
       if (!categoria) {
         throw new Error(`Falta elegir la categoría de la cuenta ${codigo} - ${linea.cuenta_label}.`);
       }
-      const cat = mapeo.categorias.find(c => c.desc === categoria);
+      const cat = resolverCategoriaDestino(mapeo, categoria);
       if (!cat) throw new Error(`"${categoria}" no es una categoría existente.`);
-      cuenta.categoria = categoria;
+      cuenta.categoria = cat.desc;
       if (!cuenta.ccs_en_dist) cuenta.ccs_en_dist = [];
       if (!cat.ss_rows.includes(cuenta.ss_row)) cat.ss_rows.push(cuenta.ss_row);
       clasificadas++;
@@ -488,6 +901,7 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, periodo, log = (
       sinCc: [...new Set(sinCc)].sort(),
       ccSinColumna,
       fueraDelBalance: fuera,
+      dejadasAfuera,
     },
   };
 }
@@ -708,6 +1122,11 @@ function aprobarMes({ wb, periodo, mapeo, lineas, log = () => {} }) {
 }
 
 if (typeof module !== "undefined") {
+  // crearCategoriaEnDist inserta filas en 'Dist.de gastos' y para eso usa insertRowEn,
+  // que vive en informe-c/formula_hojas.js (en el navegador lo carga el index.html).
+  if (typeof insertRowEn === "undefined") {
+    try { global.insertRowEn = require("../informe-c/formula_hojas.js").insertRowEn; } catch (e) {}
+  }
   const { getCloseMatches } = require("./similitud.js");
   const { insertRowSumasYSaldos } = require("./formula_utils.js");
   const meses = require("./meses.js");
@@ -724,6 +1143,10 @@ if (typeof module !== "undefined") {
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
     norm, limpiar, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
+    quitarRefDistDeGastos, refsDeCuentaEnDist, insertarCuentaEnBalance, mapaDeDistribucion,
+    crearCategoriaEnDist, filaTotalGastosDeDist,
+    resolverCategoriaDestino,
+    moverCuentaDeCategoria, quitarCuentaDeDistribucion, renombrarCuenta,
     avanzarGastosAcumulados, totalesPorProyecto, reabrirMes,
     repararTotalGastosAcumulados, fecharSumasYSaldos,
   };

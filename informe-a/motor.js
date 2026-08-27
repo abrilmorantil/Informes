@@ -360,20 +360,24 @@ function completarColumnaCr({ wb, mapeo, log = () => {} }) {
 
   const haberDeCc = {};
   for (const b of mapeo.cc_blocks) haberDeCc[b.nombre_balance] = b.col_haber;
-
-  // toda columna de HABER del archivo, para reconocer qué referencias de CR son haberes
-  const esColumnaHaber = new Set(mapeo.cc_blocks.map(b => b.col_haber));
+  const queEs = {};
+  for (const b of mapeo.cc_blocks) {
+    queEs[b.col_debe] = `DEBE de ${b.nombre_balance}`;
+    queEs[b.col_haber] = `HABER de ${b.nombre_balance}`;
+    queEs[b.col_saldo] = `SALDO de ${b.nombre_balance}`;
+  }
 
   const re = /'Sumas y Saldos'!\$?([A-Z]{1,3})\$?(\d+)/g;
-  let agregadas = 0, yaEstaban = 0, sacadas = 0;
-  const categoriasTocadas = new Set();
-  const raras = [];
+  let escritas = 0, sinCuentas = 0;
+  const descartado = [];
 
   for (const cat of mapeo.categorias) {
     if (esFilaDeTotales(cat.desc)) continue;
 
-    // qué (cuenta, centro de costo) suma hoy esta categoría por el lado del debe
-    const espejo = new Set();
+    // El espejo: por cada (cuenta, centro de costo) que la categoría suma del lado del
+    // debe, la misma cuenta y el mismo centro pero del lado del haber.
+    const espejo = [];
+    const vistas = new Set();
     for (const [distCol, info] of Object.entries(mapeo.dist_col_to_cc)) {
       const v = wsDist.getCell(`${distCol}${cat.dist_row}`).value;
       if (!(v && typeof v === "object" && typeof v.formula === "string")) continue;
@@ -381,52 +385,63 @@ function completarColumnaCr({ wb, mapeo, log = () => {} }) {
       if (!colHaber) continue;
       re.lastIndex = 0;
       let m;
-      while ((m = re.exec(v.formula)) !== null) espejo.add(`${colHaber}|${parseInt(m[2], 10)}`);
+      while ((m = re.exec(v.formula)) !== null) {
+        const clave = `${colHaber}${parseInt(m[2], 10)}`;
+        if (vistas.has(clave)) continue;      // el mismo importe no se suma dos veces
+        vistas.add(clave);
+        espejo.push(clave);
+      }
     }
 
-    // Primero se SACAN los haberes que no le corresponden. Son los que quedaron de
-    // cuando el motor colgaba el haber de "la primera categoría que nombraba a la
-    // cuenta": el haber de una cuenta terminaba en la categoría de al lado. Si no se
-    // sacan, al agregar el que sí corresponde el importe queda contado dos veces.
+    // Todo lo que había antes y no es parte del espejo se descarta, y se informa.
+    // Son de dos tipos: haberes que habían quedado colgados de la categoría de al
+    // lado, y ajustes hechos a mano que restaban una columna de la propia fila
+    // (`-F67`) o el saldo de otra cuenta. Cualquiera de los dos hace que el
+    // MOVIMIENTO MES no cuadre con la suma de las columnas.
     const vCr = wsDist.getCell(`${colCr}${cat.dist_row}`).value;
     if (vCr && typeof vCr === "object" && typeof vCr.formula === "string") {
-      const presentes = [];
+      const f = vCr.formula;
       re.lastIndex = 0;
       let m;
-      while ((m = re.exec(vCr.formula)) !== null) presentes.push({ col: m[1], fila: parseInt(m[2], 10) });
-      for (const p of presentes) {
-        const clave = `${p.col}|${p.fila}`;
-        if (espejo.has(clave)) continue;
-        if (!esColumnaHaber.has(p.col)) {
-          // no es un haber: es uno de los ajustes hechos a mano. Se deja y se informa.
-          raras.push(`${cat.desc}: ${p.col}${p.fila}`);
-          continue;
-        }
-        quitarRefDistDeGastos(wsDist, cat.dist_row, colCr, p.col, p.fila);
-        sacadas++;
-        categoriasTocadas.add(cat.desc);
+      while ((m = re.exec(f)) !== null) {
+        const clave = `${m[1]}${m[2]}`;
+        if (vistas.has(clave)) continue;
+        const antes = f.slice(0, m.index).replace(/\s+$/, "");
+        descartado.push({
+          categoria: cat.desc, fila: cat.dist_row, ref: clave,
+          que: queEs[m[1]] || `columna ${m[1]}`,
+          signo: antes.endsWith("-") ? "restaba" : "sumaba",
+        });
+      }
+      // referencias a la propia hoja (no llevan el nombre 'Sumas y Saldos')
+      const sinHoja = f.replace(/'Sumas y Saldos'![A-Z]{1,3}\d+/g, " ");
+      for (const l of new Set(sinHoja.match(/[A-Z]{1,3}\d+/g) || [])) {
+        const col = l.replace(/\d+$/, "");
+        const cc = (mapeo.dist_col_to_cc[col] || {}).nombre_balance;
+        descartado.push({
+          categoria: cat.desc, fila: cat.dist_row, ref: l,
+          que: cc ? `su propia columna ${cc}` : `la celda ${l} de esta misma hoja`,
+          signo: "restaba",
+        });
       }
     }
 
-    for (const clave of espejo) {
-      const [colHaber, ssRow] = clave.split("|");
-      if (agregarRefDistDeGastos(wsDist, cat.dist_row, colCr, colHaber, parseInt(ssRow, 10))) {
-        agregadas++;
-        categoriasTocadas.add(cat.desc);
-      } else {
-        yaEstaban++;
-      }
-    }
+    if (!espejo.length) { sinCuentas++; wsDist.getCell(`${colCr}${cat.dist_row}`).value = 0; continue; }
+    wsDist.getCell(`${colCr}${cat.dist_row}`).value = {
+      formula: espejo.map(r => `+'Sumas y Saldos'!${r}`).join("").replace(/^\+/, ""),
+    };
+    escritas++;
   }
 
-  log(`  Columna CR: ${agregadas} referencia(s) de haber agregadas y ${sacadas} sacadas ` +
-      `(estaban en la categoría equivocada), en ${categoriasTocadas.size} categorías. ` +
-      `${yaEstaban} ya estaban bien.`);
-  if (raras.length) {
-    log(`  Se dejaron ${raras.length} ajuste(s) hechos a mano que no son referencias de haber: ` +
-        raras.join(", "));
+  log(`  Columna CR reescrita como espejo del debe: ${escritas} categorías con fórmula, ` +
+      `${sinCuentas} sin cuentas (quedan en 0).`);
+  if (descartado.length) {
+    log(`  Se descartaron ${descartado.length} referencia(s) que no correspondían:`);
+    for (const d of descartado) {
+      log(`     ${d.categoria} (fila ${d.fila}): ${d.signo} ${d.ref} — ${d.que}`);
+    }
   }
-  return { agregadas, sacadas, yaEstaban, categorias: categoriasTocadas.size, raras };
+  return { escritas, sinCuentas, descartado };
 }
 
 // ------------------------------------------------- crear una categoría nueva

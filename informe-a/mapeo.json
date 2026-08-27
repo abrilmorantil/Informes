@@ -1980,9 +1980,8 @@
   "424250000": {
    "ss_row": 31,
    "label": "Comunicaciones",
-   "categoria": "REFRIGERIOS",
+   "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -1994,7 +1993,8 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
    ],
    "excluida": false
   },
@@ -6112,6 +6112,7 @@
    "desc": "GASTOS COMUNICACIONES",
    "dist_row": 10,
    "ss_rows": [
+    31,
     39,
     40,
     83,
@@ -6509,7 +6510,6 @@
    "dist_row": 51,
    "ss_rows": [
     30,
-    31,
     32,
     79,
     110,

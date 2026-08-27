@@ -60,14 +60,13 @@ function categoriasDe(wsDist, mapeo, ssRow) {
   const antes = censo(wsDist, mapeo);
   console.log(`referencias en el tablero: ${Object.values(antes).reduce((a, b) => a + b, 0)}`);
 
-  // El archivo trae UNA referencia repetida de fábrica: en la columna CR, el haber de
-  // 42496000 EXPENSAS (fila 110) está sumado en ALQUILERES INMUEBLES y en ALQUILERES
-  // VARIOS a la vez. Es una cuenta del plan viejo, hoy en cero, así que no afecta
-  // ningún número; se va a ir sola cuando se saquen las cuentas viejas. Se deja
-  // anotada para que no pase por nueva si alguna vez aparece otra.
+  // Ninguna celda de 'Sumas y Saldos' puede estar sumada dos veces en la misma columna
+  // del tablero: seria el mismo importe contado dos veces. Antes habia 29 en la columna
+  // CR —haberes que habian quedado colgados de la categoria de al lado— y se limpiaron
+  // al completar la columna.
   const repetidas = Object.entries(antes).filter(([, v]) => v > 1).map(([k]) => k);
-  check(repetidas.length === 1 && repetidas[0] === "E|D110",
-        `la única referencia repetida del archivo es la conocida (E|D110); hay ${repetidas.length}: ${repetidas.join(", ")}`);
+  check(repetidas.length === 0,
+        `ninguna referencia esta repetida en el tablero (hay ${repetidas.length}: ${repetidas.slice(0, 8).join(", ")})`);
 
   // --- 1. mover una cuenta a otra categoría ----------------------------------
   // El test no puede dar por sentado en cuántas categorías arranca cada cuenta: eso

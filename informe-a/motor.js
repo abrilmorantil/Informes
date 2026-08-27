@@ -337,6 +337,98 @@ function columnaCrDeDist(wsDist) {
   return null;
 }
 
+// ------------------------------------------------- la columna CR, completa
+//
+// La columna CR junta el HABER de las cuentas, y MOVIMIENTO MES la suma
+// (`SUM(F:V)+E`): las columnas de centro traen el SALDO (debe − haber), así que
+// saldo + haber = debe. Si a una categoría le falta el haber de alguna de sus cuentas,
+// su DR sale corto por ese importe, sin ningún aviso.
+//
+// Hasta ahora la referencia al haber se agregaba SÓLO cuando una cuenta traía haber
+// distinto de cero en la corrida. Por eso la columna estaba a medias: 42 categorías con
+// fórmula y 49 sin nada. Lo que corresponde es que el haber espeje al debe — la misma
+// cuenta, en el mismo centro de costo, en la misma categoría.
+//
+// Se AGREGA lo que falta y no se toca lo que ya está: en el archivo real hay ocho
+// ajustes hechos a mano en esa columna (cuatro restan una columna de la propia fila,
+// como `-F67`, y cuatro restan una referencia en vez de sumarla). No se sabe qué
+// querían corregir, así que se dejan como están y se informan.
+function completarColumnaCr({ wb, mapeo, log = () => {} }) {
+  const wsDist = wb.getWorksheet("Dist.de gastos");
+  const colCr = columnaCrDeDist(wsDist);
+  if (!colCr) throw new Error("No encontré la columna 'CR' en Dist.de gastos.");
+
+  const haberDeCc = {};
+  for (const b of mapeo.cc_blocks) haberDeCc[b.nombre_balance] = b.col_haber;
+
+  // toda columna de HABER del archivo, para reconocer qué referencias de CR son haberes
+  const esColumnaHaber = new Set(mapeo.cc_blocks.map(b => b.col_haber));
+
+  const re = /'Sumas y Saldos'!\$?([A-Z]{1,3})\$?(\d+)/g;
+  let agregadas = 0, yaEstaban = 0, sacadas = 0;
+  const categoriasTocadas = new Set();
+  const raras = [];
+
+  for (const cat of mapeo.categorias) {
+    if (esFilaDeTotales(cat.desc)) continue;
+
+    // qué (cuenta, centro de costo) suma hoy esta categoría por el lado del debe
+    const espejo = new Set();
+    for (const [distCol, info] of Object.entries(mapeo.dist_col_to_cc)) {
+      const v = wsDist.getCell(`${distCol}${cat.dist_row}`).value;
+      if (!(v && typeof v === "object" && typeof v.formula === "string")) continue;
+      const colHaber = haberDeCc[info.nombre_balance];
+      if (!colHaber) continue;
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(v.formula)) !== null) espejo.add(`${colHaber}|${parseInt(m[2], 10)}`);
+    }
+
+    // Primero se SACAN los haberes que no le corresponden. Son los que quedaron de
+    // cuando el motor colgaba el haber de "la primera categoría que nombraba a la
+    // cuenta": el haber de una cuenta terminaba en la categoría de al lado. Si no se
+    // sacan, al agregar el que sí corresponde el importe queda contado dos veces.
+    const vCr = wsDist.getCell(`${colCr}${cat.dist_row}`).value;
+    if (vCr && typeof vCr === "object" && typeof vCr.formula === "string") {
+      const presentes = [];
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(vCr.formula)) !== null) presentes.push({ col: m[1], fila: parseInt(m[2], 10) });
+      for (const p of presentes) {
+        const clave = `${p.col}|${p.fila}`;
+        if (espejo.has(clave)) continue;
+        if (!esColumnaHaber.has(p.col)) {
+          // no es un haber: es uno de los ajustes hechos a mano. Se deja y se informa.
+          raras.push(`${cat.desc}: ${p.col}${p.fila}`);
+          continue;
+        }
+        quitarRefDistDeGastos(wsDist, cat.dist_row, colCr, p.col, p.fila);
+        sacadas++;
+        categoriasTocadas.add(cat.desc);
+      }
+    }
+
+    for (const clave of espejo) {
+      const [colHaber, ssRow] = clave.split("|");
+      if (agregarRefDistDeGastos(wsDist, cat.dist_row, colCr, colHaber, parseInt(ssRow, 10))) {
+        agregadas++;
+        categoriasTocadas.add(cat.desc);
+      } else {
+        yaEstaban++;
+      }
+    }
+  }
+
+  log(`  Columna CR: ${agregadas} referencia(s) de haber agregadas y ${sacadas} sacadas ` +
+      `(estaban en la categoría equivocada), en ${categoriasTocadas.size} categorías. ` +
+      `${yaEstaban} ya estaban bien.`);
+  if (raras.length) {
+    log(`  Se dejaron ${raras.length} ajuste(s) hechos a mano que no son referencias de haber: ` +
+        raras.join(", "));
+  }
+  return { agregadas, sacadas, yaEstaban, categorias: categoriasTocadas.size, raras };
+}
+
 // ------------------------------------------------- crear una categoría nueva
 //
 // Hasta ahora crear categorías era un paso manual en Excel. Hace falta cuando una
@@ -877,26 +969,25 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
       );
     }
 
-    // que la cuenta esté referenciada en Dist.de gastos para este centro de costo
+    // que la cuenta esté referenciada en Dist.de gastos para este centro de costo,
+    // del lado del DEBE (la columna del centro) y del HABER (la columna CR). Los dos
+    // a la vez y siempre: el haber tiene que espejar al debe. Antes la referencia al
+    // haber se agregaba sólo si la cuenta traía haber ese mes, y por eso la columna CR
+    // quedaba a medias — con el importe correcto cuando lo había, pero sin fórmula en
+    // 49 de las 91 categorías, y con el DR corto el mes que apareciera un haber nuevo.
     if (!cuenta.ccs_en_dist) cuenta.ccs_en_dist = [];
-    if (!cuenta.ccs_en_dist.includes(ccBlock.nombre_balance)) {
-      const distRow = filaDistDeCategoria(mapeo, cuenta.categoria);
-      const distCol = ccNombreADistCol(mapeo, ccBlock.nombre_balance);
-      if (distRow && distCol) {
-        agregarRefDistDeGastos(wsDist, distRow, distCol, ccBlock.col_saldo, cuenta.ss_row);
-        cuenta.ccs_en_dist.push(ccBlock.nombre_balance);
-      }
+    const distRow = filaDistDeCategoria(mapeo, cuenta.categoria);
+    const distCol = ccNombreADistCol(mapeo, ccBlock.nombre_balance);
+    if (distRow && distCol && !cuenta.ccs_en_dist.includes(ccBlock.nombre_balance)) {
+      agregarRefDistDeGastos(wsDist, distRow, distCol, ccBlock.col_saldo, cuenta.ss_row);
+      cuenta.ccs_en_dist.push(ccBlock.nombre_balance);
     }
-
-    // y que su HABER esté referenciado en la columna CR, que es la que los junta
-    if (colCr && Number(linea.haber)) {
-      const distRow = filaDistDeCategoria(mapeo, cuenta.categoria);
-      if (distRow) {
-        if (agregarRefDistDeGastos(wsDist, distRow, colCr, ccBlock.col_haber, cuenta.ss_row)) {
-          haberesAgregados.push(
-            `${codigo} (${cuenta.categoria}) — haber de ${ccBlock.nombre_balance}: ` +
-            `${Number(linea.haber).toFixed(2)}`);
-        }
+    if (distRow && colCr) {
+      if (agregarRefDistDeGastos(wsDist, distRow, colCr, ccBlock.col_haber, cuenta.ss_row) &&
+          Number(linea.haber)) {
+        haberesAgregados.push(
+          `${codigo} (${cuenta.categoria}) — haber de ${ccBlock.nombre_balance}: ` +
+          `${Number(linea.haber).toFixed(2)}`);
       }
     }
 
@@ -1176,7 +1267,7 @@ if (typeof module !== "undefined") {
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
     norm, limpiar, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
-    categoriasElegibles, esFilaDeTotales,
+    categoriasElegibles, esFilaDeTotales, completarColumnaCr,
     quitarRefDistDeGastos, refsDeCuentaEnDist, insertarCuentaEnBalance, mapaDeDistribucion,
     crearCategoriaEnDist, filaTotalGastosDeDist,
     resolverCategoriaDestino,

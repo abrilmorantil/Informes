@@ -221,1736 +221,8 @@
   }
  },
  "cuentas": {
-  "40000000": {
-   "ss_row": 7,
-   "label": "RESULTADOS",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "41000000": {
-   "ss_row": 8,
-   "label": "INGRESOS",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "41100000": {
-   "ss_row": 9,
-   "label": "VENTAS",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "41200000": {
-   "ss_row": 10,
-   "label": "OTROS INGRESOS",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "41210000": {
-   "ss_row": 12,
-   "label": "Baja bien de uso",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "41230000": {
-   "ss_row": 11,
-   "label": "Envío muestras Chile",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42000000": {
-   "ss_row": 13,
-   "label": "EGRESOS",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42100000": {
-   "ss_row": 14,
-   "label": "GASTOS DE COMERCIALIZACION",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42101000": {
-   "ss_row": 15,
-   "label": "Honorarios legales",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42102000": {
-   "ss_row": 16,
-   "label": "Honorarios profesionales",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42104000": {
-   "ss_row": 18,
-   "label": "Alquileres",
-   "categoria": "SUELDOS OFICINA",
-   "ccs_en_dist": [
-    "LA HOYADA",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "42107000": {
-   "ss_row": 21,
-   "label": "Movilidad y Viaticos Adm",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42108000": {
-   "ss_row": 22,
-   "label": "Servicios de construccion Rel. Comunit. Catamarca",
-   "categoria": "GASTOS EN CONSTRUCCIÓN",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42109000": {
-   "ss_row": 23,
-   "label": "Combustible",
-   "categoria": "COMBUSTIBLE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42110000": {
-   "ss_row": 24,
-   "label": "Eventos",
-   "categoria": "EVENTOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42111000": {
-   "ss_row": 25,
-   "label": "Alquiler de Equi. De Campo",
-   "categoria": "ALQUILERES DE EQUIPOS DE CAMPO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42112000": {
-   "ss_row": 26,
-   "label": "GS. LIMPIEZA",
-   "categoria": "GS. LIMPIEZA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42113000": {
-   "ss_row": 27,
-   "label": "Tasas Retributivas Minería",
-   "categoria": "TASAS RETRIBUTIVA MINERÌA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42114000": {
-   "ss_row": 40,
-   "label": "Gastos varios Oficina",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42115000": {
-   "ss_row": 41,
-   "label": "Inspecciones",
-   "categoria": "INSPECCIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42200000": {
-   "ss_row": 29,
-   "label": "GASTOS DE ADMINISTRACION",
-   "categoria": "SUELDOS OFICINA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42201000": {
-   "ss_row": 30,
-   "label": "Imp. Bienes, Acc. y Part. Soc.",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42202000": {
-   "ss_row": 31,
-   "label": "Certificaciones",
-   "categoria": "CERTIFICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42203000": {
-   "ss_row": 32,
-   "label": "Depreciaciones",
-   "categoria": "DEPRECIACION",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42204000": {
-   "ss_row": 33,
-   "label": "Sellados",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42207000": {
-   "ss_row": 34,
-   "label": "Seguridad",
-   "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42208000": {
-   "ss_row": 35,
-   "label": "Gastos Varios Campo",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42209000": {
-   "ss_row": 36,
-   "label": "Gastos de computacion",
-   "categoria": "GASTOS COMPUTACIÓN",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42211000": {
-   "ss_row": 38,
-   "label": "Patentes",
-   "categoria": "PATENTES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42213000": {
-   "ss_row": 39,
-   "label": "Gastos en tramites",
-   "categoria": "GASTOS EN TRÁMITES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42215000": {
-   "ss_row": 42,
-   "label": "Mantenimiento Software",
-   "categoria": "MANTENIMIENTO SOFTWARE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42216000": {
-   "ss_row": 43,
-   "label": "Gratificaciones",
-   "categoria": "GRATIFICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42217000": {
-   "ss_row": 44,
-   "label": "Publicaciones",
-   "categoria": "PUBLICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42218000": {
-   "ss_row": 48,
-   "label": "Gastos Médicos",
-   "categoria": "GASTOS MÉDICOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42219000": {
-   "ss_row": 45,
-   "label": "Donaciones",
-   "categoria": "DONACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42220000": {
-   "ss_row": 46,
-   "label": "MATERIALES DE CAMPO",
-   "categoria": "MATERIALES DE CAMPO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42221000": {
-   "ss_row": 37,
-   "label": "REGALOS AL PERSONAL",
-   "categoria": "REGALOS AL PERSONAL",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42222000": {
-   "ss_row": 49,
-   "label": "Mensajeria",
-   "categoria": "MENSAJERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42225000": {
-   "ss_row": 116,
-   "label": "Recupero de Gastos",
-   "categoria": "RECUPERO DE GASTOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42230000": {
-   "ss_row": 47,
-   "label": "Alquileres Varios",
-   "categoria": "ALQUILERES VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42300000": {
-   "ss_row": 50,
-   "label": "GASTOS DE FINANCIACION",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42301000": {
-   "ss_row": 51,
-   "label": "Gastos y comisiones bancarias",
-   "categoria": "GASTOS Y COMISIONES BANCARIAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42302000": {
-   "ss_row": 52,
-   "label": "Imp. L. 25413 s/debitos",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42303000": {
-   "ss_row": 54,
-   "label": "Imp. L. 25413 s/créditos",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42305000": {
-   "ss_row": 56,
-   "label": "Diferencia de Cambio",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42307000": {
-   "ss_row": 57,
-   "label": "Aranceles Aduaneros",
-   "categoria": "ARANCELES ADUANEROS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42308000": {
-   "ss_row": 58,
-   "label": "Tasa Municipal Neuquén",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42309000": {
-   "ss_row": 59,
-   "label": "Multas",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42311000": {
-   "ss_row": 61,
-   "label": "Impuestos Varios",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42400000": {
-   "ss_row": 62,
-   "label": "GASTOS DE EXPLORACION",
-   "categoria": "GASTOS EXPLORACION",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42411000": {
-   "ss_row": 63,
-   "label": "MATRICULAS",
-   "categoria": "MATRÍCULAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42412000": {
-   "ss_row": 64,
-   "label": "GS.EN PERSONAL",
-   "categoria": "CARGAS SOCIALES OFICINA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42413000": {
-   "ss_row": 65,
-   "label": "ALQUILER DE VEHICULOS",
-   "categoria": "ALQUILERES VEHÍCULOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42414000": {
-   "ss_row": 66,
-   "label": "CANON",
-   "categoria": "CANON",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42415000": {
-   "ss_row": 67,
-   "label": "GS EXPLORACION",
-   "categoria": "GASTOS EXPLORACION",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42416000": {
-   "ss_row": 68,
-   "label": "CONVENIO DE CESIÓN",
-   "categoria": "CONVENIO DE CESIÓN",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42417000": {
-   "ss_row": 69,
-   "label": "ACUERDO DE INVERSIONES",
-   "categoria": "ACUERDO DE INVERSIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42418000": {
-   "ss_row": 70,
-   "label": "GASTOS TOPOGRAFICOS",
-   "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
-   "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42419000": {
-   "ss_row": 71,
-   "label": "SERVICIOS GEOFISICOS",
-   "categoria": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42420000": {
-   "ss_row": 72,
-   "label": "MOVILIDAD Y VIATICOS Campo",
-   "categoria": "MOVILIDAD Y VIÁTICOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42421000": {
-   "ss_row": 73,
-   "label": "ALOJAMIENTO",
-   "categoria": "ALOJAMIENTO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42423000": {
-   "ss_row": 75,
-   "label": "PEAJES",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42424000": {
-   "ss_row": 76,
-   "label": "TRASLADOS",
-   "categoria": "TRASLADOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42425000": {
-   "ss_row": 77,
-   "label": "COMUNICACIONES",
-   "categoria": "GASTOS COMUNICACIONES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "REGIONAL CATAMARCA"
-   ]
-  },
-  "42426000": {
-   "ss_row": 79,
-   "label": "COMBUSTIBLE",
-   "categoria": "COMBUSTIBLE",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL",
-    "LA HOYADA"
-   ]
-  },
-  "42427000": {
-   "ss_row": 80,
-   "label": "ADQUISICIÓN INFORMACIÓN GEOLOGICA",
-   "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42428000": {
-   "ss_row": 81,
-   "label": "GS.CAPACITACION",
-   "categoria": "GASTOS DE CAPACITACION",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42429000": {
-   "ss_row": 82,
-   "label": "GS.SUSCRIPCION EDITORIAL",
-   "categoria": "GS SUSCRIPCIÓN EDITORIAL",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42430000": {
-   "ss_row": 83,
-   "label": "ALQUILERES INMUEBLES",
-   "categoria": "ALQUILERES INMUEBLES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42431000": {
-   "ss_row": 84,
-   "label": "ANALISIS MUESTRAS",
-   "categoria": "GASTOS DE MUESTREOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42432000": {
-   "ss_row": 85,
-   "label": "REPARACIONES",
-   "categoria": "REPARAC.Y MANTENC.",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42433000": {
-   "ss_row": 86,
-   "label": "GS. IMPORTACIÓN",
-   "categoria": "ARANCELES ADUANEROS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42434000": {
-   "ss_row": 87,
-   "label": "HABILITACIÓN COMERCIAL",
-   "categoria": "HABILITACION COMERCIAL",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42435000": {
-   "ss_row": 88,
-   "label": "INFORMES AMBIENTALES",
-   "categoria": "GASTOS LEGALES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42436000": {
-   "ss_row": 89,
-   "label": "ESTACIONAMIENTO",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42437000": {
-   "ss_row": 90,
-   "label": "CUOTA SOCIETARIA-CAMARA DE MINERIA",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42438000": {
-   "ss_row": 91,
-   "label": "INDUMENTARIA",
-   "categoria": "INDUMENTARIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42439000": {
-   "ss_row": 92,
-   "label": "GASTOS CAMPAMENTO",
-   "categoria": "SUELDOS CAMPO",
-   "ccs_en_dist": [
-    "SHEYLA",
-    "SHEYLA I",
-    "LA HOYADA",
-    "REGIONAL CATAMARCA",
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42441000": {
-   "ss_row": 94,
-   "label": "ALQUILER DE MAQUINARIA",
-   "categoria": "ALQUILER DE MAQUINARIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42442000": {
-   "ss_row": 95,
-   "label": "CATERING",
-   "categoria": "CATERING",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42443000": {
-   "ss_row": 96,
-   "label": "FERRETERÍA",
-   "categoria": "FERRETERÍA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42445000": {
-   "ss_row": 118,
-   "label": "TASAS AMBIENTALES",
-   "categoria": "GASTOS LEGALES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42460000": {
-   "ss_row": 99,
-   "label": "LIBRERIA Y PAPELERIA",
-   "categoria": "LIBRERIA Y PAPELERIA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42470000": {
-   "ss_row": 100,
-   "label": "SERVICIOS",
-   "categoria": null,
-   "ccs_en_dist": []
-  },
-  "42480000": {
-   "ss_row": 101,
-   "label": "DERECHOS DE EXPLORACION",
-   "categoria": "GASTOS PROPIEDAD MINERA",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42488000": {
-   "ss_row": 102,
-   "label": "FOTOCOPIAS",
-   "categoria": "FOTOCOPIAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42489000": {
-   "ss_row": 103,
-   "label": "GASTOS DE CONSTRUCCIÓN",
-   "categoria": "GASTOS EN CONSTRUCCIÓN",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42490000": {
-   "ss_row": 104,
-   "label": "GS MANTENIMIENTO",
-   "categoria": "REPARAC.Y MANTENC.",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42491000": {
-   "ss_row": 105,
-   "label": "GS VARIOS",
-   "categoria": "GASTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42492000": {
-   "ss_row": 106,
-   "label": "TASAS",
-   "categoria": "IMPUESTOS VARIOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42493000": {
-   "ss_row": 107,
-   "label": "GASTOS DE REPRESENTACION",
-   "categoria": "GASTOS DE REPRESENTACIÓN",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42494000": {
-   "ss_row": 108,
-   "label": "GASTOS VEHICULOS",
-   "categoria": "GASTOS VEHICULOS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42495000": {
-   "ss_row": 109,
-   "label": "COMISIONES",
-   "categoria": "COMISIONES, INTERESES, MULTAS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42496000": {
-   "ss_row": 110,
-   "label": "EXPENSAS",
-   "categoria": "ALQUILERES INMUEBLES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42497000": {
-   "ss_row": 111,
-   "label": "GS RELAC ALQUILER",
-   "categoria": "ALQUILERES INMUEBLES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42498000": {
-   "ss_row": 112,
-   "label": "OBRA SOCIAL",
-   "categoria": "OBRA SOCIAL",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "42499000": {
-   "ss_row": 113,
-   "label": "SEGUROS",
-   "categoria": "SEGUROS",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "43100000": {
-   "ss_row": 114,
-   "label": "ROBO",
-   "categoria": "ROBO",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "43200000": {
-   "ss_row": 115,
-   "label": "PERDIDA DE MATERIALES",
-   "categoria": "PERDIDA DE MATERIALES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
-  "43300000": {
-   "ss_row": 117,
-   "label": "CONSUMOS NO REEMBOLSABLES",
-   "categoria": "CONSUMOS NO REEMBOLSABLES",
-   "ccs_en_dist": [
-    "OFICINA GENERAL",
-    "EXPLORACIÓN REGIONAL",
-    "TANQUE NEGRO",
-    "CERRO LA MINA",
-    "CERRO ABANICO",
-    "CENTRO ESPERANZA",
-    "PROYECTO LOS MORTERITOS",
-    "LOS MENUCOS",
-    "CAÑADON DEL MORO",
-    "LONCO VACA - PELENQUE",
-    "GASTOS GENERALES",
-    "PROYECTO SOL"
-   ]
-  },
   "412600000": {
-   "ss_row": 308,
+   "ss_row": 208,
    "label": "Recupero de Seguros",
    "categoria": "RECUPERO DE SEGUROS",
    "ccs_en_dist": [
@@ -1970,7 +242,7 @@
    "excluida": false
   },
   "421010000": {
-   "ss_row": 179,
+   "ss_row": 79,
    "label": "Refrigerios - Adm Catamarca",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -1992,7 +264,7 @@
    "excluida": false
   },
   "421020000": {
-   "ss_row": 180,
+   "ss_row": 80,
    "label": "Servicios Públicos - Adm Catamarca",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -2013,7 +285,7 @@
    "excluida": false
   },
   "421030000": {
-   "ss_row": 17,
+   "ss_row": 7,
    "label": "Iva credito fiscal no computable",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -2033,7 +305,7 @@
    "excluida": false
   },
   "421050000": {
-   "ss_row": 19,
+   "ss_row": 8,
    "label": "Sueldos Adm",
    "categoria": "SUELDOS OFICINA",
    "ccs_en_dist": [
@@ -2054,7 +326,7 @@
    "excluida": false
   },
   "421060000": {
-   "ss_row": 20,
+   "ss_row": 9,
    "label": "Cargas sociales Adm",
    "categoria": "CARGAS SOCIALES OFICINA",
    "ccs_en_dist": [
@@ -2074,7 +346,7 @@
    "excluida": false
   },
   "421070000": {
-   "ss_row": 269,
+   "ss_row": 169,
    "label": "Movilidad y viáticos Adm.",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -2099,7 +371,7 @@
    "excluida": false
   },
   "421080000": {
-   "ss_row": 344,
+   "ss_row": 244,
    "label": "Servicios de construccion Rel. Comunit. Catamarca",
    "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
@@ -2120,7 +392,7 @@
    "excluida": false
   },
   "421090000": {
-   "ss_row": 182,
+   "ss_row": 82,
    "label": "Seguridad e Higiene Adm Gral Catamarca",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -2142,7 +414,7 @@
    "excluida": false
   },
   "421100000": {
-   "ss_row": 181,
+   "ss_row": 81,
    "label": "Seguridad - Adm Catamarca",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -2163,7 +435,7 @@
    "excluida": false
   },
   "421110000": {
-   "ss_row": 183,
+   "ss_row": 83,
    "label": "Comunicaciones - Adm Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -2184,7 +456,7 @@
    "excluida": false
   },
   "421120000": {
-   "ss_row": 184,
+   "ss_row": 84,
    "label": "Servicios Informaticos - Adm Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -2206,7 +478,7 @@
    "excluida": false
   },
   "421130000": {
-   "ss_row": 185,
+   "ss_row": 85,
    "label": "Ferreteria - Adm Catamarca",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -2228,7 +500,7 @@
    "excluida": false
   },
   "421140000": {
-   "ss_row": 186,
+   "ss_row": 86,
    "label": "Gastos varios oficina - Adm Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -2250,7 +522,7 @@
    "excluida": false
   },
   "421150000": {
-   "ss_row": 270,
+   "ss_row": 170,
    "label": "Refrigerios Gs campo Catamarca",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -2275,7 +547,7 @@
    "excluida": false
   },
   "421160000": {
-   "ss_row": 271,
+   "ss_row": 171,
    "label": "Alojamiento Gs de campo Catamarca",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -2298,7 +570,7 @@
    "excluida": false
   },
   "421170000": {
-   "ss_row": 331,
+   "ss_row": 231,
    "label": "Alojamiento Rel. Comunitarias Catamarca",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -2320,7 +592,7 @@
    "excluida": false
   },
   "421180000": {
-   "ss_row": 332,
+   "ss_row": 232,
    "label": "Movilidad y viáticos Rel. Comunitarias Catamarca",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -2330,7 +602,7 @@
    "excluida": false
   },
   "421190000": {
-   "ss_row": 187,
+   "ss_row": 87,
    "label": "Gastos en personal - Adm Catamarca",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -2352,14 +624,14 @@
    "excluida": false
   },
   "421200000": {
-   "ss_row": 209,
+   "ss_row": 109,
    "label": "Intereses resarcitorios Adm Gral Catamarca",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [],
    "excluida": false
   },
   "421210000": {
-   "ss_row": 391,
+   "ss_row": 291,
    "label": "Canon Minero - Vigencia y Penalidades",
    "categoria": "CANON",
    "ccs_en_dist": [
@@ -2379,7 +651,7 @@
    "excluida": false
   },
   "421310000": {
-   "ss_row": 188,
+   "ss_row": 88,
    "label": "Honorarios Profesionales - Adm Catamarca",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -2400,7 +672,7 @@
    "excluida": false
   },
   "421320000": {
-   "ss_row": 189,
+   "ss_row": 89,
    "label": "Alquiler inmueble - Adm Catamarca",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -2422,7 +694,7 @@
    "excluida": false
   },
   "421330000": {
-   "ss_row": 334,
+   "ss_row": 234,
    "label": "Refrigerios Rel. comunitarias Catamarca",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -2444,7 +716,7 @@
    "excluida": false
   },
   "421340000": {
-   "ss_row": 190,
+   "ss_row": 90,
    "label": "Gastos de limpieza - Adm Catamarca",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -2465,7 +737,7 @@
    "excluida": false
   },
   "421350000": {
-   "ss_row": 333,
+   "ss_row": 233,
    "label": "Servicios movimiento de suelos -Rel.Comunit. Catamarca",
    "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
@@ -2487,7 +759,7 @@
    "excluida": false
   },
   "421360000": {
-   "ss_row": 335,
+   "ss_row": 235,
    "label": "Gastos Varios Rel. Comunitarias Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -2507,7 +779,7 @@
    "excluida": false
   },
   "421370000": {
-   "ss_row": 336,
+   "ss_row": 236,
    "label": "Gs Computación - Rel. Comunitarias Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -2528,7 +800,7 @@
    "excluida": false
   },
   "421380000": {
-   "ss_row": 337,
+   "ss_row": 237,
    "label": "Libreria - Rel. Comunitarias Catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -2548,7 +820,7 @@
    "excluida": false
   },
   "421410000": {
-   "ss_row": 273,
+   "ss_row": 173,
    "label": "Combustible Gs de campo Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -2571,7 +843,7 @@
    "excluida": false
   },
   "421420000": {
-   "ss_row": 272,
+   "ss_row": 172,
    "label": "Gtos en personal Gs. de campo Catamarca",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -2594,7 +866,7 @@
    "excluida": false
   },
   "421430000": {
-   "ss_row": 191,
+   "ss_row": 91,
    "label": "Honorarios legales  Adm Catamarca",
    "categoria": "HONORARIOS LEGALES",
    "ccs_en_dist": [
@@ -2617,7 +889,7 @@
    "excluida": false
   },
   "421440000": {
-   "ss_row": 192,
+   "ss_row": 92,
    "label": "Movilidad y Viáticos Adm Catamarca",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -2637,7 +909,7 @@
    "excluida": false
   },
   "421450000": {
-   "ss_row": 338,
+   "ss_row": 238,
    "label": "Gs. en Personal Rel. Comunitarias Catamarca",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -2646,7 +918,7 @@
    "excluida": false
   },
   "421460000": {
-   "ss_row": 194,
+   "ss_row": 94,
    "label": "Libreria y papeleria Adm catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -2667,7 +939,7 @@
    "excluida": false
   },
   "421470000": {
-   "ss_row": 127,
+   "ss_row": 27,
    "label": "Análisis Muestras I - R. Ambiental Catamarca",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -2687,7 +959,7 @@
    "excluida": false
   },
   "421480000": {
-   "ss_row": 195,
+   "ss_row": 95,
    "label": "Canon Minero - Adm Catamarca",
    "categoria": "CANON",
    "ccs_en_dist": [
@@ -2709,7 +981,7 @@
    "excluida": false
   },
   "421490000": {
-   "ss_row": 274,
+   "ss_row": 174,
    "label": "Alquiler Inmueble Gs. de campo Catamarca",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -2731,7 +1003,7 @@
    "excluida": false
   },
   "421500000": {
-   "ss_row": 196,
+   "ss_row": 96,
    "label": "Gastos de vehiculos Adm Catamarca",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -2752,7 +1024,7 @@
    "excluida": false
   },
   "421510000": {
-   "ss_row": 197,
+   "ss_row": 97,
    "label": "Gs Computación - Adm Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -2773,7 +1045,7 @@
    "excluida": false
   },
   "421520000": {
-   "ss_row": 198,
+   "ss_row": 98,
    "label": "Alojamiento Adm gral Catamarca",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -2795,7 +1067,7 @@
    "excluida": false
   },
   "421530000": {
-   "ss_row": 199,
+   "ss_row": 99,
    "label": "Servicio de Internet Adm Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -2816,7 +1088,7 @@
    "excluida": false
   },
   "421540000": {
-   "ss_row": 282,
+   "ss_row": 182,
    "label": "Monitoreo de suelos y aguas - Gs de Campo Cat.",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -2838,7 +1110,7 @@
    "excluida": false
   },
   "421550000": {
-   "ss_row": 343,
+   "ss_row": 243,
    "label": "Materiales de construccion Rel. Comunit. Catam",
    "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
@@ -2859,7 +1131,7 @@
    "excluida": false
   },
   "421560000": {
-   "ss_row": 201,
+   "ss_row": 101,
    "label": "Alquileres varios - Adm Catamarca",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -2880,7 +1152,7 @@
    "excluida": false
   },
   "421570000": {
-   "ss_row": 390,
+   "ss_row": 290,
    "label": "Publicaciones -  Vigencia y Penalidades Catamarca",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -2900,7 +1172,7 @@
    "excluida": false
   },
   "421580000": {
-   "ss_row": 349,
+   "ss_row": 249,
    "label": "Servicio Notarial Rel Comunitaria Catamarca",
    "categoria": "GASTOS LEGALES",
    "ccs_en_dist": [
@@ -2921,7 +1193,7 @@
    "excluida": false
   },
   "421590000": {
-   "ss_row": 350,
+   "ss_row": 250,
    "label": "Honorarios profesionales Rel Comunitaria Catamarca",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -2943,7 +1215,7 @@
    "excluida": false
   },
   "421600000": {
-   "ss_row": 275,
+   "ss_row": 175,
    "label": "Gastos Varios Gs de Campo Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -2966,7 +1238,7 @@
    "excluida": false
   },
   "421610000": {
-   "ss_row": 203,
+   "ss_row": 103,
    "label": "Combustible Adm. Gral Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -2987,7 +1259,7 @@
    "excluida": false
   },
   "421620000": {
-   "ss_row": 292,
+   "ss_row": 192,
    "label": "Servicio de Topografia Gs Campo Catamarca",
    "categoria": "GASTOS TOPOGRÀFICOS",
    "ccs_en_dist": [
@@ -3008,7 +1280,7 @@
    "excluida": false
   },
   "421630000": {
-   "ss_row": 293,
+   "ss_row": 193,
    "label": "Mensajeria Gs Campo Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -3030,7 +1302,7 @@
    "excluida": false
   },
   "421640000": {
-   "ss_row": 294,
+   "ss_row": 194,
    "label": "Gastos vehiculos Gs Campo Catamarca",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -3052,7 +1324,7 @@
    "excluida": false
   },
   "421650000": {
-   "ss_row": 296,
+   "ss_row": 196,
    "label": "Servicios de Cartografia Gs de campo Catamarca",
    "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
@@ -3075,7 +1347,7 @@
    "excluida": false
   },
   "421660000": {
-   "ss_row": 297,
+   "ss_row": 197,
    "label": "Insumos para muestras Gs Campo Catamarca",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -3097,7 +1369,7 @@
    "excluida": false
   },
   "421670000": {
-   "ss_row": 276,
+   "ss_row": 176,
    "label": "Comunicaciones Gs Campo Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -3119,7 +1391,7 @@
    "excluida": false
   },
   "421680000": {
-   "ss_row": 277,
+   "ss_row": 177,
    "label": "Servicio de transporte Gs Campo Catamarca",
    "categoria": "TRASLADOS",
    "ccs_en_dist": [
@@ -3142,7 +1414,7 @@
    "excluida": false
   },
   "421690000": {
-   "ss_row": 278,
+   "ss_row": 178,
    "label": "Gs de Campamento Gs de Campo Catamarca",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -3165,7 +1437,7 @@
    "excluida": false
   },
   "421700000": {
-   "ss_row": 279,
+   "ss_row": 179,
    "label": "Indumentaria de Trabajo Gastos de campo Catamarca",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -3187,7 +1459,7 @@
    "excluida": false
   },
   "421710000": {
-   "ss_row": 205,
+   "ss_row": 105,
    "label": "Tasa Municipal Adm Catamarca",
    "categoria": "TASAS",
    "ccs_en_dist": [
@@ -3207,7 +1479,7 @@
    "excluida": false
   },
   "421800000": {
-   "ss_row": 342,
+   "ss_row": 242,
    "label": "Alquiler maquinaria limpieza Rel. Comun. Catamarca",
    "categoria": "ALQUILER DE MAQUINARIA",
    "ccs_en_dist": [
@@ -3229,7 +1501,7 @@
    "excluida": false
   },
   "421810000": {
-   "ss_row": 299,
+   "ss_row": 199,
    "label": "Impuestos no computables Gs Campo Catamarca",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -3251,7 +1523,7 @@
    "excluida": false
   },
   "421820000": {
-   "ss_row": 300,
+   "ss_row": 200,
    "label": "Alquiler de vehiculos - Gs Campo Catamarca",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
@@ -3273,7 +1545,7 @@
    "excluida": false
   },
   "421830000": {
-   "ss_row": 301,
+   "ss_row": 201,
    "label": "Capacitaciones Gs Campo Catamarca",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
@@ -3294,7 +1566,7 @@
    "excluida": false
   },
   "421840000": {
-   "ss_row": 302,
+   "ss_row": 202,
    "label": "Alquiler Maquinaria Gs Campo Catamarca",
    "categoria": "ALQUILER DE MAQUINARIA",
    "ccs_en_dist": [
@@ -3319,7 +1591,7 @@
    "excluida": false
   },
   "421850000": {
-   "ss_row": 303,
+   "ss_row": 203,
    "label": "Gst de Mantenimiento Gst Campo Catamarca",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -3341,7 +1613,7 @@
    "excluida": false
   },
   "421900000": {
-   "ss_row": 200,
+   "ss_row": 100,
    "label": "Encomienda Adm Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -3362,7 +1634,7 @@
    "excluida": false
   },
   "421920000": {
-   "ss_row": 280,
+   "ss_row": 180,
    "label": "Libreria y Papeleria Gs Campo Catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -3383,7 +1655,7 @@
    "excluida": false
   },
   "421930000": {
-   "ss_row": 281,
+   "ss_row": 181,
    "label": "Gs Varios Oficina Gs Campo Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -3408,7 +1680,7 @@
    "excluida": false
   },
   "421940000": {
-   "ss_row": 348,
+   "ss_row": 248,
    "label": "Alquiler Inmueble Rel. Comun. Catamarca",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -3429,14 +1701,14 @@
    "excluida": false
   },
   "421950000": {
-   "ss_row": 362,
+   "ss_row": 262,
    "label": "Mensajeria Muestreo Geof. Sup. Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [],
    "excluida": false
   },
   "421970000": {
-   "ss_row": 286,
+   "ss_row": 186,
    "label": "Honorarios Profesionales Gs Campo Catamarca",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -3461,7 +1733,7 @@
    "excluida": false
   },
   "421980000": {
-   "ss_row": 288,
+   "ss_row": 188,
    "label": "Seguridad Gs Campo Catamarca",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -3483,7 +1755,7 @@
    "excluida": false
   },
   "421990000": {
-   "ss_row": 202,
+   "ss_row": 102,
    "label": "Mantenimiento Adm. Gral Catamarca",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -3504,7 +1776,7 @@
    "excluida": false
   },
   "422010000": {
-   "ss_row": 123,
+   "ss_row": 23,
    "label": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -3524,7 +1796,7 @@
    "excluida": false
   },
   "422020000": {
-   "ss_row": 124,
+   "ss_row": 24,
    "label": "Remediación Ambiental I- R. Ambiental",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -3545,7 +1817,7 @@
    "excluida": false
   },
   "422080000": {
-   "ss_row": 125,
+   "ss_row": 25,
    "label": "Gastos Ferretería I -R.Ambiental",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -3565,7 +1837,7 @@
    "excluida": false
   },
   "422090000": {
-   "ss_row": 128,
+   "ss_row": 28,
    "label": "Gs en personal R- Ambiental",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -3585,7 +1857,7 @@
    "excluida": false
   },
   "422220000": {
-   "ss_row": 126,
+   "ss_row": 26,
    "label": "Análisis Muestras -R. Ambiental",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -3606,7 +1878,7 @@
    "excluida": false
   },
   "422240000": {
-   "ss_row": 129,
+   "ss_row": 29,
    "label": "Honorarios profesionales - Remediación ambiental",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -3626,7 +1898,7 @@
    "excluida": false
   },
   "423010000": {
-   "ss_row": 147,
+   "ss_row": 47,
    "label": "Gastos y comisiones bancarias",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -3646,7 +1918,7 @@
    "excluida": false
   },
   "423040000": {
-   "ss_row": 55,
+   "ss_row": 12,
    "label": "INTERESES",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -3666,7 +1938,7 @@
    "excluida": false
   },
   "423100000": {
-   "ss_row": 60,
+   "ss_row": 13,
    "label": "II.BB. No Computable",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -3686,7 +1958,7 @@
    "excluida": false
   },
   "424220000": {
-   "ss_row": 74,
+   "ss_row": 14,
    "label": "COMIDA",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -3705,8 +1977,29 @@
    ],
    "excluida": false
   },
+  "424250000": {
+   "ss_row": 31,
+   "label": "Comunicaciones",
+   "categoria": "REFRIGERIOS",
+   "ccs_en_dist": [
+    "REGIONAL CATAMARCA",
+    "OFICINA GENERAL",
+    "EXPLORACIÓN REGIONAL",
+    "TANQUE NEGRO",
+    "CERRO LA MINA",
+    "CERRO ABANICO",
+    "CENTRO ESPERANZA",
+    "PROYECTO LOS MORTERITOS",
+    "LOS MENUCOS",
+    "CAÑADON DEL MORO",
+    "LONCO VACA - PELENQUE",
+    "GASTOS GENERALES",
+    "PROYECTO SOL"
+   ],
+   "excluida": false
+  },
   "424400000": {
-   "ss_row": 93,
+   "ss_row": 16,
    "label": "SUELDOS Campos",
    "categoria": "SUELDOS CAMPO",
    "ccs_en_dist": [
@@ -3726,7 +2019,7 @@
    "excluida": false
   },
   "424460000": {
-   "ss_row": 97,
+   "ss_row": 17,
    "label": "GASTOS DE PERFORACIÓN",
    "categoria": "GASTOS DE PERFORACIÓN",
    "ccs_en_dist": [
@@ -3749,7 +2042,7 @@
    "excluida": false
   },
   "424500000": {
-   "ss_row": 98,
+   "ss_row": 18,
    "label": "CARGAS SOCIALES CAMPO",
    "categoria": "CARGAS SOCIALES CAMPO",
    "ccs_en_dist": [
@@ -3769,7 +2062,7 @@
    "excluida": false
   },
   "424820000": {
-   "ss_row": 120,
+   "ss_row": 20,
    "label": "REMEDIACIÓN AMBIENTAL",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -3790,7 +2083,7 @@
    "excluida": false
   },
   "425100000": {
-   "ss_row": 177,
+   "ss_row": 77,
    "label": "Tasas Ambientales – Adm. General",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -3810,7 +2103,7 @@
    "excluida": false
   },
   "425110000": {
-   "ss_row": 132,
+   "ss_row": 32,
    "label": "REFRIGERIOS ADM. GRAL.",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -3830,7 +2123,7 @@
    "excluida": false
   },
   "425120000": {
-   "ss_row": 133,
+   "ss_row": 33,
    "label": "MOVILIDAD Y VIATICOS ADM GENERAL",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -3850,7 +2143,7 @@
    "excluida": false
   },
   "425130000": {
-   "ss_row": 134,
+   "ss_row": 34,
    "label": "EXPENSAS DEPTO GEOLOGOS ADM GRAL",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -3871,7 +2164,7 @@
    "excluida": false
   },
   "425140000": {
-   "ss_row": 135,
+   "ss_row": 35,
    "label": "INTERESES RESARCITORIOS ADM. GRAL.",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -3891,7 +2184,7 @@
    "excluida": false
   },
   "425150000": {
-   "ss_row": 136,
+   "ss_row": 36,
    "label": "ALQUILER INMUEBLE ADM. GRAL.",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -3912,7 +2205,7 @@
    "excluida": false
   },
   "425160000": {
-   "ss_row": 137,
+   "ss_row": 37,
    "label": "CUOTA SOCIETARIA MINERA ADM. GRAL.",
    "categoria": "GASTOS PROPIEDAD MINERA",
    "ccs_en_dist": [
@@ -3933,7 +2226,7 @@
    "excluida": false
   },
   "425170000": {
-   "ss_row": 138,
+   "ss_row": 38,
    "label": "MENSAJERIA ADM. GRAL.",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -3953,7 +2246,7 @@
    "excluida": false
   },
   "425180000": {
-   "ss_row": 139,
+   "ss_row": 39,
    "label": "COMUNICACIONES ADM. GRAL.",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -3975,7 +2268,7 @@
    "excluida": false
   },
   "425190000": {
-   "ss_row": 141,
+   "ss_row": 41,
    "label": "HONORARIOS PROFESIONALES ADM. GRAL",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -3996,7 +2289,7 @@
    "excluida": false
   },
   "425200000": {
-   "ss_row": 143,
+   "ss_row": 43,
    "label": "COMBUSTIBLE ADM. GRAL.",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -4016,7 +2309,7 @@
    "excluida": false
   },
   "425210000": {
-   "ss_row": 144,
+   "ss_row": 44,
    "label": "GST. DE CAPACITACIÓN ADM. GRAL",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
@@ -4037,7 +2330,7 @@
    "excluida": false
   },
   "425220000": {
-   "ss_row": 146,
+   "ss_row": 46,
    "label": "GASTOS Y COMISIONES BANCARIAS ADM. GRAL.",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -4057,7 +2350,7 @@
    "excluida": false
   },
   "425230000": {
-   "ss_row": 148,
+   "ss_row": 48,
    "label": "IMP.A LOS DÉBITOS Y CRÉDITOS BANCARIOS ADM. GRAL.",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -4077,7 +2370,7 @@
    "excluida": false
   },
   "425240000": {
-   "ss_row": 149,
+   "ss_row": 49,
    "label": "SEGUROS ADM. GRAL.",
    "categoria": "SEGUROS",
    "ccs_en_dist": [
@@ -4098,7 +2391,7 @@
    "excluida": false
   },
   "425250000": {
-   "ss_row": 150,
+   "ss_row": 50,
    "label": "AMORTIZACIONES ADM. GRAL.",
    "categoria": "DEPRECIACION",
    "ccs_en_dist": [
@@ -4118,7 +2411,7 @@
    "excluida": false
   },
   "425260000": {
-   "ss_row": 169,
+   "ss_row": 69,
    "label": "SELLADOS ADM GRAL.",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -4138,7 +2431,7 @@
    "excluida": false
   },
   "425270000": {
-   "ss_row": 170,
+   "ss_row": 70,
    "label": "IMPUESTOS VARIOS ADM GRAL.",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -4158,7 +2451,7 @@
    "excluida": false
   },
   "425280000": {
-   "ss_row": 171,
+   "ss_row": 71,
    "label": "PUBLICACIONES Adm Gral",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -4178,7 +2471,7 @@
    "excluida": false
   },
   "425290000": {
-   "ss_row": 172,
+   "ss_row": 72,
    "label": "GS COMPUTACIÓN ADM GRAL.",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -4198,7 +2491,7 @@
    "excluida": false
   },
   "425300000": {
-   "ss_row": 151,
+   "ss_row": 51,
    "label": "GASTOS VARIOS OFICINA ADM. GRAL",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -4219,7 +2512,7 @@
    "excluida": false
   },
   "425310000": {
-   "ss_row": 173,
+   "ss_row": 73,
    "label": "VACACIONES ADM GRAL.",
    "categoria": "VACACIONES",
    "ccs_en_dist": [
@@ -4240,7 +2533,7 @@
    "excluida": false
   },
   "425320000": {
-   "ss_row": 174,
+   "ss_row": 74,
    "label": "CATASTRO MINERO ADM GRAL.",
    "categoria": "CATASTRO MINERO",
    "ccs_en_dist": [
@@ -4260,7 +2553,7 @@
    "excluida": false
   },
   "425330000": {
-   "ss_row": 178,
+   "ss_row": 78,
    "label": "Impuestos País - Adm Gral.",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -4282,7 +2575,7 @@
    "excluida": false
   },
   "425400000": {
-   "ss_row": 153,
+   "ss_row": 53,
    "label": "SERVICIOS INFORMÁTICOS ADM GRAL",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -4303,7 +2596,7 @@
    "excluida": false
   },
   "425500000": {
-   "ss_row": 154,
+   "ss_row": 54,
    "label": "SERVICIOS PUBLICOS ADM GRAL",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -4323,7 +2616,7 @@
    "excluida": false
   },
   "425600000": {
-   "ss_row": 155,
+   "ss_row": 55,
    "label": "GST. MANTENIMIENTO ADM GRAL.",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -4343,7 +2636,7 @@
    "excluida": false
   },
   "425700000": {
-   "ss_row": 158,
+   "ss_row": 58,
    "label": "ALOJAMIENTO ADM. GRAL",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -4363,7 +2656,7 @@
    "excluida": false
   },
   "425800000": {
-   "ss_row": 159,
+   "ss_row": 59,
    "label": "SERV. CADETERÍA ADM GRAL",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -4383,7 +2676,7 @@
    "excluida": false
   },
   "425810000": {
-   "ss_row": 168,
+   "ss_row": 68,
    "label": "TASA MUNICIPAL ADM GRAL.",
    "categoria": "TASAS",
    "ccs_en_dist": [
@@ -4404,7 +2697,7 @@
    "excluida": false
   },
   "425820000": {
-   "ss_row": 156,
+   "ss_row": 56,
    "label": "TASAS RETRIBUTIVAS MINERÍA ADM GRAL.",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
@@ -4425,7 +2718,7 @@
    "excluida": false
   },
   "425830000": {
-   "ss_row": 193,
+   "ss_row": 93,
    "label": "Remediación Ambiental Adm General",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -4446,7 +2739,7 @@
    "excluida": false
   },
   "425840000": {
-   "ss_row": 157,
+   "ss_row": 57,
    "label": "Servicios Notariales Administracion Gral.",
    "categoria": "GASTOS LEGALES",
    "ccs_en_dist": [
@@ -4467,7 +2760,7 @@
    "excluida": false
   },
   "425900000": {
-   "ss_row": 160,
+   "ss_row": 60,
    "label": "GS. EN PERSONAL ADM GRAL",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -4487,7 +2780,7 @@
    "excluida": false
   },
   "425910000": {
-   "ss_row": 161,
+   "ss_row": 61,
    "label": "PUBLICIDAD ADM GRAL",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -4508,7 +2801,7 @@
    "excluida": false
   },
   "425920000": {
-   "ss_row": 162,
+   "ss_row": 62,
    "label": "LIBRERIA Y PAPELERIA ADM GRAL",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -4528,7 +2821,7 @@
    "excluida": false
   },
   "425930000": {
-   "ss_row": 163,
+   "ss_row": 63,
    "label": "OBRA SOCIAL ADICIONAL ADM GRAL",
    "categoria": "OBRA SOCIAL",
    "ccs_en_dist": [
@@ -4549,7 +2842,7 @@
    "excluida": false
   },
   "425940000": {
-   "ss_row": 164,
+   "ss_row": 64,
    "label": "HONORARIOS LEGALES ADM. GRAL",
    "categoria": "HONORARIOS LEGALES",
    "ccs_en_dist": [
@@ -4570,7 +2863,7 @@
    "excluida": false
   },
   "425950000": {
-   "ss_row": 165,
+   "ss_row": 65,
    "label": "SEGURIDAD ADM. GRAL",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -4591,7 +2884,7 @@
    "excluida": false
   },
   "425960000": {
-   "ss_row": 175,
+   "ss_row": 75,
    "label": "ENCOMIENDA ADM GRAL.",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -4611,7 +2904,7 @@
    "excluida": false
   },
   "425970000": {
-   "ss_row": 166,
+   "ss_row": 66,
    "label": "GS. LIMPIEZA ADM. GRAL",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -4631,7 +2924,7 @@
    "excluida": false
   },
   "425980000": {
-   "ss_row": 176,
+   "ss_row": 76,
    "label": "Intereses Adm. Gral.",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -4651,7 +2944,7 @@
    "excluida": false
   },
   "425990000": {
-   "ss_row": 167,
+   "ss_row": 67,
    "label": "GST. VEHICULOS ADM GRAL",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -4672,7 +2965,7 @@
    "excluida": false
   },
   "426100000": {
-   "ss_row": 248,
+   "ss_row": 148,
    "label": "SEGUROS GS CAMPO",
    "categoria": "SEGUROS",
    "ccs_en_dist": [
@@ -4693,7 +2986,7 @@
    "excluida": false
   },
   "426110000": {
-   "ss_row": 211,
+   "ss_row": 111,
    "label": "REFRIGERIOS GST. CAMPO",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -4715,7 +3008,7 @@
    "excluida": false
   },
   "426120000": {
-   "ss_row": 212,
+   "ss_row": 112,
    "label": "MOVILIDAD Y VIATICOS GST. CAMPO",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -4735,7 +3028,7 @@
    "excluida": false
   },
   "426130000": {
-   "ss_row": 223,
+   "ss_row": 123,
    "label": "GASTOS DE LIMPIEZA Gs CAMPO",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -4758,7 +3051,7 @@
    "excluida": false
   },
   "426140000": {
-   "ss_row": 213,
+   "ss_row": 113,
    "label": "EXPENSAS DEPTO GEOLOGOS GST CAMPO",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -4779,7 +3072,7 @@
    "excluida": false
   },
   "426150000": {
-   "ss_row": 214,
+   "ss_row": 114,
    "label": "SERVICIOS PUBLICOS GST. CAMPO",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -4799,7 +3092,7 @@
    "excluida": false
   },
   "426160000": {
-   "ss_row": 78,
+   "ss_row": 15,
    "label": "Comunicaciones Gst Campo",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -4819,7 +3112,7 @@
    "excluida": false
   },
   "426170000": {
-   "ss_row": 216,
+   "ss_row": 116,
    "label": "ALQUILER COCHERAS GST. CAMPO",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -4840,7 +3133,7 @@
    "excluida": false
   },
   "426180000": {
-   "ss_row": 217,
+   "ss_row": 117,
    "label": "GST CAMPAMENTO GST CAMPO",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -4861,7 +3154,7 @@
    "excluida": false
   },
   "426190000": {
-   "ss_row": 218,
+   "ss_row": 118,
    "label": "GST VARIOS OFICINA GST CAMPO",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -4883,7 +3176,7 @@
    "excluida": false
   },
   "426200000": {
-   "ss_row": 219,
+   "ss_row": 119,
    "label": "COMBUSTIBLE GST CAMPO",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -4904,7 +3197,7 @@
    "excluida": false
   },
   "426210000": {
-   "ss_row": 220,
+   "ss_row": 120,
    "label": "SERVICIOS INFORMATICOS GST. CAMPO",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -4926,7 +3219,7 @@
    "excluida": false
   },
   "426220000": {
-   "ss_row": 221,
+   "ss_row": 121,
    "label": "ALQUILER INMUEBLE GST CAMPO",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -4948,7 +3241,7 @@
    "excluida": false
   },
   "426230000": {
-   "ss_row": 222,
+   "ss_row": 122,
    "label": "MENSAJERIA GST CAMPO",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -4971,7 +3264,7 @@
    "excluida": false
   },
   "426240000": {
-   "ss_row": 224,
+   "ss_row": 124,
    "label": "GST DE VEHICULOS GST. CAMPO",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -4992,7 +3285,7 @@
    "excluida": false
   },
   "426250000": {
-   "ss_row": 225,
+   "ss_row": 125,
    "label": "GST. MANTENIMIENTO GST CAMPO",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -5015,7 +3308,7 @@
    "excluida": false
   },
   "426260000": {
-   "ss_row": 226,
+   "ss_row": 126,
    "label": "ALOJAMIENTO GST. CAMPO",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -5038,7 +3331,7 @@
    "excluida": false
   },
   "426270000": {
-   "ss_row": 227,
+   "ss_row": 127,
    "label": "GST VARIOS CAMPO GST. CAMPO",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -5063,7 +3356,7 @@
    "excluida": false
   },
   "426280000": {
-   "ss_row": 228,
+   "ss_row": 128,
    "label": "GST EN PERSONAL GST. CAMPO",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -5085,7 +3378,7 @@
    "excluida": false
   },
   "426290000": {
-   "ss_row": 229,
+   "ss_row": 129,
    "label": "CONVENIO DE ACCESO GST CAMPO",
    "categoria": "CONVENIO DE ACCESO GST CAMPO",
    "ccs_en_dist": [
@@ -5107,7 +3400,7 @@
    "excluida": false
   },
   "426310000": {
-   "ss_row": 230,
+   "ss_row": 130,
    "label": "ALQUILERES VARIOS GST CAMPO",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -5128,7 +3421,7 @@
    "excluida": false
   },
   "426320000": {
-   "ss_row": 231,
+   "ss_row": 131,
    "label": "CANON GST CAMPO",
    "categoria": "CANON",
    "ccs_en_dist": [
@@ -5149,7 +3442,7 @@
    "excluida": false
   },
   "426330000": {
-   "ss_row": 233,
+   "ss_row": 133,
    "label": "INSUMOS DE CAMPO GST CAMPO",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -5170,7 +3463,7 @@
    "excluida": false
   },
   "426340000": {
-   "ss_row": 232,
+   "ss_row": 132,
    "label": "CATASTRO MINERO GS CAMPO",
    "categoria": "CATASTRO MINERO",
    "ccs_en_dist": [
@@ -5191,7 +3484,7 @@
    "excluida": false
   },
   "426350000": {
-   "ss_row": 255,
+   "ss_row": 155,
    "label": "PATENTES GST. CAMPO",
    "categoria": "PATENTES",
    "ccs_en_dist": [
@@ -5212,7 +3505,7 @@
    "excluida": false
   },
   "426360000": {
-   "ss_row": 261,
+   "ss_row": 161,
    "label": "VACACIONES GST CAMPO",
    "categoria": "VACACIONES",
    "ccs_en_dist": [
@@ -5234,7 +3527,7 @@
    "excluida": false
   },
   "426370000": {
-   "ss_row": 304,
+   "ss_row": 204,
    "label": "Informes de evaluación económica Gs Campo",
    "categoria": "INFORMES DE EVALUACIÓN ECONÓMICA",
    "ccs_en_dist": [
@@ -5257,7 +3550,7 @@
    "excluida": false
   },
   "426380000": {
-   "ss_row": 234,
+   "ss_row": 134,
    "label": "Gastos de licitación Gst Campo",
    "categoria": "GASTOS PROPIEDAD MINERA",
    "ccs_en_dist": [
@@ -5279,7 +3572,7 @@
    "excluida": false
   },
   "426410000": {
-   "ss_row": 235,
+   "ss_row": 135,
    "label": "SELLADOS GST CAMPO",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -5302,7 +3595,7 @@
    "excluida": false
   },
   "426430000": {
-   "ss_row": 236,
+   "ss_row": 136,
    "label": "SERV. DE DIGITALIZACIÓN GST CAMPO",
    "categoria": "SERV. DE DIGITALIZACIÓN GST CAMPO",
    "ccs_en_dist": [
@@ -5326,7 +3619,7 @@
    "excluida": false
   },
   "426440000": {
-   "ss_row": 237,
+   "ss_row": 137,
    "label": "HONORARIOS PROFESIONALES GST CAMPO",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -5346,7 +3639,7 @@
    "excluida": false
   },
   "426450000": {
-   "ss_row": 238,
+   "ss_row": 138,
    "label": "GS FERRETERÍA GST CAMPO",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -5368,7 +3661,7 @@
    "excluida": false
   },
   "426460000": {
-   "ss_row": 239,
+   "ss_row": 139,
    "label": "TRASLADOS GS CAMPO",
    "categoria": "TRASLADOS",
    "ccs_en_dist": [
@@ -5389,7 +3682,7 @@
    "excluida": false
   },
   "426470000": {
-   "ss_row": 240,
+   "ss_row": 140,
    "label": "LIBRERÍA Y PAPELERÍA GST CAMPO",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -5411,7 +3704,7 @@
    "excluida": false
   },
   "426480000": {
-   "ss_row": 242,
+   "ss_row": 142,
    "label": "ADQUISICION INF GEOLOGICA GS. CAMPO",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -5432,7 +3725,7 @@
    "excluida": false
   },
   "426490000": {
-   "ss_row": 243,
+   "ss_row": 143,
    "label": "REMEDIACION AMBIENTAL GS CAMPO",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -5453,7 +3746,7 @@
    "excluida": false
   },
   "426500000": {
-   "ss_row": 244,
+   "ss_row": 144,
    "label": "TASAS AMBIENTALES GS CAMPO",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -5474,7 +3767,7 @@
    "excluida": false
   },
   "426510000": {
-   "ss_row": 251,
+   "ss_row": 151,
    "label": "MATERIALES DE CAMPO GST CAMPO",
    "categoria": "MATERIALES DE CAMPO",
    "ccs_en_dist": [
@@ -5495,7 +3788,7 @@
    "excluida": false
   },
   "426520000": {
-   "ss_row": 252,
+   "ss_row": 152,
    "label": "ALQUILER EQUIPOS GST CAMPO",
    "categoria": "ALQUILERES DE EQUIPOS DE CAMPO",
    "ccs_en_dist": [
@@ -5517,7 +3810,7 @@
    "excluida": false
   },
   "426530000": {
-   "ss_row": 253,
+   "ss_row": 153,
    "label": "GST DE CAPACITACIÓN GST CAMPO",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
@@ -5540,7 +3833,7 @@
    "excluida": false
   },
   "426540000": {
-   "ss_row": 254,
+   "ss_row": 154,
    "label": "GASTOS EXPLORACIÓN GST.CAMPO",
    "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
@@ -5561,7 +3854,7 @@
    "excluida": false
   },
   "426550000": {
-   "ss_row": 241,
+   "ss_row": 141,
    "label": "GS Y COMISIONES BANCARIAS GS CAMPO",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -5583,7 +3876,7 @@
    "excluida": false
   },
   "426560000": {
-   "ss_row": 388,
+   "ss_row": 288,
    "label": "Publicaciones -  Vigencia y Penalidades",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -5603,7 +3896,7 @@
    "excluida": false
   },
   "426570000": {
-   "ss_row": 389,
+   "ss_row": 289,
    "label": "Tasas Retributivas Minería – Vigencia y Penalidades",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
@@ -5623,7 +3916,7 @@
    "excluida": false
   },
   "426580000": {
-   "ss_row": 285,
+   "ss_row": 185,
    "label": "Servicios de construccion Gs de Campo Catam.",
    "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
@@ -5645,7 +3938,7 @@
    "excluida": false
   },
   "426590000": {
-   "ss_row": 245,
+   "ss_row": 145,
    "label": "ALQUILER DE VEHICULOS GS DE CAMPO",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
@@ -5666,7 +3959,7 @@
    "excluida": false
   },
   "426600000": {
-   "ss_row": 246,
+   "ss_row": 146,
    "label": "GASTOS COMPUTACION GS CAMPO",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -5687,7 +3980,7 @@
    "excluida": false
   },
   "426610000": {
-   "ss_row": 289,
+   "ss_row": 189,
    "label": "Movilidad y viáticos Gs Campo Catamarca",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -5709,7 +4002,7 @@
    "excluida": false
   },
   "426620000": {
-   "ss_row": 393,
+   "ss_row": 293,
    "label": "Uso eventual de agua en proyectos - Vigencia y penalidades",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -5729,7 +4022,7 @@
    "excluida": false
   },
   "426630000": {
-   "ss_row": 395,
+   "ss_row": 295,
    "label": "Honorarios profesionales Vigencia y Penalidades",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -5739,7 +4032,7 @@
    "excluida": false
   },
   "426640000": {
-   "ss_row": 283,
+   "ss_row": 183,
    "label": "Gasto de representación Gs. Campo",
    "categoria": "GASTOS DE REPRESENTACIÓN",
    "ccs_en_dist": [
@@ -5762,7 +4055,7 @@
    "excluida": false
   },
   "426650000": {
-   "ss_row": 290,
+   "ss_row": 190,
    "label": "Adquisición de inform. Geofísica Gs Campo Cat",
    "categoria": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
    "ccs_en_dist": [
@@ -5785,7 +4078,7 @@
    "excluida": false
   },
   "426660000": {
-   "ss_row": 291,
+   "ss_row": 191,
    "label": "Informes Ambientales Gs Campo Cat",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -5810,7 +4103,7 @@
    "excluida": false
   },
   "426670000": {
-   "ss_row": 309,
+   "ss_row": 209,
    "label": "Patentes Gasto Campo Catamarca",
    "categoria": "PATENTES",
    "ccs_en_dist": [
@@ -5830,7 +4123,7 @@
    "excluida": false
   },
   "426700000": {
-   "ss_row": 247,
+   "ss_row": 147,
    "label": "IMPUESTO VARIOS GS CAMPO",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -5851,7 +4144,7 @@
    "excluida": false
   },
   "426800000": {
-   "ss_row": 249,
+   "ss_row": 149,
    "label": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "categoria": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "ccs_en_dist": [
@@ -5873,7 +4166,7 @@
    "excluida": false
   },
   "426810000": {
-   "ss_row": 284,
+   "ss_row": 184,
    "label": "Gastos de limpieza Gts campo Catam",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -5896,7 +4189,7 @@
    "excluida": false
   },
   "426820000": {
-   "ss_row": 265,
+   "ss_row": 165,
    "label": "Obra social Adicional Gst de campo",
    "categoria": "OBRA SOCIAL",
    "ccs_en_dist": [
@@ -5919,7 +4212,7 @@
    "excluida": false
   },
   "426840000": {
-   "ss_row": 256,
+   "ss_row": 156,
    "label": "Expensas Gs Campo",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -5942,7 +4235,7 @@
    "excluida": false
   },
   "426850000": {
-   "ss_row": 306,
+   "ss_row": 206,
    "label": "Donaciones Gs de Campo Catamarca",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
@@ -5964,7 +4257,7 @@
    "excluida": false
   },
   "426860000": {
-   "ss_row": 305,
+   "ss_row": 205,
    "label": "Ferretería Gs Campo Catamarca",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -5985,7 +4278,7 @@
    "excluida": false
   },
   "426870000": {
-   "ss_row": 307,
+   "ss_row": 207,
    "label": "Servicios publicos Gs. Campo Catamarca",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -6007,7 +4300,7 @@
    "excluida": false
   },
   "426880000": {
-   "ss_row": 314,
+   "ss_row": 214,
    "label": "Tasas Municipales Gs Campo",
    "categoria": "TASAS",
    "ccs_en_dist": [
@@ -6018,7 +4311,7 @@
    "excluida": false
   },
   "426900000": {
-   "ss_row": 250,
+   "ss_row": 150,
    "label": "SERV. SEGURIDAD E INVESTIGACIÓN GS CAMPO",
    "categoria": "SERVICIOS DE INVESTIGACION",
    "ccs_en_dist": [
@@ -6039,7 +4332,7 @@
    "excluida": false
   },
   "426910000": {
-   "ss_row": 257,
+   "ss_row": 157,
    "label": "INDUMENTARIA DE TRABAJO GS CAMPO",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -6062,7 +4355,7 @@
    "excluida": false
   },
   "426920000": {
-   "ss_row": 258,
+   "ss_row": 158,
    "label": "INTERESES GST CAMPO",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -6083,7 +4376,7 @@
    "excluida": false
   },
   "426930000": {
-   "ss_row": 259,
+   "ss_row": 159,
    "label": "INFORMES AMBIENTALES GST CAMPO",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -6104,7 +4397,7 @@
    "excluida": false
   },
   "426940000": {
-   "ss_row": 260,
+   "ss_row": 160,
    "label": "TASAS RETRIBUTIVAS MINERÍA GST CAMPO",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
@@ -6125,7 +4418,7 @@
    "excluida": false
   },
   "426950000": {
-   "ss_row": 313,
+   "ss_row": 213,
    "label": "Servicio de Topografía Gs de Campo",
    "categoria": "GASTOS TOPOGRÀFICOS",
    "ccs_en_dist": [
@@ -6148,7 +4441,7 @@
    "excluida": false
   },
   "426960000": {
-   "ss_row": 262,
+   "ss_row": 162,
    "label": "ANÁLISIS MUESTRAS GS CAMPO",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -6169,7 +4462,7 @@
    "excluida": false
   },
   "426970000": {
-   "ss_row": 263,
+   "ss_row": 163,
    "label": "Encomienda Gs Campo",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -6191,7 +4484,7 @@
    "excluida": false
   },
   "426980000": {
-   "ss_row": 264,
+   "ss_row": 164,
    "label": "Donaciones Gs de Campo",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
@@ -6212,7 +4505,7 @@
    "excluida": false
   },
   "426990000": {
-   "ss_row": 266,
+   "ss_row": 166,
    "label": "Cuota Societaria Gs de Campo",
    "categoria": "GASTOS PROPIEDAD MINERA",
    "ccs_en_dist": [
@@ -6233,7 +4526,7 @@
    "excluida": false
   },
   "427110000": {
-   "ss_row": 316,
+   "ss_row": 216,
    "label": "MOVILIDAD Y VIATICOS REL. COMUNITARIAS",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -6256,7 +4549,7 @@
    "excluida": false
   },
   "427120000": {
-   "ss_row": 317,
+   "ss_row": 217,
    "label": "REFRIGERIOS REL. COMUNITARIAS",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -6279,7 +4572,7 @@
    "excluida": false
   },
   "427140000": {
-   "ss_row": 318,
+   "ss_row": 218,
    "label": "GASTOS DE LIMPIEZA REL. COMUNITARIAS",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -6301,7 +4594,7 @@
    "excluida": false
   },
   "427150000": {
-   "ss_row": 319,
+   "ss_row": 219,
    "label": "ALQUILER VEHICULOS REL. COMUNITARIAS",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
@@ -6321,7 +4614,7 @@
    "excluida": false
   },
   "427160000": {
-   "ss_row": 320,
+   "ss_row": 220,
    "label": "GASTOS Y COMISIONES BANCARIAS REL. COMUNITARIAS",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -6341,7 +4634,7 @@
    "excluida": false
   },
   "427170000": {
-   "ss_row": 321,
+   "ss_row": 221,
    "label": "COMBUSTIBLE REL. COMUNITARIAS",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -6363,7 +4656,7 @@
    "excluida": false
   },
   "427180000": {
-   "ss_row": 322,
+   "ss_row": 222,
    "label": "GST. FERRETERIA REL. COMUNITARIAS",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -6384,7 +4677,7 @@
    "excluida": false
   },
   "427190000": {
-   "ss_row": 357,
+   "ss_row": 257,
    "label": "Gastos y comisiones bancarias Rel. comunitarias Catamarca",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -6394,7 +4687,7 @@
    "excluida": false
   },
   "427210000": {
-   "ss_row": 323,
+   "ss_row": 223,
    "label": "CONVENIO DE ACCESO REL. COMUNITARIAS",
    "categoria": "CONVENIO DE ACCESO GST CAMPO",
    "ccs_en_dist": [
@@ -6414,7 +4707,7 @@
    "excluida": false
   },
   "427220000": {
-   "ss_row": 324,
+   "ss_row": 224,
    "label": "ALQUILERES VARIOS REL. COMUNITARIAS",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -6434,7 +4727,7 @@
    "excluida": false
   },
   "427230000": {
-   "ss_row": 325,
+   "ss_row": 225,
    "label": "ALOJAMIENTO REL.COMUNITARIAS",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -6456,7 +4749,7 @@
    "excluida": false
   },
   "427240000": {
-   "ss_row": 326,
+   "ss_row": 226,
    "label": "GASTOS EN PERSONAL REL. COMUNITARIAS",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -6477,7 +4770,7 @@
    "excluida": false
   },
   "427250000": {
-   "ss_row": 327,
+   "ss_row": 227,
    "label": "PATENTES REL. COMUNITARIAS",
    "categoria": "PATENTES",
    "ccs_en_dist": [
@@ -6499,7 +4792,7 @@
    "excluida": false
   },
   "427260000": {
-   "ss_row": 329,
+   "ss_row": 229,
    "label": "Gastos de vehiculos  Rel. Comunitarias",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -6520,7 +4813,7 @@
    "excluida": false
   },
   "427270000": {
-   "ss_row": 328,
+   "ss_row": 228,
    "label": "Comunicaciones Rel. Comunitarias",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -6542,7 +4835,7 @@
    "excluida": false
   },
   "427280000": {
-   "ss_row": 330,
+   "ss_row": 230,
    "label": "Gastos Varios Rel. Comunitarias",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -6564,7 +4857,7 @@
    "excluida": false
   },
   "427290000": {
-   "ss_row": 339,
+   "ss_row": 239,
    "label": "Gastos en calefacción Rel. Comunitarias",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -6585,7 +4878,7 @@
    "excluida": false
   },
   "427300000": {
-   "ss_row": 340,
+   "ss_row": 240,
    "label": "Libreria y papeleria  Rel. Comunitarias",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -6606,7 +4899,7 @@
    "excluida": false
   },
   "427310000": {
-   "ss_row": 341,
+   "ss_row": 241,
    "label": "Gs representación Rel. comunitarias",
    "categoria": "GASTOS DE REPRESENTACIÓN",
    "ccs_en_dist": [
@@ -6626,7 +4919,7 @@
    "excluida": false
   },
   "427320000": {
-   "ss_row": 355,
+   "ss_row": 255,
    "label": "Impuestos no computables Rel. Comunitarias",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -6646,7 +4939,7 @@
    "excluida": false
   },
   "427330000": {
-   "ss_row": 356,
+   "ss_row": 256,
    "label": "Impuestos no computables Rel. Comunitarias Catamarca",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -6667,7 +4960,7 @@
    "excluida": false
   },
   "427400000": {
-   "ss_row": 345,
+   "ss_row": 245,
    "label": "Honorarios Profesionales - Rel. Comunitarias",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -6676,7 +4969,7 @@
    "excluida": false
   },
   "427500000": {
-   "ss_row": 346,
+   "ss_row": 246,
    "label": "Gastos de oficina - Relaciones Comun.",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -6698,7 +4991,7 @@
    "excluida": false
   },
   "427510000": {
-   "ss_row": 353,
+   "ss_row": 253,
    "label": "Encomienda Rel. Com. Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -6719,7 +5012,7 @@
    "excluida": false
   },
   "427520000": {
-   "ss_row": 354,
+   "ss_row": 254,
    "label": "Combustibles Rel. Comunitarias Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -6739,7 +5032,7 @@
    "excluida": false
   },
   "427700000": {
-   "ss_row": 347,
+   "ss_row": 247,
    "label": "Comunicaciones Rel. comunitarias Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -6761,7 +5054,7 @@
    "excluida": false
   },
   "427800000": {
-   "ss_row": 351,
+   "ss_row": 251,
    "label": "Gst Vehículos Rel. comunitarias Catamarca",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -6781,7 +5074,7 @@
    "excluida": false
   },
   "427900000": {
-   "ss_row": 352,
+   "ss_row": 252,
    "label": "Donaciones Rel. comunitarias Catamarca",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
@@ -6802,7 +5095,7 @@
    "excluida": false
   },
   "428100000": {
-   "ss_row": 359,
+   "ss_row": 259,
    "label": "GASTOS VARIOS CAMPO MUESTREO GEOF. SUP",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -6822,7 +5115,7 @@
    "excluida": false
   },
   "428200000": {
-   "ss_row": 361,
+   "ss_row": 261,
    "label": "Análisis de Muestras Muestreo Geof. Sup.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -6842,7 +5135,7 @@
    "excluida": false
   },
   "428300000": {
-   "ss_row": 360,
+   "ss_row": 260,
    "label": "MENSJAERIA MUESTREO GEOF. SUP.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -6862,7 +5155,7 @@
    "excluida": false
   },
   "429100000": {
-   "ss_row": 364,
+   "ss_row": 264,
    "label": "LIBRERÍA Y PAPELERÍA E. PERFORACIÓN",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -6882,7 +5175,7 @@
    "excluida": false
   },
   "429110000": {
-   "ss_row": 376,
+   "ss_row": 276,
    "label": "Remediación Ambiental E. Perforacion",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -6902,7 +5195,7 @@
    "excluida": false
   },
   "429200000": {
-   "ss_row": 365,
+   "ss_row": 265,
    "label": "GASTOS EN PERSONAL E. PERFORACIÓN",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -6922,7 +5215,7 @@
    "excluida": false
   },
   "429210000": {
-   "ss_row": 374,
+   "ss_row": 274,
    "label": "Gastos Campamento - E. Perforacion",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -6942,7 +5235,7 @@
    "excluida": false
   },
   "429220000": {
-   "ss_row": 375,
+   "ss_row": 275,
    "label": "Ferreteria - E. Perforacion",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -6962,7 +5255,7 @@
    "excluida": false
   },
   "429240000": {
-   "ss_row": 377,
+   "ss_row": 277,
    "label": "Encomiendas - E. Perforacion",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -6982,7 +5275,7 @@
    "excluida": false
   },
   "429250000": {
-   "ss_row": 378,
+   "ss_row": 278,
    "label": "Análisis Geoquimicos - E. Perforación",
    "categoria": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "ccs_en_dist": [
@@ -7002,7 +5295,7 @@
    "excluida": false
   },
   "429260000": {
-   "ss_row": 379,
+   "ss_row": 279,
    "label": "Gastos de Seguridad - E. Perforación",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -7022,7 +5315,7 @@
    "excluida": false
   },
   "429270000": {
-   "ss_row": 380,
+   "ss_row": 280,
    "label": "Indumentaria de Trabajo - E. Perforacion",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -7042,7 +5335,7 @@
    "excluida": false
   },
   "429280000": {
-   "ss_row": 381,
+   "ss_row": 281,
    "label": "Análisis Muestras de agua- E. Perforación.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -7062,7 +5355,7 @@
    "excluida": false
   },
   "429300000": {
-   "ss_row": 366,
+   "ss_row": 266,
    "label": "SERVICIO DE PERFORACIÓN E. PERFORACIÓN",
    "categoria": "GASTOS DE PERFORACIÓN",
    "ccs_en_dist": [
@@ -7082,7 +5375,7 @@
    "excluida": false
   },
   "429310000": {
-   "ss_row": 382,
+   "ss_row": 282,
    "label": "Gastos de vehiculos - E. Perforacion",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -7102,7 +5395,7 @@
    "excluida": false
   },
   "429400000": {
-   "ss_row": 367,
+   "ss_row": 267,
    "label": "COMUNICACIONES E. PERFORACIÓN",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -7122,7 +5415,7 @@
    "excluida": false
   },
   "429500000": {
-   "ss_row": 368,
+   "ss_row": 268,
    "label": "REFRIGERIOS E. PERFORCIÓN",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -7142,7 +5435,7 @@
    "excluida": false
   },
   "429700000": {
-   "ss_row": 370,
+   "ss_row": 270,
    "label": "SEGUROS E PERFORACIÒN",
    "categoria": "SEGUROS",
    "ccs_en_dist": [
@@ -7162,7 +5455,7 @@
    "excluida": false
   },
   "429800000": {
-   "ss_row": 369,
+   "ss_row": 269,
    "label": "COMBUSTIBLE E PERFORACION",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -7182,7 +5475,7 @@
    "excluida": false
   },
   "429900000": {
-   "ss_row": 371,
+   "ss_row": 271,
    "label": "Alquiler varios - E. Perforacion",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -7202,7 +5495,7 @@
    "excluida": false
   },
   "429910000": {
-   "ss_row": 372,
+   "ss_row": 272,
    "label": "Movilidad y Viáticos E Perforacion",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -7222,7 +5515,7 @@
    "excluida": false
   },
   "429920000": {
-   "ss_row": 373,
+   "ss_row": 273,
    "label": "Alojamiento E- Perforacion",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -7242,7 +5535,7 @@
    "excluida": false
   },
   "429930000": {
-   "ss_row": 383,
+   "ss_row": 283,
    "label": "Tasa ambiental -E. Perforacion",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -7262,7 +5555,7 @@
    "excluida": false
   },
   "429940000": {
-   "ss_row": 384,
+   "ss_row": 284,
    "label": "Análisis de Muestras - E. Perforacion",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -7282,7 +5575,7 @@
    "excluida": false
   },
   "429950000": {
-   "ss_row": 385,
+   "ss_row": 285,
    "label": "Servicio de Transporte de muestras E. Perforacion",
    "categoria": "TRASLADOS",
    "ccs_en_dist": [
@@ -7302,14 +5595,14 @@
    "excluida": false
   },
   "429960000": {
-   "ss_row": 386,
+   "ss_row": 286,
    "label": "Donación E. Perforacion",
    "categoria": "DONACIONES",
    "ccs_en_dist": [],
    "excluida": false
   },
   "431010000": {
-   "ss_row": 398,
+   "ss_row": 298,
    "label": "Análisis Muestras - F Analisis Quimicos de Perf.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -7329,7 +5622,7 @@
    "excluida": false
   },
   "431020000": {
-   "ss_row": 397,
+   "ss_row": 297,
    "label": "Libreria y Papeleria-F Analisis Quimico Perf. Catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -7349,7 +5642,7 @@
    "excluida": false
   },
   "431030000": {
-   "ss_row": 287,
+   "ss_row": 187,
    "label": "Adquisición de Inform. Geologica Gs de campo Cat",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -7371,14 +5664,14 @@
    "excluida": false
   },
   "431040000": {
-   "ss_row": 392,
+   "ss_row": 292,
    "label": "Gastos de Vehiculos - Vigencia y Penalidades",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [],
    "excluida": false
   },
   "431050000": {
-   "ss_row": 267,
+   "ss_row": 167,
    "label": "Impuesto Pais - Gs Campo",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -7403,7 +5696,7 @@
    "excluida": false
   },
   "431060000": {
-   "ss_row": 298,
+   "ss_row": 198,
    "label": "Análisis de muestras Gs de Campo Catamarca",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -7425,7 +5718,7 @@
    "excluida": false
   },
   "431070000": {
-   "ss_row": 204,
+   "ss_row": 104,
    "label": "Indumentaria de Trabajo Adm. Catamarca",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -7447,7 +5740,7 @@
    "excluida": false
   },
   "431080000": {
-   "ss_row": 268,
+   "ss_row": 168,
    "label": "Impuestos no computables - Gs de campo",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -7472,7 +5765,7 @@
    "excluida": false
   },
   "431090000": {
-   "ss_row": 394,
+   "ss_row": 294,
    "label": "Tasas Ambientales – Vigencia y Penalidades",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -7493,7 +5786,7 @@
    "excluida": false
   },
   "431100000": {
-   "ss_row": 208,
+   "ss_row": 108,
    "label": "Imp. Bienes, Acc. y Part. Soc. – Adm. General",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -7515,7 +5808,7 @@
    "excluida": false
   },
   "431110000": {
-   "ss_row": 207,
+   "ss_row": 107,
    "label": "Intereses - Adm. Catamarca",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -7535,14 +5828,14 @@
    "excluida": false
   },
   "431120000": {
-   "ss_row": 399,
+   "ss_row": 299,
    "label": "Análisis Muestras- F Analisis Quimicos de Perf Catamarca",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [],
    "excluida": false
   },
   "432010000": {
-   "ss_row": 121,
+   "ss_row": 21,
    "label": "ROBO",
    "categoria": "ROBO",
    "ccs_en_dist": [
@@ -7562,7 +5855,7 @@
    "excluida": false
   },
   "433010000": {
-   "ss_row": 310,
+   "ss_row": 210,
    "label": "Intereses Gs Campo Catamarca",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -7582,7 +5875,7 @@
    "excluida": false
   },
   "433020000": {
-   "ss_row": 311,
+   "ss_row": 211,
    "label": "Adquisición de inform. Geofísica Gs Campo",
    "categoria": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
    "ccs_en_dist": [
@@ -7603,7 +5896,7 @@
    "excluida": false
   },
   "433030000": {
-   "ss_row": 142,
+   "ss_row": 42,
    "label": "Honorarios Profesionales Adm. Gral. USD",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -7623,7 +5916,7 @@
    "excluida": false
   },
   "433040000": {
-   "ss_row": 215,
+   "ss_row": 115,
    "label": "Servicio de Internet USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -7644,7 +5937,7 @@
    "excluida": false
   },
   "433050000": {
-   "ss_row": 140,
+   "ss_row": 40,
    "label": "Comunicaciones Adm. Gral USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -7664,7 +5957,7 @@
    "excluida": false
   },
   "433060000": {
-   "ss_row": 206,
+   "ss_row": 106,
    "label": "Servicio de Internet Adm Catamarca.USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -7686,7 +5979,7 @@
    "excluida": false
   },
   "433070000": {
-   "ss_row": 295,
+   "ss_row": 195,
    "label": "Gst de Vehículos Gst de Campo USD",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -7709,7 +6002,7 @@
    "excluida": false
   },
   "433080000": {
-   "ss_row": 152,
+   "ss_row": 52,
    "label": "Gastos Varios de Adm Gral USD",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -7730,7 +6023,7 @@
    "excluida": false
   },
   "433090000": {
-   "ss_row": 312,
+   "ss_row": 212,
    "label": "Comunicaciones Gastos de campo USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -7752,7 +6045,7 @@
    "excluida": false
   },
   "433100000": {
-   "ss_row": 53,
+   "ss_row": 11,
    "label": "Impuesto 25413 No Computable Adm General (u$s)",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -7772,7 +6065,7 @@
    "excluida": false
   },
   "433110000": {
-   "ss_row": 145,
+   "ss_row": 45,
    "label": "Gastos bancarios Adm general (u$s)",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -7797,301 +6090,267 @@
    "desc": "PATENTES",
    "dist_row": 8,
    "ss_rows": [
-    38,
-    255,
-    309,
-    327
+    155,
+    209,
+    227
    ]
   },
   {
    "desc": "GASTOS COMPUTACIÓN",
    "dist_row": 9,
    "ss_rows": [
-    36,
-    153,
-    172,
-    184,
-    197,
-    220,
-    246,
-    336
+    53,
+    72,
+    84,
+    97,
+    120,
+    146,
+    236
    ]
   },
   {
    "desc": "GASTOS COMUNICACIONES",
    "dist_row": 10,
    "ss_rows": [
-    77,
-    78,
-    139,
-    140,
-    183,
-    199,
-    206,
-    215,
-    276,
-    312,
-    328,
-    347,
-    367
+    39,
+    40,
+    83,
+    99,
+    106,
+    115,
+    176,
+    212,
+    228,
+    247,
+    267
    ]
   },
   {
    "desc": "GASTOS EXPLORACION",
    "dist_row": 11,
    "ss_rows": [
-    62,
-    67,
-    254,
-    296,
-    333
+    154,
+    196,
+    233
    ]
   },
   {
    "desc": "REPARAC.Y MANTENC.",
    "dist_row": 12,
    "ss_rows": [
-    85,
-    104,
-    155,
-    202,
-    225,
-    303
+    55,
+    102,
+    125,
+    203
    ]
   },
   {
    "desc": "HONORARIOS LEGALES",
    "dist_row": 13,
    "ss_rows": [
-    164,
-    191
+    64,
+    91
    ]
   },
   {
    "desc": "GASTOS EN TRÁMITES",
    "dist_row": 14,
-   "ss_rows": [
-    39
-   ]
+   "ss_rows": []
   },
   {
    "desc": "GASTOS DE CAPACITACION",
    "dist_row": 15,
    "ss_rows": [
-    81,
-    144,
-    253,
-    301
+    44,
+    153,
+    201
    ]
   },
   {
    "desc": "FOTOCOPIAS",
    "dist_row": 16,
-   "ss_rows": [
-    102
-   ]
+   "ss_rows": []
   },
   {
    "desc": "LIBRERIA Y PAPELERIA",
    "dist_row": 17,
    "ss_rows": [
-    99,
-    162,
-    194,
+    62,
+    94,
+    140,
+    180,
+    237,
     240,
-    280,
-    337,
-    340,
-    363,
-    364,
-    396,
-    397
+    263,
+    264,
+    296,
+    297
    ]
   },
   {
    "desc": "COMBUSTIBLE",
    "dist_row": 18,
    "ss_rows": [
-    23,
-    79,
-    143,
-    203,
-    219,
-    273,
-    321,
-    354,
-    369
+    43,
+    103,
+    119,
+    173,
+    221,
+    254,
+    269
    ]
   },
   {
    "desc": "ALQUILERES VEHÍCULOS",
    "dist_row": 19,
    "ss_rows": [
-    65,
-    245,
-    300,
-    319
+    145,
+    200,
+    219
    ]
   },
   {
    "desc": "GASTOS VARIOS",
    "dist_row": 20,
    "ss_rows": [
-    35,
-    40,
-    90,
-    105,
-    151,
-    152,
-    186,
-    218,
-    227,
-    275,
-    281,
-    330,
-    335,
-    346,
-    358
+    51,
+    52,
+    86,
+    118,
+    127,
+    175,
+    181,
+    230,
+    235,
+    246,
+    258
    ]
   },
   {
    "desc": "GS. LIMPIEZA",
    "dist_row": 21,
    "ss_rows": [
-    26,
-    166,
-    190,
-    223,
-    284,
-    318
+    66,
+    90,
+    123,
+    184,
+    218
    ]
   },
   {
    "desc": "TASAS RETRIBUTIVA MINERÌA",
    "dist_row": 22,
    "ss_rows": [
-    27,
-    156,
-    260,
-    389
+    56,
+    160,
+    289
    ]
   },
   {
    "desc": "GASTOS VEHICULOS",
    "dist_row": 23,
    "ss_rows": [
-    108,
-    167,
-    196,
-    224,
-    294,
-    295,
-    329,
-    351,
-    382,
-    392
+    67,
+    96,
+    124,
+    194,
+    195,
+    229,
+    251,
+    282,
+    292
    ]
   },
   {
    "desc": "ELECTRICIDAD, GAS Y AGUA",
    "dist_row": 24,
    "ss_rows": [
-    154,
-    180,
-    214,
-    307
+    54,
+    80,
+    114,
+    207
    ]
   },
   {
    "desc": "MOVILIDAD Y VIÁTICOS",
    "dist_row": 25,
    "ss_rows": [
-    72,
-    131,
-    133,
-    192,
-    212,
-    269,
-    289,
-    315,
-    316,
-    332,
-    372
+    33,
+    92,
+    112,
+    169,
+    189,
+    215,
+    216,
+    232,
+    272
    ]
   },
   {
    "desc": "TRASLADOS",
    "dist_row": 26,
    "ss_rows": [
-    76,
-    239,
-    277,
-    385
+    139,
+    177,
+    285
    ]
   },
   {
    "desc": "GASTOS PROPIEDAD MINERA",
    "dist_row": 27,
    "ss_rows": [
-    101,
-    137,
-    234,
-    266
+    37,
+    134,
+    166
    ]
   },
   {
    "desc": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "dist_row": 28,
    "ss_rows": [
-    34,
-    165,
-    181,
+    65,
+    81,
+    82,
+    159,
     182,
-    259,
-    282,
-    288,
-    291,
-    379
+    188,
+    191,
+    279
    ]
   },
   {
    "desc": "FERRETERÍA",
    "dist_row": 29,
    "ss_rows": [
-    96,
-    125,
-    185,
-    238,
-    305,
-    322,
-    375
+    25,
+    85,
+    138,
+    205,
+    222,
+    275
    ]
   },
   {
    "desc": "ALQUILER DE MAQUINARIA",
    "dist_row": 30,
    "ss_rows": [
-    94,
-    302,
-    342
+    202,
+    242
    ]
   },
   {
    "desc": "CATERING",
    "dist_row": 31,
-   "ss_rows": [
-    95
-   ]
+   "ss_rows": []
   },
   {
    "desc": "INDUMENTARIA",
    "dist_row": 32,
    "ss_rows": [
-    91,
-    204,
-    257,
-    279,
-    380
+    104,
+    157,
+    179,
+    280
    ]
   },
   {
@@ -8102,72 +6361,63 @@
   {
    "desc": "SUELDOS OFICINA",
    "dist_row": 34,
-   "ss_rows": [
-    18,
-    19,
-    29
-   ]
+   "ss_rows": []
   },
   {
    "desc": "SUELDOS CAMPO",
    "dist_row": 35,
-   "ss_rows": [
-    92,
-    93
-   ]
+   "ss_rows": []
   },
   {
    "desc": "CARGAS SOCIALES OFICINA",
    "dist_row": 36,
    "ss_rows": [
-    20,
-    64
+    9
    ]
   },
   {
    "desc": "CARGAS SOCIALES CAMPO",
    "dist_row": 37,
    "ss_rows": [
-    98
+    18
    ]
   },
   {
    "desc": "SEGUROS",
    "dist_row": 38,
    "ss_rows": [
-    113,
-    149,
-    248,
-    370
+    49,
+    148,
+    270
    ]
   },
   {
    "desc": "GASTOS CONTRATACIÓN PERSONAL",
    "dist_row": 39,
    "ss_rows": [
+    28,
+    60,
+    87,
     128,
-    160,
-    187,
-    228,
-    272,
-    326,
-    338,
-    365
+    172,
+    226,
+    238,
+    265
    ]
   },
   {
    "desc": "HONORARIOS PROFESIONALES",
    "dist_row": 40,
    "ss_rows": [
-    129,
-    141,
-    142,
-    188,
-    237,
-    286,
-    345,
-    350,
-    395
+    29,
+    41,
+    42,
+    88,
+    137,
+    186,
+    245,
+    250,
+    295
    ]
   },
   {
@@ -8179,214 +6429,174 @@
    "desc": "GASTOS Y COMISIONES BANCARIAS",
    "dist_row": 42,
    "ss_rows": [
-    51,
-    53,
-    145,
-    146,
-    147,
-    148,
-    241,
-    320,
-    357
+    45,
+    46,
+    47,
+    48,
+    141,
+    220,
+    257
    ]
   },
   {
    "desc": "GASTOS EN CONSTRUCCIÓN",
    "dist_row": 43,
    "ss_rows": [
-    22,
-    103,
-    285,
-    343,
-    344
+    185,
+    243,
+    244
    ]
   },
   {
    "desc": "MANTENIMIENTO SOFTWARE",
    "dist_row": 44,
-   "ss_rows": [
-    42
-   ]
+   "ss_rows": []
   },
   {
    "desc": "COMISIONES, INTERESES, MULTAS",
    "dist_row": 45,
    "ss_rows": [
-    52,
-    54,
-    55,
-    56,
-    59,
+    35,
+    76,
+    107,
     109,
-    135,
-    176,
-    207,
-    209,
-    258,
-    310
+    158,
+    210
    ]
   },
   {
    "desc": "DEPRECIACION",
    "dist_row": 46,
    "ss_rows": [
-    32,
-    150
+    50
    ]
   },
   {
    "desc": "GRATIFICACIONES",
    "dist_row": 47,
-   "ss_rows": [
-    43
-   ]
+   "ss_rows": []
   },
   {
    "desc": "INSPECCIONES",
    "dist_row": 48,
-   "ss_rows": [
-    41
-   ]
+   "ss_rows": []
   },
   {
    "desc": "DONACIONES",
    "dist_row": 49,
    "ss_rows": [
-    45,
-    264,
-    306,
-    352,
-    386
+    164,
+    206,
+    252,
+    286
    ]
   },
   {
    "desc": "ALOJAMIENTO",
    "dist_row": 50,
    "ss_rows": [
-    73,
-    158,
-    198,
-    226,
-    271,
-    325,
-    331,
-    373
+    58,
+    98,
+    126,
+    171,
+    225,
+    231,
+    273
    ]
   },
   {
    "desc": "REFRIGERIOS",
    "dist_row": 51,
    "ss_rows": [
-    74,
-    130,
-    131,
-    132,
-    179,
-    210,
-    211,
-    270,
-    317,
-    334,
-    368
+    30,
+    31,
+    32,
+    79,
+    110,
+    111,
+    170,
+    217,
+    234,
+    268
    ]
   },
   {
    "desc": "IMPUESTOS VARIOS",
    "dist_row": 52,
    "ss_rows": [
-    17,
-    30,
-    33,
-    58,
-    60,
-    61,
-    75,
-    89,
-    106,
-    169,
-    170,
-    178,
-    208,
-    235,
-    247,
-    267,
-    268,
-    299,
-    355,
-    356
+    69,
+    70,
+    78,
+    108,
+    135,
+    147,
+    167,
+    168,
+    199,
+    255,
+    256
    ]
   },
   {
    "desc": "ALQUILERES INMUEBLES",
    "dist_row": 53,
    "ss_rows": [
-    83,
-    110,
-    111,
-    136,
-    189,
-    221,
-    274,
-    348
+    36,
+    89,
+    121,
+    174,
+    248
    ]
   },
   {
    "desc": "ALQUILERES VARIOS",
    "dist_row": 54,
    "ss_rows": [
-    47,
-    134,
-    201,
-    213,
-    216,
-    230,
-    256,
-    324,
-    371
+    34,
+    101,
+    113,
+    116,
+    130,
+    156,
+    224,
+    271
    ]
   },
   {
    "desc": "GS SUSCRIPCIÓN EDITORIAL",
    "dist_row": 55,
-   "ss_rows": [
-    82
-   ]
+   "ss_rows": []
   },
   {
    "desc": "GASTOS DE MUESTREOS",
    "dist_row": 56,
    "ss_rows": [
-    84,
-    126,
-    127,
-    262,
+    26,
+    27,
+    162,
+    198,
+    259,
+    260,
+    261,
+    281,
+    284,
     298,
-    359,
-    360,
-    361,
-    381,
-    384,
-    398,
-    399
+    299
    ]
   },
   {
    "desc": "EVENTOS",
    "dist_row": 57,
-   "ss_rows": [
-    24
-   ]
+   "ss_rows": []
   },
   {
    "desc": "INSUMOS Y GASTOS GEOLOGICOS",
    "dist_row": 58,
    "ss_rows": [
-    70,
-    80,
-    233,
-    242,
-    287,
-    297
+    133,
+    142,
+    187,
+    197
    ]
   },
   {
@@ -8403,9 +6613,9 @@
    "desc": "TASAS",
    "dist_row": 61,
    "ss_rows": [
-    168,
-    205,
-    314
+    68,
+    105,
+    214
    ]
   },
   {
@@ -8417,46 +6627,38 @@
    "desc": "GASTOS CAMPAMENTO",
    "dist_row": 63,
    "ss_rows": [
-    92,
-    217,
-    278,
-    339,
-    374,
-    393
+    117,
+    178,
+    239,
+    274,
+    293
    ]
   },
   {
    "desc": "CANON",
    "dist_row": 64,
    "ss_rows": [
-    66,
-    195,
-    231,
-    391
+    95,
+    131,
+    291
    ]
   },
   {
    "desc": "ARANCELES ADUANEROS",
    "dist_row": 65,
-   "ss_rows": [
-    57,
-    86
-   ]
+   "ss_rows": []
   },
   {
    "desc": "ALQUILERES DE EQUIPOS DE CAMPO",
    "dist_row": 66,
    "ss_rows": [
-    25,
-    252
+    152
    ]
   },
   {
    "desc": "CERTIFICACIONES",
    "dist_row": 67,
-   "ss_rows": [
-    31
-   ]
+   "ss_rows": []
   },
   {
    "desc": "BAJA BIEN DE USO",
@@ -8466,102 +6668,80 @@
   {
    "desc": "GASTOS MÉDICOS",
    "dist_row": 69,
-   "ss_rows": [
-    48
-   ]
+   "ss_rows": []
   },
   {
    "desc": "MATRÍCULAS",
    "dist_row": 70,
-   "ss_rows": [
-    63
-   ]
+   "ss_rows": []
   },
   {
    "desc": "MATERIALES DE CAMPO",
    "dist_row": 71,
    "ss_rows": [
-    46,
-    251
+    151
    ]
   },
   {
    "desc": "PUBLICACIONES",
    "dist_row": 72,
    "ss_rows": [
-    44,
-    161,
-    171,
-    387,
-    388,
-    390
+    61,
+    71,
+    287,
+    288,
+    290
    ]
   },
   {
    "desc": "CONVENIO DE CESIÓN",
    "dist_row": 73,
-   "ss_rows": [
-    68
-   ]
+   "ss_rows": []
   },
   {
    "desc": "HABILITACION COMERCIAL",
    "dist_row": 74,
-   "ss_rows": [
-    87
-   ]
+   "ss_rows": []
   },
   {
    "desc": "REGALOS AL PERSONAL",
    "dist_row": 75,
-   "ss_rows": [
-    37
-   ]
+   "ss_rows": []
   },
   {
    "desc": "OBRA SOCIAL",
    "dist_row": 76,
    "ss_rows": [
-    112,
-    163,
-    265
+    63,
+    165
    ]
   },
   {
    "desc": "PERDIDA DE MATERIALES",
    "dist_row": 77,
-   "ss_rows": [
-    115
-   ]
+   "ss_rows": []
   },
   {
    "desc": "ACUERDO DE INVERSIONES",
    "dist_row": 78,
-   "ss_rows": [
-    69
-   ]
+   "ss_rows": []
   },
   {
    "desc": "CONSUMOS NO REEMBOLSABLES",
    "dist_row": 79,
-   "ss_rows": [
-    117
-   ]
+   "ss_rows": []
   },
   {
    "desc": "RECUPERO DE GASTOS",
    "dist_row": 80,
-   "ss_rows": [
-    116
-   ]
+   "ss_rows": []
   },
   {
    "desc": "GASTOS TOPOGRÀFICOS",
    "dist_row": 81,
    "ss_rows": [
-    70,
-    292,
-    313
+    192,
+    213
    ]
   },
   {
@@ -8573,151 +6753,143 @@
    "desc": "GASTOS DE PERFORACIÓN",
    "dist_row": 83,
    "ss_rows": [
-    97,
-    366
+    266
    ]
   },
   {
    "desc": "GASTOS DE REPRESENTACIÓN",
    "dist_row": 84,
    "ss_rows": [
-    107,
-    283,
-    341
+    183,
+    241
    ]
   },
   {
    "desc": "RECUPERO DE SEGUROS",
    "dist_row": 85,
    "ss_rows": [
-    308
+    208
    ]
   },
   {
    "desc": "REMEDIACIÓN AMBIENTAL",
    "dist_row": 86,
    "ss_rows": [
-    120,
-    124,
-    193,
-    243,
-    376
+    20,
+    24,
+    93,
+    143,
+    276
    ]
   },
   {
    "desc": "SERVICIOS DE INVESTIGACION",
    "dist_row": 87,
    "ss_rows": [
-    250
+    150
    ]
   },
   {
    "desc": "GASTOS LEGALES",
    "dist_row": 88,
    "ss_rows": [
-    88,
-    118,
-    157,
-    349
+    57,
+    249
    ]
   },
   {
    "desc": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "dist_row": 89,
    "ss_rows": [
-    123,
-    177,
-    244,
-    383,
-    394
+    23,
+    77,
+    144,
+    283,
+    294
    ]
   },
   {
    "desc": "CONVENIO DE ACCESO GST CAMPO",
    "dist_row": 90,
    "ss_rows": [
-    229,
-    323
+    129,
+    223
    ]
   },
   {
    "desc": "SERV. DE DIGITALIZACIÓN GST CAMPO",
    "dist_row": 91,
    "ss_rows": [
-    236
+    136
    ]
   },
   {
    "desc": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "dist_row": 92,
    "ss_rows": [
-    249,
-    378,
-    396
+    149,
+    278,
+    296
    ]
   },
   {
    "desc": "VACACIONES",
    "dist_row": 93,
    "ss_rows": [
-    173,
-    261
+    73,
+    161
    ]
   },
   {
    "desc": "MENSAJERIA",
    "dist_row": 94,
    "ss_rows": [
-    49,
-    138,
-    159,
-    175,
-    200,
-    222,
-    263,
-    293,
-    353,
-    358,
-    362,
-    377
+    38,
+    59,
+    75,
+    100,
+    122,
+    163,
+    193,
+    253,
+    258,
+    262,
+    277
    ]
   },
   {
    "desc": "CATASTRO MINERO",
    "dist_row": 95,
    "ss_rows": [
-    174,
-    232
+    74,
+    132
    ]
   },
   {
    "desc": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
    "dist_row": 96,
    "ss_rows": [
-    71,
-    79,
-    290,
-    311,
-    315
+    190,
+    211,
+    215
    ]
   },
   {
    "desc": "INFORMES DE EVALUACIÓN ECONÓMICA",
    "dist_row": 97,
    "ss_rows": [
-    304
+    204
    ]
   },
   {
    "desc": "ROBO",
    "dist_row": 98,
    "ss_rows": [
-    114,
-    121
+    21
    ]
   }
  ],
- "fila_totales": 401,
+ "fila_totales": 301,
  "ccs_sin_columna_dist": [
   "SAMENTA",
   "TRES CONOS",

@@ -268,15 +268,21 @@
       <div id="catAltaStatus"></div>
     </div>
 
-    <table>
-      <thead>
-        <tr><th style="width:26%;">Cuenta</th><th style="width:34%;">Categoría</th>
-            <th style="width:16%;">Estado</th><th>Acciones</th></tr>
-      </thead>
-      <tbody id="catBody"></tbody>
-    </table>
+    <button class="secundario" id="btnCatVerLista" onclick="catToggleLista()"
+            style="width:100%; text-align:left; margin-bottom:12px;">
+      <span id="catFlecha">▸</span> <span id="catVerTexto">Ver el detalle cuenta por cuenta</span>
+    </button>
 
-    <p class="footer-note" id="catPie" style="margin-top:14px;"></p>
+    <div id="catLista" class="hidden">
+      <table>
+        <thead>
+          <tr><th style="width:26%;">Cuenta</th><th style="width:34%;">Categoría</th>
+              <th style="width:16%;">Estado</th><th>Acciones</th></tr>
+        </thead>
+        <tbody id="catBody"></tbody>
+      </table>
+      <p class="footer-note" id="catPie" style="margin-top:14px;"></p>
+    </div>
 
     <div style="margin-top:16px; display:flex; gap:8px; align-items:center;">
       <button id="btnCatGuardar" onclick="guardarCategorias()" disabled>Guardar cambios</button>

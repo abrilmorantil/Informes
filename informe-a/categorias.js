@@ -19,6 +19,7 @@ let catCambios = [];       // qué se hizo, para el mensaje del commit y para mo
 let catFiltro = "todas";
 let catBusqueda = "";
 let catEditando = null;    // código de la cuenta cuya categoría se está eligiendo
+let catListaAbierta = false;  // el detalle cuenta por cuenta arranca cerrado
 
 // Sólo se listan las cuentas con la numeración nueva (9 dígitos). Las de 8 son del plan
 // viejo, están todas en cero y se van a sacar por completo del informe más adelante.
@@ -94,6 +95,7 @@ async function abrirCategorias() {
   catFiltro = "todas";
   catBusqueda = "";
   catEditando = null;
+  catListaAbierta = false;
   document.getElementById("catBuscar").value = "";
   renderCategorias();
   document.getElementById("cardCategorias").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -180,6 +182,14 @@ function renderCategorias() {
 
   if (catEditando) conBuscadorTodos(".catCambiar", "Buscar categoría…");
 
+  mostrar("catLista", catListaAbierta);
+  document.getElementById("catFlecha").textContent = catListaAbierta ? "▾" : "▸";
+  document.getElementById("catVerTexto").textContent = catListaAbierta
+    ? `Ocultar el detalle (${visibles.length} de ${filas.length} cuentas)`
+    : (visibles.length === filas.length
+        ? `Ver el detalle cuenta por cuenta (${filas.length})`
+        : `Ver el detalle (${visibles.length} de ${filas.length} cuentas)`);
+
   const ocultas = Object.keys(catMapeo.cuentas).filter(c => !CAT_ES_VIVA(c)).length;
   document.getElementById("catPie").innerHTML =
     `Mostrando ${visibles.length} de ${filas.length} cuentas. ` +
@@ -208,6 +218,17 @@ function catOpcionesCategoria() {
     .map(c => `<option value="${c.dist_row}">` +
               `${catEsc(c.desc)}${veces[c.desc] > 1 ? ` (fila ${c.dist_row})` : ""}</option>`)
     .join("");
+}
+
+// El detalle son 282 renglones: desplegado siempre deja el panel imposible de leer.
+// Arranca cerrado y se abre a pedido — o solo, en cuanto se busca o se filtra, que es
+// cuando la lista pasa a ser corta y tiene sentido verla.
+function catToggleLista() {
+  catListaAbierta = !catListaAbierta;
+  renderCategorias();
+  if (catListaAbierta) {
+    document.getElementById("catLista").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
 }
 
 function catEditarCategoria(codigo) { catEditando = codigo; renderCategorias(); }
@@ -329,5 +350,15 @@ async function guardarCategorias() {
   }
 }
 
-function catCambiarFiltro(v) { catFiltro = v; catEditando = null; renderCategorias(); }
-function catCambiarBusqueda(v) { catBusqueda = v; renderCategorias(); }
+function catCambiarFiltro(v) {
+  catFiltro = v;
+  catEditando = null;
+  if (v !== "todas") catListaAbierta = true;
+  renderCategorias();
+}
+
+function catCambiarBusqueda(v) {
+  catBusqueda = v;
+  if (v.trim()) catListaAbierta = true;
+  renderCategorias();
+}

@@ -96,6 +96,18 @@ function activarColumnaMes(wsDist, nroMes, log = () => {}) {
   if (c === null) throw new Error(`No encontré la columna "TOTAL ${nombreMes(nroMes)}" en Dist.de gastos.`);
   const filas = filasDeCategoria(wsDist);
   for (const r of filas) wsDist.getCell(r, c).value = { formula: `D${r}` };
+
+  // En el maestro los meses que todavía no se usaron vienen OCULTOS, y activarlos sólo
+  // les escribía la fórmula: la columna quedaba con los importes correctos pero sin
+  // verse, y había que mostrarla a mano en Excel cada mes. Pasó con julio —en el
+  // informe presentado alguien la mostró— y volvería a pasar con agosto, que también
+  // está oculto. El mes que se está cargando es justamente el que hay que mirar.
+  const columna = wsDist.getColumn(c);
+  if (columna.hidden) {
+    columna.hidden = false;
+    log(`  La columna TOTAL ${nombreMes(nroMes)} estaba oculta en el archivo: se muestra.`);
+  }
+
   log(`  Columna TOTAL ${nombreMes(nroMes)} activada (${filas.length} filas siguen al movimiento del mes).`);
   return filas.length;
 }

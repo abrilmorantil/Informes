@@ -201,13 +201,8 @@ function catEsc(s) {
 // ESPECTROMETRÍA están cada uno en dos filas). Eligiendo por nombre siempre se iba a la
 // primera, sin aviso. A los repetidos se les muestra la fila para poder distinguirlos.
 function catOpcionesCategoria() {
-  const veces = {};
-  for (const c of catMapeo.categorias) veces[c.desc] = (veces[c.desc] || 0) + 1;
-  return catMapeo.categorias
-    .slice()
-    .sort((a, b) => a.desc.localeCompare(b.desc, "es") || a.dist_row - b.dist_row)
-    .map(c => `<option value="${c.dist_row}">` +
-              `${catEsc(c.desc)}${veces[c.desc] > 1 ? ` (fila ${c.dist_row})` : ""}</option>`)
+  return categoriasElegibles(catMapeo)
+    .map(c => `<option value="${c.fila}">${catEsc(c.texto)}</option>`)
     .join("");
 }
 

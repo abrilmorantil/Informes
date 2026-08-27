@@ -321,14 +321,10 @@ $("btnProcesar").addEventListener("click", async () => {
 const NO_INCLUIR = "__no_incluir__";
 
 function renderPendientes() {
-  // El valor de cada opción es la FILA de Dist.de gastos, no el nombre: hay nombres de
-  // categoría repetidos en dos filas y eligiendo por texto siempre ganaba la primera.
-  const veces = {};
-  for (const c of mapeoGuardado.categorias) veces[c.desc] = (veces[c.desc] || 0) + 1;
-  const cats = mapeoGuardado.categorias
-    .slice()
-    .sort((a, b) => a.desc.localeCompare(b.desc, "es") || a.dist_row - b.dist_row)
-    .map(c => ({ valor: c.dist_row, texto: c.desc + (veces[c.desc] > 1 ? ` (fila ${c.dist_row})` : "") }));
+  // El valor de cada opción es la FILA de Dist.de gastos, no el nombre: puede haber
+  // nombres repetidos en dos filas, y eligiendo por texto siempre ganaba la primera.
+  // categoriasElegibles deja afuera la fila TOTAL GASTOS, que no es una categoría.
+  const cats = categoriasElegibles(mapeoGuardado).map(c => ({ valor: c.fila, texto: c.texto }));
   $("pendientesBody").innerHTML = pendientes.map((p, i) => `
     <tr class="pending-row">
       <td>${p.codigo}</td>

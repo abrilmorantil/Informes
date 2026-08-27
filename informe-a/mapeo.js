@@ -150,7 +150,8 @@ function detectarCategorias(wsDist, wsSs, distColToCc, cuentas) {
   for (const [codigo, info] of Object.entries(cuentas)) filaARow[info.ss_row] = codigo;
 
   const categorias = [];
-  for (let r = 8; r <= filaTotalGastos; r++) {
+  // hasta la fila de totales SIN incluirla: TOTAL GASTOS no es una categoría
+  for (let r = 8; r < filaTotalGastos; r++) {
     const desc = textoCelda(wsDist.getCell(r, 3));
     if (!desc) continue;
 

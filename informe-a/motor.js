@@ -88,8 +88,33 @@ function filaDistDeCategoria(mapeo, categoria) {
   return c ? c.dist_row : null;
 }
 
+// La fila TOTAL GASTOS queda registrada en el mapeo como si fuera una categoría más
+// (detectarCategorias la recorría inclusive), pero no lo es: es el renglón que suma
+// todo. Ofrecerla en un desplegable es una trampa — asignarle una cuenta la engancharía
+// ahí adentro. Las listas que ve la usuaria salen de acá, nunca de mapeo.categorias
+// directo.
+function esFilaDeTotales(desc) {
+  return String(desc == null ? "" : desc).toUpperCase().includes("TOTAL GASTOS");
+}
+
+// Las categorías que se pueden elegir, ya ordenadas y con el texto listo para mostrar.
+// A los nombres repetidos se les agrega la fila, que es lo único que los distingue.
+function categoriasElegibles(mapeo) {
+  const elegibles = mapeo.categorias.filter(c => !esFilaDeTotales(c.desc));
+  const veces = {};
+  for (const c of elegibles) veces[c.desc] = (veces[c.desc] || 0) + 1;
+  return elegibles
+    .slice()
+    .sort((a, b) => a.desc.localeCompare(b.desc, "es") || a.dist_row - b.dist_row)
+    .map(c => ({
+      fila: c.dist_row,
+      desc: c.desc,
+      texto: c.desc + (veces[c.desc] > 1 ? ` (fila ${c.dist_row})` : ""),
+    }));
+}
+
 function categoriasDisponibles(mapeo) {
-  return [...new Set(mapeo.categorias.map(c => c.desc))].sort();
+  return [...new Set(mapeo.categorias.filter(c => !esFilaDeTotales(c.desc)).map(c => c.desc))].sort();
 }
 
 // ---------------------------------------------------------------- hoja SyS
@@ -514,10 +539,18 @@ function _filasDeCategorias(mapeo) {
 // no romper nada que todavía mande texto.
 function resolverCategoriaDestino(mapeo, valor) {
   if (valor === null || valor === undefined || valor === "") return null;
+  if (esFilaDeTotales(valor)) {
+    throw new Error("TOTAL GASTOS es el renglón de totales, no una categoría: no se le pueden colgar cuentas.");
+  }
   const n = Number(valor);
   if (Number.isInteger(n) && n > 0) {
     const porFila = mapeo.categorias.find(x => x.dist_row === n);
-    if (porFila) return porFila;
+    if (porFila) {
+      if (esFilaDeTotales(porFila.desc)) {
+        throw new Error("TOTAL GASTOS es el renglón de totales, no una categoría: no se le pueden colgar cuentas.");
+      }
+      return porFila;
+    }
   }
   const iguales = mapeo.categorias.filter(x => x.desc === valor);
   if (iguales.length > 1) {
@@ -1143,6 +1176,7 @@ if (typeof module !== "undefined") {
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
     norm, limpiar, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
+    categoriasElegibles, esFilaDeTotales,
     quitarRefDistDeGastos, refsDeCuentaEnDist, insertarCuentaEnBalance, mapaDeDistribucion,
     crearCategoriaEnDist, filaTotalGastosDeDist,
     resolverCategoriaDestino,

@@ -6,7 +6,7 @@
 <title>Balance de comprobación por Centros de costos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-08-27b">
+<link rel="stylesheet" href="../estilos.css?v=2026-08-27d">
 <script src="vendor/xlsx.full.min.js"></script>
 <script src="vendor/exceljs.min.js"></script>
 <style>
@@ -228,19 +228,9 @@
       <h2 style="margin:0;">Configurar categorización</h2>
       <button class="secundario" onclick="cerrarCategorias()" style="flex:0 0 auto;">Cerrar</button>
     </div>
-    <div class="checks" id="catResumen" style="margin-top:16px;"></div>
-
     <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:18px 0 12px;">
       <input id="catBuscar" type="text" placeholder="Buscar por código, nombre o categoría…"
              oninput="catCambiarBusqueda(this.value)" style="flex:1; min-width:240px;">
-      <select onchange="catCambiarFiltro(this.value)">
-        <option value="todas">Todas</option>
-        <option value="varias">En más de una categoría</option>
-        <option value="haber">El haber va a otra categoría</option>
-        <option value="sin">Sin categoría</option>
-        <option value="ok">Configuradas</option>
-        <option value="excluida">Sacadas de la distribución</option>
-      </select>
       <button class="secundario" onclick="catAbrirAlta()">Agregar cuenta</button>
     </div>
 
@@ -320,17 +310,17 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-08-27b"></script>
-<script src="similitud.js?v=2026-08-27b"></script>
-<script src="formula_utils.js?v=2026-08-27b"></script>
-<script src="../informe-c/formula_hojas.js?v=2026-08-27b"></script>
-<script src="parser_onvio.js?v=2026-08-27b"></script>
-<script src="meses.js?v=2026-08-27b"></script>
-<script src="mapeo.js?v=2026-08-27b"></script>
-<script src="motor.js?v=2026-08-27b"></script>
-<script src="importar_acumulados.js?v=2026-08-27b"></script>
-<script src="categorias.js?v=2026-08-27b"></script>
-<script src="github.js?v=2026-08-27b"></script>
-<script src="app.js?v=2026-08-27b"></script>
+<script src="../buscador.js?v=2026-08-27d"></script>
+<script src="similitud.js?v=2026-08-27d"></script>
+<script src="formula_utils.js?v=2026-08-27d"></script>
+<script src="../informe-c/formula_hojas.js?v=2026-08-27d"></script>
+<script src="parser_onvio.js?v=2026-08-27d"></script>
+<script src="meses.js?v=2026-08-27d"></script>
+<script src="mapeo.js?v=2026-08-27d"></script>
+<script src="motor.js?v=2026-08-27d"></script>
+<script src="importar_acumulados.js?v=2026-08-27d"></script>
+<script src="categorias.js?v=2026-08-27d"></script>
+<script src="github.js?v=2026-08-27d"></script>
+<script src="app.js?v=2026-08-27d"></script>
 </body>
 </html>

@@ -16,7 +16,6 @@
 let catWb = null;          // copia del archivo base sobre la que se edita
 let catMapeo = null;       // copia del mapeo
 let catCambios = [];       // qué se hizo, para el mensaje del commit y para mostrarlo
-let catFiltro = "todas";
 let catBusqueda = "";
 let catEditando = null;    // código de la cuenta cuya categoría se está eligiendo
 let catListaAbierta = false;  // el detalle cuenta por cuenta arranca cerrado
@@ -84,7 +83,6 @@ async function abrirCategorias() {
   document.getElementById("catBody").innerHTML =
     '<tr><td colspan="4" class="footer-note">Leyendo el archivo del balance… ' +
     'tarda unos segundos, es el mismo archivo que abre la carga mensual.</td></tr>';
-  document.getElementById("catResumen").innerHTML = "";
   document.getElementById("catPie").innerHTML = "";
   // el navegador tiene que llegar a pintar el aviso antes de bloquearse abriendo el libro
   await new Promise(r => setTimeout(r, 30));
@@ -92,7 +90,6 @@ async function abrirCategorias() {
   catWb = await abrirWorkbook(bufferBase.slice(0));
   catMapeo = JSON.parse(JSON.stringify(mapeoGuardado));
   catCambios = [];
-  catFiltro = "todas";
   catBusqueda = "";
   catEditando = null;
   catListaAbierta = false;
@@ -114,30 +111,17 @@ function cerrarCategorias() {
 
 function renderCategorias() {
   const filas = catFilas();
-  const cuenta = { varias: 0, haber: 0, sin: 0, excluida: 0, ok: 0 };
-  for (const f of filas) cuenta[f.estado.clave]++;
 
-  // Los contadores van sin explicación al lado: cuando algo está en cero no hay nada
-  // que explicar, y con las 282 ya configuradas el panel es de consulta, no de lectura.
-  const marcador = (etiqueta, n, mal) => `
-    <div class="check ${mal && n ? "bad" : "ok"}">
-      <div class="name">${etiqueta}</div>
-      <span class="value">${n}</span></div>`;
-  document.getElementById("catResumen").innerHTML =
-    marcador("En más de una categoría", cuenta.varias, true) +
-    marcador("El haber va a otra categoría", cuenta.haber, true) +
-    marcador("Sin categoría", cuenta.sin, true) +
-    marcador("Configuradas", cuenta.ok, false) +
-    marcador("Sacadas de la distribución", cuenta.excluida, false);
-
+  // El panel no muestra tablero de contadores ni filtros: con todo ya configurado no
+  // aportaban y ocupaban la pantalla entera. Queda el buscador, que ademas de codigo y
+  // nombre busca por el estado ("en 2 categorias", "sin categoria"...), asi que lo que
+  // haya para revisar se encuentra igual.
   const q = catBusqueda.trim().toLowerCase();
-  const visibles = filas.filter(f => {
-    if (catFiltro !== "todas" && f.estado.clave !== catFiltro) return false;
-    if (!q) return true;
-    return f.codigo.includes(q) ||
-           String(f.cuenta.label || "").toLowerCase().includes(q) ||
-           f.cats.some(c => c.desc.toLowerCase().includes(q));
-  });
+  const visibles = !q ? filas : filas.filter(f =>
+    f.codigo.includes(q) ||
+    String(f.cuenta.label || "").toLowerCase().includes(q) ||
+    f.estado.texto.toLowerCase().includes(q) ||
+    f.cats.some(c => c.desc.toLowerCase().includes(q)));
 
   const opcionesCat = catOpcionesCategoria();
   document.getElementById("catBody").innerHTML = visibles.length ? visibles.map(f => {
@@ -334,13 +318,6 @@ async function guardarCategorias() {
     mostrar("spinnerCat", false);
     btn.disabled = catCambios.length === 0;
   }
-}
-
-function catCambiarFiltro(v) {
-  catFiltro = v;
-  catEditando = null;
-  if (v !== "todas") catListaAbierta = true;
-  renderCategorias();
 }
 
 function catCambiarBusqueda(v) {

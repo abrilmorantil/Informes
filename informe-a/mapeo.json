@@ -3528,7 +3528,6 @@
    "label": "Remediación Ambiental I- R. Ambiental",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
-    "LA HOYADA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -3540,7 +3539,8 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "LA HOYADA"
    ],
    "excluida": false
   },
@@ -5436,7 +5436,6 @@
    "label": "REMEDIACION AMBIENTAL GS CAMPO",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
-    "LAS SANTAS",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -5448,7 +5447,8 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "LAS SANTAS"
    ],
    "excluida": false
   },
@@ -7476,7 +7476,6 @@
    "label": "Tasas Ambientales – Vigencia y Penalidades",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
-    "REGIONAL CATAMARCA",
     "OFICINA GENERAL",
     "EXPLORACIÓN REGIONAL",
     "TANQUE NEGRO",
@@ -7488,7 +7487,8 @@
     "CAÑADON DEL MORO",
     "LONCO VACA - PELENQUE",
     "GASTOS GENERALES",
-    "PROYECTO SOL"
+    "PROYECTO SOL",
+    "REGIONAL CATAMARCA"
    ],
    "excluida": false
   },
@@ -7924,13 +7924,8 @@
    ]
   },
   {
-   "desc": "ALQUILERES VARIOS",
-   "dist_row": 19,
-   "ss_rows": []
-  },
-  {
    "desc": "ALQUILERES VEHÍCULOS",
-   "dist_row": 20,
+   "dist_row": 19,
    "ss_rows": [
     65,
     245,
@@ -7940,7 +7935,7 @@
   },
   {
    "desc": "GASTOS VARIOS",
-   "dist_row": 21,
+   "dist_row": 20,
    "ss_rows": [
     35,
     40,
@@ -7961,7 +7956,7 @@
   },
   {
    "desc": "GS. LIMPIEZA",
-   "dist_row": 22,
+   "dist_row": 21,
    "ss_rows": [
     26,
     166,
@@ -7973,7 +7968,7 @@
   },
   {
    "desc": "TASAS RETRIBUTIVA MINERÌA",
-   "dist_row": 23,
+   "dist_row": 22,
    "ss_rows": [
     27,
     156,
@@ -7983,7 +7978,7 @@
   },
   {
    "desc": "GASTOS VEHICULOS",
-   "dist_row": 24,
+   "dist_row": 23,
    "ss_rows": [
     108,
     167,
@@ -7999,7 +7994,7 @@
   },
   {
    "desc": "ELECTRICIDAD, GAS Y AGUA",
-   "dist_row": 25,
+   "dist_row": 24,
    "ss_rows": [
     154,
     180,
@@ -8009,7 +8004,7 @@
   },
   {
    "desc": "MOVILIDAD Y VIÁTICOS",
-   "dist_row": 26,
+   "dist_row": 25,
    "ss_rows": [
     72,
     131,
@@ -8026,7 +8021,7 @@
   },
   {
    "desc": "TRASLADOS",
-   "dist_row": 27,
+   "dist_row": 26,
    "ss_rows": [
     76,
     239,
@@ -8036,7 +8031,7 @@
   },
   {
    "desc": "GASTOS PROPIEDAD MINERA",
-   "dist_row": 28,
+   "dist_row": 27,
    "ss_rows": [
     101,
     137,
@@ -8046,7 +8041,7 @@
   },
   {
    "desc": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
-   "dist_row": 29,
+   "dist_row": 28,
    "ss_rows": [
     34,
     165,
@@ -8061,7 +8056,7 @@
   },
   {
    "desc": "FERRETERÍA",
-   "dist_row": 30,
+   "dist_row": 29,
    "ss_rows": [
     96,
     125,
@@ -8074,7 +8069,7 @@
   },
   {
    "desc": "ALQUILER DE MAQUINARIA",
-   "dist_row": 31,
+   "dist_row": 30,
    "ss_rows": [
     94,
     302,
@@ -8083,14 +8078,14 @@
   },
   {
    "desc": "CATERING",
-   "dist_row": 32,
+   "dist_row": 31,
    "ss_rows": [
     95
    ]
   },
   {
    "desc": "INDUMENTARIA",
-   "dist_row": 33,
+   "dist_row": 32,
    "ss_rows": [
     91,
     204,
@@ -8101,12 +8096,12 @@
   },
   {
    "desc": "SEGURO DE VEHICULOS",
-   "dist_row": 34,
+   "dist_row": 33,
    "ss_rows": []
   },
   {
    "desc": "SUELDOS OFICINA",
-   "dist_row": 35,
+   "dist_row": 34,
    "ss_rows": [
     18,
     19,
@@ -8115,7 +8110,7 @@
   },
   {
    "desc": "SUELDOS CAMPO",
-   "dist_row": 36,
+   "dist_row": 35,
    "ss_rows": [
     92,
     93
@@ -8123,7 +8118,7 @@
   },
   {
    "desc": "CARGAS SOCIALES OFICINA",
-   "dist_row": 37,
+   "dist_row": 36,
    "ss_rows": [
     20,
     64
@@ -8131,14 +8126,14 @@
   },
   {
    "desc": "CARGAS SOCIALES CAMPO",
-   "dist_row": 38,
+   "dist_row": 37,
    "ss_rows": [
     98
    ]
   },
   {
    "desc": "SEGUROS",
-   "dist_row": 39,
+   "dist_row": 38,
    "ss_rows": [
     113,
     149,
@@ -8148,7 +8143,7 @@
   },
   {
    "desc": "GASTOS CONTRATACIÓN PERSONAL",
-   "dist_row": 40,
+   "dist_row": 39,
    "ss_rows": [
     128,
     160,
@@ -8162,7 +8157,7 @@
   },
   {
    "desc": "HONORARIOS PROFESIONALES",
-   "dist_row": 41,
+   "dist_row": 40,
    "ss_rows": [
     129,
     141,
@@ -8177,12 +8172,12 @@
   },
   {
    "desc": "HONORARIOS CAPACITACION",
-   "dist_row": 42,
+   "dist_row": 41,
    "ss_rows": []
   },
   {
    "desc": "GASTOS Y COMISIONES BANCARIAS",
-   "dist_row": 43,
+   "dist_row": 42,
    "ss_rows": [
     51,
     53,
@@ -8197,7 +8192,7 @@
   },
   {
    "desc": "GASTOS EN CONSTRUCCIÓN",
-   "dist_row": 44,
+   "dist_row": 43,
    "ss_rows": [
     22,
     103,
@@ -8208,14 +8203,14 @@
   },
   {
    "desc": "MANTENIMIENTO SOFTWARE",
-   "dist_row": 45,
+   "dist_row": 44,
    "ss_rows": [
     42
    ]
   },
   {
    "desc": "COMISIONES, INTERESES, MULTAS",
-   "dist_row": 46,
+   "dist_row": 45,
    "ss_rows": [
     52,
     54,
@@ -8233,7 +8228,7 @@
   },
   {
    "desc": "DEPRECIACION",
-   "dist_row": 47,
+   "dist_row": 46,
    "ss_rows": [
     32,
     150
@@ -8241,21 +8236,21 @@
   },
   {
    "desc": "GRATIFICACIONES",
-   "dist_row": 48,
+   "dist_row": 47,
    "ss_rows": [
     43
    ]
   },
   {
    "desc": "INSPECCIONES",
-   "dist_row": 49,
+   "dist_row": 48,
    "ss_rows": [
     41
    ]
   },
   {
    "desc": "DONACIONES",
-   "dist_row": 50,
+   "dist_row": 49,
    "ss_rows": [
     45,
     264,
@@ -8266,7 +8261,7 @@
   },
   {
    "desc": "ALOJAMIENTO",
-   "dist_row": 51,
+   "dist_row": 50,
    "ss_rows": [
     73,
     158,
@@ -8280,7 +8275,7 @@
   },
   {
    "desc": "REFRIGERIOS",
-   "dist_row": 52,
+   "dist_row": 51,
    "ss_rows": [
     74,
     130,
@@ -8297,7 +8292,7 @@
   },
   {
    "desc": "IMPUESTOS VARIOS",
-   "dist_row": 53,
+   "dist_row": 52,
    "ss_rows": [
     17,
     30,
@@ -8323,7 +8318,7 @@
   },
   {
    "desc": "ALQUILERES INMUEBLES",
-   "dist_row": 54,
+   "dist_row": 53,
    "ss_rows": [
     83,
     110,
@@ -8337,7 +8332,7 @@
   },
   {
    "desc": "ALQUILERES VARIOS",
-   "dist_row": 55,
+   "dist_row": 54,
    "ss_rows": [
     47,
     134,
@@ -8352,14 +8347,14 @@
   },
   {
    "desc": "GS SUSCRIPCIÓN EDITORIAL",
-   "dist_row": 56,
+   "dist_row": 55,
    "ss_rows": [
     82
    ]
   },
   {
    "desc": "GASTOS DE MUESTREOS",
-   "dist_row": 57,
+   "dist_row": 56,
    "ss_rows": [
     84,
     126,
@@ -8377,14 +8372,14 @@
   },
   {
    "desc": "EVENTOS",
-   "dist_row": 58,
+   "dist_row": 57,
    "ss_rows": [
     24
    ]
   },
   {
    "desc": "INSUMOS Y GASTOS GEOLOGICOS",
-   "dist_row": 59,
+   "dist_row": 58,
    "ss_rows": [
     70,
     80,
@@ -8396,17 +8391,17 @@
   },
   {
    "desc": "PLOTEOS",
-   "dist_row": 60,
+   "dist_row": 59,
    "ss_rows": []
   },
   {
    "desc": "PERMISOS CATEO",
-   "dist_row": 61,
+   "dist_row": 60,
    "ss_rows": []
   },
   {
    "desc": "TASAS",
-   "dist_row": 62,
+   "dist_row": 61,
    "ss_rows": [
     168,
     205,
@@ -8415,12 +8410,12 @@
   },
   {
    "desc": "DERECHOS DE EXPLORACIÓN",
-   "dist_row": 63,
+   "dist_row": 62,
    "ss_rows": []
   },
   {
    "desc": "GASTOS CAMPAMENTO",
-   "dist_row": 64,
+   "dist_row": 63,
    "ss_rows": [
     92,
     217,
@@ -8432,7 +8427,7 @@
   },
   {
    "desc": "CANON",
-   "dist_row": 65,
+   "dist_row": 64,
    "ss_rows": [
     66,
     195,
@@ -8442,7 +8437,7 @@
   },
   {
    "desc": "ARANCELES ADUANEROS",
-   "dist_row": 66,
+   "dist_row": 65,
    "ss_rows": [
     57,
     86
@@ -8450,7 +8445,7 @@
   },
   {
    "desc": "ALQUILERES DE EQUIPOS DE CAMPO",
-   "dist_row": 67,
+   "dist_row": 66,
    "ss_rows": [
     25,
     252
@@ -8458,33 +8453,33 @@
   },
   {
    "desc": "CERTIFICACIONES",
-   "dist_row": 68,
+   "dist_row": 67,
    "ss_rows": [
     31
    ]
   },
   {
    "desc": "BAJA BIEN DE USO",
-   "dist_row": 69,
+   "dist_row": 68,
    "ss_rows": []
   },
   {
    "desc": "GASTOS MÉDICOS",
-   "dist_row": 70,
+   "dist_row": 69,
    "ss_rows": [
     48
    ]
   },
   {
    "desc": "MATRÍCULAS",
-   "dist_row": 71,
+   "dist_row": 70,
    "ss_rows": [
     63
    ]
   },
   {
    "desc": "MATERIALES DE CAMPO",
-   "dist_row": 72,
+   "dist_row": 71,
    "ss_rows": [
     46,
     251
@@ -8492,7 +8487,7 @@
   },
   {
    "desc": "PUBLICACIONES",
-   "dist_row": 73,
+   "dist_row": 72,
    "ss_rows": [
     44,
     161,
@@ -8504,33 +8499,28 @@
   },
   {
    "desc": "CONVENIO DE CESIÓN",
-   "dist_row": 74,
+   "dist_row": 73,
    "ss_rows": [
     68
    ]
   },
   {
-   "desc": "ACUERDO DE INVERSIONES",
-   "dist_row": 75,
-   "ss_rows": []
-  },
-  {
    "desc": "HABILITACION COMERCIAL",
-   "dist_row": 76,
+   "dist_row": 74,
    "ss_rows": [
     87
    ]
   },
   {
    "desc": "REGALOS AL PERSONAL",
-   "dist_row": 77,
+   "dist_row": 75,
    "ss_rows": [
     37
    ]
   },
   {
    "desc": "OBRA SOCIAL",
-   "dist_row": 78,
+   "dist_row": 76,
    "ss_rows": [
     112,
     163,
@@ -8539,40 +8529,35 @@
   },
   {
    "desc": "PERDIDA DE MATERIALES",
-   "dist_row": 79,
+   "dist_row": 77,
    "ss_rows": [
     115
    ]
   },
   {
    "desc": "ACUERDO DE INVERSIONES",
-   "dist_row": 80,
+   "dist_row": 78,
    "ss_rows": [
     69
    ]
   },
   {
-   "desc": "ROBO",
-   "dist_row": 81,
-   "ss_rows": []
-  },
-  {
    "desc": "CONSUMOS NO REEMBOLSABLES",
-   "dist_row": 82,
+   "dist_row": 79,
    "ss_rows": [
     117
    ]
   },
   {
    "desc": "RECUPERO DE GASTOS",
-   "dist_row": 83,
+   "dist_row": 80,
    "ss_rows": [
     116
    ]
   },
   {
    "desc": "GASTOS TOPOGRÀFICOS",
-   "dist_row": 84,
+   "dist_row": 81,
    "ss_rows": [
     70,
     292,
@@ -8581,12 +8566,12 @@
   },
   {
    "desc": "GASTOS DE ESPECTROMETRÍA",
-   "dist_row": 85,
+   "dist_row": 82,
    "ss_rows": []
   },
   {
    "desc": "GASTOS DE PERFORACIÓN",
-   "dist_row": 86,
+   "dist_row": 83,
    "ss_rows": [
     97,
     366
@@ -8594,7 +8579,7 @@
   },
   {
    "desc": "GASTOS DE REPRESENTACIÓN",
-   "dist_row": 87,
+   "dist_row": 84,
    "ss_rows": [
     107,
     283,
@@ -8603,26 +8588,32 @@
   },
   {
    "desc": "RECUPERO DE SEGUROS",
-   "dist_row": 88,
+   "dist_row": 85,
    "ss_rows": [
     308
    ]
   },
   {
-   "desc": "GASTOS DE ESPECTROMETRÍA",
-   "dist_row": 89,
-   "ss_rows": []
+   "desc": "REMEDIACIÓN AMBIENTAL",
+   "dist_row": 86,
+   "ss_rows": [
+    120,
+    124,
+    193,
+    243,
+    376
+   ]
   },
   {
    "desc": "SERVICIOS DE INVESTIGACION",
-   "dist_row": 90,
+   "dist_row": 87,
    "ss_rows": [
     250
    ]
   },
   {
    "desc": "GASTOS LEGALES",
-   "dist_row": 91,
+   "dist_row": 88,
    "ss_rows": [
     88,
     118,
@@ -8631,13 +8622,19 @@
    ]
   },
   {
-   "desc": "I - R AMBIENTAL",
-   "dist_row": 92,
-   "ss_rows": []
+   "desc": "TASAS AMBIENTALES I- R. AMBIENTAL",
+   "dist_row": 89,
+   "ss_rows": [
+    123,
+    177,
+    244,
+    383,
+    394
+   ]
   },
   {
    "desc": "CONVENIO DE ACCESO GST CAMPO",
-   "dist_row": 93,
+   "dist_row": 90,
    "ss_rows": [
     229,
     323
@@ -8645,14 +8642,14 @@
   },
   {
    "desc": "SERV. DE DIGITALIZACIÓN GST CAMPO",
-   "dist_row": 94,
+   "dist_row": 91,
    "ss_rows": [
     236
    ]
   },
   {
    "desc": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
-   "dist_row": 95,
+   "dist_row": 92,
    "ss_rows": [
     249,
     378,
@@ -8661,7 +8658,7 @@
   },
   {
    "desc": "VACACIONES",
-   "dist_row": 96,
+   "dist_row": 93,
    "ss_rows": [
     173,
     261
@@ -8669,7 +8666,7 @@
   },
   {
    "desc": "MENSAJERIA",
-   "dist_row": 97,
+   "dist_row": 94,
    "ss_rows": [
     49,
     138,
@@ -8687,7 +8684,7 @@
   },
   {
    "desc": "CATASTRO MINERO",
-   "dist_row": 98,
+   "dist_row": 95,
    "ss_rows": [
     174,
     232
@@ -8695,7 +8692,7 @@
   },
   {
    "desc": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
-   "dist_row": 99,
+   "dist_row": 96,
    "ss_rows": [
     71,
     79,
@@ -8705,37 +8702,15 @@
    ]
   },
   {
-   "desc": "REMEDIACIÓN AMBIENTAL",
-   "dist_row": 100,
-   "ss_rows": [
-    120,
-    124,
-    193,
-    243,
-    376
-   ]
-  },
-  {
-   "desc": "TASAS AMBIENTALES I- R. AMBIENTAL",
-   "dist_row": 101,
-   "ss_rows": [
-    123,
-    177,
-    244,
-    383,
-    394
-   ]
-  },
-  {
    "desc": "INFORMES DE EVALUACIÓN ECONÓMICA",
-   "dist_row": 102,
+   "dist_row": 97,
    "ss_rows": [
     304
    ]
   },
   {
    "desc": "ROBO",
-   "dist_row": 103,
+   "dist_row": 98,
    "ss_rows": [
     114,
     121
@@ -8743,7 +8718,7 @@
   },
   {
    "desc": "TOTAL GASTOS",
-   "dist_row": 105,
+   "dist_row": 100,
    "ss_rows": []
   }
  ],

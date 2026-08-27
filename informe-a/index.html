@@ -6,7 +6,32 @@
 <title>Balance de comprobación por Centros de costos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-08-27h">
+<link rel="stylesheet" href="../estilos.css?v=2026-08-27i">
+<script>
+// La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los
+// scripts, pero NO el propio index.html: si el HTML viene de la cache, se sigue
+// viendo la pantalla vieja aunque el codigo publicado sea otro. Paso de verdad —
+// se saco un bloque del panel y seguia apareciendo.
+//
+// Asi que la pagina se controla sola: pregunta por version.json sin cache y, si no
+// coincide con la que tiene, se vuelve a pedir con la version nueva en la URL. Como
+// la URL cambia, el navegador no puede servir la copia vieja. La marca en
+// sessionStorage evita quedar recargando en loop si algo saliera mal.
+(function () {
+  var MIA = "2026-08-27i";
+  try {
+    fetch("version.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !j.version || j.version === MIA) return;
+        if (sessionStorage.getItem("recargaVersion") === j.version) return;
+        sessionStorage.setItem("recargaVersion", j.version);
+        location.replace(location.pathname + "?v=" + encodeURIComponent(j.version));
+      })
+      .catch(function () {});
+  } catch (e) {}
+})();
+</script>
 <script src="vendor/xlsx.full.min.js"></script>
 <script src="vendor/exceljs.min.js"></script>
 <style>
@@ -310,17 +335,17 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-08-27h"></script>
-<script src="similitud.js?v=2026-08-27h"></script>
-<script src="formula_utils.js?v=2026-08-27h"></script>
-<script src="../informe-c/formula_hojas.js?v=2026-08-27h"></script>
-<script src="parser_onvio.js?v=2026-08-27h"></script>
-<script src="meses.js?v=2026-08-27h"></script>
-<script src="mapeo.js?v=2026-08-27h"></script>
-<script src="motor.js?v=2026-08-27h"></script>
-<script src="importar_acumulados.js?v=2026-08-27h"></script>
-<script src="categorias.js?v=2026-08-27h"></script>
-<script src="github.js?v=2026-08-27h"></script>
-<script src="app.js?v=2026-08-27h"></script>
+<script src="../buscador.js?v=2026-08-27i"></script>
+<script src="similitud.js?v=2026-08-27i"></script>
+<script src="formula_utils.js?v=2026-08-27i"></script>
+<script src="../informe-c/formula_hojas.js?v=2026-08-27i"></script>
+<script src="parser_onvio.js?v=2026-08-27i"></script>
+<script src="meses.js?v=2026-08-27i"></script>
+<script src="mapeo.js?v=2026-08-27i"></script>
+<script src="motor.js?v=2026-08-27i"></script>
+<script src="importar_acumulados.js?v=2026-08-27i"></script>
+<script src="categorias.js?v=2026-08-27i"></script>
+<script src="github.js?v=2026-08-27i"></script>
+<script src="app.js?v=2026-08-27i"></script>
 </body>
 </html>

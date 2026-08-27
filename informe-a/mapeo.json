@@ -222,7 +222,7 @@
  },
  "cuentas": {
   "412600000": {
-   "ss_row": 208,
+   "ss_row": 206,
    "label": "Recupero de Seguros",
    "categoria": "RECUPERO DE SEGUROS",
    "ccs_en_dist": [
@@ -242,7 +242,7 @@
    "excluida": false
   },
   "421010000": {
-   "ss_row": 79,
+   "ss_row": 77,
    "label": "Refrigerios - Adm Catamarca",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -264,7 +264,7 @@
    "excluida": false
   },
   "421020000": {
-   "ss_row": 80,
+   "ss_row": 78,
    "label": "Servicios Públicos - Adm Catamarca",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -346,7 +346,7 @@
    "excluida": false
   },
   "421070000": {
-   "ss_row": 169,
+   "ss_row": 167,
    "label": "Movilidad y viáticos Adm.",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -371,7 +371,7 @@
    "excluida": false
   },
   "421080000": {
-   "ss_row": 244,
+   "ss_row": 242,
    "label": "Servicios de construccion Rel. Comunit. Catamarca",
    "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
@@ -392,7 +392,7 @@
    "excluida": false
   },
   "421090000": {
-   "ss_row": 82,
+   "ss_row": 80,
    "label": "Seguridad e Higiene Adm Gral Catamarca",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -414,7 +414,7 @@
    "excluida": false
   },
   "421100000": {
-   "ss_row": 81,
+   "ss_row": 79,
    "label": "Seguridad - Adm Catamarca",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -435,7 +435,7 @@
    "excluida": false
   },
   "421110000": {
-   "ss_row": 83,
+   "ss_row": 81,
    "label": "Comunicaciones - Adm Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -456,7 +456,7 @@
    "excluida": false
   },
   "421120000": {
-   "ss_row": 84,
+   "ss_row": 82,
    "label": "Servicios Informaticos - Adm Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -478,7 +478,7 @@
    "excluida": false
   },
   "421130000": {
-   "ss_row": 85,
+   "ss_row": 83,
    "label": "Ferreteria - Adm Catamarca",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -500,7 +500,7 @@
    "excluida": false
   },
   "421140000": {
-   "ss_row": 86,
+   "ss_row": 84,
    "label": "Gastos varios oficina - Adm Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -522,7 +522,7 @@
    "excluida": false
   },
   "421150000": {
-   "ss_row": 170,
+   "ss_row": 168,
    "label": "Refrigerios Gs campo Catamarca",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -547,7 +547,7 @@
    "excluida": false
   },
   "421160000": {
-   "ss_row": 171,
+   "ss_row": 169,
    "label": "Alojamiento Gs de campo Catamarca",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -570,7 +570,7 @@
    "excluida": false
   },
   "421170000": {
-   "ss_row": 231,
+   "ss_row": 229,
    "label": "Alojamiento Rel. Comunitarias Catamarca",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -592,7 +592,7 @@
    "excluida": false
   },
   "421180000": {
-   "ss_row": 232,
+   "ss_row": 230,
    "label": "Movilidad y viáticos Rel. Comunitarias Catamarca",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -602,7 +602,7 @@
    "excluida": false
   },
   "421190000": {
-   "ss_row": 87,
+   "ss_row": 85,
    "label": "Gastos en personal - Adm Catamarca",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -624,14 +624,14 @@
    "excluida": false
   },
   "421200000": {
-   "ss_row": 109,
+   "ss_row": 107,
    "label": "Intereses resarcitorios Adm Gral Catamarca",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [],
    "excluida": false
   },
   "421210000": {
-   "ss_row": 291,
+   "ss_row": 289,
    "label": "Canon Minero - Vigencia y Penalidades",
    "categoria": "CANON",
    "ccs_en_dist": [
@@ -651,7 +651,7 @@
    "excluida": false
   },
   "421310000": {
-   "ss_row": 88,
+   "ss_row": 86,
    "label": "Honorarios Profesionales - Adm Catamarca",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -672,7 +672,7 @@
    "excluida": false
   },
   "421320000": {
-   "ss_row": 89,
+   "ss_row": 87,
    "label": "Alquiler inmueble - Adm Catamarca",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -694,7 +694,7 @@
    "excluida": false
   },
   "421330000": {
-   "ss_row": 234,
+   "ss_row": 232,
    "label": "Refrigerios Rel. comunitarias Catamarca",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -716,7 +716,7 @@
    "excluida": false
   },
   "421340000": {
-   "ss_row": 90,
+   "ss_row": 88,
    "label": "Gastos de limpieza - Adm Catamarca",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -737,7 +737,7 @@
    "excluida": false
   },
   "421350000": {
-   "ss_row": 233,
+   "ss_row": 231,
    "label": "Servicios movimiento de suelos -Rel.Comunit. Catamarca",
    "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
@@ -759,7 +759,7 @@
    "excluida": false
   },
   "421360000": {
-   "ss_row": 235,
+   "ss_row": 233,
    "label": "Gastos Varios Rel. Comunitarias Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -779,7 +779,7 @@
    "excluida": false
   },
   "421370000": {
-   "ss_row": 236,
+   "ss_row": 234,
    "label": "Gs Computación - Rel. Comunitarias Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -800,7 +800,7 @@
    "excluida": false
   },
   "421380000": {
-   "ss_row": 237,
+   "ss_row": 235,
    "label": "Libreria - Rel. Comunitarias Catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -820,7 +820,7 @@
    "excluida": false
   },
   "421410000": {
-   "ss_row": 173,
+   "ss_row": 171,
    "label": "Combustible Gs de campo Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -843,7 +843,7 @@
    "excluida": false
   },
   "421420000": {
-   "ss_row": 172,
+   "ss_row": 170,
    "label": "Gtos en personal Gs. de campo Catamarca",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -866,7 +866,7 @@
    "excluida": false
   },
   "421430000": {
-   "ss_row": 91,
+   "ss_row": 89,
    "label": "Honorarios legales  Adm Catamarca",
    "categoria": "HONORARIOS LEGALES",
    "ccs_en_dist": [
@@ -889,7 +889,7 @@
    "excluida": false
   },
   "421440000": {
-   "ss_row": 92,
+   "ss_row": 90,
    "label": "Movilidad y Viáticos Adm Catamarca",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -909,7 +909,7 @@
    "excluida": false
   },
   "421450000": {
-   "ss_row": 238,
+   "ss_row": 236,
    "label": "Gs. en Personal Rel. Comunitarias Catamarca",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -918,7 +918,7 @@
    "excluida": false
   },
   "421460000": {
-   "ss_row": 94,
+   "ss_row": 92,
    "label": "Libreria y papeleria Adm catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -939,7 +939,7 @@
    "excluida": false
   },
   "421470000": {
-   "ss_row": 27,
+   "ss_row": 25,
    "label": "Análisis Muestras I - R. Ambiental Catamarca",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -959,7 +959,7 @@
    "excluida": false
   },
   "421480000": {
-   "ss_row": 95,
+   "ss_row": 93,
    "label": "Canon Minero - Adm Catamarca",
    "categoria": "CANON",
    "ccs_en_dist": [
@@ -981,7 +981,7 @@
    "excluida": false
   },
   "421490000": {
-   "ss_row": 174,
+   "ss_row": 172,
    "label": "Alquiler Inmueble Gs. de campo Catamarca",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -1003,7 +1003,7 @@
    "excluida": false
   },
   "421500000": {
-   "ss_row": 96,
+   "ss_row": 94,
    "label": "Gastos de vehiculos Adm Catamarca",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -1024,7 +1024,7 @@
    "excluida": false
   },
   "421510000": {
-   "ss_row": 97,
+   "ss_row": 95,
    "label": "Gs Computación - Adm Catamarca",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -1045,7 +1045,7 @@
    "excluida": false
   },
   "421520000": {
-   "ss_row": 98,
+   "ss_row": 96,
    "label": "Alojamiento Adm gral Catamarca",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -1067,7 +1067,7 @@
    "excluida": false
   },
   "421530000": {
-   "ss_row": 99,
+   "ss_row": 97,
    "label": "Servicio de Internet Adm Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -1088,7 +1088,7 @@
    "excluida": false
   },
   "421540000": {
-   "ss_row": 182,
+   "ss_row": 180,
    "label": "Monitoreo de suelos y aguas - Gs de Campo Cat.",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -1110,7 +1110,7 @@
    "excluida": false
   },
   "421550000": {
-   "ss_row": 243,
+   "ss_row": 241,
    "label": "Materiales de construccion Rel. Comunit. Catam",
    "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
@@ -1131,7 +1131,7 @@
    "excluida": false
   },
   "421560000": {
-   "ss_row": 101,
+   "ss_row": 99,
    "label": "Alquileres varios - Adm Catamarca",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -1152,7 +1152,7 @@
    "excluida": false
   },
   "421570000": {
-   "ss_row": 290,
+   "ss_row": 288,
    "label": "Publicaciones -  Vigencia y Penalidades Catamarca",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -1172,7 +1172,7 @@
    "excluida": false
   },
   "421580000": {
-   "ss_row": 249,
+   "ss_row": 247,
    "label": "Servicio Notarial Rel Comunitaria Catamarca",
    "categoria": "GASTOS LEGALES",
    "ccs_en_dist": [
@@ -1193,7 +1193,7 @@
    "excluida": false
   },
   "421590000": {
-   "ss_row": 250,
+   "ss_row": 248,
    "label": "Honorarios profesionales Rel Comunitaria Catamarca",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -1215,7 +1215,7 @@
    "excluida": false
   },
   "421600000": {
-   "ss_row": 175,
+   "ss_row": 173,
    "label": "Gastos Varios Gs de Campo Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -1238,7 +1238,7 @@
    "excluida": false
   },
   "421610000": {
-   "ss_row": 103,
+   "ss_row": 101,
    "label": "Combustible Adm. Gral Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -1259,7 +1259,7 @@
    "excluida": false
   },
   "421620000": {
-   "ss_row": 192,
+   "ss_row": 190,
    "label": "Servicio de Topografia Gs Campo Catamarca",
    "categoria": "GASTOS TOPOGRÀFICOS",
    "ccs_en_dist": [
@@ -1280,7 +1280,7 @@
    "excluida": false
   },
   "421630000": {
-   "ss_row": 193,
+   "ss_row": 191,
    "label": "Mensajeria Gs Campo Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -1302,7 +1302,7 @@
    "excluida": false
   },
   "421640000": {
-   "ss_row": 194,
+   "ss_row": 192,
    "label": "Gastos vehiculos Gs Campo Catamarca",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -1324,7 +1324,7 @@
    "excluida": false
   },
   "421650000": {
-   "ss_row": 196,
+   "ss_row": 194,
    "label": "Servicios de Cartografia Gs de campo Catamarca",
    "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
@@ -1347,7 +1347,7 @@
    "excluida": false
   },
   "421660000": {
-   "ss_row": 197,
+   "ss_row": 195,
    "label": "Insumos para muestras Gs Campo Catamarca",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -1369,7 +1369,7 @@
    "excluida": false
   },
   "421670000": {
-   "ss_row": 176,
+   "ss_row": 174,
    "label": "Comunicaciones Gs Campo Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -1391,7 +1391,7 @@
    "excluida": false
   },
   "421680000": {
-   "ss_row": 177,
+   "ss_row": 175,
    "label": "Servicio de transporte Gs Campo Catamarca",
    "categoria": "TRASLADOS",
    "ccs_en_dist": [
@@ -1414,7 +1414,7 @@
    "excluida": false
   },
   "421690000": {
-   "ss_row": 178,
+   "ss_row": 176,
    "label": "Gs de Campamento Gs de Campo Catamarca",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -1437,7 +1437,7 @@
    "excluida": false
   },
   "421700000": {
-   "ss_row": 179,
+   "ss_row": 177,
    "label": "Indumentaria de Trabajo Gastos de campo Catamarca",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -1459,7 +1459,7 @@
    "excluida": false
   },
   "421710000": {
-   "ss_row": 105,
+   "ss_row": 103,
    "label": "Tasa Municipal Adm Catamarca",
    "categoria": "TASAS",
    "ccs_en_dist": [
@@ -1479,7 +1479,7 @@
    "excluida": false
   },
   "421800000": {
-   "ss_row": 242,
+   "ss_row": 240,
    "label": "Alquiler maquinaria limpieza Rel. Comun. Catamarca",
    "categoria": "ALQUILER DE MAQUINARIA",
    "ccs_en_dist": [
@@ -1501,7 +1501,7 @@
    "excluida": false
   },
   "421810000": {
-   "ss_row": 199,
+   "ss_row": 197,
    "label": "Impuestos no computables Gs Campo Catamarca",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -1523,7 +1523,7 @@
    "excluida": false
   },
   "421820000": {
-   "ss_row": 200,
+   "ss_row": 198,
    "label": "Alquiler de vehiculos - Gs Campo Catamarca",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
@@ -1545,7 +1545,7 @@
    "excluida": false
   },
   "421830000": {
-   "ss_row": 201,
+   "ss_row": 199,
    "label": "Capacitaciones Gs Campo Catamarca",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
@@ -1566,7 +1566,7 @@
    "excluida": false
   },
   "421840000": {
-   "ss_row": 202,
+   "ss_row": 200,
    "label": "Alquiler Maquinaria Gs Campo Catamarca",
    "categoria": "ALQUILER DE MAQUINARIA",
    "ccs_en_dist": [
@@ -1591,7 +1591,7 @@
    "excluida": false
   },
   "421850000": {
-   "ss_row": 203,
+   "ss_row": 201,
    "label": "Gst de Mantenimiento Gst Campo Catamarca",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -1613,7 +1613,7 @@
    "excluida": false
   },
   "421900000": {
-   "ss_row": 100,
+   "ss_row": 98,
    "label": "Encomienda Adm Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -1634,7 +1634,7 @@
    "excluida": false
   },
   "421920000": {
-   "ss_row": 180,
+   "ss_row": 178,
    "label": "Libreria y Papeleria Gs Campo Catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -1655,7 +1655,7 @@
    "excluida": false
   },
   "421930000": {
-   "ss_row": 181,
+   "ss_row": 179,
    "label": "Gs Varios Oficina Gs Campo Catamarca",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -1680,7 +1680,7 @@
    "excluida": false
   },
   "421940000": {
-   "ss_row": 248,
+   "ss_row": 246,
    "label": "Alquiler Inmueble Rel. Comun. Catamarca",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -1701,14 +1701,14 @@
    "excluida": false
   },
   "421950000": {
-   "ss_row": 262,
+   "ss_row": 260,
    "label": "Mensajeria Muestreo Geof. Sup. Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [],
    "excluida": false
   },
   "421970000": {
-   "ss_row": 186,
+   "ss_row": 184,
    "label": "Honorarios Profesionales Gs Campo Catamarca",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -1733,7 +1733,7 @@
    "excluida": false
   },
   "421980000": {
-   "ss_row": 188,
+   "ss_row": 186,
    "label": "Seguridad Gs Campo Catamarca",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -1755,7 +1755,7 @@
    "excluida": false
   },
   "421990000": {
-   "ss_row": 102,
+   "ss_row": 100,
    "label": "Mantenimiento Adm. Gral Catamarca",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -1776,7 +1776,7 @@
    "excluida": false
   },
   "422010000": {
-   "ss_row": 23,
+   "ss_row": 21,
    "label": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -1796,7 +1796,7 @@
    "excluida": false
   },
   "422020000": {
-   "ss_row": 24,
+   "ss_row": 22,
    "label": "Remediación Ambiental I- R. Ambiental",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -1817,7 +1817,7 @@
    "excluida": false
   },
   "422080000": {
-   "ss_row": 25,
+   "ss_row": 23,
    "label": "Gastos Ferretería I -R.Ambiental",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -1837,7 +1837,7 @@
    "excluida": false
   },
   "422090000": {
-   "ss_row": 28,
+   "ss_row": 26,
    "label": "Gs en personal R- Ambiental",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -1857,7 +1857,7 @@
    "excluida": false
   },
   "422220000": {
-   "ss_row": 26,
+   "ss_row": 24,
    "label": "Análisis Muestras -R. Ambiental",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -1878,7 +1878,7 @@
    "excluida": false
   },
   "422240000": {
-   "ss_row": 29,
+   "ss_row": 27,
    "label": "Honorarios profesionales - Remediación ambiental",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -1898,7 +1898,7 @@
    "excluida": false
   },
   "423010000": {
-   "ss_row": 47,
+   "ss_row": 45,
    "label": "Gastos y comisiones bancarias",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -1918,7 +1918,7 @@
    "excluida": false
   },
   "423040000": {
-   "ss_row": 12,
+   "ss_row": 11,
    "label": "INTERESES",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -1938,7 +1938,7 @@
    "excluida": false
   },
   "423100000": {
-   "ss_row": 13,
+   "ss_row": 12,
    "label": "II.BB. No Computable",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -1958,7 +1958,7 @@
    "excluida": false
   },
   "424220000": {
-   "ss_row": 14,
+   "ss_row": 13,
    "label": "COMIDA",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -1978,7 +1978,7 @@
    "excluida": false
   },
   "424250000": {
-   "ss_row": 31,
+   "ss_row": 29,
    "label": "Comunicaciones",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -1999,7 +1999,7 @@
    "excluida": false
   },
   "424400000": {
-   "ss_row": 16,
+   "ss_row": 15,
    "label": "SUELDOS Campos",
    "categoria": "SUELDOS CAMPO",
    "ccs_en_dist": [
@@ -2019,7 +2019,7 @@
    "excluida": false
   },
   "424460000": {
-   "ss_row": 17,
+   "ss_row": 16,
    "label": "GASTOS DE PERFORACIÓN",
    "categoria": "GASTOS DE PERFORACIÓN",
    "ccs_en_dist": [
@@ -2042,7 +2042,7 @@
    "excluida": false
   },
   "424500000": {
-   "ss_row": 18,
+   "ss_row": 17,
    "label": "CARGAS SOCIALES CAMPO",
    "categoria": "CARGAS SOCIALES CAMPO",
    "ccs_en_dist": [
@@ -2062,7 +2062,7 @@
    "excluida": false
   },
   "424820000": {
-   "ss_row": 20,
+   "ss_row": 18,
    "label": "REMEDIACIÓN AMBIENTAL",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -2083,7 +2083,7 @@
    "excluida": false
   },
   "425100000": {
-   "ss_row": 77,
+   "ss_row": 75,
    "label": "Tasas Ambientales – Adm. General",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -2103,7 +2103,7 @@
    "excluida": false
   },
   "425110000": {
-   "ss_row": 32,
+   "ss_row": 30,
    "label": "REFRIGERIOS ADM. GRAL.",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -2123,7 +2123,7 @@
    "excluida": false
   },
   "425120000": {
-   "ss_row": 33,
+   "ss_row": 31,
    "label": "MOVILIDAD Y VIATICOS ADM GENERAL",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -2143,7 +2143,7 @@
    "excluida": false
   },
   "425130000": {
-   "ss_row": 34,
+   "ss_row": 32,
    "label": "EXPENSAS DEPTO GEOLOGOS ADM GRAL",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -2164,7 +2164,7 @@
    "excluida": false
   },
   "425140000": {
-   "ss_row": 35,
+   "ss_row": 33,
    "label": "INTERESES RESARCITORIOS ADM. GRAL.",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -2184,7 +2184,7 @@
    "excluida": false
   },
   "425150000": {
-   "ss_row": 36,
+   "ss_row": 34,
    "label": "ALQUILER INMUEBLE ADM. GRAL.",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -2205,7 +2205,7 @@
    "excluida": false
   },
   "425160000": {
-   "ss_row": 37,
+   "ss_row": 35,
    "label": "CUOTA SOCIETARIA MINERA ADM. GRAL.",
    "categoria": "GASTOS PROPIEDAD MINERA",
    "ccs_en_dist": [
@@ -2226,7 +2226,7 @@
    "excluida": false
   },
   "425170000": {
-   "ss_row": 38,
+   "ss_row": 36,
    "label": "MENSAJERIA ADM. GRAL.",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -2246,7 +2246,7 @@
    "excluida": false
   },
   "425180000": {
-   "ss_row": 39,
+   "ss_row": 37,
    "label": "COMUNICACIONES ADM. GRAL.",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -2268,7 +2268,7 @@
    "excluida": false
   },
   "425190000": {
-   "ss_row": 41,
+   "ss_row": 39,
    "label": "HONORARIOS PROFESIONALES ADM. GRAL",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -2289,7 +2289,7 @@
    "excluida": false
   },
   "425200000": {
-   "ss_row": 43,
+   "ss_row": 41,
    "label": "COMBUSTIBLE ADM. GRAL.",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -2309,7 +2309,7 @@
    "excluida": false
   },
   "425210000": {
-   "ss_row": 44,
+   "ss_row": 42,
    "label": "GST. DE CAPACITACIÓN ADM. GRAL",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
@@ -2330,7 +2330,7 @@
    "excluida": false
   },
   "425220000": {
-   "ss_row": 46,
+   "ss_row": 44,
    "label": "GASTOS Y COMISIONES BANCARIAS ADM. GRAL.",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -2350,7 +2350,7 @@
    "excluida": false
   },
   "425230000": {
-   "ss_row": 48,
+   "ss_row": 46,
    "label": "IMP.A LOS DÉBITOS Y CRÉDITOS BANCARIOS ADM. GRAL.",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -2370,7 +2370,7 @@
    "excluida": false
   },
   "425240000": {
-   "ss_row": 49,
+   "ss_row": 47,
    "label": "SEGUROS ADM. GRAL.",
    "categoria": "SEGUROS",
    "ccs_en_dist": [
@@ -2391,7 +2391,7 @@
    "excluida": false
   },
   "425250000": {
-   "ss_row": 50,
+   "ss_row": 48,
    "label": "AMORTIZACIONES ADM. GRAL.",
    "categoria": "DEPRECIACION",
    "ccs_en_dist": [
@@ -2411,7 +2411,7 @@
    "excluida": false
   },
   "425260000": {
-   "ss_row": 69,
+   "ss_row": 67,
    "label": "SELLADOS ADM GRAL.",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -2431,7 +2431,7 @@
    "excluida": false
   },
   "425270000": {
-   "ss_row": 70,
+   "ss_row": 68,
    "label": "IMPUESTOS VARIOS ADM GRAL.",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -2451,7 +2451,7 @@
    "excluida": false
   },
   "425280000": {
-   "ss_row": 71,
+   "ss_row": 69,
    "label": "PUBLICACIONES Adm Gral",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -2471,7 +2471,7 @@
    "excluida": false
   },
   "425290000": {
-   "ss_row": 72,
+   "ss_row": 70,
    "label": "GS COMPUTACIÓN ADM GRAL.",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -2491,7 +2491,7 @@
    "excluida": false
   },
   "425300000": {
-   "ss_row": 51,
+   "ss_row": 49,
    "label": "GASTOS VARIOS OFICINA ADM. GRAL",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -2512,7 +2512,7 @@
    "excluida": false
   },
   "425310000": {
-   "ss_row": 73,
+   "ss_row": 71,
    "label": "VACACIONES ADM GRAL.",
    "categoria": "VACACIONES",
    "ccs_en_dist": [
@@ -2533,7 +2533,7 @@
    "excluida": false
   },
   "425320000": {
-   "ss_row": 74,
+   "ss_row": 72,
    "label": "CATASTRO MINERO ADM GRAL.",
    "categoria": "CATASTRO MINERO",
    "ccs_en_dist": [
@@ -2553,7 +2553,7 @@
    "excluida": false
   },
   "425330000": {
-   "ss_row": 78,
+   "ss_row": 76,
    "label": "Impuestos País - Adm Gral.",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -2575,7 +2575,7 @@
    "excluida": false
   },
   "425400000": {
-   "ss_row": 53,
+   "ss_row": 51,
    "label": "SERVICIOS INFORMÁTICOS ADM GRAL",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -2596,7 +2596,7 @@
    "excluida": false
   },
   "425500000": {
-   "ss_row": 54,
+   "ss_row": 52,
    "label": "SERVICIOS PUBLICOS ADM GRAL",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -2616,7 +2616,7 @@
    "excluida": false
   },
   "425600000": {
-   "ss_row": 55,
+   "ss_row": 53,
    "label": "GST. MANTENIMIENTO ADM GRAL.",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -2636,7 +2636,7 @@
    "excluida": false
   },
   "425700000": {
-   "ss_row": 58,
+   "ss_row": 56,
    "label": "ALOJAMIENTO ADM. GRAL",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -2656,7 +2656,7 @@
    "excluida": false
   },
   "425800000": {
-   "ss_row": 59,
+   "ss_row": 57,
    "label": "SERV. CADETERÍA ADM GRAL",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -2676,7 +2676,7 @@
    "excluida": false
   },
   "425810000": {
-   "ss_row": 68,
+   "ss_row": 66,
    "label": "TASA MUNICIPAL ADM GRAL.",
    "categoria": "TASAS",
    "ccs_en_dist": [
@@ -2697,7 +2697,7 @@
    "excluida": false
   },
   "425820000": {
-   "ss_row": 56,
+   "ss_row": 54,
    "label": "TASAS RETRIBUTIVAS MINERÍA ADM GRAL.",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
@@ -2718,7 +2718,7 @@
    "excluida": false
   },
   "425830000": {
-   "ss_row": 93,
+   "ss_row": 91,
    "label": "Remediación Ambiental Adm General",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -2739,7 +2739,7 @@
    "excluida": false
   },
   "425840000": {
-   "ss_row": 57,
+   "ss_row": 55,
    "label": "Servicios Notariales Administracion Gral.",
    "categoria": "GASTOS LEGALES",
    "ccs_en_dist": [
@@ -2760,7 +2760,7 @@
    "excluida": false
   },
   "425900000": {
-   "ss_row": 60,
+   "ss_row": 58,
    "label": "GS. EN PERSONAL ADM GRAL",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -2780,7 +2780,7 @@
    "excluida": false
   },
   "425910000": {
-   "ss_row": 61,
+   "ss_row": 59,
    "label": "PUBLICIDAD ADM GRAL",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -2801,7 +2801,7 @@
    "excluida": false
   },
   "425920000": {
-   "ss_row": 62,
+   "ss_row": 60,
    "label": "LIBRERIA Y PAPELERIA ADM GRAL",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -2821,7 +2821,7 @@
    "excluida": false
   },
   "425930000": {
-   "ss_row": 63,
+   "ss_row": 61,
    "label": "OBRA SOCIAL ADICIONAL ADM GRAL",
    "categoria": "OBRA SOCIAL",
    "ccs_en_dist": [
@@ -2842,7 +2842,7 @@
    "excluida": false
   },
   "425940000": {
-   "ss_row": 64,
+   "ss_row": 62,
    "label": "HONORARIOS LEGALES ADM. GRAL",
    "categoria": "HONORARIOS LEGALES",
    "ccs_en_dist": [
@@ -2863,7 +2863,7 @@
    "excluida": false
   },
   "425950000": {
-   "ss_row": 65,
+   "ss_row": 63,
    "label": "SEGURIDAD ADM. GRAL",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -2884,7 +2884,7 @@
    "excluida": false
   },
   "425960000": {
-   "ss_row": 75,
+   "ss_row": 73,
    "label": "ENCOMIENDA ADM GRAL.",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -2904,7 +2904,7 @@
    "excluida": false
   },
   "425970000": {
-   "ss_row": 66,
+   "ss_row": 64,
    "label": "GS. LIMPIEZA ADM. GRAL",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -2924,7 +2924,7 @@
    "excluida": false
   },
   "425980000": {
-   "ss_row": 76,
+   "ss_row": 74,
    "label": "Intereses Adm. Gral.",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -2944,7 +2944,7 @@
    "excluida": false
   },
   "425990000": {
-   "ss_row": 67,
+   "ss_row": 65,
    "label": "GST. VEHICULOS ADM GRAL",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -2965,7 +2965,7 @@
    "excluida": false
   },
   "426100000": {
-   "ss_row": 148,
+   "ss_row": 146,
    "label": "SEGUROS GS CAMPO",
    "categoria": "SEGUROS",
    "ccs_en_dist": [
@@ -2986,7 +2986,7 @@
    "excluida": false
   },
   "426110000": {
-   "ss_row": 111,
+   "ss_row": 109,
    "label": "REFRIGERIOS GST. CAMPO",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -3008,7 +3008,7 @@
    "excluida": false
   },
   "426120000": {
-   "ss_row": 112,
+   "ss_row": 110,
    "label": "MOVILIDAD Y VIATICOS GST. CAMPO",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -3028,7 +3028,7 @@
    "excluida": false
   },
   "426130000": {
-   "ss_row": 123,
+   "ss_row": 121,
    "label": "GASTOS DE LIMPIEZA Gs CAMPO",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -3051,7 +3051,7 @@
    "excluida": false
   },
   "426140000": {
-   "ss_row": 113,
+   "ss_row": 111,
    "label": "EXPENSAS DEPTO GEOLOGOS GST CAMPO",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -3072,7 +3072,7 @@
    "excluida": false
   },
   "426150000": {
-   "ss_row": 114,
+   "ss_row": 112,
    "label": "SERVICIOS PUBLICOS GST. CAMPO",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -3092,7 +3092,7 @@
    "excluida": false
   },
   "426160000": {
-   "ss_row": 15,
+   "ss_row": 14,
    "label": "Comunicaciones Gst Campo",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -3112,7 +3112,7 @@
    "excluida": false
   },
   "426170000": {
-   "ss_row": 116,
+   "ss_row": 114,
    "label": "ALQUILER COCHERAS GST. CAMPO",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -3133,7 +3133,7 @@
    "excluida": false
   },
   "426180000": {
-   "ss_row": 117,
+   "ss_row": 115,
    "label": "GST CAMPAMENTO GST CAMPO",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -3154,7 +3154,7 @@
    "excluida": false
   },
   "426190000": {
-   "ss_row": 118,
+   "ss_row": 116,
    "label": "GST VARIOS OFICINA GST CAMPO",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -3176,7 +3176,7 @@
    "excluida": false
   },
   "426200000": {
-   "ss_row": 119,
+   "ss_row": 117,
    "label": "COMBUSTIBLE GST CAMPO",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -3197,7 +3197,7 @@
    "excluida": false
   },
   "426210000": {
-   "ss_row": 120,
+   "ss_row": 118,
    "label": "SERVICIOS INFORMATICOS GST. CAMPO",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -3219,7 +3219,7 @@
    "excluida": false
   },
   "426220000": {
-   "ss_row": 121,
+   "ss_row": 119,
    "label": "ALQUILER INMUEBLE GST CAMPO",
    "categoria": "ALQUILERES INMUEBLES",
    "ccs_en_dist": [
@@ -3241,7 +3241,7 @@
    "excluida": false
   },
   "426230000": {
-   "ss_row": 122,
+   "ss_row": 120,
    "label": "MENSAJERIA GST CAMPO",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -3264,7 +3264,7 @@
    "excluida": false
   },
   "426240000": {
-   "ss_row": 124,
+   "ss_row": 122,
    "label": "GST DE VEHICULOS GST. CAMPO",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -3285,7 +3285,7 @@
    "excluida": false
   },
   "426250000": {
-   "ss_row": 125,
+   "ss_row": 123,
    "label": "GST. MANTENIMIENTO GST CAMPO",
    "categoria": "REPARAC.Y MANTENC.",
    "ccs_en_dist": [
@@ -3308,7 +3308,7 @@
    "excluida": false
   },
   "426260000": {
-   "ss_row": 126,
+   "ss_row": 124,
    "label": "ALOJAMIENTO GST. CAMPO",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -3331,7 +3331,7 @@
    "excluida": false
   },
   "426270000": {
-   "ss_row": 127,
+   "ss_row": 125,
    "label": "GST VARIOS CAMPO GST. CAMPO",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -3356,7 +3356,7 @@
    "excluida": false
   },
   "426280000": {
-   "ss_row": 128,
+   "ss_row": 126,
    "label": "GST EN PERSONAL GST. CAMPO",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -3378,7 +3378,7 @@
    "excluida": false
   },
   "426290000": {
-   "ss_row": 129,
+   "ss_row": 127,
    "label": "CONVENIO DE ACCESO GST CAMPO",
    "categoria": "CONVENIO DE ACCESO GST CAMPO",
    "ccs_en_dist": [
@@ -3400,7 +3400,7 @@
    "excluida": false
   },
   "426310000": {
-   "ss_row": 130,
+   "ss_row": 128,
    "label": "ALQUILERES VARIOS GST CAMPO",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -3421,7 +3421,7 @@
    "excluida": false
   },
   "426320000": {
-   "ss_row": 131,
+   "ss_row": 129,
    "label": "CANON GST CAMPO",
    "categoria": "CANON",
    "ccs_en_dist": [
@@ -3442,7 +3442,7 @@
    "excluida": false
   },
   "426330000": {
-   "ss_row": 133,
+   "ss_row": 131,
    "label": "INSUMOS DE CAMPO GST CAMPO",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -3463,7 +3463,7 @@
    "excluida": false
   },
   "426340000": {
-   "ss_row": 132,
+   "ss_row": 130,
    "label": "CATASTRO MINERO GS CAMPO",
    "categoria": "CATASTRO MINERO",
    "ccs_en_dist": [
@@ -3484,7 +3484,7 @@
    "excluida": false
   },
   "426350000": {
-   "ss_row": 155,
+   "ss_row": 153,
    "label": "PATENTES GST. CAMPO",
    "categoria": "PATENTES",
    "ccs_en_dist": [
@@ -3505,7 +3505,7 @@
    "excluida": false
   },
   "426360000": {
-   "ss_row": 161,
+   "ss_row": 159,
    "label": "VACACIONES GST CAMPO",
    "categoria": "VACACIONES",
    "ccs_en_dist": [
@@ -3527,7 +3527,7 @@
    "excluida": false
   },
   "426370000": {
-   "ss_row": 204,
+   "ss_row": 202,
    "label": "Informes de evaluación económica Gs Campo",
    "categoria": "INFORMES DE EVALUACIÓN ECONÓMICA",
    "ccs_en_dist": [
@@ -3550,7 +3550,7 @@
    "excluida": false
   },
   "426380000": {
-   "ss_row": 134,
+   "ss_row": 132,
    "label": "Gastos de licitación Gst Campo",
    "categoria": "GASTOS PROPIEDAD MINERA",
    "ccs_en_dist": [
@@ -3572,7 +3572,7 @@
    "excluida": false
   },
   "426410000": {
-   "ss_row": 135,
+   "ss_row": 133,
    "label": "SELLADOS GST CAMPO",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -3595,7 +3595,7 @@
    "excluida": false
   },
   "426430000": {
-   "ss_row": 136,
+   "ss_row": 134,
    "label": "SERV. DE DIGITALIZACIÓN GST CAMPO",
    "categoria": "SERV. DE DIGITALIZACIÓN GST CAMPO",
    "ccs_en_dist": [
@@ -3619,7 +3619,7 @@
    "excluida": false
   },
   "426440000": {
-   "ss_row": 137,
+   "ss_row": 135,
    "label": "HONORARIOS PROFESIONALES GST CAMPO",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -3639,7 +3639,7 @@
    "excluida": false
   },
   "426450000": {
-   "ss_row": 138,
+   "ss_row": 136,
    "label": "GS FERRETERÍA GST CAMPO",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -3661,7 +3661,7 @@
    "excluida": false
   },
   "426460000": {
-   "ss_row": 139,
+   "ss_row": 137,
    "label": "TRASLADOS GS CAMPO",
    "categoria": "TRASLADOS",
    "ccs_en_dist": [
@@ -3682,7 +3682,7 @@
    "excluida": false
   },
   "426470000": {
-   "ss_row": 140,
+   "ss_row": 138,
    "label": "LIBRERÍA Y PAPELERÍA GST CAMPO",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -3704,7 +3704,7 @@
    "excluida": false
   },
   "426480000": {
-   "ss_row": 142,
+   "ss_row": 140,
    "label": "ADQUISICION INF GEOLOGICA GS. CAMPO",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -3725,7 +3725,7 @@
    "excluida": false
   },
   "426490000": {
-   "ss_row": 143,
+   "ss_row": 141,
    "label": "REMEDIACION AMBIENTAL GS CAMPO",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -3746,7 +3746,7 @@
    "excluida": false
   },
   "426500000": {
-   "ss_row": 144,
+   "ss_row": 142,
    "label": "TASAS AMBIENTALES GS CAMPO",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -3767,7 +3767,7 @@
    "excluida": false
   },
   "426510000": {
-   "ss_row": 151,
+   "ss_row": 149,
    "label": "MATERIALES DE CAMPO GST CAMPO",
    "categoria": "MATERIALES DE CAMPO",
    "ccs_en_dist": [
@@ -3788,7 +3788,7 @@
    "excluida": false
   },
   "426520000": {
-   "ss_row": 152,
+   "ss_row": 150,
    "label": "ALQUILER EQUIPOS GST CAMPO",
    "categoria": "ALQUILERES DE EQUIPOS DE CAMPO",
    "ccs_en_dist": [
@@ -3810,7 +3810,7 @@
    "excluida": false
   },
   "426530000": {
-   "ss_row": 153,
+   "ss_row": 151,
    "label": "GST DE CAPACITACIÓN GST CAMPO",
    "categoria": "GASTOS DE CAPACITACION",
    "ccs_en_dist": [
@@ -3833,7 +3833,7 @@
    "excluida": false
   },
   "426540000": {
-   "ss_row": 154,
+   "ss_row": 152,
    "label": "GASTOS EXPLORACIÓN GST.CAMPO",
    "categoria": "GASTOS EXPLORACION",
    "ccs_en_dist": [
@@ -3854,7 +3854,7 @@
    "excluida": false
   },
   "426550000": {
-   "ss_row": 141,
+   "ss_row": 139,
    "label": "GS Y COMISIONES BANCARIAS GS CAMPO",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -3876,7 +3876,7 @@
    "excluida": false
   },
   "426560000": {
-   "ss_row": 288,
+   "ss_row": 286,
    "label": "Publicaciones -  Vigencia y Penalidades",
    "categoria": "PUBLICACIONES",
    "ccs_en_dist": [
@@ -3896,7 +3896,7 @@
    "excluida": false
   },
   "426570000": {
-   "ss_row": 289,
+   "ss_row": 287,
    "label": "Tasas Retributivas Minería – Vigencia y Penalidades",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
@@ -3916,7 +3916,7 @@
    "excluida": false
   },
   "426580000": {
-   "ss_row": 185,
+   "ss_row": 183,
    "label": "Servicios de construccion Gs de Campo Catam.",
    "categoria": "GASTOS EN CONSTRUCCIÓN",
    "ccs_en_dist": [
@@ -3938,7 +3938,7 @@
    "excluida": false
   },
   "426590000": {
-   "ss_row": 145,
+   "ss_row": 143,
    "label": "ALQUILER DE VEHICULOS GS DE CAMPO",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
@@ -3959,7 +3959,7 @@
    "excluida": false
   },
   "426600000": {
-   "ss_row": 146,
+   "ss_row": 144,
    "label": "GASTOS COMPUTACION GS CAMPO",
    "categoria": "GASTOS COMPUTACIÓN",
    "ccs_en_dist": [
@@ -3980,7 +3980,7 @@
    "excluida": false
   },
   "426610000": {
-   "ss_row": 189,
+   "ss_row": 187,
    "label": "Movilidad y viáticos Gs Campo Catamarca",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -4002,7 +4002,7 @@
    "excluida": false
   },
   "426620000": {
-   "ss_row": 293,
+   "ss_row": 291,
    "label": "Uso eventual de agua en proyectos - Vigencia y penalidades",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -4022,7 +4022,7 @@
    "excluida": false
   },
   "426630000": {
-   "ss_row": 295,
+   "ss_row": 293,
    "label": "Honorarios profesionales Vigencia y Penalidades",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -4032,7 +4032,7 @@
    "excluida": false
   },
   "426640000": {
-   "ss_row": 183,
+   "ss_row": 181,
    "label": "Gasto de representación Gs. Campo",
    "categoria": "GASTOS DE REPRESENTACIÓN",
    "ccs_en_dist": [
@@ -4055,7 +4055,7 @@
    "excluida": false
   },
   "426650000": {
-   "ss_row": 190,
+   "ss_row": 188,
    "label": "Adquisición de inform. Geofísica Gs Campo Cat",
    "categoria": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
    "ccs_en_dist": [
@@ -4078,7 +4078,7 @@
    "excluida": false
   },
   "426660000": {
-   "ss_row": 191,
+   "ss_row": 189,
    "label": "Informes Ambientales Gs Campo Cat",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -4103,7 +4103,7 @@
    "excluida": false
   },
   "426670000": {
-   "ss_row": 209,
+   "ss_row": 207,
    "label": "Patentes Gasto Campo Catamarca",
    "categoria": "PATENTES",
    "ccs_en_dist": [
@@ -4123,7 +4123,7 @@
    "excluida": false
   },
   "426700000": {
-   "ss_row": 147,
+   "ss_row": 145,
    "label": "IMPUESTO VARIOS GS CAMPO",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -4144,7 +4144,7 @@
    "excluida": false
   },
   "426800000": {
-   "ss_row": 149,
+   "ss_row": 147,
    "label": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "categoria": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "ccs_en_dist": [
@@ -4166,7 +4166,7 @@
    "excluida": false
   },
   "426810000": {
-   "ss_row": 184,
+   "ss_row": 182,
    "label": "Gastos de limpieza Gts campo Catam",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -4189,7 +4189,7 @@
    "excluida": false
   },
   "426820000": {
-   "ss_row": 165,
+   "ss_row": 163,
    "label": "Obra social Adicional Gst de campo",
    "categoria": "OBRA SOCIAL",
    "ccs_en_dist": [
@@ -4212,7 +4212,7 @@
    "excluida": false
   },
   "426840000": {
-   "ss_row": 156,
+   "ss_row": 154,
    "label": "Expensas Gs Campo",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -4235,7 +4235,7 @@
    "excluida": false
   },
   "426850000": {
-   "ss_row": 206,
+   "ss_row": 204,
    "label": "Donaciones Gs de Campo Catamarca",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
@@ -4257,7 +4257,7 @@
    "excluida": false
   },
   "426860000": {
-   "ss_row": 205,
+   "ss_row": 203,
    "label": "Ferretería Gs Campo Catamarca",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -4278,7 +4278,7 @@
    "excluida": false
   },
   "426870000": {
-   "ss_row": 207,
+   "ss_row": 205,
    "label": "Servicios publicos Gs. Campo Catamarca",
    "categoria": "ELECTRICIDAD, GAS Y AGUA",
    "ccs_en_dist": [
@@ -4300,7 +4300,7 @@
    "excluida": false
   },
   "426880000": {
-   "ss_row": 214,
+   "ss_row": 212,
    "label": "Tasas Municipales Gs Campo",
    "categoria": "TASAS",
    "ccs_en_dist": [
@@ -4311,7 +4311,7 @@
    "excluida": false
   },
   "426900000": {
-   "ss_row": 150,
+   "ss_row": 148,
    "label": "SERV. SEGURIDAD E INVESTIGACIÓN GS CAMPO",
    "categoria": "SERVICIOS DE INVESTIGACION",
    "ccs_en_dist": [
@@ -4332,7 +4332,7 @@
    "excluida": false
   },
   "426910000": {
-   "ss_row": 157,
+   "ss_row": 155,
    "label": "INDUMENTARIA DE TRABAJO GS CAMPO",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -4355,7 +4355,7 @@
    "excluida": false
   },
   "426920000": {
-   "ss_row": 158,
+   "ss_row": 156,
    "label": "INTERESES GST CAMPO",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -4376,7 +4376,7 @@
    "excluida": false
   },
   "426930000": {
-   "ss_row": 159,
+   "ss_row": 157,
    "label": "INFORMES AMBIENTALES GST CAMPO",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -4397,7 +4397,7 @@
    "excluida": false
   },
   "426940000": {
-   "ss_row": 160,
+   "ss_row": 158,
    "label": "TASAS RETRIBUTIVAS MINERÍA GST CAMPO",
    "categoria": "TASAS RETRIBUTIVA MINERÌA",
    "ccs_en_dist": [
@@ -4418,7 +4418,7 @@
    "excluida": false
   },
   "426950000": {
-   "ss_row": 213,
+   "ss_row": 211,
    "label": "Servicio de Topografía Gs de Campo",
    "categoria": "GASTOS TOPOGRÀFICOS",
    "ccs_en_dist": [
@@ -4441,7 +4441,7 @@
    "excluida": false
   },
   "426960000": {
-   "ss_row": 162,
+   "ss_row": 160,
    "label": "ANÁLISIS MUESTRAS GS CAMPO",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -4462,7 +4462,7 @@
    "excluida": false
   },
   "426970000": {
-   "ss_row": 163,
+   "ss_row": 161,
    "label": "Encomienda Gs Campo",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -4484,7 +4484,7 @@
    "excluida": false
   },
   "426980000": {
-   "ss_row": 164,
+   "ss_row": 162,
    "label": "Donaciones Gs de Campo",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
@@ -4505,7 +4505,7 @@
    "excluida": false
   },
   "426990000": {
-   "ss_row": 166,
+   "ss_row": 164,
    "label": "Cuota Societaria Gs de Campo",
    "categoria": "GASTOS PROPIEDAD MINERA",
    "ccs_en_dist": [
@@ -4526,7 +4526,7 @@
    "excluida": false
   },
   "427110000": {
-   "ss_row": 216,
+   "ss_row": 214,
    "label": "MOVILIDAD Y VIATICOS REL. COMUNITARIAS",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -4549,7 +4549,7 @@
    "excluida": false
   },
   "427120000": {
-   "ss_row": 217,
+   "ss_row": 215,
    "label": "REFRIGERIOS REL. COMUNITARIAS",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -4572,7 +4572,7 @@
    "excluida": false
   },
   "427140000": {
-   "ss_row": 218,
+   "ss_row": 216,
    "label": "GASTOS DE LIMPIEZA REL. COMUNITARIAS",
    "categoria": "GS. LIMPIEZA",
    "ccs_en_dist": [
@@ -4594,7 +4594,7 @@
    "excluida": false
   },
   "427150000": {
-   "ss_row": 219,
+   "ss_row": 217,
    "label": "ALQUILER VEHICULOS REL. COMUNITARIAS",
    "categoria": "ALQUILERES VEHÍCULOS",
    "ccs_en_dist": [
@@ -4614,7 +4614,7 @@
    "excluida": false
   },
   "427160000": {
-   "ss_row": 220,
+   "ss_row": 218,
    "label": "GASTOS Y COMISIONES BANCARIAS REL. COMUNITARIAS",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -4634,7 +4634,7 @@
    "excluida": false
   },
   "427170000": {
-   "ss_row": 221,
+   "ss_row": 219,
    "label": "COMBUSTIBLE REL. COMUNITARIAS",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -4656,7 +4656,7 @@
    "excluida": false
   },
   "427180000": {
-   "ss_row": 222,
+   "ss_row": 220,
    "label": "GST. FERRETERIA REL. COMUNITARIAS",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -4677,7 +4677,7 @@
    "excluida": false
   },
   "427190000": {
-   "ss_row": 257,
+   "ss_row": 255,
    "label": "Gastos y comisiones bancarias Rel. comunitarias Catamarca",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -4687,7 +4687,7 @@
    "excluida": false
   },
   "427210000": {
-   "ss_row": 223,
+   "ss_row": 221,
    "label": "CONVENIO DE ACCESO REL. COMUNITARIAS",
    "categoria": "CONVENIO DE ACCESO GST CAMPO",
    "ccs_en_dist": [
@@ -4707,7 +4707,7 @@
    "excluida": false
   },
   "427220000": {
-   "ss_row": 224,
+   "ss_row": 222,
    "label": "ALQUILERES VARIOS REL. COMUNITARIAS",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -4727,7 +4727,7 @@
    "excluida": false
   },
   "427230000": {
-   "ss_row": 225,
+   "ss_row": 223,
    "label": "ALOJAMIENTO REL.COMUNITARIAS",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -4749,7 +4749,7 @@
    "excluida": false
   },
   "427240000": {
-   "ss_row": 226,
+   "ss_row": 224,
    "label": "GASTOS EN PERSONAL REL. COMUNITARIAS",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -4770,7 +4770,7 @@
    "excluida": false
   },
   "427250000": {
-   "ss_row": 227,
+   "ss_row": 225,
    "label": "PATENTES REL. COMUNITARIAS",
    "categoria": "PATENTES",
    "ccs_en_dist": [
@@ -4792,7 +4792,7 @@
    "excluida": false
   },
   "427260000": {
-   "ss_row": 229,
+   "ss_row": 227,
    "label": "Gastos de vehiculos  Rel. Comunitarias",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -4813,7 +4813,7 @@
    "excluida": false
   },
   "427270000": {
-   "ss_row": 228,
+   "ss_row": 226,
    "label": "Comunicaciones Rel. Comunitarias",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -4835,7 +4835,7 @@
    "excluida": false
   },
   "427280000": {
-   "ss_row": 230,
+   "ss_row": 228,
    "label": "Gastos Varios Rel. Comunitarias",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -4857,7 +4857,7 @@
    "excluida": false
   },
   "427290000": {
-   "ss_row": 239,
+   "ss_row": 237,
    "label": "Gastos en calefacción Rel. Comunitarias",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -4878,7 +4878,7 @@
    "excluida": false
   },
   "427300000": {
-   "ss_row": 240,
+   "ss_row": 238,
    "label": "Libreria y papeleria  Rel. Comunitarias",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -4899,7 +4899,7 @@
    "excluida": false
   },
   "427310000": {
-   "ss_row": 241,
+   "ss_row": 239,
    "label": "Gs representación Rel. comunitarias",
    "categoria": "GASTOS DE REPRESENTACIÓN",
    "ccs_en_dist": [
@@ -4919,7 +4919,7 @@
    "excluida": false
   },
   "427320000": {
-   "ss_row": 255,
+   "ss_row": 253,
    "label": "Impuestos no computables Rel. Comunitarias",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -4939,7 +4939,7 @@
    "excluida": false
   },
   "427330000": {
-   "ss_row": 256,
+   "ss_row": 254,
    "label": "Impuestos no computables Rel. Comunitarias Catamarca",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -4960,7 +4960,7 @@
    "excluida": false
   },
   "427400000": {
-   "ss_row": 245,
+   "ss_row": 243,
    "label": "Honorarios Profesionales - Rel. Comunitarias",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -4969,7 +4969,7 @@
    "excluida": false
   },
   "427500000": {
-   "ss_row": 246,
+   "ss_row": 244,
    "label": "Gastos de oficina - Relaciones Comun.",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -4991,7 +4991,7 @@
    "excluida": false
   },
   "427510000": {
-   "ss_row": 253,
+   "ss_row": 251,
    "label": "Encomienda Rel. Com. Catamarca",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -5012,7 +5012,7 @@
    "excluida": false
   },
   "427520000": {
-   "ss_row": 254,
+   "ss_row": 252,
    "label": "Combustibles Rel. Comunitarias Catamarca",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -5032,7 +5032,7 @@
    "excluida": false
   },
   "427700000": {
-   "ss_row": 247,
+   "ss_row": 245,
    "label": "Comunicaciones Rel. comunitarias Catamarca",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -5054,7 +5054,7 @@
    "excluida": false
   },
   "427800000": {
-   "ss_row": 251,
+   "ss_row": 249,
    "label": "Gst Vehículos Rel. comunitarias Catamarca",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -5074,7 +5074,7 @@
    "excluida": false
   },
   "427900000": {
-   "ss_row": 252,
+   "ss_row": 250,
    "label": "Donaciones Rel. comunitarias Catamarca",
    "categoria": "DONACIONES",
    "ccs_en_dist": [
@@ -5095,7 +5095,7 @@
    "excluida": false
   },
   "428100000": {
-   "ss_row": 259,
+   "ss_row": 257,
    "label": "GASTOS VARIOS CAMPO MUESTREO GEOF. SUP",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -5115,7 +5115,7 @@
    "excluida": false
   },
   "428200000": {
-   "ss_row": 261,
+   "ss_row": 259,
    "label": "Análisis de Muestras Muestreo Geof. Sup.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -5135,7 +5135,7 @@
    "excluida": false
   },
   "428300000": {
-   "ss_row": 260,
+   "ss_row": 258,
    "label": "MENSJAERIA MUESTREO GEOF. SUP.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -5155,7 +5155,7 @@
    "excluida": false
   },
   "429100000": {
-   "ss_row": 264,
+   "ss_row": 262,
    "label": "LIBRERÍA Y PAPELERÍA E. PERFORACIÓN",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -5175,7 +5175,7 @@
    "excluida": false
   },
   "429110000": {
-   "ss_row": 276,
+   "ss_row": 274,
    "label": "Remediación Ambiental E. Perforacion",
    "categoria": "REMEDIACIÓN AMBIENTAL",
    "ccs_en_dist": [
@@ -5195,7 +5195,7 @@
    "excluida": false
   },
   "429200000": {
-   "ss_row": 265,
+   "ss_row": 263,
    "label": "GASTOS EN PERSONAL E. PERFORACIÓN",
    "categoria": "GASTOS CONTRATACIÓN PERSONAL",
    "ccs_en_dist": [
@@ -5215,7 +5215,7 @@
    "excluida": false
   },
   "429210000": {
-   "ss_row": 274,
+   "ss_row": 272,
    "label": "Gastos Campamento - E. Perforacion",
    "categoria": "GASTOS CAMPAMENTO",
    "ccs_en_dist": [
@@ -5235,7 +5235,7 @@
    "excluida": false
   },
   "429220000": {
-   "ss_row": 275,
+   "ss_row": 273,
    "label": "Ferreteria - E. Perforacion",
    "categoria": "FERRETERÍA",
    "ccs_en_dist": [
@@ -5255,7 +5255,7 @@
    "excluida": false
   },
   "429240000": {
-   "ss_row": 277,
+   "ss_row": 275,
    "label": "Encomiendas - E. Perforacion",
    "categoria": "MENSAJERIA",
    "ccs_en_dist": [
@@ -5275,7 +5275,7 @@
    "excluida": false
   },
   "429250000": {
-   "ss_row": 278,
+   "ss_row": 276,
    "label": "Análisis Geoquimicos - E. Perforación",
    "categoria": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "ccs_en_dist": [
@@ -5295,7 +5295,7 @@
    "excluida": false
   },
   "429260000": {
-   "ss_row": 279,
+   "ss_row": 277,
    "label": "Gastos de Seguridad - E. Perforación",
    "categoria": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "ccs_en_dist": [
@@ -5315,7 +5315,7 @@
    "excluida": false
   },
   "429270000": {
-   "ss_row": 280,
+   "ss_row": 278,
    "label": "Indumentaria de Trabajo - E. Perforacion",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -5335,7 +5335,7 @@
    "excluida": false
   },
   "429280000": {
-   "ss_row": 281,
+   "ss_row": 279,
    "label": "Análisis Muestras de agua- E. Perforación.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -5355,7 +5355,7 @@
    "excluida": false
   },
   "429300000": {
-   "ss_row": 266,
+   "ss_row": 264,
    "label": "SERVICIO DE PERFORACIÓN E. PERFORACIÓN",
    "categoria": "GASTOS DE PERFORACIÓN",
    "ccs_en_dist": [
@@ -5375,7 +5375,7 @@
    "excluida": false
   },
   "429310000": {
-   "ss_row": 282,
+   "ss_row": 280,
    "label": "Gastos de vehiculos - E. Perforacion",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -5395,7 +5395,7 @@
    "excluida": false
   },
   "429400000": {
-   "ss_row": 267,
+   "ss_row": 265,
    "label": "COMUNICACIONES E. PERFORACIÓN",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -5415,7 +5415,7 @@
    "excluida": false
   },
   "429500000": {
-   "ss_row": 268,
+   "ss_row": 266,
    "label": "REFRIGERIOS E. PERFORCIÓN",
    "categoria": "REFRIGERIOS",
    "ccs_en_dist": [
@@ -5435,7 +5435,7 @@
    "excluida": false
   },
   "429700000": {
-   "ss_row": 270,
+   "ss_row": 268,
    "label": "SEGUROS E PERFORACIÒN",
    "categoria": "SEGUROS",
    "ccs_en_dist": [
@@ -5455,7 +5455,7 @@
    "excluida": false
   },
   "429800000": {
-   "ss_row": 269,
+   "ss_row": 267,
    "label": "COMBUSTIBLE E PERFORACION",
    "categoria": "COMBUSTIBLE",
    "ccs_en_dist": [
@@ -5475,7 +5475,7 @@
    "excluida": false
   },
   "429900000": {
-   "ss_row": 271,
+   "ss_row": 269,
    "label": "Alquiler varios - E. Perforacion",
    "categoria": "ALQUILERES VARIOS",
    "ccs_en_dist": [
@@ -5495,7 +5495,7 @@
    "excluida": false
   },
   "429910000": {
-   "ss_row": 272,
+   "ss_row": 270,
    "label": "Movilidad y Viáticos E Perforacion",
    "categoria": "MOVILIDAD Y VIÁTICOS",
    "ccs_en_dist": [
@@ -5515,7 +5515,7 @@
    "excluida": false
   },
   "429920000": {
-   "ss_row": 273,
+   "ss_row": 271,
    "label": "Alojamiento E- Perforacion",
    "categoria": "ALOJAMIENTO",
    "ccs_en_dist": [
@@ -5535,7 +5535,7 @@
    "excluida": false
   },
   "429930000": {
-   "ss_row": 283,
+   "ss_row": 281,
    "label": "Tasa ambiental -E. Perforacion",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -5555,7 +5555,7 @@
    "excluida": false
   },
   "429940000": {
-   "ss_row": 284,
+   "ss_row": 282,
    "label": "Análisis de Muestras - E. Perforacion",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -5575,7 +5575,7 @@
    "excluida": false
   },
   "429950000": {
-   "ss_row": 285,
+   "ss_row": 283,
    "label": "Servicio de Transporte de muestras E. Perforacion",
    "categoria": "TRASLADOS",
    "ccs_en_dist": [
@@ -5595,14 +5595,14 @@
    "excluida": false
   },
   "429960000": {
-   "ss_row": 286,
+   "ss_row": 284,
    "label": "Donación E. Perforacion",
    "categoria": "DONACIONES",
    "ccs_en_dist": [],
    "excluida": false
   },
   "431010000": {
-   "ss_row": 298,
+   "ss_row": 296,
    "label": "Análisis Muestras - F Analisis Quimicos de Perf.",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -5622,7 +5622,7 @@
    "excluida": false
   },
   "431020000": {
-   "ss_row": 297,
+   "ss_row": 295,
    "label": "Libreria y Papeleria-F Analisis Quimico Perf. Catamarca",
    "categoria": "LIBRERIA Y PAPELERIA",
    "ccs_en_dist": [
@@ -5642,7 +5642,7 @@
    "excluida": false
   },
   "431030000": {
-   "ss_row": 187,
+   "ss_row": 185,
    "label": "Adquisición de Inform. Geologica Gs de campo Cat",
    "categoria": "INSUMOS Y GASTOS GEOLOGICOS",
    "ccs_en_dist": [
@@ -5664,14 +5664,14 @@
    "excluida": false
   },
   "431040000": {
-   "ss_row": 292,
+   "ss_row": 290,
    "label": "Gastos de Vehiculos - Vigencia y Penalidades",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [],
    "excluida": false
   },
   "431050000": {
-   "ss_row": 167,
+   "ss_row": 165,
    "label": "Impuesto Pais - Gs Campo",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -5696,7 +5696,7 @@
    "excluida": false
   },
   "431060000": {
-   "ss_row": 198,
+   "ss_row": 196,
    "label": "Análisis de muestras Gs de Campo Catamarca",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [
@@ -5718,7 +5718,7 @@
    "excluida": false
   },
   "431070000": {
-   "ss_row": 104,
+   "ss_row": 102,
    "label": "Indumentaria de Trabajo Adm. Catamarca",
    "categoria": "INDUMENTARIA",
    "ccs_en_dist": [
@@ -5740,7 +5740,7 @@
    "excluida": false
   },
   "431080000": {
-   "ss_row": 168,
+   "ss_row": 166,
    "label": "Impuestos no computables - Gs de campo",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -5765,7 +5765,7 @@
    "excluida": false
   },
   "431090000": {
-   "ss_row": 294,
+   "ss_row": 292,
    "label": "Tasas Ambientales – Vigencia y Penalidades",
    "categoria": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "ccs_en_dist": [
@@ -5786,7 +5786,7 @@
    "excluida": false
   },
   "431100000": {
-   "ss_row": 108,
+   "ss_row": 106,
    "label": "Imp. Bienes, Acc. y Part. Soc. – Adm. General",
    "categoria": "IMPUESTOS VARIOS",
    "ccs_en_dist": [
@@ -5808,7 +5808,7 @@
    "excluida": false
   },
   "431110000": {
-   "ss_row": 107,
+   "ss_row": 105,
    "label": "Intereses - Adm. Catamarca",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -5828,14 +5828,14 @@
    "excluida": false
   },
   "431120000": {
-   "ss_row": 299,
+   "ss_row": 297,
    "label": "Análisis Muestras- F Analisis Quimicos de Perf Catamarca",
    "categoria": "GASTOS DE MUESTREOS",
    "ccs_en_dist": [],
    "excluida": false
   },
   "432010000": {
-   "ss_row": 21,
+   "ss_row": 19,
    "label": "ROBO",
    "categoria": "ROBO",
    "ccs_en_dist": [
@@ -5855,7 +5855,7 @@
    "excluida": false
   },
   "433010000": {
-   "ss_row": 210,
+   "ss_row": 208,
    "label": "Intereses Gs Campo Catamarca",
    "categoria": "COMISIONES, INTERESES, MULTAS",
    "ccs_en_dist": [
@@ -5875,7 +5875,7 @@
    "excluida": false
   },
   "433020000": {
-   "ss_row": 211,
+   "ss_row": 209,
    "label": "Adquisición de inform. Geofísica Gs Campo",
    "categoria": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
    "ccs_en_dist": [
@@ -5896,7 +5896,7 @@
    "excluida": false
   },
   "433030000": {
-   "ss_row": 42,
+   "ss_row": 40,
    "label": "Honorarios Profesionales Adm. Gral. USD",
    "categoria": "HONORARIOS PROFESIONALES",
    "ccs_en_dist": [
@@ -5916,7 +5916,7 @@
    "excluida": false
   },
   "433040000": {
-   "ss_row": 115,
+   "ss_row": 113,
    "label": "Servicio de Internet USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -5937,7 +5937,7 @@
    "excluida": false
   },
   "433050000": {
-   "ss_row": 40,
+   "ss_row": 38,
    "label": "Comunicaciones Adm. Gral USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -5957,7 +5957,7 @@
    "excluida": false
   },
   "433060000": {
-   "ss_row": 106,
+   "ss_row": 104,
    "label": "Servicio de Internet Adm Catamarca.USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -5979,7 +5979,7 @@
    "excluida": false
   },
   "433070000": {
-   "ss_row": 195,
+   "ss_row": 193,
    "label": "Gst de Vehículos Gst de Campo USD",
    "categoria": "GASTOS VEHICULOS",
    "ccs_en_dist": [
@@ -6002,7 +6002,7 @@
    "excluida": false
   },
   "433080000": {
-   "ss_row": 52,
+   "ss_row": 50,
    "label": "Gastos Varios de Adm Gral USD",
    "categoria": "GASTOS VARIOS",
    "ccs_en_dist": [
@@ -6023,7 +6023,7 @@
    "excluida": false
   },
   "433090000": {
-   "ss_row": 212,
+   "ss_row": 210,
    "label": "Comunicaciones Gastos de campo USD",
    "categoria": "GASTOS COMUNICACIONES",
    "ccs_en_dist": [
@@ -6045,7 +6045,7 @@
    "excluida": false
   },
   "433100000": {
-   "ss_row": 11,
+   "ss_row": 10,
    "label": "Impuesto 25413 No Computable Adm General (u$s)",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -6065,7 +6065,7 @@
    "excluida": false
   },
   "433110000": {
-   "ss_row": 45,
+   "ss_row": 43,
    "label": "Gastos bancarios Adm general (u$s)",
    "categoria": "GASTOS Y COMISIONES BANCARIAS",
    "ccs_en_dist": [
@@ -6090,67 +6090,67 @@
    "desc": "PATENTES",
    "dist_row": 8,
    "ss_rows": [
-    155,
-    209,
-    227
+    153,
+    207,
+    225
    ]
   },
   {
    "desc": "GASTOS COMPUTACIÓN",
    "dist_row": 9,
    "ss_rows": [
-    53,
-    72,
-    84,
-    97,
-    120,
-    146,
-    236
+    51,
+    70,
+    82,
+    95,
+    118,
+    144,
+    234
    ]
   },
   {
    "desc": "GASTOS COMUNICACIONES",
    "dist_row": 10,
    "ss_rows": [
-    31,
-    39,
-    40,
-    83,
-    99,
-    106,
-    115,
-    176,
-    212,
-    228,
-    247,
-    267
+    29,
+    37,
+    38,
+    81,
+    97,
+    104,
+    113,
+    174,
+    210,
+    226,
+    245,
+    265
    ]
   },
   {
    "desc": "GASTOS EXPLORACION",
    "dist_row": 11,
    "ss_rows": [
-    154,
-    196,
-    233
+    152,
+    194,
+    231
    ]
   },
   {
    "desc": "REPARAC.Y MANTENC.",
    "dist_row": 12,
    "ss_rows": [
-    55,
-    102,
-    125,
-    203
+    53,
+    100,
+    123,
+    201
    ]
   },
   {
    "desc": "HONORARIOS LEGALES",
    "dist_row": 13,
    "ss_rows": [
-    64,
-    91
+    62,
+    89
    ]
   },
   {
@@ -6162,9 +6162,9 @@
    "desc": "GASTOS DE CAPACITACION",
    "dist_row": 15,
    "ss_rows": [
-    44,
-    153,
-    201
+    42,
+    151,
+    199
    ]
   },
   {
@@ -6176,167 +6176,167 @@
    "desc": "LIBRERIA Y PAPELERIA",
    "dist_row": 17,
    "ss_rows": [
-    62,
-    94,
-    140,
-    180,
-    237,
-    240,
-    263,
-    264,
-    296,
-    297
+    60,
+    92,
+    138,
+    178,
+    235,
+    238,
+    261,
+    262,
+    294,
+    295
    ]
   },
   {
    "desc": "COMBUSTIBLE",
    "dist_row": 18,
    "ss_rows": [
-    43,
-    103,
-    119,
-    173,
-    221,
-    254,
-    269
+    41,
+    101,
+    117,
+    171,
+    219,
+    252,
+    267
    ]
   },
   {
    "desc": "ALQUILERES VEHÍCULOS",
    "dist_row": 19,
    "ss_rows": [
-    145,
-    200,
-    219
+    143,
+    198,
+    217
    ]
   },
   {
    "desc": "GASTOS VARIOS",
    "dist_row": 20,
    "ss_rows": [
-    51,
-    52,
-    86,
-    118,
-    127,
-    175,
-    181,
-    230,
-    235,
-    246,
-    258
+    49,
+    50,
+    84,
+    116,
+    125,
+    173,
+    179,
+    228,
+    233,
+    244,
+    256
    ]
   },
   {
    "desc": "GS. LIMPIEZA",
    "dist_row": 21,
    "ss_rows": [
-    66,
-    90,
-    123,
-    184,
-    218
+    64,
+    88,
+    121,
+    182,
+    216
    ]
   },
   {
    "desc": "TASAS RETRIBUTIVA MINERÌA",
    "dist_row": 22,
    "ss_rows": [
-    56,
-    160,
-    289
+    54,
+    158,
+    287
    ]
   },
   {
    "desc": "GASTOS VEHICULOS",
    "dist_row": 23,
    "ss_rows": [
-    67,
-    96,
-    124,
-    194,
-    195,
-    229,
-    251,
-    282,
-    292
+    65,
+    94,
+    122,
+    192,
+    193,
+    227,
+    249,
+    280,
+    290
    ]
   },
   {
    "desc": "ELECTRICIDAD, GAS Y AGUA",
    "dist_row": 24,
    "ss_rows": [
-    54,
-    80,
-    114,
-    207
+    52,
+    78,
+    112,
+    205
    ]
   },
   {
    "desc": "MOVILIDAD Y VIÁTICOS",
    "dist_row": 25,
    "ss_rows": [
-    33,
-    92,
-    112,
-    169,
-    189,
-    215,
-    216,
-    232,
-    272
+    31,
+    90,
+    110,
+    167,
+    187,
+    213,
+    214,
+    230,
+    270
    ]
   },
   {
    "desc": "TRASLADOS",
    "dist_row": 26,
    "ss_rows": [
-    139,
-    177,
-    285
+    137,
+    175,
+    283
    ]
   },
   {
    "desc": "GASTOS PROPIEDAD MINERA",
    "dist_row": 27,
    "ss_rows": [
-    37,
-    134,
-    166
+    35,
+    132,
+    164
    ]
   },
   {
    "desc": "SEGURIDAD, SALUD Y MEDIO AMBIENTE",
    "dist_row": 28,
    "ss_rows": [
-    65,
-    81,
-    82,
-    159,
-    182,
-    188,
-    191,
-    279
+    63,
+    79,
+    80,
+    157,
+    180,
+    186,
+    189,
+    277
    ]
   },
   {
    "desc": "FERRETERÍA",
    "dist_row": 29,
    "ss_rows": [
-    25,
-    85,
-    138,
-    205,
-    222,
-    275
+    23,
+    83,
+    136,
+    203,
+    220,
+    273
    ]
   },
   {
    "desc": "ALQUILER DE MAQUINARIA",
    "dist_row": 30,
    "ss_rows": [
-    202,
-    242
+    200,
+    240
    ]
   },
   {
@@ -6348,10 +6348,10 @@
    "desc": "INDUMENTARIA",
    "dist_row": 32,
    "ss_rows": [
-    104,
-    157,
-    179,
-    280
+    102,
+    155,
+    177,
+    278
    ]
   },
   {
@@ -6380,45 +6380,45 @@
    "desc": "CARGAS SOCIALES CAMPO",
    "dist_row": 37,
    "ss_rows": [
-    18
+    17
    ]
   },
   {
    "desc": "SEGUROS",
    "dist_row": 38,
    "ss_rows": [
-    49,
-    148,
-    270
+    47,
+    146,
+    268
    ]
   },
   {
    "desc": "GASTOS CONTRATACIÓN PERSONAL",
    "dist_row": 39,
    "ss_rows": [
-    28,
-    60,
-    87,
-    128,
-    172,
-    226,
-    238,
-    265
+    26,
+    58,
+    85,
+    126,
+    170,
+    224,
+    236,
+    263
    ]
   },
   {
    "desc": "HONORARIOS PROFESIONALES",
    "dist_row": 40,
    "ss_rows": [
-    29,
-    41,
-    42,
-    88,
-    137,
-    186,
-    245,
-    250,
-    295
+    27,
+    39,
+    40,
+    86,
+    135,
+    184,
+    243,
+    248,
+    293
    ]
   },
   {
@@ -6430,22 +6430,22 @@
    "desc": "GASTOS Y COMISIONES BANCARIAS",
    "dist_row": 42,
    "ss_rows": [
+    43,
+    44,
     45,
     46,
-    47,
-    48,
-    141,
-    220,
-    257
+    139,
+    218,
+    255
    ]
   },
   {
    "desc": "GASTOS EN CONSTRUCCIÓN",
    "dist_row": 43,
    "ss_rows": [
-    185,
-    243,
-    244
+    183,
+    241,
+    242
    ]
   },
   {
@@ -6457,19 +6457,19 @@
    "desc": "COMISIONES, INTERESES, MULTAS",
    "dist_row": 45,
    "ss_rows": [
-    35,
-    76,
+    33,
+    74,
+    105,
     107,
-    109,
-    158,
-    210
+    156,
+    208
    ]
   },
   {
    "desc": "DEPRECIACION",
    "dist_row": 46,
    "ss_rows": [
-    50
+    48
    ]
   },
   {
@@ -6486,80 +6486,80 @@
    "desc": "DONACIONES",
    "dist_row": 49,
    "ss_rows": [
-    164,
-    206,
-    252,
-    286
+    162,
+    204,
+    250,
+    284
    ]
   },
   {
    "desc": "ALOJAMIENTO",
    "dist_row": 50,
    "ss_rows": [
-    58,
-    98,
-    126,
-    171,
-    225,
-    231,
-    273
+    56,
+    96,
+    124,
+    169,
+    223,
+    229,
+    271
    ]
   },
   {
    "desc": "REFRIGERIOS",
    "dist_row": 51,
    "ss_rows": [
+    28,
     30,
-    32,
-    79,
-    110,
-    111,
-    170,
-    217,
-    234,
-    268
+    77,
+    108,
+    109,
+    168,
+    215,
+    232,
+    266
    ]
   },
   {
    "desc": "IMPUESTOS VARIOS",
    "dist_row": 52,
    "ss_rows": [
-    69,
-    70,
-    78,
-    108,
-    135,
-    147,
-    167,
-    168,
-    199,
-    255,
-    256
+    67,
+    68,
+    76,
+    106,
+    133,
+    145,
+    165,
+    166,
+    197,
+    253,
+    254
    ]
   },
   {
    "desc": "ALQUILERES INMUEBLES",
    "dist_row": 53,
    "ss_rows": [
-    36,
-    89,
-    121,
-    174,
-    248
+    34,
+    87,
+    119,
+    172,
+    246
    ]
   },
   {
    "desc": "ALQUILERES VARIOS",
    "dist_row": 54,
    "ss_rows": [
-    34,
-    101,
-    113,
-    116,
-    130,
-    156,
-    224,
-    271
+    32,
+    99,
+    111,
+    114,
+    128,
+    154,
+    222,
+    269
    ]
   },
   {
@@ -6571,17 +6571,17 @@
    "desc": "GASTOS DE MUESTREOS",
    "dist_row": 56,
    "ss_rows": [
-    26,
-    27,
-    162,
-    198,
+    24,
+    25,
+    160,
+    196,
+    257,
+    258,
     259,
-    260,
-    261,
-    281,
-    284,
-    298,
-    299
+    279,
+    282,
+    296,
+    297
    ]
   },
   {
@@ -6593,10 +6593,10 @@
    "desc": "INSUMOS Y GASTOS GEOLOGICOS",
    "dist_row": 58,
    "ss_rows": [
-    133,
-    142,
-    187,
-    197
+    131,
+    140,
+    185,
+    195
    ]
   },
   {
@@ -6613,9 +6613,9 @@
    "desc": "TASAS",
    "dist_row": 61,
    "ss_rows": [
-    68,
-    105,
-    214
+    66,
+    103,
+    212
    ]
   },
   {
@@ -6627,20 +6627,20 @@
    "desc": "GASTOS CAMPAMENTO",
    "dist_row": 63,
    "ss_rows": [
-    117,
-    178,
-    239,
-    274,
-    293
+    115,
+    176,
+    237,
+    272,
+    291
    ]
   },
   {
    "desc": "CANON",
    "dist_row": 64,
    "ss_rows": [
-    95,
-    131,
-    291
+    93,
+    129,
+    289
    ]
   },
   {
@@ -6652,7 +6652,7 @@
    "desc": "ALQUILERES DE EQUIPOS DE CAMPO",
    "dist_row": 66,
    "ss_rows": [
-    152
+    150
    ]
   },
   {
@@ -6679,18 +6679,18 @@
    "desc": "MATERIALES DE CAMPO",
    "dist_row": 71,
    "ss_rows": [
-    151
+    149
    ]
   },
   {
    "desc": "PUBLICACIONES",
    "dist_row": 72,
    "ss_rows": [
-    61,
-    71,
-    287,
-    288,
-    290
+    59,
+    69,
+    285,
+    286,
+    288
    ]
   },
   {
@@ -6712,8 +6712,8 @@
    "desc": "OBRA SOCIAL",
    "dist_row": 76,
    "ss_rows": [
-    63,
-    165
+    61,
+    163
    ]
   },
   {
@@ -6740,8 +6740,8 @@
    "desc": "GASTOS TOPOGRÀFICOS",
    "dist_row": 81,
    "ss_rows": [
-    192,
-    213
+    190,
+    211
    ]
   },
   {
@@ -6753,143 +6753,142 @@
    "desc": "GASTOS DE PERFORACIÓN",
    "dist_row": 83,
    "ss_rows": [
-    266
+    264
    ]
   },
   {
    "desc": "GASTOS DE REPRESENTACIÓN",
    "dist_row": 84,
    "ss_rows": [
-    183,
-    241
+    181,
+    239
    ]
   },
   {
    "desc": "RECUPERO DE SEGUROS",
    "dist_row": 85,
    "ss_rows": [
-    208
+    206
    ]
   },
   {
    "desc": "REMEDIACIÓN AMBIENTAL",
    "dist_row": 86,
    "ss_rows": [
-    20,
-    24,
-    93,
-    143,
-    276
+    22,
+    91,
+    141,
+    274
    ]
   },
   {
    "desc": "SERVICIOS DE INVESTIGACION",
    "dist_row": 87,
    "ss_rows": [
-    150
+    148
    ]
   },
   {
    "desc": "GASTOS LEGALES",
    "dist_row": 88,
    "ss_rows": [
-    57,
-    249
+    55,
+    247
    ]
   },
   {
    "desc": "TASAS AMBIENTALES I- R. AMBIENTAL",
    "dist_row": 89,
    "ss_rows": [
-    23,
-    77,
-    144,
-    283,
-    294
+    21,
+    75,
+    142,
+    281,
+    292
    ]
   },
   {
    "desc": "CONVENIO DE ACCESO GST CAMPO",
    "dist_row": 90,
    "ss_rows": [
-    129,
-    223
+    127,
+    221
    ]
   },
   {
    "desc": "SERV. DE DIGITALIZACIÓN GST CAMPO",
    "dist_row": 91,
    "ss_rows": [
-    136
+    134
    ]
   },
   {
    "desc": "ANÁLISIS GEOQUIMICOS - GTOS LABORATORIO GS CAMPO",
    "dist_row": 92,
    "ss_rows": [
-    149,
-    278,
-    296
+    147,
+    276,
+    294
    ]
   },
   {
    "desc": "VACACIONES",
    "dist_row": 93,
    "ss_rows": [
-    73,
-    161
+    71,
+    159
    ]
   },
   {
    "desc": "MENSAJERIA",
    "dist_row": 94,
    "ss_rows": [
-    38,
-    59,
-    75,
-    100,
-    122,
-    163,
-    193,
-    253,
-    258,
-    262,
-    277
+    36,
+    57,
+    73,
+    98,
+    120,
+    161,
+    191,
+    251,
+    256,
+    260,
+    275
    ]
   },
   {
    "desc": "CATASTRO MINERO",
    "dist_row": 95,
    "ss_rows": [
-    74,
-    132
+    72,
+    130
    ]
   },
   {
    "desc": "ADQUISICIÓN DE INFORM. GEOFÍSICA",
    "dist_row": 96,
    "ss_rows": [
-    190,
-    211,
-    215
+    188,
+    209,
+    213
    ]
   },
   {
    "desc": "INFORMES DE EVALUACIÓN ECONÓMICA",
    "dist_row": 97,
    "ss_rows": [
-    204
+    202
    ]
   },
   {
    "desc": "ROBO",
    "dist_row": 98,
    "ss_rows": [
-    21
+    19
    ]
   }
  ],
- "fila_totales": 301,
+ "fila_totales": 299,
  "ccs_sin_columna_dist": [
   "SAMENTA",
   "TRES CONOS",

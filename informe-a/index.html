@@ -36,7 +36,10 @@
       <h1>Balance de comprobación por Centros de costos</h1>
       <p class="sub">Cargá el export mensual de Onvio. El archivo se guarda solo, no hay que subirlo cada mes.</p>
     </div>
-    <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
+    <div style="display:flex; gap:8px; align-items:flex-start;">
+      <button class="gear-btn" onclick="abrirCategorias()">Configurar categorización</button>
+      <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
+    </div>
   </div>
 
   <div id="cargando" class="card">
@@ -219,6 +222,70 @@
     <div id="guardadosStatus"></div>
   </div>
 
+  <!-- ---------- panel maestro de categorización ---------- -->
+  <div class="card hidden" id="cardCategorias">
+    <h2>Configurar categorización</h2>
+    <p class="footer-note">
+      Todas las cuentas del balance y a qué categoría de <strong>Dist.de gastos</strong> va cada una.
+      Cambiar la categoría acá <strong>reescribe las fórmulas del archivo</strong>: saca la cuenta de
+      donde está y la pone en la categoría que elijas, en todas sus columnas. Ningún total cambia,
+      porque el importe sigue sumando en la misma columna, sólo que en el renglón correcto.
+      Los meses ya cerrados no se tocan.
+    </p>
+
+    <div class="checks" id="catResumen" style="margin-top:16px;"></div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:18px 0 12px;">
+      <input id="catBuscar" type="text" placeholder="Buscar por código, nombre o categoría…"
+             oninput="catCambiarBusqueda(this.value)" style="flex:1; min-width:240px;">
+      <select onchange="catCambiarFiltro(this.value)">
+        <option value="todas">Todas</option>
+        <option value="varias">En más de una categoría</option>
+        <option value="haber">El haber va a otra categoría</option>
+        <option value="sin">Sin categoría</option>
+        <option value="ok">Configuradas</option>
+        <option value="excluida">Sacadas de la distribución</option>
+      </select>
+      <button class="secundario" onclick="catAbrirAlta()">Agregar cuenta</button>
+    </div>
+
+    <div class="card hidden" id="catAlta" style="margin:0 0 16px; background:#fbfaf7;">
+      <h2 style="font-size:1.05rem;">Agregar una cuenta a mano</h2>
+      <p class="footer-note">
+        Se le crea la fila en <strong>Sumas y Saldos</strong>, dentro del bloque de su categoría y
+        copiándole las fórmulas de la fila vecina. Es la misma operación que hace la carga mensual
+        cuando el export trae una cuenta nueva.
+      </p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+        <input id="catAltaCodigo" type="text" placeholder="Código (9 dígitos)" style="width:170px;">
+        <input id="catAltaNombre" type="text" placeholder="Nombre de la cuenta" style="flex:1; min-width:220px;">
+        <select id="catAltaCat" style="min-width:220px;"></select>
+      </div>
+      <div style="margin-top:12px; display:flex; gap:8px;">
+        <button onclick="catAgregarCuenta()">Agregar</button>
+        <button class="secundario" onclick="catCerrarAlta()">Cancelar</button>
+      </div>
+      <div id="catAltaStatus"></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th style="width:26%;">Cuenta</th><th style="width:34%;">Categoría</th>
+            <th style="width:16%;">Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody id="catBody"></tbody>
+    </table>
+
+    <p class="footer-note" id="catPie" style="margin-top:14px;"></p>
+
+    <div style="margin-top:16px; display:flex; gap:8px; align-items:center;">
+      <button id="btnCatGuardar" onclick="guardarCategorias()" disabled>Guardar cambios</button>
+      <button class="secundario" onclick="cerrarCategorias()">Cerrar</button>
+      <span class="spinner hidden" id="spinnerCat">Guardando en GitHub…</span>
+    </div>
+    <div id="catStatus"></div>
+  </div>
+
   <div class="card hidden" id="cardHistorial">
     <h2>Meses cerrados</h2>
     <table>
@@ -255,11 +322,13 @@
 <script src="../buscador.js"></script>
 <script src="similitud.js"></script>
 <script src="formula_utils.js"></script>
+<script src="../informe-c/formula_hojas.js"></script>
 <script src="parser_onvio.js"></script>
 <script src="meses.js"></script>
 <script src="mapeo.js"></script>
 <script src="motor.js"></script>
 <script src="importar_acumulados.js"></script>
+<script src="categorias.js"></script>
 <script src="github.js"></script>
 <script src="app.js"></script>
 </body>

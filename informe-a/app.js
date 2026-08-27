@@ -306,7 +306,7 @@ $("btnProcesar").addEventListener("click", async () => {
       renderPendientes();
       mostrar("cardPendientes", true);
     } else {
-      await correrMotor({});
+      await correrMotor({}, []);
     }
   } catch (e) {
     $("onvioStatus").innerHTML = `<div class="status-msg bad">${e.message}</div>`;
@@ -316,8 +316,19 @@ $("btnProcesar").addEventListener("click", async () => {
   }
 });
 
+// Valor del desplegable para "esta cuenta no va al balance". Se guarda en el mapeo
+// como excluida, así la corrida siguiente no la vuelve a preguntar.
+const NO_INCLUIR = "__no_incluir__";
+
 function renderPendientes() {
-  const cats = categoriasDisponibles(mapeoGuardado);
+  // El valor de cada opción es la FILA de Dist.de gastos, no el nombre: hay nombres de
+  // categoría repetidos en dos filas y eligiendo por texto siempre ganaba la primera.
+  const veces = {};
+  for (const c of mapeoGuardado.categorias) veces[c.desc] = (veces[c.desc] || 0) + 1;
+  const cats = mapeoGuardado.categorias
+    .slice()
+    .sort((a, b) => a.desc.localeCompare(b.desc, "es") || a.dist_row - b.dist_row)
+    .map(c => ({ valor: c.dist_row, texto: c.desc + (veces[c.desc] > 1 ? ` (fila ${c.dist_row})` : "") }));
   $("pendientesBody").innerHTML = pendientes.map((p, i) => `
     <tr class="pending-row">
       <td>${p.codigo}</td>
@@ -327,7 +338,8 @@ function renderPendientes() {
       <td>
         <select class="catSelect" data-idx="${i}">
           <option value="">— elegí una categoría —</option>
-          ${cats.map(c => `<option value="${c}">${c}</option>`).join("")}
+          <option value="${NO_INCLUIR}">— no incluir esta cuenta —</option>
+          ${cats.map(c => `<option value="${c.valor}">${c.texto}</option>`).join("")}
         </select>
       </td>
     </tr>`).join("");
@@ -338,18 +350,30 @@ function renderPendientes() {
 $("btnConfirmar").addEventListener("click", async () => {
   const selects = document.querySelectorAll(".catSelect");
   const elegidas = {};
+  const excluidas = [];
   for (let i = 0; i < selects.length; i++) {
     if (!selects[i].value) {
       $("pendientesStatus").innerHTML =
         '<div class="status-msg bad">Falta elegir la categoría de al menos una cuenta.</div>';
       return;
     }
-    elegidas[pendientes[i].codigo] = selects[i].value;
+    if (selects[i].value === NO_INCLUIR) excluidas.push(pendientes[i].codigo);
+    else elegidas[pendientes[i].codigo] = selects[i].value;
+  }
+  if (excluidas.length) {
+    const cuales = excluidas.map(c => {
+      const p = pendientes.find(x => x.codigo === c);
+      return `${c} ${p.label} (${p.saldo.toFixed(2)})`;
+    }).join("\n");
+    if (!confirm(
+      `Estas cuentas NO se van a cargar y su importe queda fuera del balance:\n\n${cuales}\n\n` +
+      `No se les crea fila ni se las vuelve a preguntar el mes que viene. ` +
+      `Se puede revertir desde "Configurar categorización". ¿Seguimos?`)) return;
   }
   $("pendientesStatus").innerHTML = "";
   $("btnConfirmar").disabled = true;
   try {
-    await correrMotor(elegidas);
+    await correrMotor(elegidas, excluidas);
     mostrar("cardPendientes", false);
   } catch (e) {
     $("pendientesStatus").innerHTML = `<div class="status-msg bad">${e.message}</div>`;
@@ -358,7 +382,7 @@ $("btnConfirmar").addEventListener("click", async () => {
   }
 });
 
-async function correrMotor(categoriasElegidas) {
+async function correrMotor(categoriasElegidas, excluidas = []) {
   logLineas = [];
   // Se parte siempre de una copia limpia del archivo guardado: el workbook se
   // modifica en el lugar, así que reusarlo tras un intento fallido arrastraría
@@ -366,7 +390,7 @@ async function correrMotor(categoriasElegidas) {
   const wb = await abrirWorkbook(bufferBase.slice(0));
 
   const { mapeo, resumen } = procesar({
-    wb, lineas, mapeo: mapeoGuardado, categoriasElegidas, periodo: periodoActual, log,
+    wb, lineas, mapeo: mapeoGuardado, categoriasElegidas, excluidas, periodo: periodoActual, log,
   });
 
   wbBorrador = wb;

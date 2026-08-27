@@ -60,7 +60,9 @@ vm.createContext(contexto);
 
 // --- el orden es el de index.html --------------------------------------------
 const html = fs.readFileSync(path.join(AQUI, "index.html"), "utf8");
-const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
+// El `?v=...` que llevan los src es para que el navegador no reuse la version vieja
+// al publicar; como ruta de archivo hay que sacarlo.
+const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1].split("?")[0]);
 console.log(`index.html carga ${scripts.length} scripts`);
 
 for (const src of scripts) {

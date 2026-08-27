@@ -117,27 +117,18 @@ function renderCategorias() {
   const cuenta = { varias: 0, haber: 0, sin: 0, excluida: 0, ok: 0 };
   for (const f of filas) cuenta[f.estado.clave]++;
 
-  document.getElementById("catResumen").innerHTML = `
-    <div class="check ${cuenta.varias ? "bad" : "ok"}">
-      <div><div class="name">En más de una categoría</div>
-      <div class="detail">Su gasto se clasifica distinto según el centro de costo. Hay que dejar una sola.</div></div>
-      <span class="value">${cuenta.varias}</span></div>
-    <div class="check ${cuenta.haber ? "bad" : "ok"}">
-      <div><div class="name">El haber va a otra categoría</div>
-      <div class="detail">El saldo está en una sola categoría, pero el haber (columna CR) se suma en otra.</div></div>
-      <span class="value">${cuenta.haber}</span></div>
-    <div class="check ${cuenta.sin ? "bad" : "ok"}">
-      <div><div class="name">Sin categoría</div>
-      <div class="detail">Están en el balance pero no suman en ninguna categoría.</div></div>
-      <span class="value">${cuenta.sin}</span></div>
-    <div class="check ok">
-      <div><div class="name">Configuradas</div>
-      <div class="detail">Van a una sola categoría. No hay nada que hacer con ellas.</div></div>
-      <span class="value">${cuenta.ok}</span></div>
-    <div class="check ok">
-      <div><div class="name">Sacadas de la distribución</div>
-      <div class="detail">Se decidió que no se distribuyan. No se vuelve a preguntar por ellas.</div></div>
-      <span class="value">${cuenta.excluida}</span></div>`;
+  // Los contadores van sin explicación al lado: cuando algo está en cero no hay nada
+  // que explicar, y con las 282 ya configuradas el panel es de consulta, no de lectura.
+  const marcador = (etiqueta, n, mal) => `
+    <div class="check ${mal && n ? "bad" : "ok"}">
+      <div class="name">${etiqueta}</div>
+      <span class="value">${n}</span></div>`;
+  document.getElementById("catResumen").innerHTML =
+    marcador("En más de una categoría", cuenta.varias, true) +
+    marcador("El haber va a otra categoría", cuenta.haber, true) +
+    marcador("Sin categoría", cuenta.sin, true) +
+    marcador("Configuradas", cuenta.ok, false) +
+    marcador("Sacadas de la distribución", cuenta.excluida, false);
 
   const q = catBusqueda.trim().toLowerCase();
   const visibles = filas.filter(f => {

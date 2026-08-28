@@ -8,6 +8,25 @@
 
 const RUIDO = ["PROYECTO", "CENTRO", "REGIONAL"];
 
+// Los nombres de centro de costo que NO coinciden letra por letra con el bloque del
+// balance. El motor resuelve por texto exacto y no adivina: lo que no coincida tiene que
+// estar declarado aca, o no se carga y la app avisa con el nombre textual.
+//
+// Antes esto se resolvia por parecido, y el parecido mandaba "Tanque Blanco" a TANQUE
+// NEGRO y "Cerro Amarillo" a CERRO ABANICO. Si dan de alta un centro de costo nuevo, su
+// plata entraba callada en la columna de otro proyecto sin que nada lo mostrara.
+//
+// La clave va en mayusculas y con los espacios ya normalizados.
+const CC_NOMBRES_ONVIO = {
+  // como lo escribe Onvio en el export
+  "ESPERANZA": "CENTRO ESPERANZA",
+  // como lo escriben las filas de la hoja "Gastos Acumulados"
+  "PROYECTO SAMENTA": "SAMENTA",
+  "PROYECTO LONCO- VACA PELENQUE": "LONCO VACA - PELENQUE",
+  "CATAMARCA": "REGIONAL CATAMARCA",
+  "LA SANTAS": "LAS SANTAS",          // dice "La Santas", le falta la ese
+};
+
 function normTexto(s) {
   if (s === null || s === undefined) return "";
   if (typeof s === "object") {
@@ -107,6 +126,7 @@ function detectarDistColumnas(wsDist, ccBlocks, filaFinCategorias) {
   for (const b of ccBlocks) colSaldoACc[b.col_saldo] = b.nombre_balance;
 
   const distColToCc = {};
+  const sinVotos = [];   // columnas de centro de costo que todavía no tienen ninguna cuenta
   for (let dc = 6; dc <= wsDist.columnCount; dc++) {
     const col = indiceACol(dc);
     const titulo = `${textoCelda(wsDist.getCell(6, dc))} ${textoCelda(wsDist.getCell(7, dc))}`.trim();
@@ -132,7 +152,22 @@ function detectarDistColumnas(wsDist, ccBlocks, filaFinCategorias) {
         nombre_balance: ganador[0],
         refs: ganador[1],
       };
+    } else if (titulo) {
+      sinVotos.push({ col, titulo });
     }
+  }
+
+  // Una columna de un centro de costo que todavía no tiene ninguna cuenta no tiene
+  // fórmulas, así que no puede votar. Sin esto quedaba invisible para siempre: no se
+  // la reconocía hasta tener una cuenta, y no podía recibir una cuenta hasta que se la
+  // reconociera. Para esas —y sólo esas— vale el encabezado.
+  const yaTomados = new Set(Object.values(distColToCc).map(i => i.nombre_balance));
+  for (const { col, titulo } of sinVotos) {
+    const objetivo = normTexto(titulo);
+    const bloque = ccBlocks.find(b => !yaTomados.has(b.nombre_balance) && normTexto(b.nombre_balance) === objetivo);
+    if (!bloque) continue;
+    yaTomados.add(bloque.nombre_balance);
+    distColToCc[col] = { texto_header: titulo, nombre_balance: bloque.nombre_balance, refs: 0 };
   }
   return distColToCc;
 }
@@ -206,9 +241,23 @@ function derivarMapeo(wb) {
   const distColToCc = detectarDistColumnas(wsDist, ccBlocks, filaFin);
   const { categorias } = detectarCategorias(wsDist, wsSs, distColToCc, cuentas);
 
-  const sinColumna = ccBlocks
-    .map(b => b.nombre_balance)
-    .filter(n => !Object.values(distColToCc).some(i => i.nombre_balance === n));
+  const conColumna = (n) => Object.values(distColToCc).some(i => i.nombre_balance === n);
+  let sinColumna = ccBlocks.map(b => b.nombre_balance).filter(n => !conColumna(n));
+
+  // "Sumas y Saldos" repite algunos proyectos con dos nombres —SOL y PROYECTO SOL,
+  // LOS MORTERITOS y PROYECTO LOS MORTERITOS— y solo uno de los dos tiene columna en
+  // Dist.de gastos. Sin esto el importe podia caer en el bloque sin columna y quedar
+  // fuera de la distribucion. Si el nombre huerfano esta contenido en el de un bloque
+  // que si tiene columna, los dos apuntan a esa columna.
+  const alias = {};
+  for (const huerfano of sinColumna.slice()) {
+    const gemelo = ccBlocks
+      .map(b => b.nombre_balance)
+      .filter(n => n !== huerfano && conColumna(n))
+      .find(n => n.endsWith(" " + huerfano) || n.startsWith(huerfano + " "));
+    if (gemelo) alias[huerfano] = gemelo;
+  }
+  sinColumna = sinColumna.filter(n => !alias[n]);
 
   return {
     cc_blocks: ccBlocks,
@@ -217,9 +266,11 @@ function derivarMapeo(wb) {
     categorias,
     fila_totales: filaTot,
     ccs_sin_columna_dist: sinColumna,
+    cc_alias: alias,
+    cc_nombres_onvio: Object.assign({}, CC_NOMBRES_ONVIO),
   };
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { derivarMapeo, indiceACol, normTexto, numeroCelda, formulaCelda };
+  module.exports = { derivarMapeo, indiceACol, normTexto, numeroCelda, formulaCelda, CC_NOMBRES_ONVIO };
 }

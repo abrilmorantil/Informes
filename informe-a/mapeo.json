@@ -218,6 +218,15 @@
    "texto_header": "CATAMARCA CATAMARCA",
    "nombre_balance": "REGIONAL CATAMARCA",
    "refs": 113
+  },
+  "W": {
+   "nombre_balance": "SAMENTA"
+  },
+  "X": {
+   "nombre_balance": "TRES CONOS"
+  },
+  "Y": {
+   "nombre_balance": "LA CHILENA"
   }
  },
  "cuentas": {
@@ -6889,11 +6898,16 @@
   }
  ],
  "fila_totales": 299,
- "ccs_sin_columna_dist": [
-  "SAMENTA",
-  "TRES CONOS",
-  "LA CHILENA",
-  "SOL",
-  "LOS MORTERITOS"
- ]
+ "ccs_sin_columna_dist": [],
+ "cc_alias": {
+  "SOL": "PROYECTO SOL",
+  "LOS MORTERITOS": "PROYECTO LOS MORTERITOS"
+ },
+ "cc_nombres_onvio": {
+  "ESPERANZA": "CENTRO ESPERANZA",
+  "PROYECTO SAMENTA": "SAMENTA",
+  "PROYECTO LONCO- VACA PELENQUE": "LONCO VACA - PELENQUE",
+  "CATAMARCA": "REGIONAL CATAMARCA",
+  "LA SANTAS": "LAS SANTAS"
+ }
 }

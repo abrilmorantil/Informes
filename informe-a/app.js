@@ -297,9 +297,13 @@ $("btnProcesar").addEventListener("click", async () => {
     pendientes = det.pendientes;
 
     if (det.sinCc.length) {
+      // Se muestra el nombre TEXTUAL, entre comillas, porque lo que hay que hacer con el es
+      // compararlo letra por letra contra el balance. El motor no lo aproxima a proposito.
       $("onvioStatus").innerHTML =
-        `<div class="status-msg bad">Estos centros de costo del export no se pudieron identificar
-         y sus líneas no se van a cargar: ${det.sinCc.join(", ")}</div>`;
+        `<div class="status-msg bad">Estos centros de costo del export no figuran en el balance,
+         así que sus líneas <b>no se van a cargar</b>: ${det.sinCc.map(n => `"${n}"`).join(", ")}.
+         <br>Si es alguno de los del balance escrito distinto, avisá para declarar la equivalencia;
+         si es un centro de costo nuevo, hay que agregarlo al balance primero.</div>`;
     }
 
     if (pendientes.length) {

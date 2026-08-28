@@ -10,8 +10,6 @@
 // existe: ahí hay que crearle la fila (con sus fórmulas) y referenciarla en
 // "Dist.de gastos".
 
-const PALABRAS_RUIDO = ["PROYECTO", "CENTRO", "REGIONAL"];
-
 function norm(s) {
   if (s === null || s === undefined) return "";
   if (typeof s === "object") {
@@ -22,9 +20,6 @@ function norm(s) {
   return String(s).replace(/\s+/g, " ").trim().toUpperCase();
 }
 
-function limpiar(txt) {
-  return norm(txt).split(" ").filter(p => !PALABRAS_RUIDO.includes(p)).join(" ");
-}
 
 function colAIndice(col) {
   let n = 0;
@@ -60,19 +55,41 @@ function textoPlano(cell) {
   return String(v);
 }
 
+// "Sumas y Saldos" trae dos bloques para el mismo proyecto —SOL y PROYECTO SOL, LOS
+// MORTERITOS y PROYECTO LOS MORTERITOS— y solo uno de cada par tiene columna en
+// Dist.de gastos. Sin esto, el importe podia caer en el bloque sin columna y quedar
+// fuera de la distribucion. El alias manda los dos nombres al bloque que si tiene columna.
+function aplicarAlias(mapeo, bloque) {
+  const alias = mapeo.cc_alias || {};
+  if (!bloque || !alias[bloque.nombre_balance]) return bloque;
+  const destino = mapeo.cc_blocks.find(b => b.nombre_balance === alias[bloque.nombre_balance]);
+  return destino || bloque;
+}
+
+
+// El centro de costo se resuelve por TEXTO EXACTO, nunca por parecido. Antes habia dos
+// pasos que suponian: uno ignoraba las palabras PROYECTO/CENTRO/REGIONAL y el otro se
+// quedaba con el nombre mas parecido que encontrara. Ese segundo mandaba "Tanque Blanco"
+// a TANQUE NEGRO, "Cerro Amarillo" a CERRO ABANICO y "La Voluntad" a LA HOYADA: si Onvio
+// da de alta un centro de costo nuevo, su plata entraba callada en la columna de otro
+// proyecto. El total del balance daba bien igual, asi que nada lo delataba.
+//
+// Ahora hay dos caminos y los dos son exactos:
+//   1. el texto coincide con el nombre del bloque (mayusculas y espacios normalizados)
+//   2. el texto esta en `mapeo.cc_nombres_onvio`, la tabla de equivalencias declaradas
+// Si no, devuelve null y la app avisa con el nombre textual, para agregarlo a la tabla.
 function resolverCcBlock(mapeo, nombreOnvio) {
   const nombre = norm(nombreOnvio);
-  const nombres = mapeo.cc_blocks.map(b => b.nombre_balance);
-  if (nombres.includes(nombre)) return mapeo.cc_blocks.find(b => b.nombre_balance === nombre);
+  if (!nombre) return null;
 
-  const objetivo = limpiar(nombre);
-  const limpios = {};
-  for (const n of nombres) limpios[limpiar(n)] = n;
-  if (limpios[objetivo] !== undefined) {
-    return mapeo.cc_blocks.find(b => b.nombre_balance === limpios[objetivo]);
+  const directo = mapeo.cc_blocks.find(b => norm(b.nombre_balance) === nombre);
+  if (directo) return aplicarAlias(mapeo, directo);
+
+  const declarado = (mapeo.cc_nombres_onvio || {})[nombre];
+  if (declarado) {
+    const b = mapeo.cc_blocks.find(x => x.nombre_balance === declarado);
+    if (b) return aplicarAlias(mapeo, b);
   }
-  const match = getCloseMatches(objetivo, Object.keys(limpios), 1, 0.6);
-  if (match.length) return mapeo.cc_blocks.find(b => b.nombre_balance === limpios[match[0]]);
   return null;
 }
 
@@ -121,11 +138,17 @@ function categoriasDisponibles(mapeo) {
 
 // Todas las filas de SyS que son dato (tienen la clave CC_cuenta en la columna B).
 // Las filas de encabezado de centro de costo no tienen clave.
+// La clave de una fila de datos es `<centro de costo>_<cuenta>`, los dos numeros. Pedir
+// solamente que tuviera un guion bajo hacia que la fila 1 —la de los titulos, cuya celda
+// dice "Clave (CC_Cuenta)"— pasara por fila de datos: limpiarSys le escribia ceros encima
+// y le borraba los rotulos "Debe (u$s)", "Haber (u$s)" y "Saldo (u$s)" todos los meses.
+const CLAVE_SYS = /^\d+_\d+$/;
+
 function filasDeDatosSys(wsSys) {
   const filas = new Map();
   for (let r = 1; r <= wsSys.rowCount; r++) {
     const clave = textoPlano(wsSys.getCell(r, 2));
-    if (clave && clave.includes("_")) filas.set(clave.trim(), r);
+    if (clave && CLAVE_SYS.test(clave.trim())) filas.set(clave.trim(), r);
   }
   return filas;
 }
@@ -855,6 +878,31 @@ function detectarCcSinColumna(lineas, mapeo) {
   return Object.entries(afectados).map(([nombre, d]) => ({ nombre, ...d }));
 }
 
+// Los centros de costo sin movimiento en el mes se ocultan, y los que si tuvieron se
+// muestran. Son 17 columnas y casi todos los meses la mayoria va en cero: dejarlas a la
+// vista obliga a barrer la pantalla al pepe para encontrar las que importan. El importe
+// no se toca — la columna sigue con su formula, nada mas que oculta.
+function ocultarCentrosSinMovimiento(wsDist, mapeo, lineas, log = () => {}) {
+  const movimiento = {};
+  for (const l of lineas) {
+    const b = resolverCcBlock(mapeo, l.cc_nombre_onvio);
+    if (!b) continue;
+    movimiento[b.nombre_balance] = (movimiento[b.nombre_balance] || 0) +
+      Math.abs(Number(l.debe) || 0) + Math.abs(Number(l.haber) || 0);
+  }
+  const ocultos = [], mostrados = [];
+  for (const [distCol, info] of Object.entries(mapeo.dist_col_to_cc)) {
+    const columna = wsDist.getColumn(colAIndice(distCol));
+    const tiene = (movimiento[info.nombre_balance] || 0) > 0.005;
+    if (tiene && columna.hidden) { columna.hidden = false; mostrados.push(info.nombre_balance); }
+    else if (!tiene && !columna.hidden) { columna.hidden = true; ocultos.push(info.nombre_balance); }
+  }
+  if (mostrados.length) log(`  Vuelven a mostrarse ${mostrados.length} centro(s) de costo que este mes si tuvieron movimiento: ${mostrados.join(", ")}.`);
+  if (ocultos.length) log(`  Se ocultan ${ocultos.length} centro(s) de costo sin movimiento este mes: ${ocultos.join(", ")}.`);
+  return { ocultos, mostrados };
+}
+
+
 // ---------------------------------------------------------------- etapa 2
 
 function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], periodo, log = () => {} }) {
@@ -1016,8 +1064,15 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
   }
 
   if (sinCc.length) {
-    log(`\n⚠ ${sinCc.length} línea(s) con centro de costo no identificado: ` +
-        `${[...new Set(sinCc)].sort().join(", ")}`);
+    const nombres = [...new Set(sinCc)].sort();
+    log(`
+⚠ ${sinCc.length} línea(s) con un centro de costo que no está en el balance, ` +
+        `así que NO se cargaron: ${nombres.map(n => `"${n}"`).join(", ")}.`);
+    log(`  El nombre tiene que coincidir letra por letra con uno de estos: ` +
+        `${mapeo.cc_blocks.map(b => b.nombre_balance).join(", ")}.`);
+    log(`  Si es alguno de esos escrito distinto, hay que declarar la equivalencia; si es ` +
+        `un centro de costo nuevo, hay que agregarlo al balance. El motor no lo adivina a ` +
+        `proposito: adivinando, la plata entraria en la columna de otro proyecto.`);
   }
 
   activarColumnaMes(wsDist, mes, log);
@@ -1027,6 +1082,8 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
     log(`\n⚠ Centros de costo con movimiento que no tienen columna en Dist.de gastos: ` +
         ccSinColumna.map(c => `${c.nombre} (${c.saldo.toFixed(2)})`).join(", "));
   }
+
+  ocultarCentrosSinMovimiento(wsDist, mapeo, lineas, log);
 
   log(`\nResumen: ${conocidas} cuentas ya conocidas, ${clasificadas} recién clasificadas, ` +
       `${nuevas} cuentas nuevas insertadas.`);
@@ -1280,9 +1337,9 @@ if (typeof module !== "undefined") {
     procesar, aprobarMes, detectarPendientes, detectarCcSinColumna, categoriasDisponibles,
     esCuentaDeResultado, separarCuentasDeResultado, resumirFueraDelBalance,
     resolverCcBlock, limpiarSys, filasDeDatosSys, copiarFormulasDeFila,
-    norm, limpiar, colAIndice, indiceACol,
+    norm, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
-    categoriasElegibles, esFilaDeTotales, completarColumnaCr,
+    categoriasElegibles, esFilaDeTotales, completarColumnaCr, ocultarCentrosSinMovimiento,
     quitarRefDistDeGastos, refsDeCuentaEnDist, insertarCuentaEnBalance, mapaDeDistribucion,
     crearCategoriaEnDist, filaTotalGastosDeDist,
     resolverCategoriaDestino,

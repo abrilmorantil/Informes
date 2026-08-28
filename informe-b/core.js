@@ -63,14 +63,20 @@ function parseSiseExport(rows) {
     const m = CODE_PATTERN.exec(label);
     if (!m) continue;
     const code = m[1], desc = m[2];
-    cuentas[code] = { descripcion: desc, debe: num(row[colDebe]), haber: num(row[colHaber]), saldo: num(row[colSaldo]) };
+    // `fila` es la fila del export de donde salio, contando desde 1 como la ve Excel. Con
+    // eso el informe puede APUNTAR al export con una formula en vez de copiar el numero:
+    // asi los importes los recalcula Excel y no hay que creerle a la app.
+    cuentas[code] = { descripcion: desc, debe: num(row[colDebe]), haber: num(row[colHaber]),
+                      saldo: num(row[colSaldo]), fila: i + 1 };
   }
 
   if (control === null) {
     throw new Error("No encontré la fila 'Totales Generales:' en el export.");
   }
 
-  return { cuentas, control, categoryTotals };
+  // Las columnas se devuelven porque el writer las necesita para armar las formulas que
+  // apuntan a la hoja del export: son las de USD, ubicadas por su encabezado.
+  return { cuentas, control, categoryTotals, colDebe, colHaber, colSaldo };
 }
 
 function knownCodes(mapping, cuentasSise) {
@@ -154,10 +160,12 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
         debe += dF; haber += hF;
         if (fuente === entry) {
           if (dF || hF) {
-            detalle.push({ code: fuente.code, description: fuente.description + " (directo)", debe: dF, haber: hF });
+            detalle.push({ code: fuente.code, description: fuente.description + " (directo)",
+                           debe: dF, haber: hF, fila: c ? c.fila : null });
           }
         } else {
-          detalle.push({ code: fuente.code, description: fuente.description, debe: dF, haber: hF });
+          detalle.push({ code: fuente.code, description: fuente.description,
+                         debe: dF, haber: hF, fila: c ? c.fila : null });
         }
         yaSumados.add(fuente.code);
       }
@@ -168,7 +176,7 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
       for (const [scode, c] of Object.entries(cuentasSise)) {
         if (scode.startsWith(entry.prefix)) {
           debe += c.debe; haber += c.haber;
-          detalle.push({ code: scode, description: c.descripcion, debe: c.debe, haber: c.haber });
+          detalle.push({ code: scode, description: c.descripcion, debe: c.debe, haber: c.haber, fila: c.fila });
         }
       }
     } else {
@@ -178,7 +186,8 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
       // Una fila simple se llena con UNA cuenta, pero con las dos numeraciones esa cuenta
       // no tiene por que llamarse igual que la fila: hay que decirlo igual.
       if (!entry.sin_cuentas) {
-        detalle.push({ code: entry.code, description: entry.description, debe, haber });
+        detalle.push({ code: entry.code, description: entry.description, debe, haber,
+                       fila: c ? c.fila : null });
       }
     }
 

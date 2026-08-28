@@ -10,7 +10,24 @@ if (typeof ExcelJS === "undefined" && typeof require !== "undefined") {
 // `filasExport` son las filas crudas del .xls de SISE tal como se subio. Van al final,
 // como una hoja mas, para que el informe se explique solo: resultado, desglose y origen en
 // el mismo archivo, sin depender de encontrar el export de ese mes seis meses despues.
-async function writeOutputXlsx(lineas, periodo, saldosAnteriores, filasExport) {
+// `exportInfo` es { filas, colDebe, colHaber }: las filas crudas del .xls de SISE tal como
+// se subio, y en que columnas (0 = A) estan los importes en dolares. Con eso el archivo se
+// arma con FORMULAS en vez de con numeros copiados:
+//
+//   hoja "Export de Onvio"  ->  hoja "De donde sale cada saldo"  ->  el informe
+//
+// Cada eslabon apunta al anterior, asi que los importes los recalcula Excel. La app solo
+// decide QUE cuenta va a QUE fila —que es lo que se configura en el panel—; la aritmetica
+// deja de ser algo que haya que creerle. Es el mismo criterio del Balance USD, donde el
+// motor escribe una sola hoja y el archivo calcula el resto.
+async function writeOutputXlsx(lineas, periodo, saldosAnteriores, exportInfo) {
+  const expo = exportInfo && exportInfo.filas ? exportInfo : null;
+  const filasExport = expo ? expo.filas : null;
+  const HOJA_EXPORT = "Export de Onvio";
+  const HOJA_DET = "De dónde sale cada saldo";
+  const colLetra = (i) => { let n = i + 1, s = ""; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = (n - m - 1) / 26; } return s; };
+  const colExpD = expo ? colLetra(expo.colDebe) : null;
+  const colExpH = expo ? colLetra(expo.colHaber) : null;
   const previos = saldosAnteriores || {};
   const hayPrevios = Object.keys(previos).length > 0;
   const wb = new ExcelJS.Workbook();
@@ -65,18 +82,29 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores, filasExport) {
     // Una cuenta madre o un rango de proveedores se alimentan de VARIAS cuentas reales, asi
     // que no hay una sola para poner en A: queda vacia, y el desglose va en la hoja
     // "Detalle Subcuentas". Es como venia armado el informe a mano.
+    const cli = l.cliente || { code: l.code, description: l.description };
     if (l.type !== "parent" && l.type !== "range") {
       ws.getCell(row, 1).value = `${l.code} - ${l.description}`;
     }
-    const cli = l.cliente || { code: l.code, description: l.description };
     ws.getCell(row, 2).value = `${cli.code} - ${cli.description}`;
     const cCell = ws.getCell(row, 3);
     const previo = previos[l.code];
     if (typeof previo === "number") cCell.value = round2(previo);
     else cCell.fill = yellowFill;      // sin saldo guardado: se completa a mano
     cCell.numFmt = numFmt;
-    const d = ws.getCell(row, 4); d.value = round2(l.debe); d.numFmt = numFmt;
-    const e = ws.getCell(row, 5); e.value = round2(l.haber); e.numFmt = numFmt;
+    // Los importes salen de sumar el detalle, no de copiar lo que calculo la app. El
+    // criterio es el codigo del cliente, que es la clave de la primera columna de esa hoja.
+    const clave = String(cli.code);
+    const d = ws.getCell(row, 4);
+    d.value = expo
+      ? { formula: `SUMIF('${HOJA_DET}'!$A:$A,"${clave}",'${HOJA_DET}'!$D:$D)`, result: round2(l.debe) }
+      : round2(l.debe);
+    d.numFmt = numFmt;
+    const e = ws.getCell(row, 5);
+    e.value = expo
+      ? { formula: `SUMIF('${HOJA_DET}'!$A:$A,"${clave}",'${HOJA_DET}'!$E:$E)`, result: round2(l.haber) }
+      : round2(l.haber);
+    e.numFmt = numFmt;
     const mov = ws.getCell(row, 6); mov.value = { formula: `D${row}-E${row}` }; mov.numFmt = numFmt;
     const sf = ws.getCell(row, 7); sf.value = { formula: `C${row}+F${row}` }; sf.numFmt = numFmt;
     row++;
@@ -113,7 +141,9 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores, filasExport) {
     "con el del informe.";
   ws2.getCell("A2").font = { italic: true, size: 9 };
 
-  const headers2 = ["Fila del informe (lo que ve el cliente)", "Cuenta de Onvio",
+  // La columna A lleva SOLO el codigo del cliente: es la clave por la que el informe suma
+  // esta hoja, y una clave tiene que ser exacta. El nombre va aparte, para leer.
+  const headers2 = ["Fila del informe", "Nombre de la fila", "Cuenta de Onvio",
     "Debitos del Mes Dolares", "Creditos del mes Dolares", "Movimiento", "¿Movió este mes?"];
   headers2.forEach((h, j) => {
     const c = ws2.getCell(4, 1 + j);
@@ -124,19 +154,30 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores, filasExport) {
   for (const l of visibles) {
     const cli = l.cliente || { code: l.code, description: l.description };
     for (const h of (l.detalle || [])) {
-      ws2.getCell(r2, 1).value = `${cli.code} - ${cli.description}`;
-      ws2.getCell(r2, 2).value = `${h.code} - ${h.description}`;
-      const d = ws2.getCell(r2, 3); d.value = round2(h.debe); d.numFmt = numFmt;
-      const e2 = ws2.getCell(r2, 4); e2.value = round2(h.haber); e2.numFmt = numFmt;
-      const m = ws2.getCell(r2, 5); m.value = { formula: `C${r2}-D${r2}` }; m.numFmt = numFmt;
-      ws2.getCell(r2, 6).value = (Math.abs(h.debe) > 0.005 || Math.abs(h.haber) > 0.005) ? "sí" : "no";
+      ws2.getCell(r2, 1).value = String(cli.code);
+      ws2.getCell(r2, 2).value = cli.description;
+      ws2.getCell(r2, 3).value = `${h.code} - ${h.description}`;
+      // Si la cuenta vino en el export, el importe APUNTA a su fila en la hoja del export.
+      // Si no vino, no hay a donde apuntar y va un 0: esa cuenta esta declarada pero quieta.
+      const d = ws2.getCell(r2, 4);
+      d.value = (expo && h.fila)
+        ? { formula: `'${HOJA_EXPORT}'!${colExpD}${h.fila}`, result: round2(h.debe) }
+        : round2(h.debe);
+      d.numFmt = numFmt;
+      const e2 = ws2.getCell(r2, 5);
+      e2.value = (expo && h.fila)
+        ? { formula: `'${HOJA_EXPORT}'!${colExpH}${h.fila}`, result: round2(h.haber) }
+        : round2(h.haber);
+      e2.numFmt = numFmt;
+      const m = ws2.getCell(r2, 6); m.value = { formula: `D${r2}-E${r2}` }; m.numFmt = numFmt;
+      ws2.getCell(r2, 7).value = (Math.abs(h.debe) > 0.005 || Math.abs(h.haber) > 0.005) ? "sí" : "no";
       r2++;
     }
   }
   const totalDet = r2 + 1;
   ws2.getCell(totalDet, 1).value = "TOTAL";
   ws2.getCell(totalDet, 1).font = bold;
-  for (const col of [3, 4, 5]) {
+  for (const col of [4, 5, 6]) {
     const letter = String.fromCharCode(64 + col);
     const c = ws2.getCell(totalDet, col);
     c.value = { formula: `SUM(${letter}5:${letter}${r2 - 1})` };
@@ -144,13 +185,14 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores, filasExport) {
   }
   ws2.getCell(totalDet + 1, 1).value = "Tiene que dar lo mismo que el TOTAL del informe.";
   ws2.getCell(totalDet + 1, 1).font = { italic: true, size: 9 };
-  ws2.autoFilter = { from: { row: 4, column: 1 }, to: { row: r2 - 1, column: 6 } };
+  ws2.autoFilter = { from: { row: 4, column: 1 }, to: { row: r2 - 1, column: 7 } };
   ws2.views = [{ state: "frozen", ySplit: 4 }];
-  ws2.columns = [{ width: 48 }, { width: 48 }, { width: 18 }, { width: 18 }, { width: 16 }, { width: 15 }];
+  ws2.columns = [{ width: 14 }, { width: 40 }, { width: 48 }, { width: 18 }, { width: 18 },
+                 { width: 16 }, { width: 15 }];
 
   // --- Tercera hoja: el export tal como se subio ---
   if (filasExport && filasExport.length) {
-    const ws3 = wb.addWorksheet("Export de Onvio");
+    const ws3 = wb.addWorksheet(HOJA_EXPORT);
     filasExport.forEach((fila, i) => {
       (fila || []).forEach((v, j) => {
         if (v !== null && v !== undefined && v !== "") ws3.getCell(i + 1, j + 1).value = v;

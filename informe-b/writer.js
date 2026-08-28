@@ -114,6 +114,14 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
   }
   ws2.columns = [{ width: 45 }, { width: 45 }, { width: 18 }, { width: 18 }];
 
+  // El movimiento y el saldo final son formulas, y ExcelJS las escribe SIN resultado: el
+  // archivo recien generado tiene esas dos columnas en blanco hasta que Excel las calcula.
+  // Con esto Excel recalcula todo al abrirlo, en vez de depender de que lo haga solo.
+  // El motor del Informe A ya lo hacia; este no, y por eso el archivo de julio llegaba con
+  // el saldo final vacio.
+  wb.calcProperties = wb.calcProperties || {};
+  wb.calcProperties.fullCalcOnLoad = true;
+
   return wb;
 }
 

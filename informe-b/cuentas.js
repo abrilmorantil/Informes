@@ -135,7 +135,8 @@ function cbFilaHtml(e) {
   // normales— es ruido que tapa las pocas que piden atención.
   const chips = [];
   if (sinCuentas) chips.push('<span class="cb-chip aviso">sin cuentas</span>');
-  if (esMadre) chips.push(`<span class="cb-chip dato">${fuentes.length} subcuenta${fuentes.length === 1 ? "" : "s"}</span>`);
+  // "0 subcuentas" al lado de "sin cuentas" es decir dos veces lo mismo.
+  else if (esMadre) chips.push(`<span class="cb-chip dato">${fuentes.length} subcuenta${fuentes.length === 1 ? "" : "s"}</span>`);
   if (e.type === "range") chips.push('<span class="cb-chip dato">rango</span>');
   if (e.ocultar_si_cero) chips.push('<span class="cb-chip">se oculta en cero</span>');
 

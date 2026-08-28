@@ -6,43 +6,41 @@
 // relacione uno con el otro — los códigos fueron reasignados, no reformateados (medido:
 // la regla de "sacarle un dígito al medio" acierta 1 de 38). Así que la equivalencia se
 // declara a mano, y hasta ahora vivía escrita en la columna A del Excel, a mano también.
-// Acá se ve y se cambia.
+//
+// Por qué se muestra AGRUPADO y no como lista: el informe es jerárquico —54 cuentas madre
+// con 216 subcuentas— y en una lista plana esa estructura desaparece. Los tres errores que
+// aparecieron al armar todo esto eran de jerarquía (una cuenta en dólares suelta al lado
+// de siete hermanas anidadas, y dos madres declaradas como cuenta simple). Agrupado se ven
+// de una; en la lista plana hubo que salir a buscarlos.
 //
 // Los cambios se acumulan en memoria y recién se suben al apretar "Guardar cambios".
 
 let cbMapping = null;       // copia de trabajo del mapping
 let cbCambios = [];         // qué se hizo, para el mensaje del commit
 let cbBusqueda = "";
-let cbAbierto = false;      // el detalle arranca cerrado: son 206 filas
 let cbEditando = null;      // código de la fila que se está editando
+let cbGruposAbiertos = {};  // capítulo -> abierto
+let cbHijasAbiertas = {};   // código de la madre -> desplegada
+
+const CB_CAPITULOS = ["ACTIVO", "PASIVO", "CAPITAL Y PATRIMONIO", "RESULTADOS"];
 
 function cbEsc(s) {
   return String(s == null ? "" : s).replace(/[&<>"']/g,
     c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-// El código y el nombre que ve el cliente. Si la fila no declara `cliente`, es porque las
-// dos numeraciones coinciden y se muestra la propia.
+// El código y el nombre que ve el cliente. Si la fila no declara `cliente`, las dos
+// numeraciones coinciden y se muestra la propia.
 function cbCliente(e) {
   return (e && e.cliente) ? e.cliente : { code: e.code, description: e.description };
 }
 
-// Con qué cuentas reales de Onvio se llena la fila. Una cuenta madre se llena con sus
-// subcuentas; el rango de proveedores, con todo lo que empiece con su prefijo; una fila
-// simple, con su propio código.
+// Con qué cuentas reales de Onvio se llena la fila.
 function cbFuentes(e) {
-  if (e.type === "parent") return (e.children || []).map(h => `${h.code} ${h.description}`);
-  if (e.type === "range") return [`todas las cuentas que empiezan con ${e.prefix}`];
+  if (e.type === "parent") return (e.children || []).map(h => ({ code: h.code, nom: h.description }));
+  if (e.type === "range") return [{ code: "", nom: `todas las cuentas que empiezan con ${e.prefix}` }];
   if (e.sin_cuentas) return [];
-  return [`${e.code} ${e.description}`];
-}
-
-function cbEstado(e) {
-  const f = cbFuentes(e);
-  if (!f.length) return { texto: "Sin cuentas asignadas", clase: "bad" };
-  if (e.type === "parent") return { texto: `${f.length} subcuenta(s)`, clase: "ok" };
-  if (e.type === "range") return { texto: "Rango de proveedores", clase: "ok" };
-  return { texto: "1 cuenta", clase: "ok" };
+  return [{ code: e.code, nom: e.description }];
 }
 
 function cbAbrirPanel() {
@@ -55,7 +53,9 @@ function cbAbrirPanel() {
   cbCambios = [];
   cbBusqueda = "";
   cbEditando = null;
-  cbAbierto = false;
+  cbHijasAbiertas = {};
+  // Arrancan cerrados: 206 filas desplegadas de golpe no se pueden leer.
+  cbGruposAbiertos = {};
   document.getElementById("cardCuentas").classList.remove("hidden");
   cbRender();
   document.getElementById("cardCuentas").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -66,89 +66,122 @@ function cbCerrar() {
   document.getElementById("cardCuentas").classList.add("hidden");
 }
 
-function cbToggle() {
-  cbAbierto = !cbAbierto;
-  cbRender();
-}
-
 function cbBuscar(v) {
   cbBusqueda = String(v || "").trim().toLowerCase();
-  if (cbBusqueda) cbAbierto = true;
   cbRender();
 }
 
-function cbFilas() {
-  return cbMapping.map(e => {
-    const cli = cbCliente(e);
-    const est = cbEstado(e);
-    return {
-      e, cli, est,
-      texto: [cli.code, cli.description, e.code, e.description, e.category, est.texto]
-        .concat(cbFuentes(e)).join(" ").toLowerCase(),
-    };
-  });
+function cbToggleGrupo(cap) { cbGruposAbiertos[cap] = !cbGruposAbiertos[cap]; cbRender(); }
+function cbToggleHijas(code) { cbHijasAbiertas[code] = !cbHijasAbiertas[code]; cbRender(); }
+function cbEditar(code) { cbEditando = code; cbRender(); }
+
+function cbTextoDe(e) {
+  const cli = cbCliente(e);
+  return [cli.code, cli.description, e.code, e.description, e.category]
+    .concat(cbFuentes(e).map(f => f.code + " " + f.nom)).join(" ").toLowerCase();
 }
 
 function cbRender() {
-  const filas = cbFilas();
-  const visibles = cbBusqueda ? filas.filter(f => f.texto.includes(cbBusqueda)) : filas;
+  const filtradas = cbBusqueda
+    ? cbMapping.filter(e => cbTextoDe(e).includes(cbBusqueda))
+    : cbMapping;
 
-  document.getElementById("cbCuerpo").innerHTML = visibles.length ? visibles.map(f => {
-    const e = f.e;
-    const fuentes = cbFuentes(e);
-    const editando = cbEditando === e.code;
-    return `
-      <tr>
-        <td>
-          <div><strong>${cbEsc(f.cli.code)}</strong></div>
-          <div class="footer-note">${cbEsc(f.cli.description)}</div>
-          ${e.ocultar_si_cero ? '<div class="footer-note">se oculta si está en cero</div>' : ""}
-        </td>
-        <td>
-          ${fuentes.length
-            ? `<div class="footer-note">${fuentes.map(cbEsc).join("<br>")}</div>`
-            : '<span class="badge bad">ninguna</span>'}
-        </td>
-        <td><span class="badge ${f.est.clase}">${cbEsc(f.est.texto)}</span></td>
-        <td>
-          ${editando ? `
-            <input type="text" id="cbCod_${cbEsc(e.code)}" value="${cbEsc(f.cli.code)}"
-                   style="max-width:120px" placeholder="código">
-            <input type="text" id="cbNom_${cbEsc(e.code)}" value="${cbEsc(f.cli.description)}"
-                   style="max-width:220px" placeholder="nombre">
-            <button onclick="cbGuardarFila('${cbEsc(e.code)}')">Aceptar</button>
-            <button class="secundario" onclick="cbEditando=null; cbRender()">Cancelar</button>
-          ` : `
-            <button class="secundario" onclick="cbEditar('${cbEsc(e.code)}')">Lo que ve el cliente</button>
-            <button class="secundario" onclick="cbToggleOcultar('${cbEsc(e.code)}')">
-              ${e.ocultar_si_cero ? "Mostrar siempre" : "Ocultar si está en cero"}
-            </button>
-            <button class="secundario" onclick="cbQuitar('${cbEsc(e.code)}')">Quitar</button>
-          `}
-        </td>
-      </tr>`;
-  }).join("") : '<tr><td colspan="4" class="footer-note">No hay filas que coincidan con la búsqueda.</td></tr>';
+  const porCap = {};
+  for (const cap of CB_CAPITULOS) porCap[cap] = [];
+  for (const e of filtradas) (porCap[e.category] = porCap[e.category] || []).push(e);
 
-  document.getElementById("cbLista").classList.toggle("hidden", !cbAbierto);
-  document.getElementById("cbFlecha").textContent = cbAbierto ? "▾" : "▸";
-  document.getElementById("cbVerTexto").textContent = cbAbierto
-    ? `Ocultar el detalle (${visibles.length} de ${filas.length} filas)`
-    : (visibles.length === filas.length
-        ? `Ver el detalle fila por fila (${filas.length})`
-        : `Ver el detalle (${visibles.length} de ${filas.length} filas)`);
+  let html = "";
+  for (const cap of Object.keys(porCap)) {
+    const filas = porCap[cap];
+    if (!filas.length) continue;
+    // Buscando, los grupos se abren solos: si no, hay que abrirlos a mano para ver el
+    // resultado de la búsqueda, que es exactamente lo que no se quiere.
+    const abierto = cbBusqueda ? true : !!cbGruposAbiertos[cap];
+    html += `
+      <div class="cb-grupo">
+        <button class="cb-grupo-tit" onclick="cbToggleGrupo('${cbEsc(cap)}')">
+          <span class="cb-chev">${abierto ? "▾" : "▸"}</span>
+          <span>${cbEsc(cap)}</span>
+          <span class="cb-cant">${filas.length} fila${filas.length === 1 ? "" : "s"}</span>
+        </button>
+        ${abierto ? filas.map(cbFilaHtml).join("") : ""}
+      </div>`;
+  }
+  document.getElementById("cbGrupos").innerHTML = html ||
+    '<p class="footer-note">No hay filas que coincidan con la búsqueda.</p>';
 
-  const sinCuentas = filas.filter(f => !cbFuentes(f.e).length).length;
-  const conCliente = filas.filter(f => f.e.cliente).length;
+  const conCliente = cbMapping.filter(e => e.cliente).length;
+  const sinCuentas = cbMapping.filter(e => !cbFuentes(e).length).length;
+  const madres = cbMapping.filter(e => e.type === "parent").length;
   document.getElementById("cbPie").innerHTML =
-    `${filas.length} filas. ${conCliente} tienen un código distinto para el cliente, ` +
-    `${sinCuentas} no tienen ninguna cuenta asignada.` +
+    `${cbMapping.length} filas · ${madres} cuentas madre · ${conCliente} con un código distinto ` +
+    `para el cliente · ${sinCuentas} sin cuentas asignadas` +
+    (cbBusqueda ? ` · mostrando ${filtradas.length} que coinciden con "${cbEsc(cbBusqueda)}"` : "") +
     (cbCambios.length
       ? `<br><strong>${cbCambios.length} cambio(s) sin guardar:</strong> ${cbCambios.map(cbEsc).join(" · ")}`
       : "");
   document.getElementById("btnCbGuardar").disabled = cbCambios.length === 0;
 }
 
-function cbEditar(code) { cbEditando = code; cbRender(); }
+function cbFilaHtml(e) {
+  const cli = cbCliente(e);
+  const fuentes = cbFuentes(e);
+  const editando = cbEditando === e.code;
+  const esMadre = e.type === "parent";
+  const abierta = !!cbHijasAbiertas[e.code] || (cbBusqueda && esMadre);
+  const sinCuentas = !fuentes.length;
+
+  // Los chips son para la EXCEPCIÓN. Poner uno en cada fila —"1 cuenta" en las 150 filas
+  // normales— es ruido que tapa las pocas que piden atención.
+  const chips = [];
+  if (sinCuentas) chips.push('<span class="cb-chip aviso">sin cuentas</span>');
+  if (esMadre) chips.push(`<span class="cb-chip dato">${fuentes.length} subcuenta${fuentes.length === 1 ? "" : "s"}</span>`);
+  if (e.type === "range") chips.push('<span class="cb-chip dato">rango</span>');
+  if (e.ocultar_si_cero) chips.push('<span class="cb-chip">se oculta en cero</span>');
+
+  // La cuenta real solo se muestra cuando es DISTINTA de la que ve el cliente. En 168 de
+  // las 206 filas los dos códigos coinciden, y repetirlos era la mitad del ruido.
+  let detalle = "";
+  if (esMadre) {
+    detalle = abierta
+      ? `<div class="cb-hijas">${fuentes.map(f =>
+          `<div class="cb-hija">${cbEsc(f.code)} ${cbEsc(f.nom)}</div>`).join("")}</div>`
+      : "";
+  } else if (e.type === "range") {
+    detalle = `<div class="cb-real">${cbEsc(fuentes[0].nom)}</div>`;
+  } else if (e.cliente) {
+    detalle = `<div class="cb-real">en Onvio: ${cbEsc(e.code)} ${cbEsc(e.description)}</div>`;
+  }
+
+  const acciones = editando ? "" : `
+    <div class="cb-acc">
+      <button onclick="cbEditar('${cbEsc(e.code)}')" title="Cambiar el código o el nombre que ve el cliente">Editar</button>
+      <button onclick="cbToggleOcultar('${cbEsc(e.code)}')" title="Mostrarla siempre o solo cuando tenga movimiento">
+        ${e.ocultar_si_cero ? "Mostrar" : "Ocultar en cero"}</button>
+      <button class="cb-peligro" onclick="cbQuitar('${cbEsc(e.code)}')">Quitar</button>
+    </div>`;
+
+  return `
+    <div class="cb-fila${sinCuentas ? " cb-atencion" : ""}">
+      ${esMadre
+        ? `<button class="cb-tog" onclick="cbToggleHijas('${cbEsc(e.code)}')"
+                   title="Ver las cuentas que la alimentan">${abierta ? "▾" : "▸"}</button>`
+        : '<span class="cb-nada"></span>'}
+      <div class="cb-txt">
+        <div><span class="cb-cod">${cbEsc(cli.code)}</span> <span class="cb-nom">${cbEsc(cli.description)}</span></div>
+        ${detalle}
+        ${editando ? `
+          <div class="cb-edit">
+            <input type="text" id="cbCod_${cbEsc(e.code)}" value="${cbEsc(cli.code)}" style="max-width:130px" placeholder="código">
+            <input type="text" id="cbNom_${cbEsc(e.code)}" value="${cbEsc(cli.description)}" style="max-width:260px" placeholder="nombre">
+            <button onclick="cbGuardarFila('${cbEsc(e.code)}')">Aceptar</button>
+            <button class="secundario" onclick="cbEditando=null; cbRender()">Cancelar</button>
+          </div>` : ""}
+      </div>
+      <div class="cb-chips">${chips.join("")}</div>
+      ${acciones}
+    </div>`;
+}
 
 function cbGuardarFila(code) {
   const e = cbMapping.find(x => x.code === code);
@@ -167,8 +200,7 @@ function cbGuardarFila(code) {
 
   const antes = cbCliente(e);
   if (antes.code === cod && antes.description === nom) { cbEditando = null; cbRender(); return; }
-  // Si vuelve a coincidir con la cuenta real, no hace falta declarar nada.
-  if (cod === e.code && nom === e.description) delete e.cliente;
+  if (cod === e.code && nom === e.description) delete e.cliente;   // vuelven a coincidir
   else e.cliente = { code: cod, description: nom };
   cbCambios.push(`"${antes.code} ${antes.description}" pasa a "${cod} ${nom}"`);
   cbEditando = null;
@@ -236,7 +268,7 @@ function cbAgregar() {
     category: categoria, type: "simple", orden, sin_cuentas: true,
   });
   cbCambios.push(`se agrega "${codigo} ${nom.trim()}" en ${categoria}`);
-  cbAbierto = true;
+  cbGruposAbiertos[categoria] = true;
   cbRender();
 }
 

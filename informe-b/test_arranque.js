@@ -91,7 +91,8 @@ for (const f of esperadas) {
 // template strings de cuentas.js, asi que no aparecen ahi y son igual de rompibles.
 console.log("\nfunciones que el panel arma en sus botones:");
 for (const f of ["cbEditar", "cbGuardarFila", "cbToggleOcultar", "cbQuitar",
-                 "cbAgregar", "cbGuardar", "cbCerrar", "cbToggle", "cbBuscar"]) {
+                 "cbAgregar", "cbGuardar", "cbCerrar", "cbBuscar",
+                 "cbToggleGrupo", "cbToggleHijas", "cbFilaHtml", "cbRender"]) {
   check(typeof contexto[f] === "function", f + "() esta definida");
 }
 

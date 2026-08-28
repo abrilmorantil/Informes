@@ -17,7 +17,7 @@
 // cambia, el navegador no puede servir la copia vieja. La marca en sessionStorage
 // evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-08-28c";
+  var MIA = "2026-08-28d";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -180,6 +180,65 @@
   .status-msg.ok{background:var(--ok-bg); color:var(--ok);}
   .status-msg.bad{background:var(--warn-bg); color:var(--warn);}
   a.help-link{color:var(--clay-deep);}
+
+  /* ---- panel Configurar cuentas ---------------------------------------- */
+  /* Son 206 filas y 216 subcuentas. Una tabla con tres botones por fila era una pared
+     naranja que tapaba la informacion. Acá: agrupado por capítulo, la jerarquía a la
+     vista, y las acciones calladas hasta que se pasa por encima. */
+  #cbGrupos{margin-top:6px;}
+  .cb-grupo{border:1px solid var(--line); border-radius:var(--radio-chico); margin-bottom:10px; overflow:hidden; background:var(--card);}
+  .cb-grupo-tit{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+    padding:11px 14px; background:var(--cream-alto); border:0; cursor:pointer;
+    font:inherit; font-weight:600; color:var(--ink); box-shadow:none; border-radius:0;
+    transition:background var(--transicion);
+  }
+  .cb-grupo-tit:hover{background:var(--clay-suave); transform:none; box-shadow:none;}
+  .cb-grupo-tit .cb-chev{color:var(--ink-soft); font-size:11px; width:12px;}
+  .cb-grupo-tit .cb-cant{margin-left:auto; font-weight:500; color:var(--ink-soft); font-size:12.5px;}
+
+  .cb-fila{
+    display:flex; align-items:flex-start; gap:12px; padding:9px 14px 9px 30px;
+    border-top:1px solid var(--line); transition:background var(--transicion);
+  }
+  .cb-fila:hover{background:var(--cream-alto);}
+  .cb-fila.cb-atencion{background:#FEFAF6;}
+  .cb-tog{
+    background:none; border:0; padding:0 2px; margin:0; cursor:pointer; box-shadow:none;
+    color:var(--ink-soft); font-size:11px; width:14px; flex:none; line-height:1.7;
+  }
+  .cb-tog:hover{background:none; color:var(--clay); transform:none; box-shadow:none;}
+  .cb-nada{width:14px; flex:none;}
+  .cb-txt{flex:1; min-width:0;}
+  .cb-cod{font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .cb-nom{color:var(--ink-medio);}
+  .cb-real{color:var(--ink-soft); font-size:12.5px; margin-top:2px;}
+  .cb-hijas{margin-top:5px; padding-left:12px; border-left:2px solid var(--line-fuerte);}
+  .cb-hija{color:var(--ink-soft); font-size:12.5px; padding:1px 0; font-variant-numeric:tabular-nums;}
+
+  .cb-chips{display:flex; gap:5px; flex:none; align-items:center; padding-top:1px;}
+  .cb-chip{
+    font-size:11px; padding:2px 8px; border-radius:999px; white-space:nowrap;
+    border:1px solid var(--line-fuerte); color:var(--ink-soft); background:var(--cream-alto);
+  }
+  .cb-chip.aviso{background:var(--warn-bg); color:var(--warn); border-color:var(--warn-borde);}
+  .cb-chip.dato{background:var(--clay-suave); color:var(--clay-deep); border-color:#E6CDB8;}
+
+  .cb-acc{display:flex; gap:2px; flex:none; opacity:0; transition:opacity var(--transicion);}
+  .cb-fila:hover .cb-acc, .cb-fila:focus-within .cb-acc{opacity:1;}
+  .cb-acc button{
+    background:none; border:0; box-shadow:none; padding:3px 7px; border-radius:6px;
+    color:var(--ink-soft); font-size:12.5px; font-weight:500; cursor:pointer;
+  }
+  .cb-acc button:hover{background:var(--clay-suave); color:var(--clay-deep); transform:none; box-shadow:none;}
+  .cb-acc button.cb-peligro:hover{background:var(--warn-bg); color:var(--warn);}
+  .cb-edit{display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:4px;}
+  .cb-edit input{margin:0;}
+  @media (max-width:760px){
+    .cb-acc{opacity:1;}
+    .cb-fila{flex-wrap:wrap; padding-left:16px;}
+  }
+
 </style>
 </head>
 <body>
@@ -212,20 +271,7 @@
       <button class="secundario" onclick="cbAgregar()">Agregar fila</button>
     </div>
 
-    <p style="cursor:pointer; margin:10px 0 4px;" onclick="cbToggle()">
-      <span id="cbFlecha">▸</span> <span id="cbVerTexto">Ver el detalle fila por fila</span>
-    </p>
-    <div id="cbLista" class="hidden">
-      <table>
-        <thead><tr>
-          <th>Lo que ve el cliente</th>
-          <th>Con qué cuentas se llena</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr></thead>
-        <tbody id="cbCuerpo"></tbody>
-      </table>
-    </div>
+    <div id="cbGrupos"></div>
 
     <p class="footer-note" id="cbPie" style="margin-top:12px;"></p>
     <div style="display:flex; gap:8px; margin-top:10px;">
@@ -343,13 +389,13 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-08-28c"></script>
-<script src="core.js?v=2026-08-28c"></script>
-<script src="writer.js?v=2026-08-28c"></script>
-<script src="github.js?v=2026-08-28c"></script>
-<script src="estado_b.js?v=2026-08-28c"></script>
-<script src="importar_saldos.js?v=2026-08-28c"></script>
-<script src="app.js?v=2026-08-28c"></script>
-<script src="cuentas.js?v=2026-08-28c"></script>
+<script src="../buscador.js?v=2026-08-28d"></script>
+<script src="core.js?v=2026-08-28d"></script>
+<script src="writer.js?v=2026-08-28d"></script>
+<script src="github.js?v=2026-08-28d"></script>
+<script src="estado_b.js?v=2026-08-28d"></script>
+<script src="importar_saldos.js?v=2026-08-28d"></script>
+<script src="app.js?v=2026-08-28d"></script>
+<script src="cuentas.js?v=2026-08-28d"></script>
 </body>
 </html>

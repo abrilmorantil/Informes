@@ -92,7 +92,9 @@ for (const f of esperadas) {
 console.log("\nfunciones que el panel arma en sus botones:");
 for (const f of ["cbEditar", "cbGuardarFila", "cbToggleOcultar", "cbQuitar",
                  "cbAgregar", "cbGuardar", "cbCerrar", "cbBuscar",
-                 "cbToggleGrupo", "cbToggleHijas", "cbFilaHtml", "cbRender"]) {
+                 "cbToggleGrupo", "cbToggleHijas", "cbFilaHtml", "cbRender",
+                 "cbQuitarSubcuenta", "cbConfirmarSubcuenta", "cbConvertirEnMadre",
+                 "cbConfirmarFila", "cbCuentasDisponibles"]) {
   check(typeof contexto[f] === "function", f + "() esta definida");
 }
 

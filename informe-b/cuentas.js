@@ -21,6 +21,8 @@ let cbBusqueda = "";
 let cbEditando = null;      // código de la fila que se está editando
 let cbGruposAbiertos = {};  // capítulo -> abierto
 let cbHijasAbiertas = {};   // código de la madre -> desplegada
+let cbAgregandoHija = null; // código de la madre a la que se le está agregando una subcuenta
+let cbAgregandoFila = false;
 
 const CB_CAPITULOS = ["ACTIVO", "PASIVO", "CAPITAL Y PATRIMONIO", "RESULTADOS"];
 
@@ -43,6 +45,30 @@ function cbFuentes(e) {
   return [{ code: e.code, nom: e.description }];
 }
 
+// Las cuentas reales que se pueden asignar. Salen del export que se haya procesado en
+// esta sesion; si todavia no se proceso ninguno, de las que ya estan en el mapping. Se
+// marca cuales ya tienen dueño, que es la unica forma de ver cuales faltan ubicar.
+function cbCuentasDisponibles() {
+  const dueño = {};
+  for (const e of cbMapping) {
+    if (e.type === "parent") for (const h of (e.children || [])) dueño[h.code] = cbCliente(e).code;
+    else if (e.type !== "range" && !e.sin_cuentas) dueño[e.code] = cbCliente(e).code;
+  }
+  const cuentas = {};
+  // Del export, si hay uno procesado: son las cuentas que Onvio manda de verdad.
+  if (typeof lastResult === "object" && lastResult && lastResult.cuentas) {
+    for (const [cod, c] of Object.entries(lastResult.cuentas)) cuentas[cod] = c.descripcion;
+  }
+  // Y las que ya estan declaradas, aunque este mes no hayan venido.
+  for (const e of cbMapping) {
+    if (e.type === "parent") for (const h of (e.children || [])) cuentas[h.code] = cuentas[h.code] || h.description;
+    else if (e.type !== "range") cuentas[e.code] = cuentas[e.code] || e.description;
+  }
+  return Object.entries(cuentas)
+    .map(([code, nom]) => ({ code, nom, dueño: dueño[code] || null }))
+    .sort((a, b) => (a.dueño ? 1 : 0) - (b.dueño ? 1 : 0) || a.code.localeCompare(b.code));
+}
+
 function cbAbrirPanel() {
   if (!currentMapping) {
     document.getElementById("cbStatus").innerHTML =
@@ -54,6 +80,8 @@ function cbAbrirPanel() {
   cbBusqueda = "";
   cbEditando = null;
   cbHijasAbiertas = {};
+  cbAgregandoHija = null;
+  cbAgregandoFila = false;
   // Arrancan cerrados: 206 filas desplegadas de golpe no se pueden leer.
   cbGruposAbiertos = {};
   document.getElementById("cardCuentas").classList.remove("hidden");
@@ -107,8 +135,17 @@ function cbRender() {
         ${abierto ? filas.map(cbFilaHtml).join("") : ""}
       </div>`;
   }
-  document.getElementById("cbGrupos").innerHTML = html ||
-    '<p class="footer-note">No hay filas que coincidan con la búsqueda.</p>';
+  // Pedir el codigo y el nombre con dos prompt() seguidos era incomodo y no dejaba ver
+  // lo que se estaba escribiendo. El formulario va arriba, a la vista.
+  const formNueva = cbAgregandoFila ? `
+    <div class="cb-nueva">
+      <input type="text" id="cbNuevaCod" placeholder="Código que ve el cliente" style="max-width:200px">
+      <input type="text" id="cbNuevaNom" placeholder="Nombre" style="max-width:300px">
+      <button onclick="cbConfirmarFila()">Agregar</button>
+      <button class="secundario" onclick="cbAgregandoFila=false; cbRender()">Cancelar</button>
+    </div>` : "";
+  document.getElementById("cbGrupos").innerHTML = formNueva + (html ||
+    '<p class="footer-note">No hay filas que coincidan con la búsqueda.</p>');
 
   const conCliente = cbMapping.filter(e => e.cliente).length;
   const sinCuentas = cbMapping.filter(e => !cbFuentes(e).length).length;
@@ -121,6 +158,12 @@ function cbRender() {
       ? `<br><strong>${cbCambios.length} cambio(s) sin guardar:</strong> ${cbCambios.map(cbEsc).join(" · ")}`
       : "");
   document.getElementById("btnCbGuardar").disabled = cbCambios.length === 0;
+
+  // El desplegable de subcuentas tiene 163 cuentas: sin buscador no se encuentra ninguna.
+  // conBuscador() es el mismo helper que ya usa el resto del sitio.
+  if (cbAgregandoHija && typeof conBuscador === "function") {
+    conBuscador(document.getElementById(`cbSelHija_${cbAgregandoHija}`), "Buscar cuenta de Onvio…");
+  }
 }
 
 function cbFilaHtml(e) {
@@ -144,10 +187,31 @@ function cbFilaHtml(e) {
   // las 206 filas los dos códigos coinciden, y repetirlos era la mitad del ruido.
   let detalle = "";
   if (esMadre) {
-    detalle = abierta
-      ? `<div class="cb-hijas">${fuentes.map(f =>
-          `<div class="cb-hija">${cbEsc(f.code)} ${cbEsc(f.nom)}</div>`).join("")}</div>`
-      : "";
+    // Las subcuentas se editan acá: cada una con su cruz para sacarla, y un boton para
+    // sumar otra. Es lo que mas se toca —los tres errores que aparecieron al configurar
+    // esto eran cuentas mal ubicadas— y era justamente lo unico que no se podia cambiar.
+    detalle = abierta ? `
+      <div class="cb-hijas">
+        ${fuentes.map(f => `
+          <div class="cb-hija">
+            <span>${cbEsc(f.code)} ${cbEsc(f.nom)}</span>
+            <button class="cb-x" title="Sacar esta subcuenta"
+                    onclick="cbQuitarSubcuenta('${cbEsc(e.code)}','${cbEsc(f.code)}')">×</button>
+          </div>`).join("")}
+        ${cbAgregandoHija === e.code
+          ? `<div class="cb-hija cb-sumar">
+               <select id="cbSelHija_${cbEsc(e.code)}" style="max-width:340px;">
+                 <option value="">Elegí la cuenta de Onvio…</option>
+                 ${cbCuentasDisponibles().map(c =>
+                   `<option value="${cbEsc(c.code)}">${cbEsc(c.code)} ${cbEsc(c.nom)}` +
+                   `${c.dueño ? " — ya está en " + cbEsc(c.dueño) : ""}</option>`).join("")}
+               </select>
+               <button onclick="cbConfirmarSubcuenta('${cbEsc(e.code)}')">Agregar</button>
+               <button class="secundario" onclick="cbAgregandoHija=null; cbRender()">Cancelar</button>
+             </div>`
+          : `<button class="cb-sumar-btn" onclick="cbAgregandoHija='${cbEsc(e.code)}'; cbRender()">
+               + Agregar subcuenta</button>`}
+      </div>` : "";
   } else if (e.type === "range") {
     detalle = `<div class="cb-real">${cbEsc(fuentes[0].nom)}</div>`;
   } else if (e.cliente) {
@@ -157,6 +221,10 @@ function cbFilaHtml(e) {
   const acciones = editando ? "" : `
     <div class="cb-acc">
       <button onclick="cbEditar('${cbEsc(e.code)}')" title="Cambiar el código o el nombre que ve el cliente">Editar</button>
+      ${(!esMadre && e.type !== "range")
+        ? `<button onclick="cbConvertirEnMadre('${cbEsc(e.code)}')"
+                   title="Convertirla en cuenta madre para poder colgarle subcuentas">Hacer madre</button>`
+        : ""}
       <button onclick="cbToggleOcultar('${cbEsc(e.code)}')" title="Mostrarla siempre o solo cuando tenga movimiento">
         ${e.ocultar_si_cero ? "Mostrar" : "Ocultar en cero"}</button>
       <button class="cb-peligro" onclick="cbQuitar('${cbEsc(e.code)}')">Quitar</button>
@@ -249,27 +317,104 @@ function cbQuitar(code) {
 }
 
 function cbAgregar() {
-  const cod = prompt("Código que va a ver el cliente (ej: 42433000)");
-  if (!cod) return;
-  const codigo = cod.trim();
+  cbAgregandoFila = true;
+  cbRender();
+  const c = document.getElementById("cbNuevaCod");
+  if (c) c.focus();
+}
+
+function cbConfirmarFila() {
+  const codigo = (document.getElementById("cbNuevaCod").value || "").trim();
+  const nom = (document.getElementById("cbNuevaNom").value || "").trim();
   if (!/^\d{5,}$/.test(codigo)) { alert("El código tiene que ser un número de 5 dígitos o más."); return; }
+  if (!nom) { alert("Poné un nombre."); return; }
   if (cbMapping.some(x => cbCliente(x).code === codigo || x.code === codigo)) {
     alert("Ya hay una fila con ese código."); return;
   }
-  const nom = prompt("Nombre que va a ver el cliente");
-  if (!nom || !nom.trim()) return;
-
   const PORDIGITO = { "1": "ACTIVO", "2": "PASIVO", "3": "CAPITAL Y PATRIMONIO", "4": "RESULTADOS" };
   const categoria = PORDIGITO[codigo[0]] || "RESULTADOS";
-  // Se agrega SIN cuentas asignadas: es una fila que el cliente espera ver y que siempre
-  // sale en cero. Si más adelante tiene que llenarse con una cuenta de Onvio, se cambia acá.
+  // Arranca SIN cuentas asignadas: es una fila que el cliente espera ver y que sale en
+  // cero. Para llenarla con cuentas de Onvio se la convierte en madre y se le agregan.
   const orden = Math.max(...cbMapping.filter(x => x.category === categoria).map(x => x.orden || 0), 0) + 0.5;
   cbMapping.push({
-    code: codigo, aliases: [], description: nom.trim(),
+    code: codigo, aliases: [], description: nom,
     category: categoria, type: "simple", orden, sin_cuentas: true,
   });
-  cbCambios.push(`se agrega "${codigo} ${nom.trim()}" en ${categoria}`);
+  cbCambios.push(`se agrega "${codigo} ${nom}" en ${categoria}`);
   cbGruposAbiertos[categoria] = true;
+  cbAgregandoFila = false;
+  cbRender();
+}
+
+function cbQuitarSubcuenta(padre, hija) {
+  const e = cbMapping.find(x => x.code === padre);
+  if (!e) return;
+  const h = (e.children || []).find(x => x.code === hija);
+  if (!h) return;
+  // Sacarla de acá la deja sin ninguna fila donde caer: si esa cuenta trae importe, ese
+  // importe queda afuera del informe. La app avisa al procesar, pero mejor decirlo ahora.
+  if (!confirm(`¿Sacar "${hija} ${h.description}" de "${cbCliente(e).code} ${cbCliente(e).description}"?` +
+               `
+
+Si no la ponés en otra fila, su importe queda sin destino y la app te lo va a avisar ` +
+               `al procesar el mes.`)) return;
+  e.children = (e.children || []).filter(x => x.code !== hija);
+  cbCambios.push(`"${hija}" sale de "${cbCliente(e).code}"`);
+  cbRender();
+}
+
+function cbConfirmarSubcuenta(padre) {
+  const e = cbMapping.find(x => x.code === padre);
+  if (!e) return;
+  const sel = document.getElementById(`cbSelHija_${padre}`);
+  const cod = sel ? sel.value : "";
+  if (!cod) { alert("Elegí una cuenta."); return; }
+  if ((e.children || []).some(h => h.code === cod)) { alert("Esa cuenta ya está en esta madre."); return; }
+
+  // Una cuenta en dos filas se suma dos veces. Si ya tiene dueño, se la muda.
+  const anterior = cbMapping.find(x => x !== e &&
+    ((x.children || []).some(h => h.code === cod) || (x.type !== "parent" && x.type !== "range" && x.code === cod)));
+  const disponible = cbCuentasDisponibles().find(c => c.code === cod);
+  const nombre = disponible ? disponible.nom : cod;
+  if (anterior) {
+    if (!confirm(`"${cod} ${nombre}" hoy está en "${cbCliente(anterior).code} ${cbCliente(anterior).description}".` +
+                 `
+
+¿Mudarla acá? Si quedara en las dos, su importe se sumaría dos veces.`)) return;
+    if (anterior.type === "parent") anterior.children = anterior.children.filter(h => h.code !== cod);
+    else cbMapping = cbMapping.filter(x => x !== anterior);   // era una fila propia
+    cbCambios.push(`"${cod}" se muda de "${cbCliente(anterior).code}" a "${cbCliente(e).code}"`);
+  } else {
+    cbCambios.push(`"${cod}" entra en "${cbCliente(e).code}"`);
+  }
+  e.children = (e.children || []).concat([{ code: cod, description: nombre }]);
+  cbAgregandoHija = null;
+  cbRender();
+}
+
+// Convertir una fila simple en cuenta madre es exactamente lo que pidio el cliente para
+// Seguridad y Alquileres: el codigo viejo pasa a ser la madre y la cuenta real de Onvio,
+// su primera subcuenta.
+function cbConvertirEnMadre(code) {
+  const e = cbMapping.find(x => x.code === code);
+  if (!e || e.type === "parent") return;
+  const cli = cbCliente(e);
+  if (!confirm(`"${cli.code} ${cli.description}" pasa a ser cuenta madre.` +
+               (e.sin_cuentas ? `
+
+Arranca sin subcuentas; se las agregás vos.` :
+                `
+
+Su cuenta de Onvio "${e.code} ${e.description}" pasa a ser la primera subcuenta.`))) return;
+  const hijas = e.sin_cuentas ? [] : [{ code: e.code, description: e.description }];
+  const i = cbMapping.indexOf(e);
+  cbMapping[i] = {
+    code: cli.code, aliases: [], description: cli.description,
+    category: e.category, type: "parent", orden: e.orden, children: hijas,
+  };
+  if (e.ocultar_si_cero) cbMapping[i].ocultar_si_cero = true;
+  cbCambios.push(`"${cli.code} ${cli.description}" pasa a ser cuenta madre`);
+  cbHijasAbiertas[cli.code] = true;
   cbRender();
 }
 

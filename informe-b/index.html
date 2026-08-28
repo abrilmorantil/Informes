@@ -17,7 +17,7 @@
 // cambia, el navegador no puede servir la copia vieja. La marca en sessionStorage
 // evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-08-28e";
+  var MIA = "2026-08-28f";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -214,7 +214,30 @@
   .cb-nom{color:var(--ink-medio);}
   .cb-real{color:var(--ink-soft); font-size:12.5px; margin-top:2px;}
   .cb-hijas{margin-top:5px; padding-left:12px; border-left:2px solid var(--line-fuerte);}
-  .cb-hija{color:var(--ink-soft); font-size:12.5px; padding:1px 0; font-variant-numeric:tabular-nums;}
+  .cb-hija{
+    color:var(--ink-soft); font-size:12.5px; padding:2px 0; font-variant-numeric:tabular-nums;
+    display:flex; align-items:center; gap:8px;
+  }
+  .cb-hija .cb-x{
+    background:none; border:0; box-shadow:none; padding:0 5px; border-radius:5px; cursor:pointer;
+    color:var(--ink-soft); font-size:15px; line-height:1.2; opacity:0; transition:all var(--transicion);
+  }
+  .cb-hija:hover .cb-x{opacity:.7;}
+  .cb-hija .cb-x:hover{opacity:1; background:var(--warn-bg); color:var(--warn); transform:none; box-shadow:none;}
+  .cb-sumar{gap:6px; flex-wrap:wrap; padding-top:6px;}
+  .cb-sumar select{margin:0; font-size:13px;}
+  .cb-sumar-btn{
+    background:none; border:1px dashed var(--line-fuerte); box-shadow:none; color:var(--ink-soft);
+    font-size:12.5px; font-weight:500; padding:4px 10px; border-radius:7px; margin-top:6px; cursor:pointer;
+  }
+  .cb-sumar-btn:hover{background:var(--clay-suave); color:var(--clay-deep); border-color:var(--clay);
+    border-style:solid; transform:none; box-shadow:none;}
+  .cb-nueva{
+    display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding:12px 14px;
+    background:var(--cream-alto); border:1px dashed var(--line-fuerte); border-radius:var(--radio-chico);
+    margin-bottom:10px;
+  }
+  .cb-nueva input{margin:0;}
 
   .cb-chips{display:flex; gap:5px; flex:none; align-items:center; padding-top:1px;}
   .cb-chip{
@@ -224,7 +247,9 @@
   .cb-chip.aviso{background:var(--warn-bg); color:var(--warn); border-color:var(--warn-borde);}
   .cb-chip.dato{background:var(--clay-suave); color:var(--clay-deep); border-color:#E6CDB8;}
 
-  .cb-acc{display:flex; gap:2px; flex:none; opacity:0; transition:opacity var(--transicion);}
+  /* Las acciones estaban escondidas hasta pasar el mouse y no se descubrian. Ahora
+     estan siempre, apagadas, y se encienden al pasar por encima. */
+  .cb-acc{display:flex; gap:2px; flex:none; opacity:.55; transition:opacity var(--transicion);}
   .cb-fila:hover .cb-acc, .cb-fila:focus-within .cb-acc{opacity:1;}
   .cb-acc button{
     background:none; border:0; box-shadow:none; padding:3px 7px; border-radius:6px;
@@ -389,13 +414,13 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-08-28e"></script>
-<script src="core.js?v=2026-08-28e"></script>
-<script src="writer.js?v=2026-08-28e"></script>
-<script src="github.js?v=2026-08-28e"></script>
-<script src="estado_b.js?v=2026-08-28e"></script>
-<script src="importar_saldos.js?v=2026-08-28e"></script>
-<script src="app.js?v=2026-08-28e"></script>
-<script src="cuentas.js?v=2026-08-28e"></script>
+<script src="../buscador.js?v=2026-08-28f"></script>
+<script src="core.js?v=2026-08-28f"></script>
+<script src="writer.js?v=2026-08-28f"></script>
+<script src="github.js?v=2026-08-28f"></script>
+<script src="estado_b.js?v=2026-08-28f"></script>
+<script src="importar_saldos.js?v=2026-08-28f"></script>
+<script src="app.js?v=2026-08-28f"></script>
+<script src="cuentas.js?v=2026-08-28f"></script>
 </body>
 </html>

@@ -177,6 +177,13 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
 
     lineas.push({
       code, description: entry.description, category: entry.category, type: entry.type,
+      // `code`/`description` son la identidad REAL de la cuenta, la que viene del export.
+      // `cliente` es lo que se imprime en el informe: el plan de cuentas viejo, que es el
+      // que el cliente lee. Los dos codigos conviven porque no hay regla que los relacione
+      // —los codigos fueron reasignados, no reformateados— asi que la equivalencia se
+      // declara a mano en mapping.json. Si no hay `cliente`, se imprime el code.
+      cliente: entry.cliente || null,
+      ocultar_si_cero: !!entry.ocultar_si_cero,
       orden: entry.orden !== undefined ? entry.orden : 999999,
       saldo_anterior: saldoAnterior, debe, haber, movimiento, saldo_nuevo: saldoNuevo, detalle,
     });

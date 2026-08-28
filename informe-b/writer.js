@@ -26,6 +26,14 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
     : "Columna C (Saldo anterior, en amarillo): pegar a mano del informe del mes pasado.";
   ws.getCell("B4").font = { italic: true, size: 9 };
 
+  // La columna A lleva la cuenta REAL, la que viene de Onvio, y va oculta. La B lleva la
+  // que ve el cliente, que usa el plan de cuentas viejo. Los dos codigos conviven porque no
+  // hay ninguna regla que los relacione: fueron reasignados, no reformateados. La
+  // equivalencia esta declarada en mapping.json (campo `cliente`).
+  ws.getCell(5, 1).value = "Cuenta real (Onvio)";
+  ws.getCell(5, 1).font = bold;
+  ws.getCell(5, 1).border = { bottom: { style: "thin" } };
+
   const headers = ["Cuenta Contable", "Saldo anterior", "Debitos del Mes Dolares",
     "Creditos del mes Dolares", "Movimiento del Mes Dolares", "Saldo Final"];
   headers.forEach((h, j) => {
@@ -35,16 +43,30 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
     c.border = { bottom: { style: "thin" } };
   });
 
+  // Una fila marcada `ocultar_si_cero` es una cuenta que existe en el plan pero que casi
+  // nunca mueve, y que el informe que se venia entregando no mostraba. Se saltea SOLO
+  // mientras este en cero: si algun mes trae movimiento vuelve a aparecer sola, asi no hay
+  // forma de que un importe quede afuera sin que se vea. Mismo criterio que las columnas de
+  // centro de costo del Balance USD.
+  const visibles = lineas.filter(l => !(l.ocultar_si_cero && Math.abs(l.debe) < 0.005 && Math.abs(l.haber) < 0.005));
+
   let row = 6;
   let currentCat = null;
-  for (const l of lineas) {
+  for (const l of visibles) {
     if (l.category !== currentCat) {
       currentCat = l.category;
       ws.getCell(row, 2).value = currentCat;
       ws.getCell(row, 2).font = bold;
       row++;
     }
-    ws.getCell(row, 2).value = `${l.code} - ${l.description}`;
+    // Una cuenta madre o un rango de proveedores se alimentan de VARIAS cuentas reales, asi
+    // que no hay una sola para poner en A: queda vacia, y el desglose va en la hoja
+    // "Detalle Subcuentas". Es como venia armado el informe a mano.
+    if (l.type !== "parent" && l.type !== "range") {
+      ws.getCell(row, 1).value = `${l.code} - ${l.description}`;
+    }
+    const cli = l.cliente || { code: l.code, description: l.description };
+    ws.getCell(row, 2).value = `${cli.code} - ${cli.description}`;
     const cCell = ws.getCell(row, 3);
     const previo = previos[l.code];
     if (typeof previo === "number") cCell.value = round2(previo);
@@ -69,8 +91,9 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
   }
 
   ws.columns = [
-    {}, { width: 55 }, { width: 16 }, { width: 16 }, { width: 16 }, { width: 16 }, { width: 16 },
+    { width: 46 }, { width: 55 }, { width: 16 }, { width: 16 }, { width: 16 }, { width: 16 }, { width: 16 },
   ];
+  ws.getColumn(1).hidden = true;      // la numeracion real: esta ahi, pero el cliente no la ve
 
   // --- Segunda hoja: detalle de subcuentas ---
   const ws2 = wb.addWorksheet("Detalle Subcuentas");
@@ -80,7 +103,7 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
     c.value = h; c.font = bold; c.border = { bottom: { style: "thin" } };
   });
   let r2 = 2;
-  for (const l of lineas) {
+  for (const l of visibles) {
     for (const h of (l.detalle || [])) {
       ws2.getCell(r2, 1).value = `${l.code} - ${l.description}`;
       ws2.getCell(r2, 2).value = `${h.code} - ${h.description}`;

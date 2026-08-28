@@ -1,2703 +1,2874 @@
 [
-  {
-    "code": "111010001",
-    "aliases": [],
-    "description": "Caja",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 0
-  },
-  {
-    "code": "111020003",
-    "aliases": [],
-    "description": "Banco de Crédito - BCP",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 1
-  },
-  {
-    "code": "111020001",
-    "aliases": [],
-    "description": "ICBC S.A. c/c",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 2
-  },
-  {
-    "code": "111020007",
-    "aliases": [],
-    "description": "Banco Macro (u$s)",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 3
-  },
-  {
-    "code": "111020002",
-    "aliases": [],
-    "description": "Banco Macro Cta. Especial en pesos",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 4
-  },
-  {
-    "code": "111020005",
-    "aliases": [],
-    "description": "Banco Macro Pesos",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 5
-  },
-  {
-    "code": "111020006",
-    "aliases": [],
-    "description": "Banco Galicia c/c",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 6
-  },
-  {
-    "code": "114010001",
-    "aliases": [
-      "11401001"
-    ],
-    "description": "IVA Crédito Fiscal",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 7
-  },
-  {
-    "code": "114010002",
-    "aliases": [],
-    "description": "IVA saldo a favor",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 8
-  },
-  {
-    "code": "114010003",
-    "aliases": [
-      "11401003"
-    ],
-    "description": "Ret. y Perc. IVA",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 9
-  },
-  {
-    "code": "114010004",
-    "aliases": [
-      "11401004"
-    ],
-    "description": "Ret. y Perc. IIBB",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 10
-  },
-  {
-    "code": "114010005",
-    "aliases": [
-      "11401005"
-    ],
-    "description": "IIBB saldo a favor",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 11
-  },
-  {
-    "code": "114010006",
-    "aliases": [
-      "11401006"
-    ],
-    "description": "Crédito Imp. L.25413",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 12
-  },
-  {
-    "code": "114010010",
-    "aliases": [
-      "11401010"
-    ],
-    "description": "Imp. Gcia. Min. Presunta",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 13
-  },
-  {
-    "code": "114010012",
-    "aliases": [
-      "11401012"
-    ],
-    "description": "Ret. y Perc. Ganancias",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 14
-  },
-  {
-    "code": "114010013",
-    "aliases": [
-      "11401013"
-    ],
-    "description": "GMP saldo a favor",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 15
-  },
-  {
-    "code": "114010014",
-    "aliases": [
-      "11401014"
-    ],
-    "description": "Saldos a favor Ganancias",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 16
-  },
-  {
-    "code": "114010016",
-    "aliases": [],
-    "description": "Impuesto Credito Diferido",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 17
-  },
-  {
-    "code": "114010018",
-    "aliases": [],
-    "description": "Percepcion RG 4815 35% computable Ganancias",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 18
-  },
-  {
-    "code": "114010021",
-    "aliases": [],
-    "description": "Ret. y Perc. IIBB San Juan",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 19
-  },
-  {
-    "code": "11401011",
-    "aliases": [],
-    "description": "Anticipo Imp. Gcia. Mínima Presunta",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 20
-  },
-  {
-    "code": "11401017",
-    "aliases": [],
-    "description": "Antic. Tributos Aduaneros",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 21
-  },
-  {
-    "code": "114010020",
-    "aliases": [],
-    "description": "Iva importación de servicios",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 22
-  },
-  {
-    "code": "114020001",
-    "aliases": [
-      "11402001"
-    ],
-    "description": "Southern Copper Corporation Cta. Part.",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 23
-  },
-  {
-    "code": "114020002",
-    "aliases": [
-      "11402002"
-    ],
-    "description": "Cía. Minera Los Tolmos S.A. Cta. Part.",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 24
-  },
-  {
-    "code": "114050005",
-    "aliases": [
-      "11405005"
-    ],
-    "description": "Seguros a Devengar",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 25
-  },
-  {
-    "code": "114050003",
-    "aliases": [
-      "11405003"
-    ],
-    "description": "Anticipo de Fondos",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 26
-  },
-  {
-    "code": "114050004",
-    "aliases": [
-      "11405004"
-    ],
-    "description": "Anticipo a Proveedores",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 27
-  },
-  {
-    "code": "114050007",
-    "aliases": [],
-    "description": "Garantia a Cobrar/Recuperar",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 28
-  },
-  {
-    "code": "115010001",
-    "aliases": [],
-    "description": "Fondo fima premiun",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 29
-  },
-  {
-    "code": "116010001",
-    "aliases": [
-      "11601001"
-    ],
-    "description": "Socio Southern Copper Corporation",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 30
-  },
-  {
-    "code": "11601002",
-    "aliases": [],
-    "description": "Socio Cía. Minera Los Tolmos S.A.",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 31
-  },
-  {
-    "code": "122010000",
-    "aliases": [
-      "12201000"
-    ],
-    "description": "Depósito en garantía alquiler",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 32
-  },
-  {
-    "code": "12301000",
-    "aliases": [],
-    "description": "Titulos Públicos",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 33
-  },
-  {
-    "code": "124010001",
-    "aliases": [
-      "12402000"
-    ],
-    "description": "Muebles y Utiles",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 34
-  },
-  {
-    "code": "124010002",
-    "aliases": [
-      "12403000"
-    ],
-    "description": "Equipos",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 35
-  },
-  {
-    "code": "124010003",
-    "aliases": [
-      "12404000"
-    ],
-    "description": "Herramientas",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 36
-  },
-  {
-    "code": "124010004",
-    "aliases": [
-      "12405000"
-    ],
-    "description": "Equipos de Computaciòn",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 37
-  },
-  {
-    "code": "124010005",
-    "aliases": [
-      "12406000"
-    ],
-    "description": "Software",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 38
-  },
-  {
-    "code": "124020001",
-    "aliases": [
-      "12407000"
-    ],
-    "description": "Dep. Ac. Muebles y Utiles",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 39
-  },
-  {
-    "code": "124020002",
-    "aliases": [
-      "12408000"
-    ],
-    "description": "Dep. Ac. Equipos",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 40
-  },
-  {
-    "code": "124020003",
-    "aliases": [
-      "12409000"
-    ],
-    "description": "Dep. Ac. Herramientas",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 41
-  },
-  {
-    "code": "124010006",
-    "aliases": [
-      "12411000"
-    ],
-    "description": "Rodados",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 42
-  },
-  {
-    "code": "124020004",
-    "aliases": [
-      "12412000"
-    ],
-    "description": "Dep. Ac. Eq. de Computación",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 43
-  },
-  {
-    "code": "124020005",
-    "aliases": [
-      "12413000"
-    ],
-    "description": "Dep. Ac. Software",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 44
-  },
-  {
-    "code": "124020006",
-    "aliases": [
-      "12414000"
-    ],
-    "description": "Dep. Ac. Rodados",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 45
-  },
-  {
-    "code": "124010007",
-    "aliases": [
-      "12415000"
-    ],
-    "description": "Equipamiento Exploración",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 46
-  },
-  {
-    "code": "124020007",
-    "aliases": [
-      "12416000"
-    ],
-    "description": "Dep. Ac. Equipamiento Exploración",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 47
-  },
-  {
-    "code": "124010008",
-    "aliases": [
-      "12417000"
-    ],
-    "description": "Instalaciones",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 48
-  },
-  {
-    "code": "124020008",
-    "aliases": [
-      "12418000"
-    ],
-    "description": "Dep. Ac. Instalaciones",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 49
-  },
-  {
-    "code": "125010001",
-    "aliases": [],
-    "description": "Cargos Diferidos Los Menucos",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 50
-  },
-  {
-    "code": "125010002",
-    "aliases": [],
-    "description": "Cargos Diferidos Cañadón del Moro",
-    "category": "ACTIVO",
-    "type": "simple",
-    "orden": 51
-  },
-  {
-    "code": "21101000",
-    "aliases": [],
-    "description": "Proveedores",
-    "category": "PASIVO",
-    "type": "range",
-    "prefix": "21101",
-    "orden": 52
-  },
-  {
-    "code": "212010001",
-    "aliases": [
-      "21301000"
-    ],
-    "description": "Sueldos a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 53
-  },
-  {
-    "code": "212010003",
-    "aliases": [],
-    "description": "Provisión Vacaciones",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 54
-  },
-  {
-    "code": "213010003",
-    "aliases": [
-      "21401000"
-    ],
-    "description": "IVA Débito Fiscal",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 55
-  },
-  {
-    "code": "21405000",
-    "aliases": [],
-    "description": "Imp. Bienes, Acc. y Part. Soc. a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 56
-  },
-  {
-    "code": "211050000",
-    "aliases": [],
-    "description": "Previsión AID",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 57
-  },
-  {
-    "code": "211060000",
-    "aliases": [],
-    "description": "Previsión IGMP",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 58
-  },
-  {
-    "code": "213010001",
-    "aliases": [
-      "21406000"
-    ],
-    "description": "SICORE a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 59
-  },
-  {
-    "code": "212020001",
-    "aliases": [
-      "21407000"
-    ],
-    "description": "SICOSS a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 60
-  },
-  {
-    "code": "211030000",
-    "aliases": [],
-    "description": "Provision de Gastos",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 61
-  },
-  {
-    "code": "211080000",
-    "aliases": [],
-    "description": "Transferencia a debitar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 62
-  },
-  {
-    "code": "21408000",
-    "aliases": [],
-    "description": "Imp. Gcia Mínima Presunta a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 63
-  },
-  {
-    "code": "21409000",
-    "aliases": [],
-    "description": "Retenciones SUSS a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 64
-  },
-  {
-    "code": "21410000",
-    "aliases": [],
-    "description": "Tasa Municipalidad a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 65
-  },
-  {
-    "code": "212020002",
-    "aliases": [],
-    "description": "Retenciones SUSS a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 66
-  },
-  {
-    "code": "213010007",
-    "aliases": [],
-    "description": "Tasa Seguridad e Higiene a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 67
-  },
-  {
-    "code": "213010009",
-    "aliases": [],
-    "description": "Tasa Municipal a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 68
-  },
-  {
-    "code": "213010010",
-    "aliases": [],
-    "description": "Patentes a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 69
-  },
-  {
-    "code": "311000000",
-    "aliases": [
-      "31100000"
-    ],
-    "description": "Capital Suscripto",
-    "category": "CAPITAL Y PATRIMONIO",
-    "type": "simple",
-    "orden": 70
-  },
-  {
-    "code": "321000000",
-    "aliases": [
-      "32201000"
-    ],
-    "description": "Resultados No Asignados",
-    "category": "CAPITAL Y PATRIMONIO",
-    "type": "simple",
-    "orden": 71
-  },
-  {
-    "code": "32203000",
-    "aliases": [],
-    "description": "A.R.E.A.",
-    "category": "CAPITAL Y PATRIMONIO",
-    "type": "simple",
-    "orden": 72
-  },
-  {
-    "code": "Diferencia Resultados no Asignados",
-    "aliases": [],
-    "description": "Diferencia Resultados no Asignados",
-    "category": "CAPITAL Y PATRIMONIO",
-    "type": "simple",
-    "orden": 197
-  },
-  {
-    "code": "41210000",
-    "aliases": [],
-    "description": "Resultado Venta",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 73
-  },
-  {
-    "code": "41220000",
-    "aliases": [],
-    "description": "Recupero Siniestro",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 74
-  },
-  {
-    "code": "41230000",
-    "aliases": [],
-    "description": "Envío muestras Chile",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 75
-  },
-  {
-    "code": "41240000",
-    "aliases": [],
-    "description": "Resultado Venta Títulos Públicos",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 76
-  },
-  {
-    "code": "41250000",
-    "aliases": [],
-    "description": "Venta de bienes de uso",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 77
-  },
-  {
-    "code": "412600000",
-    "aliases": [],
-    "description": "Recupero de Seguros",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 78
-  },
-  {
-    "code": "412700000",
-    "aliases": [],
-    "description": "Intereses ganados",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 79
-  },
-  {
-    "code": "42101000",
-    "aliases": [],
-    "description": "Honorarios legales",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 80
-  },
-  {
-    "code": "42102000",
-    "aliases": [],
-    "description": "Honorarios profesionales",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425190000",
-        "description": "Honorarios Profesionales Adm. Gral."
-      },
-      {
-        "code": "426630000",
-        "description": "Honorarios profesionales Vigencia y Penalidades"
-      }
-    ],
-    "orden": 81
-  },
-  {
-    "code": "42103000",
-    "aliases": [],
-    "description": "Iva credito fiscal no computable",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 82
-  },
-  {
-    "code": "42105000",
-    "aliases": [
-      "421050000"
-    ],
-    "description": "Sueldos Adm.",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 83
-  },
-  {
-    "code": "42106000",
-    "aliases": [
-      "421060000"
-    ],
-    "description": "Cargas sociales",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 84
-  },
-  {
-    "code": "42107000",
-    "aliases": [],
-    "description": "Movilidad y Viaticos Adm.",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425120000",
-        "description": "Movilidad y Viáticos Adm. Gral."
-      },
-      {
-        "code": "433120000",
-        "description": "Movilidad y Viáticos Gastos de Campo (u$s)"
-      },
-      {
-        "code": "421070000",
-        "description": "Movilidad y viáticos Adm."
-      },
-      {
-        "code": "421440000",
-        "description": "Movilidad y Viáticos Adm Catamarca"
-      }
-    ],
-    "orden": 85
-  },
-  {
-    "code": "42110000",
-    "aliases": [],
-    "description": "Eventos",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 86
-  },
-  {
-    "code": "42111000",
-    "aliases": [],
-    "description": "Alquileres eq. De campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 87
-  },
-  {
-    "code": "42112000",
-    "aliases": [],
-    "description": "Gs. Limpieza",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426810000",
-        "description": "Gastos de limpieza Gts campo Catam"
-      },
-      {
-        "code": "426130000",
-        "description": "Gastos de Limpieza Gs Campo"
-      }
-    ],
-    "orden": 88
-  },
-  {
-    "code": "42114000",
-    "aliases": [],
-    "description": "Gastos varios oficina",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425300000",
-        "description": "Gst Varios Oficina Adm. Gral."
-      },
-      {
-        "code": "426190000",
-        "description": "Gst Varios Oficina Gst Campo"
-      }
-    ],
-    "orden": 89
-  },
-  {
-    "code": "42113000",
-    "aliases": [],
-    "description": "Tasas Retributivas Minería",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 90
-  },
-  {
-    "code": "42115000",
-    "aliases": [],
-    "description": "Inspecciones",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 91
-  },
-  {
-    "code": "42202000",
-    "aliases": [],
-    "description": "Certificaciones",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 93
-  },
-  {
-    "code": "42203000",
-    "aliases": [],
-    "description": "Depreciaciones",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425250000",
-        "description": "Amortizaciones Adm. Gral."
-      }
-    ],
-    "orden": 94
-  },
-  {
-    "code": "42204000",
-    "aliases": [],
-    "description": "Sellados",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 95
-  },
-  {
-    "code": "42207000",
-    "aliases": [],
-    "description": "Seguridad",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 96
-  },
-  {
-    "code": "42208000",
-    "aliases": [],
-    "description": "Gastos Varios Campo",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426270000",
-        "description": "Gst Varios Campo Gst Campo"
-      },
-      {
-        "code": "428100000",
-        "description": "Gastos Varios Campo Muestreo Geof. Sup"
-      },
-      {
-        "code": "421600000",
-        "description": "Gastos Varios Gastos de Campo Catamarca"
-      }
-    ],
-    "orden": 97
-  },
-  {
-    "code": "42209000",
-    "aliases": [],
-    "description": "Gastos de computacion",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425400000",
-        "description": "Servicios Informáticos Adm. Gral."
-      },
-      {
-        "code": "426210000",
-        "description": "Servicios Infórmaticos Gst. Campo"
-      },
-      {
-        "code": "426600000",
-        "description": "Gastos Computacion Gs Campo"
-      },
-      {
-        "code": "425290000",
-        "description": "Gs Computación Adm General"
-      },
-      {
-        "code": "421370000",
-        "description": "Gs Computación - Rel. Comunitarias Catamarca"
-      },
-      {
-        "code": "421120000",
-        "description": "Servicios Informaticos - Adm Catamarca"
-      },
-      {
-        "code": "421510000",
-        "description": "Gs Computación - Adm Catamarca"
-      }
-    ],
-    "orden": 98
-  },
-  {
-    "code": "42211000",
-    "aliases": [],
-    "description": "Patentes",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426350000",
-        "description": "Patentes Gst Campo"
-      },
-      {
-        "code": "427250000",
-        "description": "Patentes Rel. Comunitarias"
-      },
-      {
-        "code": "426670000",
-        "description": "Patentes Gasto Campo Catamarca"
-      },
-      {
-        "code": "426340000",
-        "description": "Catastro Minero Gs Campo"
-      }
-    ],
-    "orden": 99
-  },
-  {
-    "code": "42213000",
-    "aliases": [],
-    "description": "Gastos en tramites",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [],
-    "orden": 100
-  },
-  {
-    "code": "42215000",
-    "aliases": [],
-    "description": "Mantenimiento Software",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 101
-  },
-  {
-    "code": "42216000",
-    "aliases": [],
-    "description": "Gratificaciones",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 102
-  },
-  {
-    "code": "42217000",
-    "aliases": [],
-    "description": "Publicaciones",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425280000",
-        "description": "Publicaciones Adm Gral"
-      },
-      {
-        "code": "421570000",
-        "description": "Publicaciones -  Vigencia y Penalidades Catamarca"
-      },
-      {
-        "code": "426560000",
-        "description": "Publicaciones -  Vigencia y Penalidades"
-      }
-    ],
-    "orden": 103
-  },
-  {
-    "code": "42218000",
-    "aliases": [],
-    "description": "Gastos Médicos",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 104
-  },
-  {
-    "code": "42219000",
-    "aliases": [],
-    "description": "Donaciones",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426850000",
-        "description": "Donaciones Gs de Campo Catamarca"
-      },
-      {
-        "code": "427900000",
-        "description": "Donaciones Rel. comunitarias Catamarca"
-      },
-      {
-        "code": "426980000",
-        "description": "Donaciones Gs de Campo"
-      }
-    ],
-    "orden": 105
-  },
-  {
-    "code": "42220000",
-    "aliases": [],
-    "description": "Materiales de Campo",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426510000",
-        "description": "Materiales de Campo. Gst de Campo"
-      },
-      {
-        "code": "426330000",
-        "description": "Insumos de Campo Gst Campo"
-      }
-    ],
-    "orden": 106
-  },
-  {
-    "code": "42221000",
-    "aliases": [],
-    "description": "Regalos al personal",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 107
-  },
-  {
-    "code": "42222000",
-    "aliases": [],
-    "description": "Mensajería",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425170000",
-        "description": "Mensajeria Adm. Gral."
-      },
-      {
-        "code": "426230000",
-        "description": "Mensajeria Gst Campo"
-      },
-      {
-        "code": "428300000",
-        "description": "Mensajería Muestreo Geof. Sup."
-      },
-      {
-        "code": "425960000",
-        "description": "Encomienda Adm. Gral."
-      },
-      {
-        "code": "421900000",
-        "description": "Encomienda Adm Catamarca"
-      },
-      {
-        "code": "426970000",
-        "description": "Encomienda Gs Campo"
-      },
-      {
-        "code": "427510000",
-        "description": "Encomienda Rel. Com. Catamarca"
-      },
-      {
-        "code": "429240000",
-        "description": "Encomiendas - E. Perforacion"
-      },
-      {
-        "code": "421950000",
-        "description": "Mensajeria Muestreo Geof. Sup. Catamarca"
-      },
-      {
-        "code": "421630000",
-        "description": "Mensajeria Gs Campo Catamarca"
-      }
-    ],
-    "orden": 108
-  },
-  {
-    "code": "422240000",
-    "aliases": [],
-    "description": "Gastos de Espectrometria",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 109
-  },
-  {
-    "code": "42223000",
-    "aliases": [],
-    "description": "Alquileres varios",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "429900000",
-        "description": "Alquiler varios - E. Perforacion"
-      },
-      {
-        "code": "426310000",
-        "description": "Alquileres Varios Gs de Campo"
-      },
-      {
-        "code": "426170000",
-        "description": "Alquiler Cocheras Gst Campo"
-      },
-      {
-        "code": "427220000",
-        "description": "Alquileres varios Rel. comunitarias"
-      },
-      {
-        "code": "421560000",
-        "description": "Alquileres varios - Adm Catamarca"
-      }
-    ],
-    "orden": 110
-  },
-  {
-    "code": "42224000",
-    "aliases": [],
-    "description": "Recupero de gastos",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 111
-  },
-  {
-    "code": "42301000",
-    "aliases": [],
-    "description": "Gastos y comisiones bancarias",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425220000",
-        "description": "Gastos y Comisiones Bancarias Adm. Gral"
-      },
-      {
-        "code": "423010000",
-        "description": "Gastos y comisiones bancarias"
-      },
-      {
-        "code": "427160000",
-        "description": "Gastos y comisiones bancarias Rel. comunitarias"
-      },
-      {
-        "code": "433110000",
-        "description": "Gastos bancarios Adm general (u$s)"
-      },
-      {
-        "code": "427190000",
-        "description": "Gastos y comisiones bancarias Rel. comunitarias Catamarca"
-      },
-      {
-        "code": "426550000",
-        "description": "Gastos y Comisiones Bancarias - Gasto de Campo"
-      }
-    ],
-    "orden": 112
-  },
-  {
-    "code": "423130000",
-    "aliases": [],
-    "description": "Imp. a los Débitos y Créditos no computables",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425230000",
-        "description": "Imp. a los Débitos y Créditos Bancarios Ad. Gral."
-      },
-      {
-        "code": "433100000",
-        "description": "Impuesto 25413 No Computable Adm General (u$s)"
-      }
-    ],
-    "orden": 113
-  },
-  {
-    "code": "42304000",
-    "aliases": [],
-    "description": "INTERESES",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "423040000",
-        "description": "Intereses"
-      },
-      {
-        "code": "433010000",
-        "description": "Intereses Gs Campo Catamarca"
-      },
-      {
-        "code": "425140000",
-        "description": "Intereses resarcitorios Adm. Gral."
-      },
-      {
-        "code": "425980000",
-        "description": "Intereses Adm. Gral."
-      },
-      {
-        "code": "431110000",
-        "description": "Intereses - Adm. Catamarca"
-      },
-      {
-        "code": "421200000",
-        "description": "Intereses resarcitorios Adm Gral Catamarca"
-      },
-      {
-        "code": "426920000",
-        "description": "Intereses Gs Campo"
-      }
-    ],
-    "orden": 114
-  },
-  {
-    "code": "42305000",
-    "aliases": [
-      "423050000"
-    ],
-    "description": "Diferencia de Cambio USD",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "423150000",
-        "description": "Diferencia de cambio Bce.MEP"
-      }
-    ],
-    "orden": 115
-  },
-  {
-    "code": "42307000",
-    "aliases": [],
-    "description": "Aranceles Aduaneros",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 116
-  },
-  {
-    "code": "42308000",
-    "aliases": [],
-    "description": "Tasa Municipal Neuquén",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 117
-  },
-  {
-    "code": "42309000",
-    "aliases": [],
-    "description": "Multas",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 118
-  },
-  {
-    "code": "42310000",
-    "aliases": [],
-    "description": "II.BB. No Computable",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 119
-  },
-  {
-    "code": "42311000",
-    "aliases": [],
-    "description": "Impuestos Varios",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "421030000",
-        "description": "IVA crédito fiscal no computable"
-      },
-      {
-        "code": "426700000",
-        "description": "Impuesto varios Gasto de Campo."
-      },
-      {
-        "code": "431080000",
-        "description": "Impuestos no computables - Gs de campo"
-      },
-      {
-        "code": "421810000",
-        "description": "Impuestos no computables Gs Campo Catamarca"
-      },
-      {
-        "code": "427330000",
-        "description": "Impuestos no computables Rel. Comunitarias Catamarca"
-      },
-      {
-        "code": "427320000",
-        "description": "Impuestos no computables Rel. Comunitarias"
-      },
-      {
-        "code": "423100000",
-        "description": "II.BB. No Computable"
-      },
-      {
-        "code": "421090000",
-        "description": "Seguridad e Higiene Adm Gral Catamarca"
-      }
-    ],
-    "orden": 120
-  },
-  {
-    "code": "42411000",
-    "aliases": [],
-    "description": "MATRICULAS",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 121
-  },
-  {
-    "code": "42412000",
-    "aliases": [],
-    "description": "GS.EN PERSONAL",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426280000",
-        "description": "Gst en Personal Gst Campo"
-      },
-      {
-        "code": "425900000",
-        "description": "Gs en Personal Adm Gral"
-      },
-      {
-        "code": "427240000",
-        "description": "Gastos en Personal Rel. Comunitarias"
-      },
-      {
-        "code": "429200000",
-        "description": "Gastos en Personal E. Perforacion"
-      },
-      {
-        "code": "421190000",
-        "description": "Gastos en personal - Adm Catamarca"
-      },
-      {
-        "code": "421420000",
-        "description": "Gtos en personal Gs. de campo Catamarca"
-      },
-      {
-        "code": "421450000",
-        "description": "Gs. en Personal Rel. Comunitarias Catamarca"
-      },
-      {
-        "code": "422090000",
-        "description": "Gs en personal R- Ambiental"
-      }
-    ],
-    "orden": 122
-  },
-  {
-    "code": "42413000",
-    "aliases": [],
-    "description": "ALQUILER DE VEHÍCULOS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "427150000",
-        "description": "Alquiler de vehículos Rel. comunitarias"
-      },
-      {
-        "code": "426590000",
-        "description": "Alquiler de vehículos Gs Campo"
-      },
-      {
-        "code": "421820000",
-        "description": "Alquiler de vehiculos - Gs Campo Catamarca"
-      }
-    ],
-    "orden": 123
-  },
-  {
-    "code": "42414000",
-    "aliases": [],
-    "description": "CANON",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [],
-    "orden": 124
-  },
-  {
-    "code": "42415000",
-    "aliases": [],
-    "description": "GS EXPLORACION",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 125
-  },
-  {
-    "code": "42416000",
-    "aliases": [],
-    "description": "CONVENIO DE CESIÓN",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426290000",
-        "description": "Convenio de Acceso Gs de Campo"
-      },
-      {
-        "code": "427210000",
-        "description": "Convenio de Acceso Rel. comunitarias"
-      }
-    ],
-    "orden": 126
-  },
-  {
-    "code": "42417000",
-    "aliases": [],
-    "description": "ACUERDO DE INVERSIONES",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 127
-  },
-  {
-    "code": "42418000",
-    "aliases": [],
-    "description": "GASTOS TOPOGRAFICOS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "421620000",
-        "description": "Servicio de Topografia Gs Campo Catamarca"
-      },
-      {
-        "code": "426950000",
-        "description": "Servicio de Topografía Gs de Campo"
-      }
-    ],
-    "orden": 128
-  },
-  {
-    "code": "42419000",
-    "aliases": [],
-    "description": "SERVICIOS DE GEOFÍSICA",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 129
-  },
-  {
-    "code": "42420000",
-    "aliases": [],
-    "description": "MOVILIDAD Y VIATICOS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426120000",
-        "description": "Movilidad y Viaticos Gs Campo"
-      },
-      {
-        "code": "427110000",
-        "description": "Movilidad y Viáticos Rel. comunitarias"
-      },
-      {
-        "code": "421180000",
-        "description": "Movilidad y viáticos Rel. Comunitarias Catamarca"
-      },
-      {
-        "code": "429910000",
-        "description": "Movilidad y Viáticos E-Perforación"
-      },
-      {
-        "code": "426610000",
-        "description": "Movilidad y viáticos Gs Campo Catamarca"
-      }
-    ],
-    "orden": 130
-  },
-  {
-    "code": "42421000",
-    "aliases": [],
-    "description": "ALOJAMIENTO",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425700000",
-        "description": "Alojamiento Adm. Gral."
-      },
-      {
-        "code": "426260000",
-        "description": "Alojamiento Gst de Campo"
-      },
-      {
-        "code": "427230000",
-        "description": "Alojamiento Rel. Comunitarias"
-      },
-      {
-        "code": "421160000",
-        "description": "Alojamiento Gs de campo Catamarca."
-      },
-      {
-        "code": "421520000",
-        "description": "Alojamiento Adm gral Catamarca"
-      },
-      {
-        "code": "429920000",
-        "description": "Alojamiento E- Perforación"
-      }
-    ],
-    "orden": 131
-  },
-  {
-    "code": "42422000",
-    "aliases": [
-      "424220000"
-    ],
-    "description": "COMIDA",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425110000",
-        "description": "Refrigerios Adm Gral."
-      },
-      {
-        "code": "426110000",
-        "description": "Refrigerios Gs Campo"
-      },
-      {
-        "code": "427120000",
-        "description": "Refrigerios Rel. comunitarias"
-      },
-      {
-        "code": "429500000",
-        "description": "Refrigerios E. Perforacion"
-      },
-      {
-        "code": "421150000",
-        "description": "Refrigerios Gs campo Catamarca"
-      },
-      {
-        "code": "421330000",
-        "description": "Refrigerios Rel. comunitarias Catamarca"
-      },
-      {
-        "code": "421010000",
-        "description": "Refrigerios - Adm Catamarca"
-      }
-    ],
-    "orden": 132
-  },
-  {
-    "code": "42423000",
-    "aliases": [],
-    "description": "PEAJES",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 133
-  },
-  {
-    "code": "42424000",
-    "aliases": [],
-    "description": "TRASLADOS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "429950000",
-        "description": "Servicio de Transporte de muestras- E. Perforacion"
-      },
-      {
-        "code": "421680000",
-        "description": "Servicio de transporte Gs Campo Catamarca"
-      },
-      {
-        "code": "426460000",
-        "description": "Traslados Gs de Campo"
-      }
-    ],
-    "orden": 134
-  },
-  {
-    "code": "42425000",
-    "aliases": [],
-    "description": "COMUNICACIONES",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425180000",
-        "description": "Comunicaciones Adm. Gral"
-      },
-      {
-        "code": "433050000",
-        "description": "Comunicaciones Adm. Gral USD"
-      },
-      {
-        "code": "426160000",
-        "description": "Comunicaciones Gst Campo"
-      },
-      {
-        "code": "429400000",
-        "description": "Comunicaciones E. Perforacion"
-      },
-      {
-        "code": "421670000",
-        "description": "Comunicaciones Gs Campo Catamarca"
-      },
-      {
-        "code": "421110000",
-        "description": "Comunicaciones - Adm Catamarca"
-      },
-      {
-        "code": "427700000",
-        "description": "Comunicaciones Rel. comunitarias Catamarca"
-      },
-      {
-        "code": "427270000",
-        "description": "Comunicaciones Rel. Comunitarias"
-      }
-    ],
-    "orden": 135
-  },
-  {
-    "code": "42426000",
-    "aliases": [],
-    "description": "COMBUSTIBLE",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425200000",
-        "description": "Combustible Adm Gral."
-      },
-      {
-        "code": "426200000",
-        "description": "Combustible Gst Campo"
-      },
-      {
-        "code": "427170000",
-        "description": "Combustible Rel. comunitarias"
-      },
-      {
-        "code": "429800000",
-        "description": "Combustible - E. Perforacion"
-      },
-      {
-        "code": "421410000",
-        "description": "Combustible Gs de campo Catamarca"
-      },
-      {
-        "code": "421610000",
-        "description": "Combustible Adm. Gral. Catamarca"
-      },
-      {
-        "code": "427520000",
-        "description": "Combustibles Rel. Comunitarias Catamarca"
-      }
-    ],
-    "orden": 136
-  },
-  {
-    "code": "424270000",
-    "aliases": [],
-    "description": "Adquisición Información Geológica",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "431030000",
-        "description": "Adquisición de Inform. Geologica Gs de campo Cat"
-      }
-    ],
-    "orden": 137
-  },
-  {
-    "code": "426650000",
-    "aliases": [],
-    "description": "Adquisición de inform. Geofísica Cat",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 138
-  },
-  {
-    "code": "433020000",
-    "aliases": [],
-    "description": "Adquisición de inform. Geofísica",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 139
-  },
-  {
-    "code": "42428000",
-    "aliases": [],
-    "description": "GS.CAPACITACION",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426530000",
-        "description": "Gst de Capacitación. Gs de Campo"
-      },
-      {
-        "code": "425210000",
-        "description": "Gst de Capacitación Adm. Gral."
-      },
-      {
-        "code": "421830000",
-        "description": "Capacitaciones Gs Campo Catamarca"
-      }
-    ],
-    "orden": 140
-  },
-  {
-    "code": "42429000",
-    "aliases": [],
-    "description": "GS.SUSCRIPCION EDITORIAL",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 141
-  },
-  {
-    "code": "42430000",
-    "aliases": [],
-    "description": "ALQUILERES INMUEBLES",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425150000",
-        "description": "Alquiler Inmueble Adm. Gral."
-      },
-      {
-        "code": "426220000",
-        "description": "Alquiler Inmueble Gst Campo"
-      },
-      {
-        "code": "421320000",
-        "description": "Alquiler inmueble - Adm Catamarca"
-      },
-      {
-        "code": "421490000",
-        "description": "Alquiler Inmueble Gs. de campo Catamarca"
-      },
-      {
-        "code": "421940000",
-        "description": "Alquiler Inmueble Rel. Comun. Catamarca"
-      }
-    ],
-    "orden": 142
-  },
-  {
-    "code": "42431000",
-    "aliases": [],
-    "description": "ANALISIS MUESTRAS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "428200000",
-        "description": "Análisis de Muestras Muestreo Geof. Sup."
-      },
-      {
-        "code": "426960000",
-        "description": "Análisis de Muestras Gs de Campo"
-      },
-      {
-        "code": "421470000",
-        "description": "Análisis Muestras I - R. Ambiental Catamarca"
-      },
-      {
-        "code": "429280000",
-        "description": "Análisis Muestras de agua- E. Perforación."
-      },
-      {
-        "code": "422220000",
-        "description": "Análisis Muestras - R. Ambiental"
-      },
-      {
-        "code": "429940000",
-        "description": "Análisis de Muestras - E. Perforación"
-      },
-      {
-        "code": "431010000",
-        "description": "Análisis Muestras- F Analisis Quimicos de Perf."
-      },
-      {
-        "code": "431060000",
-        "description": "Análisis de muestras Gs de Campo Catamarca"
-      },
-      {
-        "code": "431120000",
-        "description": "Análisis Muestras- F Analisis Quimicos de Perf Catamarca"
-      }
-    ],
-    "orden": 143
-  },
-  {
-    "code": "42432000",
-    "aliases": [],
-    "description": "REPARACIONES",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 144
-  },
-  {
-    "code": "42434000",
-    "aliases": [],
-    "description": "HABILITACIÓN COMERCIAL",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 146
-  },
-  {
-    "code": "42435000",
-    "aliases": [],
-    "description": "INFORMES AMBIENTALES",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426660000",
-        "description": "Informes Ambientales Gs Campo Cat"
-      }
-    ],
-    "orden": 147
-  },
-  {
-    "code": "42436000",
-    "aliases": [],
-    "description": "ESTACIONAMIENTO",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 148
-  },
-  {
-    "code": "42437000",
-    "aliases": [],
-    "description": "CUOTA SOCIETARIA-CAMARA DE MINERIA",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425160000",
-        "description": "Cuota Societaria Minera Adm. Gral."
-      },
-      {
-        "code": "426990000",
-        "description": "Cuota Societaria Gs de Campo"
-      }
-    ],
-    "orden": 149
-  },
-  {
-    "code": "42438000",
-    "aliases": [],
-    "description": "INDUMENTARIA",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426910000",
-        "description": "Indumentaria de Trabajo Gs campo"
-      },
-      {
-        "code": "421700000",
-        "description": "Indumentaria de Trabajo Gastos de campo Catamarca"
-      },
-      {
-        "code": "429270000",
-        "description": "Indumentaria de Trabajo - E. Perforacion"
-      },
-      {
-        "code": "431070000",
-        "description": "Indumentaria de Trabajo Adm. Catamarca"
-      }
-    ],
-    "orden": 150
-  },
-  {
-    "code": "42440000",
-    "aliases": [
-      "424400000"
-    ],
-    "description": "SUELDOS",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 151
-  },
-  {
-    "code": "42441000",
-    "aliases": [],
-    "description": "ALQUILER DE MAQUINARIA",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "421800000",
-        "description": "Alquiler maquinaria limpieza Rel. Comun. Catamarca"
-      },
-      {
-        "code": "421840000",
-        "description": "Alquiler Maquinaria Gs Campo Catamarca"
-      }
-    ],
-    "orden": 152
-  },
-  {
-    "code": "42442000",
-    "aliases": [],
-    "description": "CATERING",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 153
-  },
-  {
-    "code": "42443000",
-    "aliases": [],
-    "description": "FERRETERÍA",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "422080000",
-        "description": "Gastos Ferretería I -R.Ambiental"
-      },
-      {
-        "code": "426450000",
-        "description": "Gs Ferretería Gs Campo"
-      },
-      {
-        "code": "427180000",
-        "description": "Gst de Ferreteria Rel. Comunitarias"
-      },
-      {
-        "code": "421130000",
-        "description": "Ferreteria - Adm Catamarca"
-      },
-      {
-        "code": "429220000",
-        "description": "Ferreteria - E. Perforacion"
-      },
-      {
-        "code": "426860000",
-        "description": "Ferretería Gs Campo Catamarca"
-      }
-    ],
-    "orden": 154
-  },
-  {
-    "code": "424460000",
-    "aliases": [],
-    "description": "Gastos de Perforación",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 155
-  },
-  {
-    "code": "42444000",
-    "aliases": [],
-    "description": "CONSUMOS NO REEMBOLSABLES",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 156
-  },
-  {
-    "code": "42445000",
-    "aliases": [],
-    "description": "TASAS AMBIENTALES",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426500000",
-        "description": "Tasas Ambientales Gastos de Campo"
-      },
-      {
-        "code": "431090000",
-        "description": "Tasas Ambientales – Vigencia y Penalidades"
-      },
-      {
-        "code": "429930000",
-        "description": "Tasa ambiental - E. Perforación"
-      }
-    ],
-    "orden": 157
-  },
-  {
-    "code": "42450000",
-    "aliases": [
-      "424500000"
-    ],
-    "description": "CARGAS SOCIALES",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 158
-  },
-  {
-    "code": "42460000",
-    "aliases": [],
-    "description": "LIBRERIA Y PAPELERIA",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425920000",
-        "description": "Libreria y papeleria Adm Gral."
-      },
-      {
-        "code": "426470000",
-        "description": "Librería y Papelería Gs Campo"
-      },
-      {
-        "code": "429100000",
-        "description": "Librería y Papelería Perforación"
-      },
-      {
-        "code": "421460000",
-        "description": "Libreria y papeleria Adm catamarca"
-      },
-      {
-        "code": "427300000",
-        "description": "Libreria y papeleria  Rel. Comunitarias"
-      },
-      {
-        "code": "421380000",
-        "description": "Libreria - Rel. Comunitarias Catamarca"
-      },
-      {
-        "code": "421920000",
-        "description": "Libreria y Papeleria Gs Campo Catamarca"
-      },
-      {
-        "code": "431020000",
-        "description": "Libreria y Papeleria - F Analisis Quimico Perf. Catamarca"
-      }
-    ],
-    "orden": 159
-  },
-  {
-    "code": "42470000",
-    "aliases": [],
-    "description": "SERVICIOS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425500000",
-        "description": "Servicios Públicos Adm. Gral."
-      },
-      {
-        "code": "426150000",
-        "description": "Servicios Públicos Gs Campo"
-      },
-      {
-        "code": "421020000",
-        "description": "Servicios Públicos - Adm Catamarca"
-      },
-      {
-        "code": "426870000",
-        "description": "Servicios publicos Gs. Campo Catamarca"
-      },
-      {
-        "code": "421530000",
-        "description": "Servicio de Internet Adm Catamarca."
-      }
-    ],
-    "orden": 160
-  },
-  {
-    "code": "424810000",
-    "aliases": [],
-    "description": "Gastos Campamento",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426180000",
-        "description": "Gst Campamento Gst Campo"
-      },
-      {
-        "code": "421690000",
-        "description": "Gs de Campamento Gs de Campo Catamarca"
-      },
-      {
-        "code": "429210000",
-        "description": "Gastos Campamento - E. Perforacion"
-      }
-    ],
-    "orden": 161
-  },
-  {
-    "code": "424820000",
-    "aliases": [],
-    "description": "Remediación Ambiental",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "422020000",
-        "description": "Remediación Ambiental I- R. Ambiental"
-      },
-      {
-        "code": "426490000",
-        "description": "Remediación Ambiental Gs de Campo"
-      },
-      {
-        "code": "425830000",
-        "description": "Remediación Ambiental Adm General"
-      },
-      {
-        "code": "429110000",
-        "description": "Remediación Ambiental E. Perforacion"
-      }
-    ],
-    "orden": 162
-  },
-  {
-    "code": "42480000",
-    "aliases": [],
-    "description": "DERECHOS DE EXPLORACION",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 163
-  },
-  {
-    "code": "42489000",
-    "aliases": [],
-    "description": "GASTOS DE CONSTRUCCIÓN",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "421080000",
-        "description": "Servicios de construccion Rel. Comunit. Catamarca"
-      },
-      {
-        "code": "421550000",
-        "description": "Materiales de construccion Rel. Comunit. Catam"
-      },
-      {
-        "code": "426580000",
-        "description": "Servicios de construccion Gs de Campo Catam."
-      }
-    ],
-    "orden": 164
-  },
-  {
-    "code": "42490000",
-    "aliases": [],
-    "description": "GS MANTENIMIENTO",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425600000",
-        "description": "Gst Mantenimiento Adm. Gral."
-      },
-      {
-        "code": "426250000",
-        "description": "Gst de Mantenimiento Gst Campo"
-      },
-      {
-        "code": "421850000",
-        "description": "Gst de Mantenimiento Gst Campo Catamarca"
-      },
-      {
-        "code": "421990000",
-        "description": "Mantenimiento Adm. Gral Catamarca"
-      }
-    ],
-    "orden": 165
-  },
-  {
-    "code": "42491000",
-    "aliases": [],
-    "description": "GS VARIOS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "427280000",
-        "description": "Gastos Varios Rel. Comunitarias"
-      },
-      {
-        "code": "421360000",
-        "description": "Gastos Varios Rel. Comunitarias Catamarca"
-      }
-    ],
-    "orden": 166
-  },
-  {
-    "code": "42492000",
-    "aliases": [],
-    "description": "TASAS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425100000",
-        "description": "Tasas Ambientales – Adm. General"
-      },
-      {
-        "code": "421710000",
-        "description": "Tasa Municipal Adm Catamarca"
-      },
-      {
-        "code": "422010000",
-        "description": "Tasas ambientales I- R. Ambiental"
-      }
-    ],
-    "orden": 167
-  },
-  {
-    "code": "42493000",
-    "aliases": [],
-    "description": "Gastos de Representación",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426640000",
-        "description": "Gasto de representación Gs. Campo"
-      },
-      {
-        "code": "427310000",
-        "description": "Gs representación Rel. comunitarias"
-      }
-    ],
-    "orden": 168
-  },
-  {
-    "code": "42494000",
-    "aliases": [],
-    "description": "GASTOS VEHICULOS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "426240000",
-        "description": "Gst de Vehículos Gst de Campo"
-      },
-      {
-        "code": "433070000",
-        "description": "Gst de Vehículos Gst de Campo USD"
-      },
-      {
-        "code": "425990000",
-        "description": "Gs Vehiculos Adm Gral"
-      },
-      {
-        "code": "427260000",
-        "description": "Gastos de vehiculos  Rel. Comunitarias"
-      },
-      {
-        "code": "421500000",
-        "description": "Gastos de vehiculos Adm Catamarca."
-      },
-      {
-        "code": "429310000",
-        "description": "Gastos de vehiculos - E. Perforacion"
-      },
-      {
-        "code": "421640000",
-        "description": "Gastos vehiculos Gs Campo Catamarca"
-      },
-      {
-        "code": "427800000",
-        "description": "Gst Vehículos Rel. comunitarias Catamarca"
-      }
-    ],
-    "orden": 169
-  },
-  {
-    "code": "42496000",
-    "aliases": [],
-    "description": "EXPENSAS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425130000",
-        "description": "Expensas Depto Geologos Adm Gral"
-      },
-      {
-        "code": "426840000",
-        "description": "Expensas Gs Campo"
-      },
-      {
-        "code": "426140000",
-        "description": "Expensas Depto Geologos Gs Campo"
-      }
-    ],
-    "orden": 170
-  },
-  {
-    "code": "42497000",
-    "aliases": [],
-    "description": "GS RELAC ALQUILER",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 171
-  },
-  {
-    "code": "42498000",
-    "aliases": [],
-    "description": "OBRA SOCIAL",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425930000",
-        "description": "Obra Social Adicional Adm Gral."
-      },
-      {
-        "code": "426820000",
-        "description": "Obra social Adicional Gst de campo"
-      }
-    ],
-    "orden": 172
-  },
-  {
-    "code": "424970000",
-    "aliases": [],
-    "description": "Servicios de Investigación",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 173
-  },
-  {
-    "code": "42499000",
-    "aliases": [],
-    "description": "SEGUROS",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425240000",
-        "description": "Seguros Adm. Gral"
-      },
-      {
-        "code": "426100000",
-        "description": "Seguros Gs Campo"
-      },
-      {
-        "code": "429700000",
-        "description": "Seguros E. Perforacion"
-      }
-    ],
-    "orden": 174
-  },
-  {
-    "code": "43100000",
-    "aliases": [],
-    "description": "ROBO",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 175
-  },
-  {
-    "code": "43200000",
-    "aliases": [],
-    "description": "PERDIDA DE MATERIALES",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 176
-  },
-  {
-    "code": "426010000",
-    "aliases": [],
-    "description": "Servicios de geologia",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 177
-  },
-  {
-    "code": "426430000",
-    "aliases": [],
-    "description": "Serv. Digitalición Gs Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 178
-  },
-  {
-    "code": "425910000",
-    "aliases": [],
-    "description": "Publicidad Adm Gral",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 179
-  },
-  {
-    "code": "425800000",
-    "aliases": [],
-    "description": "Serv. de Cadetería Adm Gral",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 180
-  },
-  {
-    "code": "426800000",
-    "aliases": [],
-    "description": "Análisis Geoquimicos - Gtos Laboratorio Gs Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 181
-  },
-  {
-    "code": "425310000",
-    "aliases": [],
-    "description": "Vacaciones",
-    "category": "RESULTADOS",
-    "type": "parent",
-    "children": [
-      {
-        "code": "425310000",
-        "description": "Vacaciones Adm Gral."
-      },
-      {
-        "code": "426360000",
-        "description": "Vacaciones Gs Campo"
-      }
-    ],
-    "orden": 182
-  },
-  {
-    "code": "421350000",
-    "aliases": [],
-    "description": "Servicios movimiento de suelos -Rel.Com. Catamarca",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 183
-  },
-  {
-    "code": "421480000",
-    "aliases": [],
-    "description": "Canon Minero - Adm Catamarca",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 184
-  },
-  {
-    "code": "421210000",
-    "aliases": [],
-    "description": "Canon Minero - Vigencia y Penalidades",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 185
-  },
-  {
-    "code": "427290000",
-    "aliases": [],
-    "description": "Gastos en calefacción Rel. Comunitarias",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 187
-  },
-  {
-    "code": "425330000",
-    "aliases": [],
-    "description": "Impuestos País - Adm Gral.",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 188
-  },
-  {
-    "code": "431050000",
-    "aliases": [],
-    "description": "Impuestos País - Gs de Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 189
-  },
-  {
-    "code": "421650000",
-    "aliases": [],
-    "description": "Servicios de cartografía Gs Campo Catamarca",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 190
-  },
-  {
-    "code": "421660000",
-    "aliases": [],
-    "description": "Insumos para muestras Gs Campo Catamarca",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 191
-  },
-  {
-    "code": "426620000",
-    "aliases": [],
-    "description": "Uso eventual de agua en proyectos - Vigencia y Penalidades",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 192
-  },
-  {
-    "code": "421540000",
-    "aliases": [],
-    "description": "Monitoreo de suelos y aguas - Gs de Campo Cat.",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 193
-  },
-  {
-    "code": "431100000",
-    "aliases": [],
-    "description": "Imp. Bienes, Acc. y Part. Soc. – Adm. General",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 194
-  },
-  {
-    "code": "426370000",
-    "aliases": [],
-    "description": "Informes de evaluación económica Gs Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 195
-  },
-  {
-    "code": "426380000",
-    "aliases": [],
-    "description": "Gastos de licitación Gst Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 196
-  },
-  {
-    "code": "423060000",
-    "description": "Diferencia de cambio $",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 198
-  },
-  {
-    "code": "323000000",
-    "description": "Resultado del Ejercicio",
-    "category": "CAPITAL Y PATRIMONIO",
-    "type": "simple",
-    "aliases": [],
-    "orden": 198
-  },
-  {
-    "code": "425810000",
-    "description": "Tasa Municipal Adm. Gral.",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 199
-  },
-  {
-    "code": "425950000",
-    "description": "Seguridad Adm. Gral.",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 200
-  },
-  {
-    "code": "425970000",
-    "description": "Gs Limpieza Adm Gral.",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 201
-  },
-  {
-    "code": "426440000",
-    "description": "Honorarios Profesionales Gs Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 202
-  },
-  {
-    "code": "426520000",
-    "description": "Alquiler Equipos. Gst de Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 203
-  },
-  {
-    "code": "426880000",
-    "description": "Tasas Municipales Gs Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 204
-  },
-  {
-    "code": "426900000",
-    "description": "Serv. Seguridad e Investigación Gs Campo",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 205
-  },
-  {
-    "code": "433030000",
-    "description": "Honorarios Profesionales Adm. Gral. USD",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 206
-  },
-  {
-    "code": "433060000",
-    "description": "Servicio de Internet Adm Catamarca.USD",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 207
-  },
-  {
-    "code": "433090000",
-    "description": "Comunicaciones Gastos de campo USD",
-    "category": "RESULTADOS",
-    "type": "simple",
-    "aliases": [],
-    "orden": 208
-  },
-  {
-    "code": "213010004",
-    "description": "Imp. Bs. Personales a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "aliases": []
+ {
+  "code": "111010001",
+  "aliases": [],
+  "description": "Caja",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 0
+ },
+ {
+  "code": "111020003",
+  "aliases": [],
+  "description": "Banco de Crédito - BCP",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 1
+ },
+ {
+  "code": "111020001",
+  "aliases": [],
+  "description": "ICBC S.A. c/c",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 2
+ },
+ {
+  "code": "111020007",
+  "aliases": [],
+  "description": "Banco Macro (u$s)",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 3
+ },
+ {
+  "code": "111020002",
+  "aliases": [],
+  "description": "Banco Macro Cta. Especial en pesos",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 4
+ },
+ {
+  "code": "111020005",
+  "aliases": [],
+  "description": "Banco Macro Pesos",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 5
+ },
+ {
+  "code": "111020006",
+  "aliases": [],
+  "description": "Banco Galicia c/c",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 6
+ },
+ {
+  "code": "114010001",
+  "aliases": [
+   "11401001"
+  ],
+  "description": "IVA Crédito Fiscal",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 7,
+  "cliente": {
+   "code": "11401001",
+   "description": "Iva crédito fiscal"
   }
+ },
+ {
+  "code": "114010002",
+  "aliases": [],
+  "description": "IVA saldo a favor",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 8
+ },
+ {
+  "code": "114010003",
+  "aliases": [
+   "11401003"
+  ],
+  "description": "Ret. y Perc. IVA",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 9,
+  "cliente": {
+   "code": "11401003",
+   "description": "Retenciones y percepciones iva"
+  }
+ },
+ {
+  "code": "114010004",
+  "aliases": [
+   "11401004"
+  ],
+  "description": "Ret. y Perc. IIBB",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 10,
+  "cliente": {
+   "code": "11401004",
+   "description": "Retenciones y Percepciones II.BB."
+  }
+ },
+ {
+  "code": "114010005",
+  "aliases": [
+   "11401005"
+  ],
+  "description": "IIBB saldo a favor",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 11,
+  "cliente": {
+   "code": "11401005",
+   "description": "Ingresos Brutos saldo a favor"
+  }
+ },
+ {
+  "code": "114010006",
+  "aliases": [
+   "11401006"
+  ],
+  "description": "Crédito Imp. L.25413",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 12,
+  "cliente": {
+   "code": "11401006",
+   "description": "Crédito Imp. L.25413"
+  }
+ },
+ {
+  "code": "114010010",
+  "aliases": [
+   "11401010"
+  ],
+  "description": "Imp. Gcia. Min. Presunta",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 13,
+  "cliente": {
+   "code": "11401010",
+   "description": "Imp. Gcia Mínima Presunta"
+  }
+ },
+ {
+  "code": "114010012",
+  "aliases": [
+   "11401012"
+  ],
+  "description": "Ret. y Perc. Ganancias",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 14,
+  "cliente": {
+   "code": "11401012",
+   "description": "Ret/Perc Ganancias"
+  }
+ },
+ {
+  "code": "114010013",
+  "aliases": [
+   "11401013"
+  ],
+  "description": "GMP saldo a favor",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 15,
+  "cliente": {
+   "code": "11401013",
+   "description": "Saldo a Favor Gcia Minima Presunta"
+  }
+ },
+ {
+  "code": "114010014",
+  "aliases": [
+   "11401014"
+  ],
+  "description": "Saldos a favor Ganancias",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 16,
+  "cliente": {
+   "code": "11401014",
+   "description": "Saldo Favor Ganancias"
+  }
+ },
+ {
+  "code": "114010016",
+  "aliases": [],
+  "description": "Impuesto Credito Diferido",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 17
+ },
+ {
+  "code": "114010018",
+  "aliases": [],
+  "description": "Percepcion RG 4815 35% computable Ganancias",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 18
+ },
+ {
+  "code": "114010021",
+  "aliases": [],
+  "description": "Ret. y Perc. IIBB San Juan",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 19
+ },
+ {
+  "code": "11401011",
+  "aliases": [],
+  "description": "Anticipo Imp. Gcia. Mínima Presunta",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 20
+ },
+ {
+  "code": "11401017",
+  "aliases": [],
+  "description": "Antic. Tributos Aduaneros",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 21
+ },
+ {
+  "code": "114010020",
+  "aliases": [],
+  "description": "Iva importación de servicios",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 22
+ },
+ {
+  "code": "114020001",
+  "aliases": [
+   "11402001"
+  ],
+  "description": "Southern Copper Corporation Cta. Part.",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 23,
+  "cliente": {
+   "code": "11402001",
+   "description": "Southern Cooper Corporation Cta Part"
+  }
+ },
+ {
+  "code": "114020002",
+  "aliases": [
+   "11402002"
+  ],
+  "description": "Cía. Minera Los Tolmos S.A. Cta. Part.",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 24,
+  "cliente": {
+   "code": "11402002",
+   "description": "Cía. Minera Los Tolmos S.A. Cta. Part."
+  }
+ },
+ {
+  "code": "114050005",
+  "aliases": [
+   "11405005"
+  ],
+  "description": "Seguros a Devengar",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 25,
+  "cliente": {
+   "code": "11405005",
+   "description": "Seguros a Devengar"
+  }
+ },
+ {
+  "code": "114050003",
+  "aliases": [
+   "11405003"
+  ],
+  "description": "Anticipo de Fondos",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 26,
+  "cliente": {
+   "code": "11405003",
+   "description": "Anticipo de Fondos"
+  }
+ },
+ {
+  "code": "114050004",
+  "aliases": [
+   "11405004"
+  ],
+  "description": "Anticipo a Proveedores",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 27,
+  "cliente": {
+   "code": "11405004",
+   "description": "Anticipo a Proveedores"
+  }
+ },
+ {
+  "code": "114050007",
+  "aliases": [],
+  "description": "Garantia a Cobrar/Recuperar",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 28
+ },
+ {
+  "code": "115010001",
+  "aliases": [],
+  "description": "Fondo fima premiun",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 29
+ },
+ {
+  "code": "116010001",
+  "aliases": [
+   "11601001"
+  ],
+  "description": "Socio Southern Copper Corporation",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 30,
+  "cliente": {
+   "code": "11601001",
+   "description": "Socio Southern Cooper Corporation"
+  }
+ },
+ {
+  "code": "11601002",
+  "aliases": [],
+  "description": "Socio Cía. Minera Los Tolmos S.A.",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 31
+ },
+ {
+  "code": "122010000",
+  "aliases": [
+   "12201000"
+  ],
+  "description": "Depósito en garantía alquiler",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 32,
+  "cliente": {
+   "code": "12201000",
+   "description": "Depósito en garantía alquiler"
+  }
+ },
+ {
+  "code": "12301000",
+  "aliases": [],
+  "description": "Titulos Públicos",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 33
+ },
+ {
+  "code": "124010001",
+  "aliases": [
+   "12402000"
+  ],
+  "description": "Muebles y Utiles",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 34,
+  "cliente": {
+   "code": "12402000",
+   "description": "Muebles y Utiles"
+  }
+ },
+ {
+  "code": "124010002",
+  "aliases": [
+   "12403000"
+  ],
+  "description": "Equipos",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 35,
+  "cliente": {
+   "code": "12403000",
+   "description": "Equipos"
+  }
+ },
+ {
+  "code": "124010003",
+  "aliases": [
+   "12404000"
+  ],
+  "description": "Herramientas",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 36,
+  "cliente": {
+   "code": "12404000",
+   "description": "Herramientas"
+  }
+ },
+ {
+  "code": "124010004",
+  "aliases": [
+   "12405000"
+  ],
+  "description": "Equipos de Computaciòn",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 37,
+  "cliente": {
+   "code": "12405000",
+   "description": "Equipos de Computación"
+  }
+ },
+ {
+  "code": "124010005",
+  "aliases": [
+   "12406000"
+  ],
+  "description": "Software",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 38,
+  "cliente": {
+   "code": "12406000",
+   "description": "Software"
+  }
+ },
+ {
+  "code": "124020001",
+  "aliases": [
+   "12407000"
+  ],
+  "description": "Dep. Ac. Muebles y Utiles",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 39,
+  "cliente": {
+   "code": "12407000",
+   "description": "Am. Ac. Muebles y Útiles"
+  }
+ },
+ {
+  "code": "124020002",
+  "aliases": [
+   "12408000"
+  ],
+  "description": "Dep. Ac. Equipos",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 40,
+  "cliente": {
+   "code": "12408000",
+   "description": "Am. Ac. Equipos"
+  }
+ },
+ {
+  "code": "124020003",
+  "aliases": [
+   "12409000"
+  ],
+  "description": "Dep. Ac. Herramientas",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 41,
+  "cliente": {
+   "code": "12409000",
+   "description": "Am. Ac. Herramientas"
+  }
+ },
+ {
+  "code": "124010006",
+  "aliases": [
+   "12411000"
+  ],
+  "description": "Rodados",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 42,
+  "cliente": {
+   "code": "12411000",
+   "description": "Rodados"
+  }
+ },
+ {
+  "code": "124020004",
+  "aliases": [
+   "12412000"
+  ],
+  "description": "Dep. Ac. Eq. de Computación",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 43,
+  "cliente": {
+   "code": "12412000",
+   "description": "Am. Ac. Eq. de Computación"
+  }
+ },
+ {
+  "code": "124020005",
+  "aliases": [
+   "12413000"
+  ],
+  "description": "Dep. Ac. Software",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 44,
+  "cliente": {
+   "code": "12413000",
+   "description": "Am. Ac. Software"
+  }
+ },
+ {
+  "code": "124020006",
+  "aliases": [
+   "12414000"
+  ],
+  "description": "Dep. Ac. Rodados",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 45,
+  "cliente": {
+   "code": "12414000",
+   "description": "Am. Ac. Rodados"
+  }
+ },
+ {
+  "code": "124010007",
+  "aliases": [
+   "12415000"
+  ],
+  "description": "Equipamiento Exploración",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 46,
+  "cliente": {
+   "code": "12415000",
+   "description": "Equipamiento Exploración"
+  }
+ },
+ {
+  "code": "124020007",
+  "aliases": [
+   "12416000"
+  ],
+  "description": "Dep. Ac. Equipamiento Exploración",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 47,
+  "cliente": {
+   "code": "12416000",
+   "description": "Am. Ac. Equipamiento Exploración"
+  }
+ },
+ {
+  "code": "124010008",
+  "aliases": [
+   "12417000"
+  ],
+  "description": "Instalaciones",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 48,
+  "cliente": {
+   "code": "12417000",
+   "description": "Instalaciones"
+  }
+ },
+ {
+  "code": "124020008",
+  "aliases": [
+   "12418000"
+  ],
+  "description": "Dep. Ac. Instalaciones",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 49,
+  "cliente": {
+   "code": "12418000",
+   "description": "Am. Ac. Instalaciones"
+  }
+ },
+ {
+  "code": "125010001",
+  "aliases": [],
+  "description": "Cargos Diferidos Los Menucos",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 50
+ },
+ {
+  "code": "125010002",
+  "aliases": [],
+  "description": "Cargos Diferidos Cañadón del Moro",
+  "category": "ACTIVO",
+  "type": "simple",
+  "orden": 51
+ },
+ {
+  "code": "21101000",
+  "aliases": [],
+  "description": "Proveedores",
+  "category": "PASIVO",
+  "type": "range",
+  "prefix": "21101",
+  "orden": 52
+ },
+ {
+  "code": "212010001",
+  "aliases": [
+   "21301000"
+  ],
+  "description": "Sueldos a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 53,
+  "cliente": {
+   "code": "21301000",
+   "description": "Sueldos a pagar"
+  }
+ },
+ {
+  "code": "212010003",
+  "aliases": [],
+  "description": "Provisión Vacaciones",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 54
+ },
+ {
+  "code": "213010003",
+  "aliases": [
+   "21401000"
+  ],
+  "description": "IVA Débito Fiscal",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 55,
+  "cliente": {
+   "code": "21401000",
+   "description": "Iva débito fiscal"
+  }
+ },
+ {
+  "code": "21405000",
+  "aliases": [],
+  "description": "Imp. Bienes, Acc. y Part. Soc. a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 56
+ },
+ {
+  "code": "211050000",
+  "aliases": [],
+  "description": "Previsión AID",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 57
+ },
+ {
+  "code": "211060000",
+  "aliases": [],
+  "description": "Previsión IGMP",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 58
+ },
+ {
+  "code": "213010001",
+  "aliases": [
+   "21406000"
+  ],
+  "description": "SICORE a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 59,
+  "cliente": {
+   "code": "21406000",
+   "description": "Sicore a pagar"
+  }
+ },
+ {
+  "code": "212020001",
+  "aliases": [
+   "21407000"
+  ],
+  "description": "SICOSS a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 60,
+  "cliente": {
+   "code": "21407000",
+   "description": "Sicoss a pagar"
+  }
+ },
+ {
+  "code": "211030000",
+  "aliases": [],
+  "description": "Provision de Gastos",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 61
+ },
+ {
+  "code": "211080000",
+  "aliases": [],
+  "description": "Transferencia a debitar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 62
+ },
+ {
+  "code": "21408000",
+  "aliases": [],
+  "description": "Imp. Gcia Mínima Presunta a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 63
+ },
+ {
+  "code": "21409000",
+  "aliases": [],
+  "description": "Retenciones SUSS a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 64
+ },
+ {
+  "code": "21410000",
+  "aliases": [],
+  "description": "Tasa Municipalidad a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 65
+ },
+ {
+  "code": "212020002",
+  "aliases": [],
+  "description": "Retenciones SUSS a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 66
+ },
+ {
+  "code": "213010007",
+  "aliases": [],
+  "description": "Tasa Seguridad e Higiene a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 67
+ },
+ {
+  "code": "213010009",
+  "aliases": [],
+  "description": "Tasa Municipal a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 68
+ },
+ {
+  "code": "213010010",
+  "aliases": [],
+  "description": "Patentes a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "orden": 69
+ },
+ {
+  "code": "311000000",
+  "aliases": [
+   "31100000"
+  ],
+  "description": "Capital Suscripto",
+  "category": "CAPITAL Y PATRIMONIO",
+  "type": "simple",
+  "orden": 70,
+  "cliente": {
+   "code": "31100000",
+   "description": "Capital suscripto"
+  }
+ },
+ {
+  "code": "321000000",
+  "aliases": [
+   "32201000"
+  ],
+  "description": "Resultados No Asignados",
+  "category": "CAPITAL Y PATRIMONIO",
+  "type": "simple",
+  "orden": 71,
+  "cliente": {
+   "code": "32201000",
+   "description": "Resultados no asignados"
+  }
+ },
+ {
+  "code": "32203000",
+  "aliases": [],
+  "description": "A.R.E.A.",
+  "category": "CAPITAL Y PATRIMONIO",
+  "type": "simple",
+  "orden": 72
+ },
+ {
+  "code": "Diferencia Resultados no Asignados",
+  "aliases": [],
+  "description": "Diferencia Resultados no Asignados",
+  "category": "CAPITAL Y PATRIMONIO",
+  "type": "simple",
+  "orden": 197
+ },
+ {
+  "code": "41210000",
+  "aliases": [],
+  "description": "Resultado Venta",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 73
+ },
+ {
+  "code": "41220000",
+  "aliases": [],
+  "description": "Recupero Siniestro",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 74
+ },
+ {
+  "code": "41230000",
+  "aliases": [],
+  "description": "Envío muestras Chile",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 75
+ },
+ {
+  "code": "41240000",
+  "aliases": [],
+  "description": "Resultado Venta Títulos Públicos",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 76
+ },
+ {
+  "code": "41250000",
+  "aliases": [],
+  "description": "Venta de bienes de uso",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 77
+ },
+ {
+  "code": "412600000",
+  "aliases": [],
+  "description": "Recupero de Seguros",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 78
+ },
+ {
+  "code": "412700000",
+  "aliases": [],
+  "description": "Intereses ganados",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 79
+ },
+ {
+  "code": "42101000",
+  "aliases": [],
+  "description": "Honorarios legales",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 80
+ },
+ {
+  "code": "42102000",
+  "aliases": [],
+  "description": "Honorarios profesionales",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425190000",
+    "description": "Honorarios Profesionales Adm. Gral."
+   },
+   {
+    "code": "426630000",
+    "description": "Honorarios profesionales Vigencia y Penalidades"
+   },
+   {
+    "code": "433030000",
+    "description": "Honorarios Profesionales Adm. Gral. USD"
+   }
+  ],
+  "orden": 81
+ },
+ {
+  "code": "42103000",
+  "aliases": [],
+  "description": "Iva credito fiscal no computable",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 82
+ },
+ {
+  "code": "42105000",
+  "aliases": [
+   "421050000"
+  ],
+  "description": "Sueldos Adm.",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 83
+ },
+ {
+  "code": "42106000",
+  "aliases": [
+   "421060000"
+  ],
+  "description": "Cargas sociales",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 84
+ },
+ {
+  "code": "42107000",
+  "aliases": [],
+  "description": "Movilidad y Viaticos Adm.",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425120000",
+    "description": "Movilidad y Viáticos Adm. Gral."
+   },
+   {
+    "code": "433120000",
+    "description": "Movilidad y Viáticos Gastos de Campo (u$s)"
+   },
+   {
+    "code": "421070000",
+    "description": "Movilidad y viáticos Adm."
+   },
+   {
+    "code": "421440000",
+    "description": "Movilidad y Viáticos Adm Catamarca"
+   }
+  ],
+  "orden": 85
+ },
+ {
+  "code": "42110000",
+  "aliases": [],
+  "description": "Eventos",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 86
+ },
+ {
+  "code": "42112000",
+  "aliases": [],
+  "description": "Gs. Limpieza",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426810000",
+    "description": "Gastos de limpieza Gts campo Catam"
+   },
+   {
+    "code": "426130000",
+    "description": "Gastos de Limpieza Gs Campo"
+   }
+  ],
+  "orden": 88
+ },
+ {
+  "code": "42114000",
+  "aliases": [],
+  "description": "Gastos varios oficina",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425300000",
+    "description": "Gst Varios Oficina Adm. Gral."
+   },
+   {
+    "code": "426190000",
+    "description": "Gst Varios Oficina Gst Campo"
+   }
+  ],
+  "orden": 89
+ },
+ {
+  "code": "42113000",
+  "aliases": [],
+  "description": "Tasas Retributivas Minería",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 90
+ },
+ {
+  "code": "42115000",
+  "aliases": [],
+  "description": "Inspecciones",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 91
+ },
+ {
+  "code": "42202000",
+  "aliases": [],
+  "description": "Certificaciones",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 93
+ },
+ {
+  "code": "42203000",
+  "aliases": [],
+  "description": "Depreciaciones",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425250000",
+    "description": "Amortizaciones Adm. Gral."
+   }
+  ],
+  "orden": 94
+ },
+ {
+  "code": "42204000",
+  "aliases": [],
+  "description": "Sellados",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 95
+ },
+ {
+  "code": "42208000",
+  "aliases": [],
+  "description": "Gastos Varios Campo",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426270000",
+    "description": "Gst Varios Campo Gst Campo"
+   },
+   {
+    "code": "428100000",
+    "description": "Gastos Varios Campo Muestreo Geof. Sup"
+   },
+   {
+    "code": "421600000",
+    "description": "Gastos Varios Gastos de Campo Catamarca"
+   }
+  ],
+  "orden": 97
+ },
+ {
+  "code": "42209000",
+  "aliases": [],
+  "description": "Gastos de computacion",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425400000",
+    "description": "Servicios Informáticos Adm. Gral."
+   },
+   {
+    "code": "426210000",
+    "description": "Servicios Infórmaticos Gst. Campo"
+   },
+   {
+    "code": "426600000",
+    "description": "Gastos Computacion Gs Campo"
+   },
+   {
+    "code": "425290000",
+    "description": "Gs Computación Adm General"
+   },
+   {
+    "code": "421370000",
+    "description": "Gs Computación - Rel. Comunitarias Catamarca"
+   },
+   {
+    "code": "421120000",
+    "description": "Servicios Informaticos - Adm Catamarca"
+   },
+   {
+    "code": "421510000",
+    "description": "Gs Computación - Adm Catamarca"
+   }
+  ],
+  "orden": 98
+ },
+ {
+  "code": "42211000",
+  "aliases": [],
+  "description": "Patentes",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426350000",
+    "description": "Patentes Gst Campo"
+   },
+   {
+    "code": "427250000",
+    "description": "Patentes Rel. Comunitarias"
+   },
+   {
+    "code": "426670000",
+    "description": "Patentes Gasto Campo Catamarca"
+   },
+   {
+    "code": "426340000",
+    "description": "Catastro Minero Gs Campo"
+   }
+  ],
+  "orden": 99
+ },
+ {
+  "code": "42213000",
+  "aliases": [],
+  "description": "Gastos en tramites",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [],
+  "orden": 100
+ },
+ {
+  "code": "42215000",
+  "aliases": [],
+  "description": "Mantenimiento Software",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 101
+ },
+ {
+  "code": "42216000",
+  "aliases": [],
+  "description": "Gratificaciones",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 102
+ },
+ {
+  "code": "42217000",
+  "aliases": [],
+  "description": "Publicaciones",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425280000",
+    "description": "Publicaciones Adm Gral"
+   },
+   {
+    "code": "421570000",
+    "description": "Publicaciones -  Vigencia y Penalidades Catamarca"
+   },
+   {
+    "code": "426560000",
+    "description": "Publicaciones -  Vigencia y Penalidades"
+   }
+  ],
+  "orden": 103
+ },
+ {
+  "code": "42218000",
+  "aliases": [],
+  "description": "Gastos Médicos",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 104
+ },
+ {
+  "code": "42219000",
+  "aliases": [],
+  "description": "Donaciones",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426850000",
+    "description": "Donaciones Gs de Campo Catamarca"
+   },
+   {
+    "code": "427900000",
+    "description": "Donaciones Rel. comunitarias Catamarca"
+   },
+   {
+    "code": "426980000",
+    "description": "Donaciones Gs de Campo"
+   }
+  ],
+  "orden": 105
+ },
+ {
+  "code": "42220000",
+  "aliases": [],
+  "description": "Materiales de Campo",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426510000",
+    "description": "Materiales de Campo. Gst de Campo"
+   },
+   {
+    "code": "426330000",
+    "description": "Insumos de Campo Gst Campo"
+   }
+  ],
+  "orden": 106
+ },
+ {
+  "code": "42221000",
+  "aliases": [],
+  "description": "Regalos al personal",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 107
+ },
+ {
+  "code": "42222000",
+  "aliases": [],
+  "description": "Mensajería",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425170000",
+    "description": "Mensajeria Adm. Gral."
+   },
+   {
+    "code": "426230000",
+    "description": "Mensajeria Gst Campo"
+   },
+   {
+    "code": "428300000",
+    "description": "Mensajería Muestreo Geof. Sup."
+   },
+   {
+    "code": "425960000",
+    "description": "Encomienda Adm. Gral."
+   },
+   {
+    "code": "421900000",
+    "description": "Encomienda Adm Catamarca"
+   },
+   {
+    "code": "426970000",
+    "description": "Encomienda Gs Campo"
+   },
+   {
+    "code": "427510000",
+    "description": "Encomienda Rel. Com. Catamarca"
+   },
+   {
+    "code": "429240000",
+    "description": "Encomiendas - E. Perforacion"
+   },
+   {
+    "code": "421950000",
+    "description": "Mensajeria Muestreo Geof. Sup. Catamarca"
+   },
+   {
+    "code": "421630000",
+    "description": "Mensajeria Gs Campo Catamarca"
+   }
+  ],
+  "orden": 108
+ },
+ {
+  "code": "422240000",
+  "aliases": [],
+  "description": "Gastos de Espectrometria",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 109
+ },
+ {
+  "code": "42223000",
+  "aliases": [],
+  "description": "Alquileres varios",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "429900000",
+    "description": "Alquiler varios - E. Perforacion"
+   },
+   {
+    "code": "426310000",
+    "description": "Alquileres Varios Gs de Campo"
+   },
+   {
+    "code": "426170000",
+    "description": "Alquiler Cocheras Gst Campo"
+   },
+   {
+    "code": "427220000",
+    "description": "Alquileres varios Rel. comunitarias"
+   },
+   {
+    "code": "421560000",
+    "description": "Alquileres varios - Adm Catamarca"
+   }
+  ],
+  "orden": 110
+ },
+ {
+  "code": "42224000",
+  "aliases": [],
+  "description": "Recupero de gastos",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 111
+ },
+ {
+  "code": "42301000",
+  "aliases": [],
+  "description": "Gastos y comisiones bancarias",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425220000",
+    "description": "Gastos y Comisiones Bancarias Adm. Gral"
+   },
+   {
+    "code": "423010000",
+    "description": "Gastos y comisiones bancarias"
+   },
+   {
+    "code": "427160000",
+    "description": "Gastos y comisiones bancarias Rel. comunitarias"
+   },
+   {
+    "code": "433110000",
+    "description": "Gastos bancarios Adm general (u$s)"
+   },
+   {
+    "code": "427190000",
+    "description": "Gastos y comisiones bancarias Rel. comunitarias Catamarca"
+   },
+   {
+    "code": "426550000",
+    "description": "Gastos y Comisiones Bancarias - Gasto de Campo"
+   }
+  ],
+  "orden": 112
+ },
+ {
+  "code": "423130000",
+  "aliases": [],
+  "description": "Imp. a los Débitos y Créditos no computables",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425230000",
+    "description": "Imp. a los Débitos y Créditos Bancarios Ad. Gral."
+   },
+   {
+    "code": "433100000",
+    "description": "Impuesto 25413 No Computable Adm General (u$s)"
+   }
+  ],
+  "orden": 113
+ },
+ {
+  "code": "42304000",
+  "aliases": [],
+  "description": "INTERESES",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "423040000",
+    "description": "Intereses"
+   },
+   {
+    "code": "433010000",
+    "description": "Intereses Gs Campo Catamarca"
+   },
+   {
+    "code": "425140000",
+    "description": "Intereses resarcitorios Adm. Gral."
+   },
+   {
+    "code": "425980000",
+    "description": "Intereses Adm. Gral."
+   },
+   {
+    "code": "431110000",
+    "description": "Intereses - Adm. Catamarca"
+   },
+   {
+    "code": "421200000",
+    "description": "Intereses resarcitorios Adm Gral Catamarca"
+   },
+   {
+    "code": "426920000",
+    "description": "Intereses Gs Campo"
+   }
+  ],
+  "orden": 114
+ },
+ {
+  "code": "42305000",
+  "aliases": [
+   "423050000"
+  ],
+  "description": "Diferencia de Cambio USD",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "423150000",
+    "description": "Diferencia de cambio Bce.MEP"
+   }
+  ],
+  "orden": 115
+ },
+ {
+  "code": "42307000",
+  "aliases": [],
+  "description": "Aranceles Aduaneros",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 116
+ },
+ {
+  "code": "42308000",
+  "aliases": [],
+  "description": "Tasa Municipal Neuquén",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 117
+ },
+ {
+  "code": "42309000",
+  "aliases": [],
+  "description": "Multas",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 118
+ },
+ {
+  "code": "42310000",
+  "aliases": [],
+  "description": "II.BB. No Computable",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 119
+ },
+ {
+  "code": "42311000",
+  "aliases": [],
+  "description": "Impuestos Varios",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "421030000",
+    "description": "IVA crédito fiscal no computable"
+   },
+   {
+    "code": "426700000",
+    "description": "Impuesto varios Gasto de Campo."
+   },
+   {
+    "code": "431080000",
+    "description": "Impuestos no computables - Gs de campo"
+   },
+   {
+    "code": "421810000",
+    "description": "Impuestos no computables Gs Campo Catamarca"
+   },
+   {
+    "code": "427330000",
+    "description": "Impuestos no computables Rel. Comunitarias Catamarca"
+   },
+   {
+    "code": "427320000",
+    "description": "Impuestos no computables Rel. Comunitarias"
+   },
+   {
+    "code": "423100000",
+    "description": "II.BB. No Computable"
+   },
+   {
+    "code": "421090000",
+    "description": "Seguridad e Higiene Adm Gral Catamarca"
+   }
+  ],
+  "orden": 120
+ },
+ {
+  "code": "42411000",
+  "aliases": [],
+  "description": "MATRICULAS",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 121
+ },
+ {
+  "code": "42412000",
+  "aliases": [],
+  "description": "GS.EN PERSONAL",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426280000",
+    "description": "Gst en Personal Gst Campo"
+   },
+   {
+    "code": "425900000",
+    "description": "Gs en Personal Adm Gral"
+   },
+   {
+    "code": "427240000",
+    "description": "Gastos en Personal Rel. Comunitarias"
+   },
+   {
+    "code": "429200000",
+    "description": "Gastos en Personal E. Perforacion"
+   },
+   {
+    "code": "421190000",
+    "description": "Gastos en personal - Adm Catamarca"
+   },
+   {
+    "code": "421420000",
+    "description": "Gtos en personal Gs. de campo Catamarca"
+   },
+   {
+    "code": "421450000",
+    "description": "Gs. en Personal Rel. Comunitarias Catamarca"
+   },
+   {
+    "code": "422090000",
+    "description": "Gs en personal R- Ambiental"
+   }
+  ],
+  "orden": 122
+ },
+ {
+  "code": "42413000",
+  "aliases": [],
+  "description": "ALQUILER DE VEHÍCULOS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "427150000",
+    "description": "Alquiler de vehículos Rel. comunitarias"
+   },
+   {
+    "code": "426590000",
+    "description": "Alquiler de vehículos Gs Campo"
+   },
+   {
+    "code": "421820000",
+    "description": "Alquiler de vehiculos - Gs Campo Catamarca"
+   }
+  ],
+  "orden": 123
+ },
+ {
+  "code": "42414000",
+  "aliases": [],
+  "description": "CANON",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [],
+  "orden": 124
+ },
+ {
+  "code": "42415000",
+  "aliases": [],
+  "description": "GS EXPLORACION",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 125
+ },
+ {
+  "code": "42416000",
+  "aliases": [],
+  "description": "CONVENIO DE CESIÓN",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426290000",
+    "description": "Convenio de Acceso Gs de Campo"
+   },
+   {
+    "code": "427210000",
+    "description": "Convenio de Acceso Rel. comunitarias"
+   }
+  ],
+  "orden": 126
+ },
+ {
+  "code": "42417000",
+  "aliases": [],
+  "description": "ACUERDO DE INVERSIONES",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 127
+ },
+ {
+  "code": "42418000",
+  "aliases": [],
+  "description": "GASTOS TOPOGRAFICOS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "421620000",
+    "description": "Servicio de Topografia Gs Campo Catamarca"
+   },
+   {
+    "code": "426950000",
+    "description": "Servicio de Topografía Gs de Campo"
+   }
+  ],
+  "orden": 128
+ },
+ {
+  "code": "42419000",
+  "aliases": [],
+  "description": "SERVICIOS DE GEOFÍSICA",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 129
+ },
+ {
+  "code": "42420000",
+  "aliases": [],
+  "description": "MOVILIDAD Y VIATICOS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426120000",
+    "description": "Movilidad y Viaticos Gs Campo"
+   },
+   {
+    "code": "427110000",
+    "description": "Movilidad y Viáticos Rel. comunitarias"
+   },
+   {
+    "code": "421180000",
+    "description": "Movilidad y viáticos Rel. Comunitarias Catamarca"
+   },
+   {
+    "code": "429910000",
+    "description": "Movilidad y Viáticos E-Perforación"
+   },
+   {
+    "code": "426610000",
+    "description": "Movilidad y viáticos Gs Campo Catamarca"
+   }
+  ],
+  "orden": 130
+ },
+ {
+  "code": "42421000",
+  "aliases": [],
+  "description": "ALOJAMIENTO",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425700000",
+    "description": "Alojamiento Adm. Gral."
+   },
+   {
+    "code": "426260000",
+    "description": "Alojamiento Gst de Campo"
+   },
+   {
+    "code": "427230000",
+    "description": "Alojamiento Rel. Comunitarias"
+   },
+   {
+    "code": "421160000",
+    "description": "Alojamiento Gs de campo Catamarca."
+   },
+   {
+    "code": "421520000",
+    "description": "Alojamiento Adm gral Catamarca"
+   },
+   {
+    "code": "429920000",
+    "description": "Alojamiento E- Perforación"
+   }
+  ],
+  "orden": 131
+ },
+ {
+  "code": "42422000",
+  "aliases": [
+   "424220000"
+  ],
+  "description": "COMIDA",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425110000",
+    "description": "Refrigerios Adm Gral."
+   },
+   {
+    "code": "426110000",
+    "description": "Refrigerios Gs Campo"
+   },
+   {
+    "code": "427120000",
+    "description": "Refrigerios Rel. comunitarias"
+   },
+   {
+    "code": "429500000",
+    "description": "Refrigerios E. Perforacion"
+   },
+   {
+    "code": "421150000",
+    "description": "Refrigerios Gs campo Catamarca"
+   },
+   {
+    "code": "421330000",
+    "description": "Refrigerios Rel. comunitarias Catamarca"
+   },
+   {
+    "code": "421010000",
+    "description": "Refrigerios - Adm Catamarca"
+   }
+  ],
+  "orden": 132
+ },
+ {
+  "code": "42423000",
+  "aliases": [],
+  "description": "PEAJES",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 133
+ },
+ {
+  "code": "42424000",
+  "aliases": [],
+  "description": "TRASLADOS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "429950000",
+    "description": "Servicio de Transporte de muestras- E. Perforacion"
+   },
+   {
+    "code": "421680000",
+    "description": "Servicio de transporte Gs Campo Catamarca"
+   },
+   {
+    "code": "426460000",
+    "description": "Traslados Gs de Campo"
+   }
+  ],
+  "orden": 134
+ },
+ {
+  "code": "42425000",
+  "aliases": [],
+  "description": "COMUNICACIONES",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425180000",
+    "description": "Comunicaciones Adm. Gral"
+   },
+   {
+    "code": "433050000",
+    "description": "Comunicaciones Adm. Gral USD"
+   },
+   {
+    "code": "426160000",
+    "description": "Comunicaciones Gst Campo"
+   },
+   {
+    "code": "429400000",
+    "description": "Comunicaciones E. Perforacion"
+   },
+   {
+    "code": "421670000",
+    "description": "Comunicaciones Gs Campo Catamarca"
+   },
+   {
+    "code": "421110000",
+    "description": "Comunicaciones - Adm Catamarca"
+   },
+   {
+    "code": "427700000",
+    "description": "Comunicaciones Rel. comunitarias Catamarca"
+   },
+   {
+    "code": "427270000",
+    "description": "Comunicaciones Rel. Comunitarias"
+   },
+   {
+    "code": "433090000",
+    "description": "Comunicaciones Gastos de campo USD"
+   }
+  ],
+  "orden": 135
+ },
+ {
+  "code": "42426000",
+  "aliases": [],
+  "description": "COMBUSTIBLE",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425200000",
+    "description": "Combustible Adm Gral."
+   },
+   {
+    "code": "426200000",
+    "description": "Combustible Gst Campo"
+   },
+   {
+    "code": "427170000",
+    "description": "Combustible Rel. comunitarias"
+   },
+   {
+    "code": "429800000",
+    "description": "Combustible - E. Perforacion"
+   },
+   {
+    "code": "421410000",
+    "description": "Combustible Gs de campo Catamarca"
+   },
+   {
+    "code": "421610000",
+    "description": "Combustible Adm. Gral. Catamarca"
+   },
+   {
+    "code": "427520000",
+    "description": "Combustibles Rel. Comunitarias Catamarca"
+   }
+  ],
+  "orden": 136
+ },
+ {
+  "code": "424270000",
+  "aliases": [],
+  "description": "Adquisición Información Geológica",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "431030000",
+    "description": "Adquisición de Inform. Geologica Gs de campo Cat"
+   }
+  ],
+  "orden": 137
+ },
+ {
+  "code": "426650000",
+  "aliases": [],
+  "description": "Adquisición de inform. Geofísica Cat",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 138
+ },
+ {
+  "code": "433020000",
+  "aliases": [],
+  "description": "Adquisición de inform. Geofísica",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 139
+ },
+ {
+  "code": "42428000",
+  "aliases": [],
+  "description": "GS.CAPACITACION",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426530000",
+    "description": "Gst de Capacitación. Gs de Campo"
+   },
+   {
+    "code": "425210000",
+    "description": "Gst de Capacitación Adm. Gral."
+   },
+   {
+    "code": "421830000",
+    "description": "Capacitaciones Gs Campo Catamarca"
+   }
+  ],
+  "orden": 140
+ },
+ {
+  "code": "42429000",
+  "aliases": [],
+  "description": "GS.SUSCRIPCION EDITORIAL",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 141
+ },
+ {
+  "code": "42430000",
+  "aliases": [],
+  "description": "ALQUILERES INMUEBLES",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425150000",
+    "description": "Alquiler Inmueble Adm. Gral."
+   },
+   {
+    "code": "426220000",
+    "description": "Alquiler Inmueble Gst Campo"
+   },
+   {
+    "code": "421320000",
+    "description": "Alquiler inmueble - Adm Catamarca"
+   },
+   {
+    "code": "421490000",
+    "description": "Alquiler Inmueble Gs. de campo Catamarca"
+   },
+   {
+    "code": "421940000",
+    "description": "Alquiler Inmueble Rel. Comun. Catamarca"
+   }
+  ],
+  "orden": 142
+ },
+ {
+  "code": "42431000",
+  "aliases": [],
+  "description": "ANALISIS MUESTRAS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "428200000",
+    "description": "Análisis de Muestras Muestreo Geof. Sup."
+   },
+   {
+    "code": "426960000",
+    "description": "Análisis de Muestras Gs de Campo"
+   },
+   {
+    "code": "421470000",
+    "description": "Análisis Muestras I - R. Ambiental Catamarca"
+   },
+   {
+    "code": "429280000",
+    "description": "Análisis Muestras de agua- E. Perforación."
+   },
+   {
+    "code": "422220000",
+    "description": "Análisis Muestras - R. Ambiental"
+   },
+   {
+    "code": "429940000",
+    "description": "Análisis de Muestras - E. Perforación"
+   },
+   {
+    "code": "431010000",
+    "description": "Análisis Muestras- F Analisis Quimicos de Perf."
+   },
+   {
+    "code": "431060000",
+    "description": "Análisis de muestras Gs de Campo Catamarca"
+   },
+   {
+    "code": "431120000",
+    "description": "Análisis Muestras- F Analisis Quimicos de Perf Catamarca"
+   }
+  ],
+  "orden": 143
+ },
+ {
+  "code": "42432000",
+  "aliases": [],
+  "description": "REPARACIONES",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 144
+ },
+ {
+  "code": "42434000",
+  "aliases": [],
+  "description": "HABILITACIÓN COMERCIAL",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 146
+ },
+ {
+  "code": "42435000",
+  "aliases": [],
+  "description": "INFORMES AMBIENTALES",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426660000",
+    "description": "Informes Ambientales Gs Campo Cat"
+   }
+  ],
+  "orden": 147
+ },
+ {
+  "code": "42436000",
+  "aliases": [],
+  "description": "ESTACIONAMIENTO",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 148
+ },
+ {
+  "code": "42437000",
+  "aliases": [],
+  "description": "CUOTA SOCIETARIA-CAMARA DE MINERIA",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425160000",
+    "description": "Cuota Societaria Minera Adm. Gral."
+   },
+   {
+    "code": "426990000",
+    "description": "Cuota Societaria Gs de Campo"
+   }
+  ],
+  "orden": 149
+ },
+ {
+  "code": "42438000",
+  "aliases": [],
+  "description": "INDUMENTARIA",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426910000",
+    "description": "Indumentaria de Trabajo Gs campo"
+   },
+   {
+    "code": "421700000",
+    "description": "Indumentaria de Trabajo Gastos de campo Catamarca"
+   },
+   {
+    "code": "429270000",
+    "description": "Indumentaria de Trabajo - E. Perforacion"
+   },
+   {
+    "code": "431070000",
+    "description": "Indumentaria de Trabajo Adm. Catamarca"
+   }
+  ],
+  "orden": 150
+ },
+ {
+  "code": "42440000",
+  "aliases": [
+   "424400000"
+  ],
+  "description": "SUELDOS",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 151
+ },
+ {
+  "code": "42441000",
+  "aliases": [],
+  "description": "ALQUILER DE MAQUINARIA",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "421800000",
+    "description": "Alquiler maquinaria limpieza Rel. Comun. Catamarca"
+   },
+   {
+    "code": "421840000",
+    "description": "Alquiler Maquinaria Gs Campo Catamarca"
+   }
+  ],
+  "orden": 152
+ },
+ {
+  "code": "42442000",
+  "aliases": [],
+  "description": "CATERING",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 153
+ },
+ {
+  "code": "42443000",
+  "aliases": [],
+  "description": "FERRETERÍA",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "422080000",
+    "description": "Gastos Ferretería I -R.Ambiental"
+   },
+   {
+    "code": "426450000",
+    "description": "Gs Ferretería Gs Campo"
+   },
+   {
+    "code": "427180000",
+    "description": "Gst de Ferreteria Rel. Comunitarias"
+   },
+   {
+    "code": "421130000",
+    "description": "Ferreteria - Adm Catamarca"
+   },
+   {
+    "code": "429220000",
+    "description": "Ferreteria - E. Perforacion"
+   },
+   {
+    "code": "426860000",
+    "description": "Ferretería Gs Campo Catamarca"
+   }
+  ],
+  "orden": 154
+ },
+ {
+  "code": "424460000",
+  "aliases": [],
+  "description": "Gastos de Perforación",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 155
+ },
+ {
+  "code": "42444000",
+  "aliases": [],
+  "description": "CONSUMOS NO REEMBOLSABLES",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 156
+ },
+ {
+  "code": "42445000",
+  "aliases": [],
+  "description": "TASAS AMBIENTALES",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426500000",
+    "description": "Tasas Ambientales Gastos de Campo"
+   },
+   {
+    "code": "431090000",
+    "description": "Tasas Ambientales – Vigencia y Penalidades"
+   },
+   {
+    "code": "429930000",
+    "description": "Tasa ambiental - E. Perforación"
+   }
+  ],
+  "orden": 157
+ },
+ {
+  "code": "42450000",
+  "aliases": [
+   "424500000"
+  ],
+  "description": "CARGAS SOCIALES",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 158
+ },
+ {
+  "code": "42460000",
+  "aliases": [],
+  "description": "LIBRERIA Y PAPELERIA",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425920000",
+    "description": "Libreria y papeleria Adm Gral."
+   },
+   {
+    "code": "426470000",
+    "description": "Librería y Papelería Gs Campo"
+   },
+   {
+    "code": "429100000",
+    "description": "Librería y Papelería Perforación"
+   },
+   {
+    "code": "421460000",
+    "description": "Libreria y papeleria Adm catamarca"
+   },
+   {
+    "code": "427300000",
+    "description": "Libreria y papeleria  Rel. Comunitarias"
+   },
+   {
+    "code": "421380000",
+    "description": "Libreria - Rel. Comunitarias Catamarca"
+   },
+   {
+    "code": "421920000",
+    "description": "Libreria y Papeleria Gs Campo Catamarca"
+   },
+   {
+    "code": "431020000",
+    "description": "Libreria y Papeleria - F Analisis Quimico Perf. Catamarca"
+   }
+  ],
+  "orden": 159
+ },
+ {
+  "code": "42470000",
+  "aliases": [],
+  "description": "SERVICIOS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425500000",
+    "description": "Servicios Públicos Adm. Gral."
+   },
+   {
+    "code": "426150000",
+    "description": "Servicios Públicos Gs Campo"
+   },
+   {
+    "code": "421020000",
+    "description": "Servicios Públicos - Adm Catamarca"
+   },
+   {
+    "code": "426870000",
+    "description": "Servicios publicos Gs. Campo Catamarca"
+   },
+   {
+    "code": "421530000",
+    "description": "Servicio de Internet Adm Catamarca."
+   },
+   {
+    "code": "433060000",
+    "description": "Servicio de Internet Adm Catamarca.USD"
+   }
+  ],
+  "orden": 160
+ },
+ {
+  "code": "424810000",
+  "aliases": [],
+  "description": "Gastos Campamento",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426180000",
+    "description": "Gst Campamento Gst Campo"
+   },
+   {
+    "code": "421690000",
+    "description": "Gs de Campamento Gs de Campo Catamarca"
+   },
+   {
+    "code": "429210000",
+    "description": "Gastos Campamento - E. Perforacion"
+   }
+  ],
+  "orden": 161
+ },
+ {
+  "code": "424820000",
+  "aliases": [],
+  "description": "Remediación Ambiental",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "422020000",
+    "description": "Remediación Ambiental I- R. Ambiental"
+   },
+   {
+    "code": "426490000",
+    "description": "Remediación Ambiental Gs de Campo"
+   },
+   {
+    "code": "425830000",
+    "description": "Remediación Ambiental Adm General"
+   },
+   {
+    "code": "429110000",
+    "description": "Remediación Ambiental E. Perforacion"
+   }
+  ],
+  "orden": 162
+ },
+ {
+  "code": "42480000",
+  "aliases": [],
+  "description": "DERECHOS DE EXPLORACION",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 163
+ },
+ {
+  "code": "42489000",
+  "aliases": [],
+  "description": "GASTOS DE CONSTRUCCIÓN",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "421080000",
+    "description": "Servicios de construccion Rel. Comunit. Catamarca"
+   },
+   {
+    "code": "421550000",
+    "description": "Materiales de construccion Rel. Comunit. Catam"
+   },
+   {
+    "code": "426580000",
+    "description": "Servicios de construccion Gs de Campo Catam."
+   }
+  ],
+  "orden": 164
+ },
+ {
+  "code": "42490000",
+  "aliases": [],
+  "description": "GS MANTENIMIENTO",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425600000",
+    "description": "Gst Mantenimiento Adm. Gral."
+   },
+   {
+    "code": "426250000",
+    "description": "Gst de Mantenimiento Gst Campo"
+   },
+   {
+    "code": "421850000",
+    "description": "Gst de Mantenimiento Gst Campo Catamarca"
+   },
+   {
+    "code": "421990000",
+    "description": "Mantenimiento Adm. Gral Catamarca"
+   }
+  ],
+  "orden": 165
+ },
+ {
+  "code": "42491000",
+  "aliases": [],
+  "description": "GS VARIOS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "427280000",
+    "description": "Gastos Varios Rel. Comunitarias"
+   },
+   {
+    "code": "421360000",
+    "description": "Gastos Varios Rel. Comunitarias Catamarca"
+   }
+  ],
+  "orden": 166
+ },
+ {
+  "code": "42492000",
+  "aliases": [],
+  "description": "TASAS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425100000",
+    "description": "Tasas Ambientales – Adm. General"
+   },
+   {
+    "code": "421710000",
+    "description": "Tasa Municipal Adm Catamarca"
+   },
+   {
+    "code": "422010000",
+    "description": "Tasas ambientales I- R. Ambiental"
+   }
+  ],
+  "orden": 167
+ },
+ {
+  "code": "42493000",
+  "aliases": [],
+  "description": "Gastos de Representación",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426640000",
+    "description": "Gasto de representación Gs. Campo"
+   },
+   {
+    "code": "427310000",
+    "description": "Gs representación Rel. comunitarias"
+   }
+  ],
+  "orden": 168
+ },
+ {
+  "code": "42494000",
+  "aliases": [],
+  "description": "GASTOS VEHICULOS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "426240000",
+    "description": "Gst de Vehículos Gst de Campo"
+   },
+   {
+    "code": "433070000",
+    "description": "Gst de Vehículos Gst de Campo USD"
+   },
+   {
+    "code": "425990000",
+    "description": "Gs Vehiculos Adm Gral"
+   },
+   {
+    "code": "427260000",
+    "description": "Gastos de vehiculos  Rel. Comunitarias"
+   },
+   {
+    "code": "421500000",
+    "description": "Gastos de vehiculos Adm Catamarca."
+   },
+   {
+    "code": "429310000",
+    "description": "Gastos de vehiculos - E. Perforacion"
+   },
+   {
+    "code": "421640000",
+    "description": "Gastos vehiculos Gs Campo Catamarca"
+   },
+   {
+    "code": "427800000",
+    "description": "Gst Vehículos Rel. comunitarias Catamarca"
+   }
+  ],
+  "orden": 169
+ },
+ {
+  "code": "42496000",
+  "aliases": [],
+  "description": "EXPENSAS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425130000",
+    "description": "Expensas Depto Geologos Adm Gral"
+   },
+   {
+    "code": "426840000",
+    "description": "Expensas Gs Campo"
+   },
+   {
+    "code": "426140000",
+    "description": "Expensas Depto Geologos Gs Campo"
+   }
+  ],
+  "orden": 170
+ },
+ {
+  "code": "42497000",
+  "aliases": [],
+  "description": "GS RELAC ALQUILER",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 171
+ },
+ {
+  "code": "42498000",
+  "aliases": [],
+  "description": "OBRA SOCIAL",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425930000",
+    "description": "Obra Social Adicional Adm Gral."
+   },
+   {
+    "code": "426820000",
+    "description": "Obra social Adicional Gst de campo"
+   }
+  ],
+  "orden": 172
+ },
+ {
+  "code": "424970000",
+  "aliases": [],
+  "description": "Servicios de Investigación",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 173
+ },
+ {
+  "code": "42499000",
+  "aliases": [],
+  "description": "SEGUROS",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425240000",
+    "description": "Seguros Adm. Gral"
+   },
+   {
+    "code": "426100000",
+    "description": "Seguros Gs Campo"
+   },
+   {
+    "code": "429700000",
+    "description": "Seguros E. Perforacion"
+   }
+  ],
+  "orden": 174
+ },
+ {
+  "code": "43100000",
+  "aliases": [],
+  "description": "ROBO",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 175
+ },
+ {
+  "code": "43200000",
+  "aliases": [],
+  "description": "PERDIDA DE MATERIALES",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 176
+ },
+ {
+  "code": "426010000",
+  "aliases": [],
+  "description": "Servicios de geologia",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 177
+ },
+ {
+  "code": "426430000",
+  "aliases": [],
+  "description": "Serv. Digitalición Gs Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 178
+ },
+ {
+  "code": "425910000",
+  "aliases": [],
+  "description": "Publicidad Adm Gral",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 179
+ },
+ {
+  "code": "425800000",
+  "aliases": [],
+  "description": "Serv. de Cadetería Adm Gral",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 180
+ },
+ {
+  "code": "426800000",
+  "aliases": [],
+  "description": "Análisis Geoquimicos - Gtos Laboratorio Gs Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 181
+ },
+ {
+  "code": "425310000",
+  "aliases": [],
+  "description": "Vacaciones",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "children": [
+   {
+    "code": "425310000",
+    "description": "Vacaciones Adm Gral."
+   },
+   {
+    "code": "426360000",
+    "description": "Vacaciones Gs Campo"
+   }
+  ],
+  "orden": 182
+ },
+ {
+  "code": "421350000",
+  "aliases": [],
+  "description": "Servicios movimiento de suelos -Rel.Com. Catamarca",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 183
+ },
+ {
+  "code": "421480000",
+  "aliases": [],
+  "description": "Canon Minero - Adm Catamarca",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 184
+ },
+ {
+  "code": "421210000",
+  "aliases": [],
+  "description": "Canon Minero - Vigencia y Penalidades",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 185
+ },
+ {
+  "code": "427290000",
+  "aliases": [],
+  "description": "Gastos en calefacción Rel. Comunitarias",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 187
+ },
+ {
+  "code": "425330000",
+  "aliases": [],
+  "description": "Impuestos País - Adm Gral.",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 188
+ },
+ {
+  "code": "431050000",
+  "aliases": [],
+  "description": "Impuestos País - Gs de Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 189
+ },
+ {
+  "code": "421650000",
+  "aliases": [],
+  "description": "Servicios de cartografía Gs Campo Catamarca",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 190
+ },
+ {
+  "code": "421660000",
+  "aliases": [],
+  "description": "Insumos para muestras Gs Campo Catamarca",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 191
+ },
+ {
+  "code": "426620000",
+  "aliases": [],
+  "description": "Uso eventual de agua en proyectos - Vigencia y Penalidades",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 192
+ },
+ {
+  "code": "421540000",
+  "aliases": [],
+  "description": "Monitoreo de suelos y aguas - Gs de Campo Cat.",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 193
+ },
+ {
+  "code": "431100000",
+  "aliases": [],
+  "description": "Imp. Bienes, Acc. y Part. Soc. – Adm. General",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 194
+ },
+ {
+  "code": "426370000",
+  "aliases": [],
+  "description": "Informes de evaluación económica Gs Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 195
+ },
+ {
+  "code": "426380000",
+  "aliases": [],
+  "description": "Gastos de licitación Gst Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 196
+ },
+ {
+  "code": "323000000",
+  "description": "Resultado del Ejercicio",
+  "category": "CAPITAL Y PATRIMONIO",
+  "type": "simple",
+  "aliases": [],
+  "orden": 198,
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "423060000",
+  "description": "Diferencia de cambio $",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 198,
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "425810000",
+  "description": "Tasa Municipal Adm. Gral.",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "aliases": [],
+  "orden": 199,
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "42207000",
+  "aliases": [],
+  "description": "Seguridad",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "orden": 200,
+  "children": [
+   {
+    "code": "425950000",
+    "description": "Seguridad Adm. Gral."
+   }
+  ]
+ },
+ {
+  "code": "425970000",
+  "description": "Gs Limpieza Adm Gral.",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "aliases": [],
+  "orden": 201,
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "426440000",
+  "description": "Honorarios Profesionales Gs Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "aliases": [],
+  "orden": 202,
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "42111000",
+  "aliases": [],
+  "description": "Alquileres eq. De campo",
+  "category": "RESULTADOS",
+  "type": "parent",
+  "orden": 203,
+  "children": [
+   {
+    "code": "426520000",
+    "description": "Alquiler Equipos. Gst de Campo"
+   }
+  ]
+ },
+ {
+  "code": "426880000",
+  "description": "Tasas Municipales Gs Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "aliases": [],
+  "orden": 204,
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "426900000",
+  "description": "Serv. Seguridad e Investigación Gs Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "aliases": [],
+  "orden": 205,
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "213010004",
+  "description": "Imp. Bs. Personales a pagar",
+  "category": "PASIVO",
+  "type": "simple",
+  "aliases": [],
+  "ocultar_si_cero": true
+ },
+ {
+  "code": "42433000",
+  "aliases": [],
+  "description": "Gs. Importación",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 144.5,
+  "sin_cuentas": true
+ },
+ {
+  "code": "421170000",
+  "aliases": [],
+  "description": "Gastos Legales",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 91.5,
+  "sin_cuentas": true
+ },
+ {
+  "code": "426320000",
+  "aliases": [],
+  "description": "Canon Minero Gst Campo",
+  "category": "RESULTADOS",
+  "type": "simple",
+  "orden": 185.5,
+  "sin_cuentas": true
+ }
 ]

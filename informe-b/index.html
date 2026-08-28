@@ -6,6 +6,31 @@
 <title>BALCOMPROBDOLARES</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+// La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los
+// scripts, pero NO el propio index.html: si el HTML viene de la cache, se sigue
+// viendo la pantalla vieja aunque el codigo publicado sea otro. Ya paso dos veces
+// en el Informe A, por eso esta pagina lleva el mismo control.
+//
+// La pagina se controla sola: pregunta por version.json sin cache y, si no coincide
+// con la que tiene, se vuelve a pedir con la version nueva en la URL. Como la URL
+// cambia, el navegador no puede servir la copia vieja. La marca en sessionStorage
+// evita quedar recargando en loop si algo saliera mal.
+(function () {
+  var MIA = "2026-08-28b";
+  try {
+    fetch("version.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !j.version || j.version === MIA) return;
+        if (sessionStorage.getItem("recargaVersion") === j.version) return;
+        sessionStorage.setItem("recargaVersion", j.version);
+        location.replace(location.pathname + "?v=" + encodeURIComponent(j.version));
+      })
+      .catch(function () {});
+  } catch (e) {}
+})();
+</script>
 <script src="xlsx.full.min.js"></script>
 <script src="exceljs.min.js"></script>
 <style>
@@ -165,7 +190,49 @@
       <h1>BALCOMPROBDOLARES</h1>
       <p class="sub">Balance de comprobación en dólares. Subí el export mensual de SISE: sin macros y sin instalar nada, corre en el navegador.</p>
     </div>
-    <button class="gear-btn" onclick="openSettings()">⚙ Configuración de GitHub</button>
+    <div style="display:flex; gap:8px; align-items:flex-start;">
+      <button class="gear-btn" onclick="cbAbrirPanel()">Configurar cuentas</button>
+      <button class="gear-btn" onclick="openSettings()">⚙ Configuración de GitHub</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="cardCuentas">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <h2 style="margin:0;">Configurar cuentas</h2>
+      <button class="secundario" onclick="cbCerrar()">Cerrar</button>
+    </div>
+    <p class="footer-note" style="margin-top:6px;">
+      Este informe usa dos numeraciones: la que ve el cliente (el plan viejo) y la que manda
+      Onvio. Acá se ve cuál es cuál y con qué cuentas reales se llena cada fila.
+    </p>
+
+    <div style="display:flex; gap:8px; align-items:center; margin:12px 0;">
+      <input type="text" id="cbBuscar" placeholder="Buscar por código o nombre…"
+             oninput="cbBuscar(this.value)" style="flex:1; max-width:360px;">
+      <button class="secundario" onclick="cbAgregar()">Agregar fila</button>
+    </div>
+
+    <p style="cursor:pointer; margin:10px 0 4px;" onclick="cbToggle()">
+      <span id="cbFlecha">▸</span> <span id="cbVerTexto">Ver el detalle fila por fila</span>
+    </p>
+    <div id="cbLista" class="hidden">
+      <table>
+        <thead><tr>
+          <th>Lo que ve el cliente</th>
+          <th>Con qué cuentas se llena</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr></thead>
+        <tbody id="cbCuerpo"></tbody>
+      </table>
+    </div>
+
+    <p class="footer-note" id="cbPie" style="margin-top:12px;"></p>
+    <div style="display:flex; gap:8px; margin-top:10px;">
+      <button id="btnCbGuardar" onclick="cbGuardar()" disabled>Guardar cambios</button>
+      <button class="secundario" onclick="cbCerrar()">Cerrar</button>
+    </div>
+    <div id="cbStatus"></div>
   </div>
 
   <div class="card" id="cardSaldos">
@@ -276,12 +343,13 @@
   </div>
 </div>
 
-<script src="../buscador.js"></script>
-<script src="core.js"></script>
-<script src="writer.js"></script>
-<script src="github.js"></script>
-<script src="estado_b.js"></script>
-<script src="importar_saldos.js"></script>
-<script src="app.js"></script>
+<script src="../buscador.js?v=2026-08-28b"></script>
+<script src="core.js?v=2026-08-28b"></script>
+<script src="writer.js?v=2026-08-28b"></script>
+<script src="github.js?v=2026-08-28b"></script>
+<script src="estado_b.js?v=2026-08-28b"></script>
+<script src="importar_saldos.js?v=2026-08-28b"></script>
+<script src="app.js?v=2026-08-28b"></script>
+<script src="cuentas.js?v=2026-08-28b"></script>
 </body>
 </html>

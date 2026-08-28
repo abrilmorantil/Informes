@@ -7,7 +7,10 @@ if (typeof ExcelJS === "undefined" && typeof require !== "undefined") {
 // `saldosAnteriores` es {codigo: saldo} de la corrida del mes pasado. Si viene, la
 // columna "Saldo anterior" sale ya cargada; si falta una cuenta, esa celda queda
 // amarilla para completarla a mano, que es como funcionaba todo antes.
-async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
+// `filasExport` son las filas crudas del .xls de SISE tal como se subio. Van al final,
+// como una hoja mas, para que el informe se explique solo: resultado, desglose y origen en
+// el mismo archivo, sin depender de encontrar el export de ese mes seis meses despues.
+async function writeOutputXlsx(lineas, periodo, saldosAnteriores, filasExport) {
   const previos = saldosAnteriores || {};
   const hayPrevios = Object.keys(previos).length > 0;
   const wb = new ExcelJS.Workbook();
@@ -95,24 +98,66 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores) {
   ];
   ws.getColumn(1).hidden = true;      // la numeracion real: esta ahi, pero el cliente no la ve
 
-  // --- Segunda hoja: detalle de subcuentas ---
-  const ws2 = wb.addWorksheet("Detalle Subcuentas");
-  const headers2 = ["Cuenta Madre", "Subcuenta", "Debitos del Mes Dolares", "Creditos del mes Dolares"];
+  // --- Segunda hoja: de donde sale cada saldo ---
+  // Antes esta hoja solo desglosaba las cuentas madre: se podia rastrear el 6,5% del
+  // importe. El resto —incluidos los 118 proveedores metidos en una sola fila— no tenia
+  // forma de verificarse. Ahora hay una fila por cada cuenta de Onvio que entra al
+  // informe, y su total tiene que dar el mismo total que el informe: eso la convierte en
+  // un control, no en un listado.
+  const ws2 = wb.addWorksheet("De dónde sale cada saldo");
+  ws2.getCell("A1").value = "De dónde sale cada saldo del informe";
+  ws2.getCell("A1").font = { bold: true, size: 13 };
+  ws2.getCell("A2").value =
+    "Una fila por cada cuenta de Onvio que alimenta el informe. Filtrá por la primera " +
+    "columna para ver de qué cuentas sale cualquier renglón. El total tiene que coincidir " +
+    "con el del informe.";
+  ws2.getCell("A2").font = { italic: true, size: 9 };
+
+  const headers2 = ["Fila del informe (lo que ve el cliente)", "Cuenta de Onvio",
+    "Debitos del Mes Dolares", "Creditos del mes Dolares", "Movimiento", "¿Movió este mes?"];
   headers2.forEach((h, j) => {
-    const c = ws2.getCell(1, 1 + j);
+    const c = ws2.getCell(4, 1 + j);
     c.value = h; c.font = bold; c.border = { bottom: { style: "thin" } };
   });
-  let r2 = 2;
+
+  let r2 = 5;
   for (const l of visibles) {
+    const cli = l.cliente || { code: l.code, description: l.description };
     for (const h of (l.detalle || [])) {
-      ws2.getCell(r2, 1).value = `${l.code} - ${l.description}`;
+      ws2.getCell(r2, 1).value = `${cli.code} - ${cli.description}`;
       ws2.getCell(r2, 2).value = `${h.code} - ${h.description}`;
-      ws2.getCell(r2, 3).value = round2(h.debe);
-      ws2.getCell(r2, 4).value = round2(h.haber);
+      const d = ws2.getCell(r2, 3); d.value = round2(h.debe); d.numFmt = numFmt;
+      const e2 = ws2.getCell(r2, 4); e2.value = round2(h.haber); e2.numFmt = numFmt;
+      const m = ws2.getCell(r2, 5); m.value = { formula: `C${r2}-D${r2}` }; m.numFmt = numFmt;
+      ws2.getCell(r2, 6).value = (Math.abs(h.debe) > 0.005 || Math.abs(h.haber) > 0.005) ? "sí" : "no";
       r2++;
     }
   }
-  ws2.columns = [{ width: 45 }, { width: 45 }, { width: 18 }, { width: 18 }];
+  const totalDet = r2 + 1;
+  ws2.getCell(totalDet, 1).value = "TOTAL";
+  ws2.getCell(totalDet, 1).font = bold;
+  for (const col of [3, 4, 5]) {
+    const letter = String.fromCharCode(64 + col);
+    const c = ws2.getCell(totalDet, col);
+    c.value = { formula: `SUM(${letter}5:${letter}${r2 - 1})` };
+    c.font = bold; c.numFmt = numFmt;
+  }
+  ws2.getCell(totalDet + 1, 1).value = "Tiene que dar lo mismo que el TOTAL del informe.";
+  ws2.getCell(totalDet + 1, 1).font = { italic: true, size: 9 };
+  ws2.autoFilter = { from: { row: 4, column: 1 }, to: { row: r2 - 1, column: 6 } };
+  ws2.views = [{ state: "frozen", ySplit: 4 }];
+  ws2.columns = [{ width: 48 }, { width: 48 }, { width: 18 }, { width: 18 }, { width: 16 }, { width: 15 }];
+
+  // --- Tercera hoja: el export tal como se subio ---
+  if (filasExport && filasExport.length) {
+    const ws3 = wb.addWorksheet("Export de Onvio");
+    filasExport.forEach((fila, i) => {
+      (fila || []).forEach((v, j) => {
+        if (v !== null && v !== undefined && v !== "") ws3.getCell(i + 1, j + 1).value = v;
+      });
+    });
+    ws3.columns = [{ width: 52 }].concat(Array(9).fill({ width: 15 }));
+  }
 
   // El movimiento y el saldo final son formulas, y ExcelJS las escribe SIN resultado: el
   // archivo recien generado tiene esas dos columnas en blanco hasta que Excel las calcula.

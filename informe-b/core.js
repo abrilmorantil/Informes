@@ -162,13 +162,24 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
         yaSumados.add(fuente.code);
       }
     } else if (entry.type === "range") {
+      // El rango de proveedores juntaba 118 cuentas en una fila sin dejar rastro de
+      // cuales. Ahora cada una queda anotada en `detalle`, que es lo que alimenta la hoja
+      // de trazabilidad del archivo.
       for (const [scode, c] of Object.entries(cuentasSise)) {
-        if (scode.startsWith(entry.prefix)) { debe += c.debe; haber += c.haber; }
+        if (scode.startsWith(entry.prefix)) {
+          debe += c.debe; haber += c.haber;
+          detalle.push({ code: scode, description: c.descripcion, debe: c.debe, haber: c.haber });
+        }
       }
     } else {
       const c = lookupCuenta(cuentasSise, entry);
       debe = c ? c.debe : 0;
       haber = c ? c.haber : 0;
+      // Una fila simple se llena con UNA cuenta, pero con las dos numeraciones esa cuenta
+      // no tiene por que llamarse igual que la fila: hay que decirlo igual.
+      if (!entry.sin_cuentas) {
+        detalle.push({ code: entry.code, description: entry.description, debe, haber });
+      }
     }
 
     const movimiento = debe - haber;

@@ -130,7 +130,9 @@ btnProcesar.addEventListener("click", async () => {
     const { checks, allOk, categoryDiffs } = runValidation(
       lineas, totalDebe, totalHaber, control, unmapped, categoryTotals, duplicates);
 
-    lastResult = { cuentas, control, categoryTotals, checks, allOk, unmapped, duplicates, categoryDiffs, lineas };
+    // Se guardan las filas crudas del export para poder meterlas como una hoja mas del
+    // informe: asi el archivo se explica solo sin depender de encontrar el .xls despues.
+    lastResult = { cuentas, control, categoryTotals, checks, allOk, unmapped, duplicates, categoryDiffs, lineas, filasExport: rows };
     render(lastResult);
   } catch (e) {
     alert("Error: " + e.message);
@@ -343,7 +345,7 @@ document.getElementById("btnFinalizar").addEventListener("click", async () => {
     alert("Todavía queda algo en rojo en la validación. Resolvelo antes de generar el archivo.");
     return;
   }
-  const wb = await writeOutputXlsx(lastResult.lineas, periodo, estadoB.saldos);
+  const wb = await writeOutputXlsx(lastResult.lineas, periodo, estadoB.saldos, lastResult.filasExport);
   const buffer = await wb.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);

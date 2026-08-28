@@ -6,7 +6,7 @@
 <title>Balance de comprobación por Centros de costos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-08-27n">
+<link rel="stylesheet" href="../estilos.css?v=2026-08-28a">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los
 // scripts, pero NO el propio index.html: si el HTML viene de la cache, se sigue
@@ -18,7 +18,7 @@
 // la URL cambia, el navegador no puede servir la copia vieja. La marca en
 // sessionStorage evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-08-27n";
+  var MIA = "2026-08-28a";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -193,8 +193,12 @@
     <h2>3. Resultado</h2>
     <div class="checks" id="checksBody"></div>
     <div id="avisosBody" style="margin-top:16px;"></div>
-    <p class="footer-note" style="margin-top:18px; margin-bottom:6px;">Detalle de la corrida</p>
-    <pre class="log" id="logBody"></pre>
+    <details style="margin-top:18px;">
+      <summary style="cursor:pointer; font-size:13px; color:var(--ink-soft);">
+        Ver el detalle de la corrida
+      </summary>
+      <pre class="log" id="logBody" style="margin-top:8px;"></pre>
+    </details>
   </div>
 
   <div class="card hidden" id="cardCierre">
@@ -335,17 +339,17 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-08-27n"></script>
-<script src="similitud.js?v=2026-08-27n"></script>
-<script src="formula_utils.js?v=2026-08-27n"></script>
-<script src="../informe-c/formula_hojas.js?v=2026-08-27n"></script>
-<script src="parser_onvio.js?v=2026-08-27n"></script>
-<script src="meses.js?v=2026-08-27n"></script>
-<script src="mapeo.js?v=2026-08-27n"></script>
-<script src="motor.js?v=2026-08-27n"></script>
-<script src="importar_acumulados.js?v=2026-08-27n"></script>
-<script src="categorias.js?v=2026-08-27n"></script>
-<script src="github.js?v=2026-08-27n"></script>
-<script src="app.js?v=2026-08-27n"></script>
+<script src="../buscador.js?v=2026-08-28a"></script>
+<script src="similitud.js?v=2026-08-28a"></script>
+<script src="formula_utils.js?v=2026-08-28a"></script>
+<script src="../informe-c/formula_hojas.js?v=2026-08-28a"></script>
+<script src="parser_onvio.js?v=2026-08-28a"></script>
+<script src="meses.js?v=2026-08-28a"></script>
+<script src="mapeo.js?v=2026-08-28a"></script>
+<script src="motor.js?v=2026-08-28a"></script>
+<script src="importar_acumulados.js?v=2026-08-28a"></script>
+<script src="categorias.js?v=2026-08-28a"></script>
+<script src="github.js?v=2026-08-28a"></script>
+<script src="app.js?v=2026-08-28a"></script>
 </body>
 </html>

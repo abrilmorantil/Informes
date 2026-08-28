@@ -403,15 +403,12 @@ async function correrMotor(categoriasElegidas, excluidas = []) {
 }
 
 function renderResultado(resumen) {
+  // Acá va SOLO el total: es la cifra que hay que mirar. Los contadores que estaban antes
+  // —líneas cargadas, cuentas conocidas, cuentas nuevas— ya los dice el detalle de la corrida
+  // ("Resumen: N cuentas ya conocidas, ..."), así que sacarlos no pierde nada.
   const items = [
     { name: "Total en USD de las cuentas de gasto", value: resumen.totalSaldo.toFixed(2), ok: true,
       detail: "Es la cifra que tiene que dar el balance. Excel la recalcula al abrir el archivo." },
-    { name: "Líneas cargadas", value: String(resumen.lineas), ok: true,
-      detail: "Cada línea del export quedó en la hoja SyS, con su centro de costo." },
-    { name: "Cuentas ya conocidas", value: String(resumen.conocidas), ok: true,
-      detail: "Se actualizaron en su lugar." },
-    { name: "Cuentas nuevas insertadas", value: String(resumen.nuevas), ok: true,
-      detail: "Se les creó la fila con sus fórmulas y se las referenció en Dist.de gastos." },
   ];
   $("checksBody").innerHTML = items.map(c => `
     <div class="check ${c.ok ? "ok" : "bad"}">
@@ -422,20 +419,10 @@ function renderResultado(resumen) {
       </div>
     </div>`).join("");
 
+  // Los avisos que quedan son solo los que piden hacer algo. Que el export traiga cuentas
+  // patrimoniales es lo normal todos los meses y ya figura en el detalle de la corrida, así
+  // que no ocupa lugar acá.
   const avisos = [];
-  if (resumen.fueraDelBalance && resumen.fueraDelBalance.length) {
-    avisos.push(`
-      <div class="check ok" style="display:block;">
-        <div class="name">Quedaron afuera ${resumen.fueraDelBalance.length} cuenta(s) que no son de resultado</div>
-        <div class="detail">
-          El export trae cuentas patrimoniales que no van a este balance, que es solo de
-          gastos (las cuentas que empiezan con 4):
-          ${resumen.fueraDelBalance.map(c =>
-            `<b>${c.codigo}</b> ${c.label} (${c.saldo.toFixed(2)})`).join(", ")}.
-          No se cargaron ni se sumaron al total. Es lo esperado.
-        </div>
-      </div>`);
-  }
   if (resumen.ccSinColumna && resumen.ccSinColumna.length) {
     avisos.push(`
       <div class="check bad" style="display:block;">

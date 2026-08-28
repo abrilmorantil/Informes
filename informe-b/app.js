@@ -146,10 +146,21 @@ btnProcesar.addEventListener("click", async () => {
 
 function render(data) {
   renderUnmapped(data.unmapped, CATEGORIES);
-  renderChecks(data.checks);
-  renderCategoryDiffs(data.categoryDiffs || []);
-  renderDuplicates(data.duplicates || {});
-  document.getElementById("cardChecks").classList.remove("hidden");
+
+  // La validacion solo se muestra cuando algo NO cierra. Cuando todo da bien son tres
+  // "OK 0,00" verdes que no dicen nada y ocupan media pantalla todos los meses; y cuando
+  // algo falla, al no haber nada mas en la tarjeta, salta a la vista.
+  //
+  // No se saca del todo porque es lo unico que avisa que el balance no ata con Onvio, y
+  // ademas es lo que traba el boton de descarga: sin la tarjeta, el boton quedaria
+  // deshabilitado sin explicacion.
+  const hayProblema = !data.allOk;
+  if (hayProblema) {
+    renderChecks(data.checks);
+    renderCategoryDiffs(data.categoryDiffs || []);
+    renderDuplicates(data.duplicates || {});
+  }
+  document.getElementById("cardChecks").classList.toggle("hidden", !hayProblema);
   const btnFinalizar = document.getElementById("btnFinalizar");
   if (data.unmapped.length === 0 && data.allOk) {
     document.getElementById("cardUnmapped").classList.add("hidden");

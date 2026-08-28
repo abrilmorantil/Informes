@@ -944,6 +944,7 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
   // lo actualizaba: el maestro venía diciendo "abr-26" con el archivo ya en julio. Es el
   // título de la hoja principal, así que no puede quedar en el mes de cuando se armó.
   fecharSumasYSaldos(wsSs, anio, mes, log);
+  titularDistDeGastos(wsDist, anio, mes, log);
 
   log(`${lineas.length} líneas de cuenta leídas del export.`);
 
@@ -1126,6 +1127,32 @@ function totalesPorProyecto(lineas, mapeo) {
 // Excel lo tomaría como texto y perdería el formato. Se usa el día 1 porque lo que se muestra
 // es el mes, y sólo se toca si la celda ya era una fecha — si alguien puso otra cosa ahí, se
 // avisa en vez de pisarla.
+// El titulo de "Dist.de gastos" —la celda que dice "JUNIO 2026" arriba de todo— es el mes
+// del informe, y nadie lo actualizaba: quedo congelado en junio, asi que los informes de
+// julio y agosto salieron rotulados "JUNIO 2026". Aca el titulo es TEXTO, no una fecha con
+// formato como el encabezado de "Sumas y Saldos".
+//
+// La celda no se hardcodea: se busca arriba de la hoja la que diga "<MES> <AÑO>", asi no
+// importa si el titulo se mueve de lugar. Si no aparece, se avisa y no se inventa nada.
+function titularDistDeGastos(wsDist, anio, mes, log = () => {}) {
+  const esTitulo = /^(ENERO|FEBRERO|MARZO|ABRIL|MAYO|JUNIO|JULIO|AGOSTO|SEPTIEMBRE|OCTUBRE|NOVIEMBRE|DICIEMBRE) \d{4}$/i;
+  const nuevo = `${MESES_ACUM[mes - 1]} ${anio}`;
+  for (let r = 1; r <= Math.min(wsDist.rowCount, 6); r++) {
+    for (let c = 1; c <= 8; c++) {
+      const celda = wsDist.getCell(r, c);
+      const previo = String(textoPlano(celda) || "").trim();
+      if (!esTitulo.test(previo)) continue;
+      if (previo.toUpperCase() === nuevo) return null;
+      celda.value = nuevo;
+      log(`\nEl título de 'Dist.de gastos' pasó de "${previo}" a "${nuevo}".`);
+      return { antes: previo, despues: nuevo };
+    }
+  }
+  log(`\n⚠ No encontré el título del mes en 'Dist.de gastos' (esperaba algo como "${nuevo}" ` +
+      `arriba de la hoja). Hay que ponerlo a mano.`);
+  return null;
+}
+
 function fecharSumasYSaldos(ws, anio, mes, log = () => {}) {
   const celda = ws.getCell("A2");
   const previo = celda.value;
@@ -1345,6 +1372,6 @@ if (typeof module !== "undefined") {
     resolverCategoriaDestino,
     moverCuentaDeCategoria, quitarCuentaDeDistribucion, renombrarCuenta,
     avanzarGastosAcumulados, totalesPorProyecto, reabrirMes,
-    repararTotalGastosAcumulados, fecharSumasYSaldos,
+    repararTotalGastosAcumulados, fecharSumasYSaldos, titularDistDeGastos,
   };
 }

@@ -24,6 +24,10 @@ let fallos = 0;
 const check = (ok, m) => { console.log(`${ok ? "  OK  " : " FALLA"} ${m}`); if (!ok) fallos++; };
 
 const EXPORT = RAIZ + "/ejemplos/SyS_por_Centro_de_costos_mensual_06-26.xls";
+// El periodo que se declara en la corrida. No tiene por que ser el del export: lo que
+// importa es que el archivo quede rotulado con el periodo que se pidio.
+const PERIODO = "2026-07";
+const MES_DEL_TITULO = "JULIO 2026";
 const mapeo = JSON.parse(fs.readFileSync(BASE + "/informe-a/mapeo.json", "utf8"));
 
 (async () => {
@@ -52,7 +56,7 @@ const mapeo = JSON.parse(fs.readFileSync(BASE + "/informe-a/mapeo.json", "utf8")
   let r = null;
   try {
     r = motor.procesar({
-      wb, lineas, mapeo, categoriasElegidas: elegidas, periodo: "2026-07", log: () => {},
+      wb, lineas, mapeo, categoriasElegidas: elegidas, periodo: PERIODO, log: () => {},
     });
   } catch (e) {
     check(false, `procesar() tiró: ${e.message}`);
@@ -81,6 +85,19 @@ const mapeo = JSON.parse(fs.readFileSync(BASE + "/informe-a/mapeo.json", "utf8")
     .reduce((s, l) => s + (Number(l.saldo) || 0), 0);
   check(Math.abs(sumaSys - saldoOnvio) < 0.005,
         `la hoja SyS suma el saldo del export: ${sumaSys.toFixed(2)} vs ${saldoOnvio.toFixed(2)}`);
+
+  // El titulo del mes de "Dist.de gastos" es texto y nadie lo actualizaba: quedo clavado
+  // en JUNIO 2026 y los informes de julio y agosto salieron con ese rotulo.
+  const wsDistT = wb.getWorksheet("Dist.de gastos");
+  let tituloMes = null;
+  for (let r = 1; r <= 6 && tituloMes === null; r++) {
+    for (let c = 1; c <= 8; c++) {
+      const t = String(wsDistT.getCell(r, c).value || "").trim();
+      if (/^[A-ZÁÉÍÓÚÑ]+ \d{4}$/i.test(t)) { tituloMes = t; break; }
+    }
+  }
+  check(tituloMes === MES_DEL_TITULO,
+        `el titulo de Dist.de gastos dice el mes de la corrida: "${tituloMes}" (esperado "${MES_DEL_TITULO}")`);
 
   // El mapeo devuelto tiene que quedar consistente: cada cuenta en la fila que dice.
   const wsSs = wb.getWorksheet("Sumas y Saldos");

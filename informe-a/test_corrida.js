@@ -67,6 +67,21 @@ const mapeo = JSON.parse(fs.readFileSync(BASE + "/informe-a/mapeo.json", "utf8")
   check(res.nuevas === total0, `insertó una fila por cada cuenta pendiente (${res.nuevas} de ${total0})`);
   check(Number.isFinite(res.totalSaldo), "el total es un número");
 
+  // Que el total sea un numero no prueba nada: lo que importa es que la hoja SyS —lo
+  // unico que el motor escribe— sume exactamente el saldo del export. Si una linea se
+  // pierde por el camino, aca se ve. El export de junio 2026 da 95.792,60.
+  const wsSys = wb.getWorksheet("SyS");
+  let sumaSys = 0;
+  for (const fila of motor.filasDeDatosSys(wsSys).values()) {
+    const v = wsSys.getCell(fila, 16).value;          // P = saldo
+    if (typeof v === "number") sumaSys += v;
+  }
+  const saldoOnvio = lineas
+    .filter(l => String(l.cuenta_codigo).startsWith("4"))
+    .reduce((s, l) => s + (Number(l.saldo) || 0), 0);
+  check(Math.abs(sumaSys - saldoOnvio) < 0.005,
+        `la hoja SyS suma el saldo del export: ${sumaSys.toFixed(2)} vs ${saldoOnvio.toFixed(2)}`);
+
   // El mapeo devuelto tiene que quedar consistente: cada cuenta en la fila que dice.
   const wsSs = wb.getWorksheet("Sumas y Saldos");
   let desalineadas = 0;

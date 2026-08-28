@@ -29,7 +29,11 @@ async function loadMapping() {
     }
   }
   try {
-    const res = await fetch("mapping.json");
+    // El mapping vive en la RAIZ del repo, que es donde github.js lo lee y lo escribe
+    // (`s.path || "mapping.json"`). Pedirlo sin la subida de carpeta traia
+    // `informe-b/mapping.json`, que es una copia vieja de julio: la pagina mostraba una
+    // configuracion que no era la que se guarda. Un solo archivo, una sola verdad.
+    const res = await fetch("../mapping.json");
     currentMapping = await res.json();
     currentMappingSha = null;
     if (!hasGhSettings()) {

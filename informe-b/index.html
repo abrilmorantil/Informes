@@ -17,7 +17,7 @@
 // cambia, el navegador no puede servir la copia vieja. La marca en sessionStorage
 // evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-08-28f";
+  var MIA = "2026-08-28g";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -238,6 +238,16 @@
     margin-bottom:10px;
   }
   .cb-nueva input{margin:0;}
+  .cb-leyenda{
+    font-size:12.5px; color:var(--ink-soft); line-height:1.6; margin:0 0 12px;
+    padding:9px 12px; background:var(--cream-alto); border-left:3px solid var(--line-fuerte);
+    border-radius:0 var(--radio-chico) var(--radio-chico) 0;
+  }
+  .cb-leyenda strong{color:var(--ink-medio);}
+  .cb-onvio-tit{
+    font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-soft); opacity:.75; margin-bottom:2px;
+  }
 
   .cb-chips{display:flex; gap:5px; flex:none; align-items:center; padding-top:1px;}
   .cb-chip{
@@ -296,6 +306,11 @@
       <button class="secundario" onclick="cbAgregar()">Agregar fila</button>
     </div>
 
+    <p class="cb-leyenda">
+      El número grande de cada fila es <strong>el que ve el cliente</strong>.
+      La cuenta de Onvio aparece debajo, en gris, <strong>solo cuando es distinta</strong> —
+      en la mayoría de las filas los dos códigos coinciden y no hace falta repetirlo.
+    </p>
     <div id="cbGrupos"></div>
 
     <p class="footer-note" id="cbPie" style="margin-top:12px;"></p>
@@ -414,13 +429,13 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-08-28f"></script>
-<script src="core.js?v=2026-08-28f"></script>
-<script src="writer.js?v=2026-08-28f"></script>
-<script src="github.js?v=2026-08-28f"></script>
-<script src="estado_b.js?v=2026-08-28f"></script>
-<script src="importar_saldos.js?v=2026-08-28f"></script>
-<script src="app.js?v=2026-08-28f"></script>
-<script src="cuentas.js?v=2026-08-28f"></script>
+<script src="../buscador.js?v=2026-08-28g"></script>
+<script src="core.js?v=2026-08-28g"></script>
+<script src="writer.js?v=2026-08-28g"></script>
+<script src="github.js?v=2026-08-28g"></script>
+<script src="estado_b.js?v=2026-08-28g"></script>
+<script src="importar_saldos.js?v=2026-08-28g"></script>
+<script src="app.js?v=2026-08-28g"></script>
+<script src="cuentas.js?v=2026-08-28g"></script>
 </body>
 </html>

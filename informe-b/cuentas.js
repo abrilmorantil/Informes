@@ -192,6 +192,7 @@ function cbFilaHtml(e) {
     // esto eran cuentas mal ubicadas— y era justamente lo unico que no se podia cambiar.
     detalle = abierta ? `
       <div class="cb-hijas">
+        <div class="cb-onvio-tit">cuentas de Onvio que la llenan</div>
         ${fuentes.map(f => `
           <div class="cb-hija">
             <span>${cbEsc(f.code)} ${cbEsc(f.nom)}</span>

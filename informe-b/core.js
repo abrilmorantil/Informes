@@ -82,7 +82,11 @@ function parseSiseExport(rows) {
 function knownCodes(mapping, cuentasSise) {
   const codes = new Set();
   for (const e of mapping) {
-    codes.add(e.code);
+    // Una fila declarada "sin cuentas asignadas" no se adueña de su código. Si no, una
+    // cuenta de Onvio con ese mismo número quedaría dada por conocida y `findUnmapped` no
+    // avisaría: la plata desaparecería sin que nadie lo note. Es el caso de "421170000
+    // Gastos Legales", que en Onvio es "Alojamiento Rel. Comunitarias Catamarca".
+    if (!e.sin_cuentas) codes.add(e.code);
     (e.aliases || []).forEach(a => codes.add(a));
     (e.children || []).forEach(c => {
       codes.add(c.code);
@@ -107,18 +111,32 @@ function lookupCuenta(cuentasSise, entryOrChild) {
   return null;
 }
 
-function findUnmapped(cuentasSise, mapping) {
+// Todas las cuentas del export que no van a parar a ningún renglón del informe, hayan tenido
+// movimiento o no. Las que no movieron son las peligrosas: no rompen nada este mes, así que
+// nadie las ve, y aparecen recién el mes que se mueven. Pasó con "Gastos en trámites" y
+// "Canon", que estuvieron dormidas todo el ejercicio sin que nada las mostrara.
+function findUnassigned(cuentasSise, mapping) {
   const conocidos = knownCodes(mapping, cuentasSise);
-  const faltantes = [];
+  const sueltas = [];
   for (const [code, c] of Object.entries(cuentasSise)) {
     if (conocidos.has(code)) continue;
-    if (c.debe === 0 && c.haber === 0) continue;
-    faltantes.push({
+    sueltas.push({
       code, description: c.descripcion, debe: c.debe, haber: c.haber,
+      movio: !!(c.debe || c.haber),
       suggested_category: CATEGORY_BY_FIRST_DIGIT[code[0]] || "RESULTADOS",
     });
   }
-  return faltantes;
+  // Primero las que movieron, y dentro de cada grupo por importe.
+  sueltas.sort((a, b) => (b.movio - a.movio) ||
+    ((b.debe + b.haber) - (a.debe + a.haber)) || a.code.localeCompare(b.code));
+  return sueltas;
+}
+
+// Las que además tuvieron movimiento: ésas sí trancan la descarga, porque su plata tiene que
+// entrar en alguna parte para que el informe ate con Onvio. Sale de la misma función para que
+// las dos listas no puedan contradecirse.
+function findUnmapped(cuentasSise, mapping) {
+  return findUnassigned(cuentasSise, mapping).filter(x => x.movio);
 }
 
 function findDuplicateCodes(mapping) {
@@ -179,16 +197,21 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
           detalle.push({ code: scode, description: c.descripcion, debe: c.debe, haber: c.haber, fila: c.fila });
         }
       }
+    } else if (entry.sin_cuentas) {
+      // Declarada sin cuentas asignadas: no lee NADA de Onvio, queda siempre en cero.
+      // Antes la marca era sólo un cartel: la fila igual se llevaba la cuenta que
+      // coincidiera con su código y lo único que se salteaba era la trazabilidad. Con eso,
+      // "421170000 Gastos Legales" se habría llevado el saldo de "Alojamiento Rel.
+      // Comunitarias Catamarca" —los números coinciden de casualidad— y sin dejar rastro.
+      debe = 0; haber = 0;
     } else {
       const c = lookupCuenta(cuentasSise, entry);
       debe = c ? c.debe : 0;
       haber = c ? c.haber : 0;
       // Una fila simple se llena con UNA cuenta, pero con las dos numeraciones esa cuenta
       // no tiene por que llamarse igual que la fila: hay que decirlo igual.
-      if (!entry.sin_cuentas) {
-        detalle.push({ code: entry.code, description: entry.description, debe, haber,
-                       fila: c ? c.fila : null });
-      }
+      detalle.push({ code: entry.code, description: entry.description, debe, haber,
+                     fila: c ? c.fila : null });
     }
 
     const movimiento = debe - haber;
@@ -262,7 +285,7 @@ function round2(n) { return Math.round(n * 100) / 100; }
 
 if (typeof module !== "undefined") {
   module.exports = {
-    parseSiseExport, knownCodes, lookupCuenta, findUnmapped, findDuplicateCodes,
+    parseSiseExport, knownCodes, lookupCuenta, findUnmapped, findUnassigned, findDuplicateCodes,
     buildBalance, runValidation, CATEGORIES,
   };
 }

@@ -23,6 +23,8 @@ let cbGruposAbiertos = {};  // capítulo -> abierto
 let cbHijasAbiertas = {};   // código de la madre -> desplegada
 let cbAgregandoHija = null; // código de la madre a la que se le está agregando una subcuenta
 let cbAgregandoFila = false;
+let cbSinAsignarAbierto = false;  // el bloque de lo que quedó sin asignar, arriba de todo
+let cbAsignando = null;           // código de la cuenta de Onvio que se está ubicando
 
 const CB_CAPITULOS = ["ACTIVO", "PASIVO", "CAPITAL Y PATRIMONIO", "RESULTADOS"];
 
@@ -60,13 +62,152 @@ function cbCuentasDisponibles() {
     for (const [cod, c] of Object.entries(lastResult.cuentas)) cuentas[cod] = c.descripcion;
   }
   // Y las que ya estan declaradas, aunque este mes no hayan venido.
+  //
+  // Las filas "sin cuentas asignadas" NO cuentan: su codigo no es una cuenta de Onvio. Si se
+  // las metiera acá, "421170000 Gastos Legales" aparecería como una cuenta de Onvio a ubicar
+  // y encima con el nombre del renglón, cuando en Onvio ese número es "Alojamiento Rel.
+  // Comunitarias Catamarca". Si esa cuenta existe de verdad, ya viene en el export con su
+  // nombre bueno.
   for (const e of cbMapping) {
     if (e.type === "parent") for (const h of (e.children || [])) cuentas[h.code] = cuentas[h.code] || h.description;
-    else if (e.type !== "range") cuentas[e.code] = cuentas[e.code] || e.description;
+    else if (e.type !== "range" && !e.sin_cuentas) cuentas[e.code] = cuentas[e.code] || e.description;
   }
   return Object.entries(cuentas)
     .map(([code, nom]) => ({ code, nom, dueño: dueño[code] || null }))
     .sort((a, b) => (a.dueño ? 1 : 0) - (b.dueño ? 1 : 0) || a.code.localeCompare(b.code));
+}
+
+// ------------------------------------------------------------------ lo que quedó sin asignar
+//
+// Las dos puntas sueltas entre los dos planes de cuentas, que son problemas distintos:
+//   - una cuenta de Onvio que no está en ninguna fila: su plata no entra al informe;
+//   - una fila que el cliente ve y que no se llena con nada: se imprime siempre en cero.
+//
+// Lo importante es que muestra las cuentas QUIETAS. Las que tuvieron movimiento ya las reclama
+// la pantalla de "cuentas nuevas" y trancan la descarga, así que se notan solas; las dormidas
+// no rompen nada hasta el mes que se despiertan y hasta ahora no las mostraba nada. Pasó con
+// "422130000 Gastos en trámites" y "424140000 Canon", dormidas todo el ejercicio.
+function cbSinAsignar() {
+  const mov = (typeof lastResult === "object" && lastResult && lastResult.cuentas) || {};
+  const cuentas = cbCuentasDisponibles().filter(c => !c.dueño).map(c => {
+    const m = mov[c.code];
+    return { code: c.code, nom: c.nom, movio: !!(m && (m.debe || m.haber)),
+             debe: m ? m.debe : null, haber: m ? m.haber : null };
+  });
+  const filas = cbMapping.filter(e => !cbFuentes(e).length).map(e => ({
+    code: e.code, cliente: cbCliente(e),
+    motivo: e.sin_cuentas ? "declarada sin cuentas asignadas"
+                          : "es cuenta madre y no tiene ninguna subcuenta",
+  }));
+  return { cuentas, filas };
+}
+
+function cbToggleSinAsignar() { cbSinAsignarAbierto = !cbSinAsignarAbierto; cbRender(); }
+function cbAsignar(code) { cbAsignando = code; cbRender(); }
+
+// Ubica una cuenta de Onvio en la fila que se elija. Si la fila era simple, pasa a ser madre
+// y se lleva su propia cuenta como primera subcuenta: es la misma operación que ya se hacía
+// a mano con el botón "convertir en cuenta madre".
+function cbConfirmarAsignacion(code) {
+  const sel = document.getElementById("cbSelDestino");
+  const destino = sel ? sel.value : "";
+  if (!destino) { alert("Elegí en qué fila va."); return; }
+  const e = cbMapping.find(x => x.code === destino);
+  if (!e) return;
+  const disp = cbCuentasDisponibles().find(c => c.code === code);
+  const nombre = disp ? disp.nom : code;
+  const cli = cbCliente(e);
+
+  if (e.type === "range") { alert("Esa fila junta cuentas por prefijo; no se le agregan una por una."); return; }
+  if (e.type !== "parent") {
+    if (!confirm(`"${cli.code} ${cli.description}" es una fila simple.\n\n` +
+                 `Para poder meterle "${code} ${nombre}" tiene que pasar a ser cuenta madre` +
+                 (e.sin_cuentas ? "." : `, y su cuenta "${e.code} ${e.description}" queda como primera subcuenta.`) +
+                 `\n\n¿Sigo?`)) return;
+    const hijas = e.sin_cuentas ? [] : [{ code: e.code, description: e.description }];
+    const i = cbMapping.indexOf(e);
+    cbMapping[i] = { code: cli.code, aliases: [], description: cli.description,
+                     category: e.category, type: "parent", orden: e.orden, children: hijas };
+    if (e.ocultar_si_cero) cbMapping[i].ocultar_si_cero = true;
+    cbCambios.push(`"${cli.code} ${cli.description}" pasa a ser cuenta madre`);
+  }
+  const madre = cbMapping.find(x => x.code === cli.code);
+  madre.children = (madre.children || []).concat([{ code, description: nombre }]);
+  cbCambios.push(`"${code} ${nombre}" entra en "${cli.code} ${cli.description}"`);
+  cbHijasAbiertas[cli.code] = true;
+  cbAsignando = null;
+  cbRender();
+}
+
+function cbSinAsignarHtml() {
+  const { cuentas, filas } = cbSinAsignar();
+  if (!cuentas.length && !filas.length) {
+    return `<div class="status-msg ok" style="margin-bottom:16px;">Todas las cuentas de Onvio
+      están en alguna fila, y todas las filas se llenan con alguna cuenta. No quedó nada suelto.</div>`;
+  }
+  const cabecera = `
+    <button class="cb-grupo-tit" onclick="cbToggleSinAsignar()">
+      <span class="cb-chev">${cbSinAsignarAbierto ? "▾" : "▸"}</span>
+      <span>Sin asignar</span>
+      <span class="cb-cant">${cuentas.length} cuenta${cuentas.length === 1 ? "" : "s"} de Onvio ·
+        ${filas.length} fila${filas.length === 1 ? "" : "s"} del cliente</span>
+    </button>`;
+  if (!cbSinAsignarAbierto) return `<div class="cb-grupo cb-sueltas">${cabecera}</div>`;
+
+  const imp = (n) => n == null ? "—"
+    : n.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  // El desplegable de destino se arma una sola vez, con todas las filas del informe.
+  const opciones = cbMapping
+    .filter(e => e.type !== "range")
+    .map(e => ({ v: e.code, t: `${cbCliente(e).code} — ${cbCliente(e).description}` }))
+    .sort((a, b) => a.t.localeCompare(b.t));
+
+  let html = cabecera + '<div class="cb-sueltas-cuerpo">';
+
+  if (cuentas.length) {
+    html += `<p class="cb-leyenda" style="margin:0 0 10px;">
+      <strong>Cuentas de Onvio que no están en ninguna fila.</strong> Su importe no entra al
+      informe. Las que dicen “movió” lo están dejando afuera <em>este mes</em>; las quietas no
+      rompen nada todavía, pero el mes que tengan movimiento van a trancar la corrida.</p>`;
+    html += cuentas.map(c => `
+      <div class="cb-suelta">
+        <div class="cb-suelta-id">
+          <strong>${cbEsc(c.code)}</strong>
+          <span>${cbEsc(c.nom)}</span>
+        </div>
+        <span class="cb-estado ${c.movio ? "cb-movio" : ""}">${
+          c.movio ? `movió · ${imp(c.debe)} / ${imp(c.haber)}` : "sin movimiento este mes"}</span>
+        ${cbAsignando === c.code ? `
+          <div class="cb-suelta-form">
+            <select id="cbSelDestino">
+              <option value="">— ¿en qué fila va? —</option>
+              ${opciones.map(o => `<option value="${cbEsc(o.v)}">${cbEsc(o.t)}</option>`).join("")}
+            </select>
+            <button onclick="cbConfirmarAsignacion('${cbEsc(c.code)}')">Asignar</button>
+            <button class="secundario" onclick="cbAsignando=null; cbRender()">Cancelar</button>
+          </div>`
+        : `<button class="secundario" onclick="cbAsignar('${cbEsc(c.code)}')">Asignar a una fila</button>`}
+      </div>`).join("");
+  }
+
+  if (filas.length) {
+    html += `<p class="cb-leyenda" style="margin:16px 0 10px;">
+      <strong>Filas que ve el cliente y no se llenan con ninguna cuenta de Onvio.</strong>
+      Se imprimen siempre en cero. Para darles una cuenta, buscalas abajo y usá
+      “+ Agregar subcuenta”.</p>`;
+    html += filas.map(f => `
+      <div class="cb-suelta">
+        <div class="cb-suelta-id">
+          <strong>${cbEsc(f.cliente.code)}</strong>
+          <span>${cbEsc(f.cliente.description)}</span>
+        </div>
+        <span class="cb-estado">${cbEsc(f.motivo)}</span>
+        <button class="secundario" onclick="cbBuscar('${cbEsc(f.cliente.code)}'); document.getElementById('cbBuscar').value='${cbEsc(f.cliente.code)}'">Ver la fila</button>
+      </div>`).join("");
+  }
+
+  return `<div class="cb-grupo cb-sueltas">${html}</div></div>`;
 }
 
 function cbAbrirPanel() {
@@ -82,6 +223,10 @@ function cbAbrirPanel() {
   cbHijasAbiertas = {};
   cbAgregandoHija = null;
   cbAgregandoFila = false;
+  cbAsignando = null;
+  // Arranca abierto sólo si hay algo suelto: es lo primero que hay que ver, pero cuando no
+  // hay nada no tiene por qué ocupar lugar.
+  cbSinAsignarAbierto = false;
   // Arrancan cerrados: 206 filas desplegadas de golpe no se pueden leer.
   cbGruposAbiertos = {};
   document.getElementById("cardCuentas").classList.remove("hidden");
@@ -144,15 +289,20 @@ function cbRender() {
       <button onclick="cbConfirmarFila()">Agregar</button>
       <button class="secundario" onclick="cbAgregandoFila=false; cbRender()">Cancelar</button>
     </div>` : "";
+  // El bloque de lo suelto va SIEMPRE arriba, y no lo filtra la búsqueda: si buscando una
+  // fila desapareciera, dejaría de servir para lo que está.
+  document.getElementById("cbSinAsignar").innerHTML = cbSinAsignarHtml();
   document.getElementById("cbGrupos").innerHTML = formNueva + (html ||
     '<p class="footer-note">No hay filas que coincidan con la búsqueda.</p>');
 
   const conCliente = cbMapping.filter(e => e.cliente).length;
   const sinCuentas = cbMapping.filter(e => !cbFuentes(e).length).length;
+  const onvioSueltas = cbSinAsignar().cuentas.length;
   const madres = cbMapping.filter(e => e.type === "parent").length;
   document.getElementById("cbPie").innerHTML =
     `${cbMapping.length} filas · ${madres} cuentas madre · ${conCliente} con un código distinto ` +
-    `para el cliente · ${sinCuentas} sin cuentas asignadas` +
+    `para el cliente · ${sinCuentas} sin cuentas asignadas · ${onvioSueltas} cuenta(s) de Onvio ` +
+    `sin ubicar` +
     (cbBusqueda ? ` · mostrando ${filtradas.length} que coinciden con "${cbEsc(cbBusqueda)}"` : "") +
     (cbCambios.length
       ? `<br><strong>${cbCambios.length} cambio(s) sin guardar:</strong> ${cbCambios.map(cbEsc).join(" · ")}`
@@ -163,6 +313,10 @@ function cbRender() {
   // conBuscador() es el mismo helper que ya usa el resto del sitio.
   if (cbAgregandoHija && typeof conBuscador === "function") {
     conBuscador(document.getElementById(`cbSelHija_${cbAgregandoHija}`), "Buscar cuenta de Onvio…");
+  }
+  // Son 206 filas: el desplegable de destino tampoco sirve sin buscador.
+  if (cbAsignando && typeof conBuscador === "function") {
+    conBuscador(document.getElementById("cbSelDestino"), "Buscar la fila del cliente…");
   }
 }
 

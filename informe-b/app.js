@@ -340,7 +340,16 @@ document.getElementById("btnClasificar").addEventListener("click", async () => {
 // --------------------------------------------------------------------
 
 document.getElementById("btnFinalizar").addEventListener("click", async () => {
-  const periodo = document.getElementById("periodo").value || "sin-fecha";
+  // El período no es sólo el nombre del archivo: va en el encabezado del informe, que es lo
+  // primero que lee el cliente. Si se deja vacío salía un "BALCOMPROBDOLARES_sin-fecha.xlsx"
+  // que arriba de todo decía "sin-fecha", y así se mandó una vez. Mejor frenar.
+  const periodo = document.getElementById("periodo").value.trim();
+  if (!periodo) {
+    alert("Falta el período. Va en el encabezado del informe y en el nombre del archivo, " +
+          "así que no puede quedar vacío. Ponelo como lo ve el cliente, por ejemplo JULIO 2026.");
+    document.getElementById("periodo").focus();
+    return;
+  }
   if (!lastResult.allOk) {
     alert("Todavía queda algo en rojo en la validación. Resolvelo antes de generar el archivo.");
     return;

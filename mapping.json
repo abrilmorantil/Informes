@@ -1142,7 +1142,12 @@
   "description": "Gastos en tramites",
   "category": "RESULTADOS",
   "type": "parent",
-  "children": [],
+  "children": [
+   {
+    "code": "422130000",
+    "description": "Gastos en trámites"
+   }
+  ],
   "orden": 100
  },
  {
@@ -1593,7 +1598,12 @@
   "description": "CANON",
   "category": "RESULTADOS",
   "type": "parent",
-  "children": [],
+  "children": [
+   {
+    "code": "424140000",
+    "description": "Canon"
+   }
+  ],
   "orden": 124
  },
  {
@@ -2868,7 +2878,6 @@
   "description": "Canon Minero Gst Campo",
   "category": "RESULTADOS",
   "type": "simple",
-  "orden": 185.5,
-  "sin_cuentas": true
+  "orden": 185.5
  }
 ]

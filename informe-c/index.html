@@ -19,7 +19,7 @@
 // puede servir la copia vieja. La marca en sessionStorage evita quedar recargando en loop si
 // algo saliera mal.
 (function () {
-  var MIA = "2026-09-01i";
+  var MIA = "2026-09-01j";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -114,7 +114,8 @@
       </p>
     </div>
     <div style="display:flex; gap:8px; align-items:flex-start;">
-      <button class="gear-btn" onclick="verConfigCuentasPesos()">Configurar cuentas</button>
+      <button class="gear-btn" onclick="verConfigCuentasPesos()">Configurar cuentas — Pesos</button>
+      <button class="gear-btn" onclick="verConfigCuentasDolares()">Configurar cuentas — Dólares</button>
       <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
     </div>
   </div>
@@ -228,6 +229,31 @@
       <span id="gcGuardarEstado" class="footer-note"></span>
     </div>
     <div class="log hidden" id="gcLog" style="margin-top:14px;"></div>
+  </div>
+
+  <div class="card hidden" id="cardConfigDolares">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <h2 style="margin:0;">Configuración de cuentas — Dólares</h2>
+      <button class="secundario" onclick="cerrarConfigDolares()">Cerrar</button>
+    </div>
+    <p class="footer-note">
+      El balance en dólares no tiene subcuentas: cada línea es una cuenta suelta. Acá se ve en
+      qué columna del Anexo II cae cada gasto, qué líneas no aparecen en ningún estado, y qué
+      líneas todavía no tienen una cuenta de Onvio que las alimente.
+    </p>
+    <div id="pcdResumen"><p class="footer-note">Leyendo el maestro…</p></div>
+    <div id="pcdPendientes"></div>
+
+    <div style="margin-top:18px;">
+      <input type="text" id="pcdBuscar" placeholder="Buscar cuenta o concepto…">
+    </div>
+    <div id="pcdAnexo"></div>
+
+    <div id="pcdGuardarBar" class="hidden" style="margin-top:20px; display:flex; align-items:center; gap:14px;">
+      <button onclick="guardarCambiosDolares()" id="btnPcdGuardar">Guardar cambios en GitHub</button>
+      <span id="pcdGuardarEstado" class="footer-note"></span>
+    </div>
+    <div class="log hidden" id="pcdLog" style="margin-top:14px;"></div>
   </div>
 
   <div class="card hidden" id="cardExport">
@@ -422,24 +448,25 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-01i"></script>
-<script src="../informe-a/formula_utils.js?v=2026-09-01i"></script>
-<script src="formula_hojas.js?v=2026-09-01i"></script>
-<script src="parser_balances.js?v=2026-09-01i"></script>
-<script src="clasificacion.js?v=2026-09-01i"></script>
-<script src="motor_balances.js?v=2026-09-01i"></script>
-<script src="config_balances.js?v=2026-09-01i"></script>
-<script src="gestion_categorias.js?v=2026-09-01i"></script>
-<script src="anexo2.js?v=2026-09-01i"></script>
-<script src="panel_config_cuentas.js?v=2026-09-01i"></script>
-<script src="dolares.js?v=2026-09-01i"></script>
-<script src="eerr.js?v=2026-09-01i"></script>
-<script src="libro_eerr.js?v=2026-09-01i"></script>
-<script src="importar_eerr.js?v=2026-09-01i"></script>
-<script src="../fechas.js?v=2026-09-01i"></script>
-<script src="capital.js?v=2026-09-01i"></script>
-<script src="github_c.js?v=2026-09-01i"></script>
-<script src="app.js?v=2026-09-01i"></script>
+<script src="../buscador.js?v=2026-09-01j"></script>
+<script src="../informe-a/formula_utils.js?v=2026-09-01j"></script>
+<script src="formula_hojas.js?v=2026-09-01j"></script>
+<script src="parser_balances.js?v=2026-09-01j"></script>
+<script src="clasificacion.js?v=2026-09-01j"></script>
+<script src="motor_balances.js?v=2026-09-01j"></script>
+<script src="config_balances.js?v=2026-09-01j"></script>
+<script src="gestion_categorias.js?v=2026-09-01j"></script>
+<script src="anexo2.js?v=2026-09-01j"></script>
+<script src="panel_config_cuentas.js?v=2026-09-01j"></script>
+<script src="panel_dolares.js?v=2026-09-01j"></script>
+<script src="dolares.js?v=2026-09-01j"></script>
+<script src="eerr.js?v=2026-09-01j"></script>
+<script src="libro_eerr.js?v=2026-09-01j"></script>
+<script src="importar_eerr.js?v=2026-09-01j"></script>
+<script src="../fechas.js?v=2026-09-01j"></script>
+<script src="capital.js?v=2026-09-01j"></script>
+<script src="github_c.js?v=2026-09-01j"></script>
+<script src="app.js?v=2026-09-01j"></script>
 <script>
   document.getElementById("comoToken").addEventListener("click", (ev) => {
     ev.preventDefault();

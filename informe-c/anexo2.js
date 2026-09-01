@@ -160,7 +160,11 @@ function a2AgregarRef(ws, anexoFila, col, filaSaldos, colSaldos) {
 // Se verifica ANTES y DESPUÉS: si el movimiento dejara la madre contada dos veces o fuera del
 // anexo, se deshace. Es la única forma de que esto no pueda perder ni duplicar plata en
 // silencio.
-function a2Mover({ wb, madres, filaSaldos, anexoFilaDestino, colDestino, log = () => {} }) {
+// `colSaldosDefecto` es la columna de SALDOS que se usa cuando la línea todavía no está en el
+// anexo y no hay de dónde copiarla: G en pesos, C en dólares. Los dos maestros son archivos
+// distintos y no comparten geometría.
+function a2Mover({ wb, madres, filaSaldos, anexoFilaDestino, colDestino,
+                   colSaldosDefecto = "G", log = () => {} }) {
   const ws = wb.getWorksheet(A2_HOJA);
   if (!ws) throw new Error(`El maestro no tiene la hoja '${A2_HOJA}'.`);
 
@@ -185,10 +189,16 @@ function a2Mover({ wb, madres, filaSaldos, anexoFilaDestino, colDestino, log = (
   const guardadoDestino = String(ws.getCell(anexoFilaDestino, colDestino).formula || "");
 
   if (origen) a2QuitarRef(ws, origen.anexoFila, origen.col, filaSaldos);
-  a2AgregarRef(ws, anexoFilaDestino, colDestino, filaSaldos, colSaldos || "G");
+  a2AgregarRef(ws, anexoFilaDestino, colDestino, filaSaldos, colSaldos || colSaldosDefecto);
 
+  // Se compara contra CÓMO ESTABA, no contra cero. En pesos las dos cosas son lo mismo porque
+  // el maestro arranca con 0 dobles y 0 fuera del anexo, pero el de dólares tiene 6 líneas
+  // legítimamente fuera (la diferencia de cambio, el ROBO, los otros ingresos): exigir cero
+  // ahí rechazaba cualquier movimiento. Lo que no se puede es EMPEORAR.
   const despues = a2Verificar(wb, madres);
-  if (despues.unaVez !== antes.unaVez || despues.dobles.length || despues.sinAnexo.length) {
+  if (despues.unaVez !== antes.unaVez ||
+      despues.dobles.length > antes.dobles.length ||
+      despues.sinAnexo.length > antes.sinAnexo.length) {
     // deshacer
     if (origen) ws.getCell(origen.anexoFila, origen.col).value = guardado ? { formula: guardado } : null;
     ws.getCell(anexoFilaDestino, colDestino).value = guardadoDestino ? { formula: guardadoDestino } : null;

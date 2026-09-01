@@ -57,13 +57,40 @@ function ubicarPatNeto(ws) {
     else if (CAP_RE_AUMENTO.test(b)) filaAumento = r;
     else if (CAP_RE_CIERRE.test(b)) filaCierre = r;
   }
-  if (filaInicio === null || filaCierre === null || filaAumento === null) return null;
+  if (filaInicio === null || filaCierre === null) return null;
 
   let colCapital = null;
-  for (let c = 3; c <= ws.columnCount; c++) {
-    if (_capConstante(ws.getCell(filaAumento, c)) !== null) { colCapital = c; break; }
+  if (filaAumento !== null) {
+    for (let c = 3; c <= ws.columnCount; c++) {
+      if (_capConstante(ws.getCell(filaAumento, c)) !== null) { colCapital = c; break; }
+    }
+  }
+  // Apenas se arrastra el cierre al inicio, la hoja queda sin ninguna fila de aumento cargada
+  // hasta que entre la del mes nuevo. En ese rato la columna del capital sale de la apertura,
+  // que siempre lo tiene escrito a mano.
+  if (colCapital === null) {
+    for (let c = 3; c <= ws.columnCount; c++) {
+      const v = _capConstante(ws.getCell(filaInicio, c));
+      if (v !== null && v !== 0) { colCapital = c; break; }
+    }
   }
   if (colCapital === null) return null;
+
+  // Y la fila que hace de modelo para el cableado: la del aumento si esta cargada, y si no una
+  // ranura vacia que ya lo tenga --que es justamente como queda la fila del mes anterior
+  // despues de limpiarla, porque el arrastre le deja las formulas puestas.
+  if (filaAumento === null) {
+    for (let r = filaInicio + 1; r < filaCierre && filaAumento === null; r++) {
+      if (_capTexto(ws.getCell(r, 2).value).trim()) continue;
+      const cap = ws.getCell(r, colCapital);
+      if (cap.formula) continue;                       // una fila de subtotales, no una ranura
+      if (cap.value !== null && cap.value !== undefined && cap.value !== "") continue;
+      for (let c = 1; c <= ws.columnCount; c++) {
+        if (ws.getCell(r, c).formula) { filaAumento = r; break; }
+      }
+    }
+  }
+  if (filaAumento === null) return null;
   return { filaInicio, filaCierre, filaAumento, colCapital };
 }
 
@@ -180,6 +207,117 @@ function asegurarTotalIncluya(ws, filaCierre, col, fila) {
   return null;
 }
 
+// ------------------------------------------------------- arrastrar el cierre a la apertura
+
+// El EEPN no se acumula solo. Cada mes, lo que quedó en "Saldos al <fecha>" tiene que pasar a
+// "Saldos al inicio", y la línea del aumento del mes anterior tiene que desaparecer para que
+// entre la del mes nuevo. Es lo que el cliente venía haciendo a mano:
+//
+//     junio:  inicio 14.700.098.884 + aumento 16/06 148.546.600 = cierre 14.848.645.484
+//     julio:  inicio 14.848.645.484 + aumento 24/07 261.309.720 = cierre 15.109.955.204
+//
+// Ojo con qué se arrastra: sólo las columnas que están escritas a mano en la apertura, que son
+// las del capital. "Resultados no asignados" NO se toca --J12 es la fórmula que lo trae de
+// SALDOS y da el saldo al inicio del EJERCICIO, que no se mueve en todo el año-- y la
+// "Ganancia (Pérdida) del ejercicio" es acumulada, así que arrastrarla la contaría dos veces.
+//
+// Qué filas se arrastran: las que tienen fecha ANTERIOR al mes que se está cerrando. Así la
+// operación se puede repetir sin miedo: si se vuelve a correr el mismo mes, el aumento nuevo
+// ya es de este mes y se queda donde está.
+function _capFechaEtiqueta(etiqueta) {
+  const m = /(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})/.exec(String(etiqueta || ""));
+  if (!m) return null;
+  const mes = +m[2];
+  let anio = +m[3];
+  if (anio < 100) anio += 2000;
+  if (mes < 1 || mes > 12) return null;
+  return { anio, mes };
+}
+
+// Lo que vale una celda de la fila del aumento, incluso si es parte del cableado. En pesos
+// F=+C y en dolares E=+C: son columnas que muestran el mismo importe con otro titulo. Hace
+// falta porque en el maestro de dolares la apertura de "Capital suscripto" (E12) esta escrita
+// a mano, no es una formula como en pesos, asi que si no se arrastra tambien se queda atras y
+// el mes siguiente el estado abre por menos de lo que cerro.
+function _capValorEfectivo(ws, fila, col, vuelta) {
+  const cell = ws.getCell(fila, col);
+  if (!cell.formula) return typeof cell.value === "number" ? cell.value : 0;
+  if ((vuelta || 0) > 3) return 0;
+  const m = /^\+?\$?([A-Z]{1,3})\$?(\d+)$/.exec(String(cell.formula).trim());
+  if (!m) return 0;                       // una suma o algo mas complejo: no es cableado
+  let c = 0;
+  for (const ch of m[1]) c = c * 26 + (ch.charCodeAt(0) - 64);
+  return _capValorEfectivo(ws, +m[2], c, (vuelta || 0) + 1);
+}
+
+function pasarCierreAlInicio(wb, periodo) {
+  const ws = wb.getWorksheet("Pat.Neto");
+  if (!ws) return { sinHoja: true, arrastradas: [], limpiadas: [] };
+  const u = ubicarPatNeto(ws);
+  if (!u) {
+    throw new Error("No pude ubicar en 'Pat.Neto' la apertura y el cierre, así que no arrastré nada.");
+  }
+  if (!periodo || !periodo.anio || !periodo.mes) {
+    throw new Error("No sé a qué mes se está cerrando, así que no arrastré nada.");
+  }
+  const antes = capitalDeclarado(ws, u).total;
+
+  const aArrastrar = [], sinFecha = [], sonDelMes = [];
+  for (let r = u.filaInicio + 1; r < u.filaCierre; r++) {
+    const et = _capTexto(ws.getCell(r, 2).value).trim();
+    if (!et || !CAP_RE_AUMENTO.test(et)) continue;
+    const f = _capFechaEtiqueta(et);
+    if (!f) { sinFecha.push({ fila: r, etiqueta: et }); continue; }
+    if (f.anio > periodo.anio || (f.anio === periodo.anio && f.mes >= periodo.mes)) {
+      sonDelMes.push({ fila: r, etiqueta: et });
+      continue;
+    }
+    aArrastrar.push({ fila: r, etiqueta: et });
+  }
+  if (!aArrastrar.length) {
+    return { arrastradas: [], limpiadas: [], sinFecha, sonDelMes, apertura: antes };
+  }
+
+  // 1) la apertura se lleva lo que sumaron esas filas, columna por columna
+  const arrastradas = [];
+  for (let c = 1; c <= ws.columnCount; c++) {
+    const ap = ws.getCell(u.filaInicio, c);
+    const viejo = _capConstante(ap);
+    if (viejo === null) continue;                    // fórmulas y textos no se tocan
+    let suma = 0;
+    for (const x of aArrastrar) suma += _capValorEfectivo(ws, x.fila, c);
+    if (!suma) continue;
+    const val = Math.round((viejo + suma) * 100) / 100;
+    ap.value = val;
+    arrastradas.push({ celda: ws.getColumn(c).letter + u.filaInicio, antes: viejo, despues: val });
+  }
+
+  // 2) las filas viejas quedan libres, pero con el cableado puesto para el aumento que viene
+  const limpiadas = [];
+  for (const x of aArrastrar) {
+    ws.getCell(x.fila, 2).value = null;
+    for (let c = 3; c <= ws.columnCount; c++) {
+      const cell = ws.getCell(x.fila, c);
+      if (cell.formula) continue;
+      if (cell.value !== null && cell.value !== undefined && cell.value !== "") cell.value = null;
+    }
+    limpiadas.push(x);
+  }
+
+  // 3) el control que hace que esto sea seguro: mover plata de una fila a otra no puede
+  // cambiar el capital declarado. Si cambió, se arrastró algo que no correspondía.
+  const u2 = ubicarPatNeto(ws);
+  const despues = u2 ? capitalDeclarado(ws, u2).total : null;
+  if (despues === null || Math.abs(despues - antes) >= 0.005) {
+    throw new Error(`El arrastre del capital no cerró: "Pat.Neto" declaraba ${antes} y quedó en ` +
+                    `${despues}. NO uses este archivo, avisá para revisarlo.`);
+  }
+
+  wb.calcProperties = wb.calcProperties || {};
+  wb.calcProperties.fullCalcOnLoad = true;
+  return { arrastradas, limpiadas, sinFecha, sonDelMes, apertura: despues };
+}
+
 // Escribe el aumento en la primera fila libre entre la apertura y el cierre, copiándole el
 // cableado a la fila del aumento que ya estaba cargado. No inventa la fecha: `etiqueta` es lo
 // que la usuaria escribió.
@@ -201,8 +339,10 @@ function agregarAumentoDeCapital(wb, { etiqueta, importe, colValorPorDefecto }) 
   for (let c = 1; c <= ws.columnCount; c++) {
     if (ws.getCell(u.filaAumento, c).formula) cableadoModelo.push(c);
   }
+  // Una fila esta libre si no tiene etiqueta ni importe. No hace falta excluir la del aumento:
+  // si todavia tiene uno cargado, tiene etiqueta; y si esta vacia es porque el arrastre la
+  // limpio, que es justo donde corresponde escribir el del mes nuevo.
   const estaLibre = (r) => {
-    if (r === u.filaAumento) return false;
     const b = _capTexto(ws.getCell(r, 2).value).trim();
     const v = ws.getCell(r, u.colCapital).value;
     return !b && (v === null || v === undefined || v === "");
@@ -210,8 +350,11 @@ function agregarAumentoDeCapital(wb, { etiqueta, importe, colValorPorDefecto }) 
   const yaCableada = (r) => cableadoModelo.length > 0 &&
     cableadoModelo.every(c => !!ws.getCell(r, c).formula);
 
+  // De las ranuras preparadas se toma la ULTIMA, la mas pegada al cierre: es donde estuvo
+  // siempre el aumento en los maestros (fila 22 en pesos) y donde queda al arrastrar el mes
+  // anterior, asi el estado se ve igual todos los meses en vez de ir subiendo de fila.
   let libre = null;
-  for (let r = u.filaInicio + 1; r < u.filaCierre && libre === null; r++) {
+  for (let r = u.filaCierre - 1; r > u.filaInicio && libre === null; r--) {
     if (estaLibre(r) && yaCableada(r)) libre = r;
   }
   for (let r = u.filaInicio + 1; r < u.filaCierre && libre === null; r++) {
@@ -257,6 +400,6 @@ function agregarAumentoDeCapital(wb, { etiqueta, importe, colValorPorDefecto }) 
 if (typeof module !== "undefined") {
   module.exports = {
     ubicarPatNeto, capitalDeclarado, capitalContable, columnaValorDeHoja1,
-    controlarCapital, agregarAumentoDeCapital, asegurarTotalIncluya,
+    controlarCapital, agregarAumentoDeCapital, asegurarTotalIncluya, pasarCierreAlInicio,
   };
 }

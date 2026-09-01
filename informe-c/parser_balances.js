@@ -49,7 +49,21 @@ function ubicarColumna(filas, merges, filaEnc, filasDeCuenta, textoBuscado) {
     }
   }
   const ganador = Object.entries(votos).sort((a, b) => b[1] - a[1])[0];
-  return ganador ? Number(ganador[0]) : col;
+  if (ganador) return Number(ganador[0]);
+
+  // Sin votos: el encabezado no esta combinado (o SheetJS no reporta esa combinacion) y en
+  // su propia columna no hay ningun numero. Paso de verdad con el acumulado de julio 2026:
+  // "Saldo ($)" en la 26 y los importes en la 27, sin merge. Devolver la columna del titulo
+  // deja el balance entero en cero y no avisa nada.
+  //
+  // Se busca a la derecha la primera columna que traiga numeros en las filas de cuenta. El
+  // limite de 4 es para no cruzarse con el bloque de la moneda siguiente.
+  for (let c = col + 1; c <= col + 4; c++) {
+    let cuantos = 0;
+    for (const f of filasDeCuenta) if (typeof f[c] === "number") cuantos++;
+    if (cuantos >= Math.max(3, filasDeCuenta.length * 0.5)) return c;
+  }
+  return col;
 }
 
 function numero(v) {
@@ -89,6 +103,29 @@ function parseExportBalances(filas, merges) {
     haber_ars: ubicarColumna(filas, merges, filaEnc, filasDeCuenta, "Haber ($)"),
     saldo_ars: ubicarColumna(filas, merges, filaEnc, filasDeCuenta, "Saldo ($)"),
   };
+  // Control de que las columnas sean las que son: el saldo tiene que dar debe - haber. Si
+  // se leyo una columna equivocada esto no cierra, y es preferible frenar a emitir un
+  // balance en cero. Se mira sobre las filas que tienen algun importe.
+  for (const moneda of ["usd", "ars"]) {
+    const cd = cols["debe_" + moneda], ch = cols["haber_" + moneda], cs = cols["saldo_" + moneda];
+    if (cd === null || ch === null || cs === null) continue;
+    let miradas = 0, cierran = 0;
+    for (const f of filasDeCuenta) {
+      const d = typeof f[cd] === "number" ? f[cd] : 0;
+      const h = typeof f[ch] === "number" ? f[ch] : 0;
+      const sa = typeof f[cs] === "number" ? f[cs] : 0;
+      if (!d && !h && !sa) continue;
+      miradas++;
+      if (Math.abs((d - h) - sa) < 0.02) cierran++;
+    }
+    if (miradas >= 5 && cierran < miradas * 0.9) {
+      throw new Error(
+        `Las columnas de ${moneda === "usd" ? "dólares" : "pesos"} del export no cierran: ` +
+        `el saldo tendría que ser debe menos haber y sólo da en ${cierran} de ${miradas} cuentas. ` +
+        `Puede que el reporte de Onvio haya cambiado de formato. NO se cargó nada.`);
+    }
+  }
+
   const faltan = Object.entries(cols).filter(([, v]) => v === null).map(([k]) => k);
   if (faltan.length) {
     throw new Error(

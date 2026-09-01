@@ -7,6 +7,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../estilos.css">
+<script>
+// La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los scripts, pero
+// NO el propio index.html: si el HTML viene de la cache, se sigue viendo la pantalla vieja
+// aunque el codigo publicado sea otro. Ya paso dos veces en el Informe A, por eso los otros
+// informes llevan este control; este no lo tenia, y con un panel que escribe en el maestro una
+// pagina vieja es mas peligrosa que antes.
+//
+// La pagina se controla sola: pregunta por version.json sin cache y, si no coincide con la que
+// tiene, se vuelve a pedir con la version nueva en la URL. Como la URL cambia, el navegador no
+// puede servir la copia vieja. La marca en sessionStorage evita quedar recargando en loop si
+// algo saliera mal.
+(function () {
+  var MIA = "2026-09-01d";
+  try {
+    fetch("version.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !j.version || j.version === MIA) return;
+        if (sessionStorage.getItem("recargaVersion") === j.version) return;
+        sessionStorage.setItem("recargaVersion", j.version);
+        location.replace(location.pathname + "?v=" + encodeURIComponent(j.version));
+      })
+      .catch(function () {});
+  } catch (e) {}
+})();
+</script>
 <script src="../informe-a/vendor/xlsx.full.min.js"></script>
 <script src="../informe-a/vendor/exceljs.min.js"></script>
 <style>
@@ -16,6 +42,39 @@
     display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;
   }
   .paso .txt{font-size:14px; line-height:1.55; padding-top:3px;}
+
+  /* ---- gestión de categorías (config_balances/gestion_categorias) ---- */
+  .gc-cat{
+    border:1px solid var(--line); border-radius:11px; margin-bottom:10px; background:var(--cream-alto);
+    overflow:hidden;
+  }
+  .gc-cat > summary{
+    list-style:none; cursor:pointer; padding:13px 16px; display:flex;
+    justify-content:space-between; align-items:center; gap:12px; font-size:14px;
+  }
+  .gc-cat > summary::-webkit-details-marker{display:none;}
+  .gc-cat > summary .gc-tit{font-weight:600;}
+  .gc-cat > summary .gc-cod{color:var(--ink-soft); font-size:12.5px; font-weight:400; margin-left:6px;}
+  .gc-cat > summary .gc-n{
+    font-size:11.5px; font-weight:700; color:var(--ink-medio); background:#fff;
+    border:1px solid var(--line-fuerte); border-radius:999px; padding:2px 10px; white-space:nowrap;
+  }
+  .gc-body{padding:4px 16px 14px; background:#fff; border-top:1px solid var(--line);}
+  .gc-miembro{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    padding:9px 2px; border-bottom:1px solid var(--line);
+  }
+  .gc-miembro:last-of-type{border-bottom:none;}
+  .gc-miembro .gc-nom{font-size:13.5px;}
+  .gc-miembro .gc-nom .cod{font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; color:var(--ink-soft); margin-right:6px;}
+  .gc-miembro .gc-acciones{display:flex; gap:6px; flex:none;}
+  .gc-miembro .gc-acciones button{padding:5px 11px; font-size:12px; box-shadow:none;}
+  .gc-compartida{font-size:11.5px; color:var(--ink-soft); font-style:italic;}
+  .gc-form{display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap;}
+  .gc-form input{width:auto; flex:1; min-width:120px;}
+  .gc-form input.gc-cod-input{max-width:150px; flex:none;}
+  .gc-form button{padding:8px 14px; font-size:12.5px;}
+  .gc-form .footer-note{width:100%; margin:2px 0 0;}
 </style>
 </head>
 <body>
@@ -31,7 +90,10 @@
         y se actualizan los dos balances formales, el de pesos y el de dólares, en una sola corrida.
       </p>
     </div>
-    <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
+    <div style="display:flex; gap:8px; align-items:flex-start;">
+      <button class="gear-btn" onclick="verConfigCuentasPesos()">Configurar cuentas</button>
+      <button class="gear-btn" onclick="abrirConfig()">⚙ Configuración de GitHub</button>
+    </div>
   </div>
 
   <div id="cargando" class="card">
@@ -115,6 +177,34 @@
       </div>
       <div id="importarEerrStatus"></div>
     </details>
+  </div>
+
+  <!-- ---------- configuración de cuentas: qué cuenta de Onvio alimenta cada línea ---------- -->
+  <div class="card hidden" id="cardConfigCuentas">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <h2 style="margin:0;">Configuración de cuentas — Pesos</h2>
+      <button class="secundario" onclick="cerrarConfigCuentas()">Cerrar</button>
+    </div>
+    <p class="footer-note">
+      Qué cuentas de Onvio integran cada categoría del balance en pesos (las que arma el
+      Anexo II). Sacá una cuenta de su categoría, agregá una nueva, o corregile el código o
+      el nombre — las fórmulas del Excel se acomodan solas, como al editarlo a mano.
+    </p>
+    <div id="configCuentasResumen"><p class="footer-note">Leyendo el maestro…</p></div>
+    <div id="configCuentasPendientes"></div>
+
+    <div style="margin-top:18px;">
+      <input type="text" id="gcBuscar" placeholder="Buscar categoría o cuenta…">
+    </div>
+    <div id="gcCategorias" style="margin-top:14px;"></div>
+    <div id="gcSueltas" style="margin-top:18px;"></div>
+    <div id="gcAnexo2"></div>
+
+    <div id="gcGuardarBar" class="hidden" style="margin-top:20px; display:flex; align-items:center; gap:14px;">
+      <button onclick="guardarCambiosCategorias()" id="btnGcGuardar">Guardar cambios en GitHub</button>
+      <span id="gcGuardarEstado" class="footer-note"></span>
+    </div>
+    <div class="log hidden" id="gcLog" style="margin-top:14px;"></div>
   </div>
 
   <div class="card hidden" id="cardExport">
@@ -309,20 +399,24 @@
   </div>
 </div>
 
-<script src="../buscador.js"></script>
-<script src="../informe-a/formula_utils.js"></script>
-<script src="formula_hojas.js"></script>
-<script src="parser_balances.js"></script>
-<script src="clasificacion.js"></script>
-<script src="motor_balances.js"></script>
-<script src="dolares.js"></script>
-<script src="eerr.js"></script>
-<script src="libro_eerr.js"></script>
-<script src="importar_eerr.js"></script>
-<script src="../fechas.js"></script>
-<script src="capital.js"></script>
-<script src="github_c.js"></script>
-<script src="app.js"></script>
+<script src="../buscador.js?v=2026-09-01d"></script>
+<script src="../informe-a/formula_utils.js?v=2026-09-01d"></script>
+<script src="formula_hojas.js?v=2026-09-01d"></script>
+<script src="parser_balances.js?v=2026-09-01d"></script>
+<script src="clasificacion.js?v=2026-09-01d"></script>
+<script src="motor_balances.js?v=2026-09-01d"></script>
+<script src="config_balances.js?v=2026-09-01d"></script>
+<script src="gestion_categorias.js?v=2026-09-01d"></script>
+<script src="anexo2.js?v=2026-09-01d"></script>
+<script src="panel_config_cuentas.js?v=2026-09-01d"></script>
+<script src="dolares.js?v=2026-09-01d"></script>
+<script src="eerr.js?v=2026-09-01d"></script>
+<script src="libro_eerr.js?v=2026-09-01d"></script>
+<script src="importar_eerr.js?v=2026-09-01d"></script>
+<script src="../fechas.js?v=2026-09-01d"></script>
+<script src="capital.js?v=2026-09-01d"></script>
+<script src="github_c.js?v=2026-09-01d"></script>
+<script src="app.js?v=2026-09-01d"></script>
 <script>
   document.getElementById("comoToken").addEventListener("click", (ev) => {
     ev.preventDefault();

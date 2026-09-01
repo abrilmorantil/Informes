@@ -431,6 +431,7 @@ async function correrMotor(destinos) {
     wb, cuentasExport, moneda: "pesos", destinosElegidos: destinos, clasificacion, log,
   });
   ponerFechasDelPeriodo(wb, "pesos", periodoConfirmado);
+  arrastrarCapital(wb, "pesos", periodoConfirmado);
   wbBorrador = wb;
   resumenBorrador = resumen;
 
@@ -446,6 +447,7 @@ async function correrMotor(destinos) {
     try {
       const r = procesarDolares({ wb: wbu, cuentasExport, clasificacion, equivalencias, log });
       ponerFechasDelPeriodo(wbu, "dólares", periodoConfirmado);
+      arrastrarCapital(wbu, "dólares", periodoConfirmado);
       wbBorradorUsd = wbu;
       resumenUsd = r.resumen;
       calcularEERR(wbu, r);
@@ -695,6 +697,34 @@ function ponerFechasDelPeriodo(wb, moneda, nuevo) {
   log(`\n${moneda.toUpperCase()}: las fechas pasaron a ${fpDescribir(nuevo)} — ` +
       `${r.cambios.length} celda(s) en ${hojas.join(", ")}.`);
   return r;
+}
+
+// --------------------------------------------------------- arrastre del capital (Pat.Neto)
+
+// El EEPN no se acumula solo: lo que quedó en "Saldos al <fecha>" tiene que abrir el mes
+// siguiente, y la línea del aumento del mes anterior tiene que salir para que entre la nueva.
+// Se hacía a mano todos los meses. Ver `pasarCierreAlInicio` en capital.js.
+function arrastrarCapital(wb, moneda, periodo) {
+  let r;
+  try {
+    r = pasarCierreAlInicio(wb, periodo);
+  } catch (e) {
+    log(`
+⚠ ${moneda.toUpperCase()}: no pude arrastrar el capital de "Pat.Neto": ${e.message}`);
+    return;
+  }
+  if (r.sinHoja) return;
+  for (const x of (r.sinFecha || [])) {
+    log(`
+⚠ ${moneda.toUpperCase()}: la línea "${x.etiqueta}" (fila ${x.fila} de Pat.Neto) no ` +
+        `tiene una fecha que pueda leer, así que la dejé donde estaba. Revisala.`);
+  }
+  if (!r.arrastradas.length) return;
+  log(`
+${moneda.toUpperCase()}: en "Pat.Neto" pasé el cierre del mes anterior a la apertura — ` +
+      r.arrastradas.map(x => `${x.celda} de ${fmtImporte(x.antes)} a ${fmtImporte(x.despues)}`).join(", ") +
+      `, y saqué ` + r.limpiadas.map(x => `"${x.etiqueta}"`).join(", ") +
+      `. El capital declarado sigue en ${fmtImporte(r.apertura)}.`);
 }
 
 // --------------------------------------------------------- control del capital (Pat.Neto)

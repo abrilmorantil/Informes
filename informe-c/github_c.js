@@ -149,6 +149,13 @@ async function ghcGuardarBaseUsd(buffer, mensaje) {
   await ghcEscribir(GHC_ARCHIVO_BASE_USD, ghcBufferABase64(buffer), sha, mensaje);
 }
 
+// Guarda SOLO el maestro de pesos, sin tocar estado_c.json — para cuando se edita la
+// configuración de cuentas y no hay ninguna corrida mensual de por medio que registrar.
+async function ghcGuardarBase(buffer, mensaje) {
+  const sha = (await ghcLeer(GHC_ARCHIVO_BASE))?.sha;
+  await ghcEscribir(GHC_ARCHIVO_BASE, ghcBufferABase64(buffer), sha, mensaje);
+}
+
 // El maestro primero (es el que más pesa y el más probable que falle): si algo se
 // corta, el estado sigue apuntando a la versión anterior y se puede reintentar.
 async function ghcGuardarTodo({ bufferBase, estado, mensaje }) {
@@ -171,6 +178,6 @@ if (typeof module !== "undefined") {
     loadGhcSettings, saveGhcSettings, hasGhcSettings,
     ghcLeer, ghcEscribir, ghcLeerEstado, ghcLeerBase, ghcGuardarTodo, ghcLeerMappingB,
     ghcLeerBaseUsd, ghcGuardarBaseUsd, ghcLeerEquivalencias, ghcGuardarEquivalencias,
-    ghcGuardarEstado,
+    ghcGuardarEstado, ghcGuardarBase,
   };
 }

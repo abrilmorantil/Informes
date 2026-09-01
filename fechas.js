@@ -7,10 +7,15 @@
 //
 // 1) Se reescriben SÓLO las fechas que coinciden con el cierre que el archivo tiene hoy.
 //    Cualquier otra fecha es un dato distinto y se deja como está. Gracias a esa regla el
-//    "Aumento de capital 16/06/2026" de `Pat.Neto` —un hecho real, no el período— y el
-//    "AL 30.04.2026" del `Anexo I` en dólares —una columna de comparación— quedan intactos
-//    sin necesidad de nombrarlos. Una lista de celdas a tocar habría que mantenerla a mano y
-//    se desactualiza en cuanto el archivo cambia; así el criterio viaja con el dato.
+//    "Aumento de capital 16/06/2026" de `Pat.Neto` —un hecho real, no el período— queda
+//    intacto sin necesidad de nombrarlo. Una lista de celdas a tocar habría que mantenerla a
+//    mano y se desactualiza en cuanto el archivo cambia; así el criterio viaja con el dato.
+//
+//    El precio de esa regla es que una fecha que quedó atrasada no se recupera sola: si el
+//    título "AL 30.04.2026" del `Anexo I` se quedó en abril, en junio ya no coincide con el
+//    cierre y no se lo toca más. Por eso los maestros tienen que arrancar con sus fechas al
+//    día; de ahí en adelante se mantienen solas. (Ese título es el de la columna NETO
+//    RESULTANTE, que se recalcula todos los meses: no es una columna de comparación.)
 //
 // 2) La redacción NO se rearma desde una plantilla: se conserva la del archivo y sólo cambian
 //    día, mes y año. El maestro de pesos dice "Al 30 de junio 2026" y el de dólares "Al 30 de
@@ -67,8 +72,15 @@ const fpComoNum = (modelo, n) =>
 
 // "30 de junio de 2026" / "30 de junio 2026" (el "de" antes del año se conserva tal cual)
 const FP_RE_LARGA = /(\d{1,2})(\s+de\s+)([A-Za-zÁÉÍÓÚÑáéíóúñ]+)(\s+(?:de\s+)?)(\d{4})/g;
-// "30.06.2026" / "30.6.2026"
-const FP_RE_PUNTOS = /(\d{1,2})\.(\d{1,2})\.(\d{4})/g;
+// "30.06.2026" / "30.6.2026" / "31.5.26" — el año va con cuatro dígitos o con dos.
+// Los dos dígitos hacen falta por el encabezado "AL 31.5.26" del `Anexo I` de pesos, que es
+// el título de la columna NETO RESULTANTE: la columna se recalcula todos los meses, así que
+// el título tiene que seguir al período. Mientras el año de dos dígitos no se reconocía, esa
+// celda no la veía nadie y se quedó en mayo.
+const FP_RE_PUNTOS = /(\d{1,2})\.(\d{1,2})\.(\d{4}|\d{2})(?!\d)/g;
+
+// Un año de dos dígitos es de este siglo: en estos archivos no hay fechas anteriores a 2000.
+const fpAnio = (t) => (String(t).length === 2 ? 2000 + +t : +t);
 
 // Reescribe en `texto` las fechas que sean exactamente `viejo`. Devuelve el texto nuevo, o
 // null si no cambió nada. `otras` recibe las fechas que se encontraron y NO se tocaron.
@@ -87,10 +99,13 @@ function fpReescribirTexto(texto, viejo, nuevo, otras) {
   });
 
   salida = salida.replace(FP_RE_PUNTOS, (todo, d, m, anio) => {
-    const hallada = { anio: +anio, mes: +m, dia: +d };
+    const hallada = { anio: fpAnio(anio), mes: +m, dia: +d };
     if (!fpIguales(hallada, viejo)) { anotar(hallada); return todo; }
     hubo = true;
-    return `${fpComoNum(d, nuevo.dia)}.${fpComoNum(m, nuevo.mes)}.${nuevo.anio}`;
+    // el año sale con los mismos dígitos que tenía: "31.5.26" no se convierte en "30.6.2026"
+    const anioNuevo = String(anio).length === 2
+      ? String(nuevo.anio).slice(-2) : String(nuevo.anio);
+    return `${fpComoNum(d, nuevo.dia)}.${fpComoNum(m, nuevo.mes)}.${anioNuevo}`;
   });
 
   return hubo ? salida : null;
@@ -171,7 +186,7 @@ function fpCierreDeCelda(cell) {
   if (l && fpIndiceMes(l[3])) return { anio: +l[5], mes: fpIndiceMes(l[3]), dia: +l[1] };
   FP_RE_PUNTOS.lastIndex = 0;
   const p = FP_RE_PUNTOS.exec(texto);
-  if (p) return { anio: +p[3], mes: +p[2], dia: +p[1] };
+  if (p) return { anio: fpAnio(p[3]), mes: +p[2], dia: +p[1] };
   return null;
 }
 

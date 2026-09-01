@@ -113,11 +113,16 @@ function ccRender() {
   mostrar("cardCentros", true);
 }
 
-function ccMostrar(sinCc) {
+// `limpiarAviso` va en falso cuando esto se llama despues de resolver uno: el cartel de
+// "listo" se estaba borrando justo despues de escribirlo, asi que no quedaba ninguna señal de
+// que habia funcionado. La usuaria apreto tres veces y quedaron tres commits iguales.
+function ccMostrar(sinCc, limpiarAviso = true) {
   ccPendientes = (sinCc || []).slice();
   ccElegido = {};
-  const st = document.getElementById("centrosStatus");
-  if (st) st.innerHTML = "";
+  if (limpiarAviso) {
+    const st = document.getElementById("centrosStatus");
+    if (st) st.innerHTML = "";
+  }
   ccRender();
 }
 
@@ -206,12 +211,17 @@ async function ccAgregar(id) {
 
 // ---------------------------------------------------------------- guardar y volver a mirar
 async function ccGuardarYReprocesar(st, aviso, mensajeCommit) {
+  // Se apagan los botones mientras guarda: sin esto se puede apretar de nuevo antes de que
+  // termine y quedan commits repetidos, que fue lo que paso.
+  const botones = [...document.querySelectorAll("#centrosBody button")];
+  botones.forEach(b => { b.disabled = true; });
   st.innerHTML = `<div class="status-msg">Guardando…</div>`;
   try {
     // El maestro no cambió: se manda el mismo buffer que ya estaba, para no tener dos caminos
     // de guardado que puedan quedar desincronizados.
     await guardarTodo({ bufferBase, mapeo: mapeoGuardado, estado, mensaje: mensajeCommit });
   } catch (e) {
+    botones.forEach(b => { b.disabled = false; });
     st.innerHTML = `<div class="status-msg bad">No se pudo guardar: ${ccEsc(e.message)}</div>`;
     return;
   }
@@ -220,11 +230,29 @@ async function ccGuardarYReprocesar(st, aviso, mensajeCommit) {
 }
 
 // Se vuelve a mirar el export con el mapeo nuevo: lo que se resolvió desaparece de la lista.
+//
+// Y se REHACE el balance. Sin esto, resolver un centro de costo no servia de nada en la misma
+// corrida: el borrador ya estaba armado con el mapeo viejo, la tarjeta desaparecia como si
+// estuviera todo bien, y el archivo que se descargaba seguia sin las lineas de ese centro.
+// Fue lo que paso con "Proyecto Lonco Vaca- Palenque": la equivalencia quedo guardada y el
+// balance igual salio 487,94 corto.
 async function ccReprocesar() {
   if (typeof lineas === "undefined" || !lineas || !lineas.length) return;
   const det = detectarPendientes(lineas, mapeoGuardado);
-  ccMostrar(det.sinCc);
+  ccMostrar(det.sinCc, false);
   if (typeof onDetectarPendientes === "function") onDetectarPendientes(det);
+
+  if (det.sinCc.length || det.pendientes.length) return;   // todavia falta resolver algo
+  const st = document.getElementById("centrosStatus");
+  const antes = st ? st.innerHTML : "";
+  if (st) st.innerHTML = antes + `<div class="status-msg">Rehaciendo el balance con el centro de costo ya resuelto…</div>`;
+  try {
+    await correrMotor({}, []);
+    if (st) st.innerHTML = antes + `<div class="status-msg ok">El balance se rehizo: ahora incluye sus líneas.</div>`;
+  } catch (e) {
+    if (st) st.innerHTML = antes + `<div class="status-msg bad">Quedó guardado, pero no pude rehacer el balance: ` +
+      `${ccEsc(e.message)}. Volvé a apretar "Procesar".</div>`;
+  }
 }
 
 if (typeof module !== "undefined") {

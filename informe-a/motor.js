@@ -1243,14 +1243,22 @@ function repararTotalesSaldos({ wb, mapeo, log = () => {} }) {
 // no es de resultado, o no tiene categoria, o quedo excluida), y entonces la columna
 // quedaba a la vista mostrando cero. Se ocultaba y se mostraba por un numero que no era el
 // de la columna.
-function ocultarCentrosSinMovimiento(wsDist, mapeo, aporte, log = () => {}) {
+//
+// `soloMostrar` separa las dos mitades de la operacion, y hace falta: MOSTRAR una columna que
+// tiene movimiento nunca puede estar mal, OCULTAR si. Cuando hay un centro de costo sin
+// resolver no se puede ocultar nada —la columna del que falta quedaria escondida y en cero,
+// justo la que hay que mirar— pero saltear la funcion entera dejaba tambien sin mostrarse a
+// las que SI tenian movimiento y venian ocultas del mes anterior. Paso en agosto 2026 con
+// CERRO LA MINA, CERRO ABANICO y LOS MENUCOS: tenian saldo y quedaron escondidas.
+function ocultarCentrosSinMovimiento(wsDist, mapeo, aporte, log = () => {}, opciones = {}) {
   const movimiento = aporte || {};
+  const soloMostrar = !!opciones.soloMostrar;
   const ocultos = [], mostrados = [];
   for (const [distCol, info] of Object.entries(mapeo.dist_col_to_cc)) {
     const columna = wsDist.getColumn(colAIndice(distCol));
     const tiene = (movimiento[info.nombre_balance] || 0) > 0.005;
     if (tiene && columna.hidden) { columna.hidden = false; mostrados.push(info.nombre_balance); }
-    else if (!tiene && !columna.hidden) { columna.hidden = true; ocultos.push(info.nombre_balance); }
+    else if (!tiene && !columna.hidden && !soloMostrar) { columna.hidden = true; ocultos.push(info.nombre_balance); }
   }
   if (mostrados.length) log(`  Vuelven a mostrarse ${mostrados.length} centro(s) de costo que este mes si tuvieron movimiento: ${mostrados.join(", ")}.`);
   if (ocultos.length) log(`  Se ocultan ${ocultos.length} centro(s) de costo sin movimiento este mes: ${ocultos.join(", ")}.`);
@@ -1452,12 +1460,13 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
   // columna aparece en cero y se ocultaria — justo la que hay que mirar. Fue lo que paso con
   // "Proyecto Lonco Vaca- Palenque": el nombre no resolvio, la plata no entro, y encima la
   // columna se escondio, con lo que no quedaba ni rastro de que faltaba algo.
+  // Con un centro sin resolver se muestran igual las que tienen movimiento, pero no se oculta
+  // nada: la columna del que falta quedaria escondida y en cero, que es justo la que hay que
+  // mirar.
+  ocultarCentrosSinMovimiento(wsDist, mapeo, aporteADist, log, { soloMostrar: sinCc.length > 0 });
   if (sinCc.length) {
     log(`  No se oculto ninguna columna: primero hay que resolver el/los centro(s) de costo ` +
-        `de arriba. Si se ocultaran ahora, la columna del que falta quedaria escondida y en ` +
-        `cero, que es justo lo que no hay que perder de vista.`);
-  } else {
-    ocultarCentrosSinMovimiento(wsDist, mapeo, aporteADist, log);
+        `de arriba. Las que tienen movimiento se muestran igual.`);
   }
 
   log(`\nResumen: ${conocidas} cuentas ya conocidas, ${clasificadas} recién clasificadas, ` +
@@ -1742,6 +1751,7 @@ if (typeof module !== "undefined") {
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
     categoriasElegibles, esFilaDeTotales, completarColumnaCr, ocultarCentrosSinMovimiento,
     repararTotalesSaldos, declararEquivalenciaCc, agregarCentroDeCosto,
+    ccNombreADistCol, filaDistDeCategoria,
     agregarFilaGastosAcumulados,
     quitarRefDistDeGastos, refsDeCuentaEnDist, insertarCuentaEnBalance, mapaDeDistribucion,
     crearCategoriaEnDist, filaTotalGastosDeDist,

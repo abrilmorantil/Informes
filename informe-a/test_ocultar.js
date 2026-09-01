@@ -78,6 +78,23 @@ const nombreDe = (info) => (info && (info.nombre_balance || info.nombre)) || Str
   check(columnas.every(c => oculta(c.nombre)),
     "pasarle líneas crudas ya no muestra columnas: oculta todo en vez de mentir");
 
+  // ------------------------------------------------ con un centro sin resolver: mostrar sí, ocultar no
+  //
+  // Mostrar una columna que tiene movimiento nunca puede estar mal; ocultar sí. La primera
+  // versión de este resguardo salteaba la función entera, y con eso las columnas que TENÍAN
+  // movimiento pero venían ocultas del mes anterior se quedaban escondidas. Pasó en agosto
+  // 2026 con CERRO LA MINA, CERRO ABANICO y LOS MENUCOS: tenían saldo y no se veían.
+  motor.ocultarCentrosSinMovimiento(wsDist, mapeo, {}, () => {});          // todas ocultas
+  check(columnas.every(c => oculta(c.nombre)), "punto de partida: todas ocultas");
+
+  motor.ocultarCentrosSinMovimiento(wsDist, mapeo, { [uno]: 500 }, () => {}, { soloMostrar: true });
+  check(!oculta(uno), `"${uno}" aporta y se muestra, aunque no se pueda ocultar nada`);
+  check(oculta(dos), `y "${dos}", que no aporta, queda como estaba`);
+
+  motor.ocultarCentrosSinMovimiento(wsDist, mapeo, { [dos]: 500 }, () => {}, { soloMostrar: true });
+  check(!oculta(uno), `"${uno}" NO se oculta aunque deje de aportar: con un centro sin resolver no se oculta nada`);
+  check(!oculta(dos), `y "${dos}" se muestra porque ahora sí aporta`);
+
   console.log(fallos ? `\n${fallos} FALLA(S)` : "\ntodo OK");
   process.exit(fallos ? 1 : 0);
 })().catch(e => { console.error("ERROR:", e.stack); process.exit(1); });

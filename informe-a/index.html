@@ -6,7 +6,7 @@
 <title>Balance de comprobación por Centros de costos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-08-28b">
+<link rel="stylesheet" href="../estilos.css?v=2026-09-01a">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los
 // scripts, pero NO el propio index.html: si el HTML viene de la cache, se sigue
@@ -18,7 +18,7 @@
 // la URL cambia, el navegador no puede servir la copia vieja. La marca en
 // sessionStorage evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-08-28b";
+  var MIA = "2026-09-01a";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -49,6 +49,28 @@
   }
   .paso .txt{font-size:14px; line-height:1.55; padding-top:3px;}
   .paso.hecho .n{background:var(--ok);}
+
+  /* ---- centros de costo sin resolver ---------------------------------- */
+  .cc-item{
+    border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:12px;
+    background:#FBF7F0;
+  }
+  .cc-nombre{font-size:15px; font-weight:600; margin-bottom:3px;}
+  .cc-nombre code{
+    font-family:inherit; background:#fff; border:1px solid var(--line); border-radius:5px;
+    padding:1px 7px;
+  }
+  .cc-datos{font-size:12.5px; color:var(--ink-soft); margin-bottom:12px;}
+  .cc-opciones{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;}
+  .cc-opciones label{
+    display:flex; align-items:center; gap:7px; font-size:13.5px; cursor:pointer;
+    border:1px solid var(--line); border-radius:8px; padding:8px 12px; background:#fff;
+  }
+  .cc-opciones label:hover{border-color:var(--clay);}
+  .cc-form{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; margin-top:4px;}
+  .cc-form .campo{display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--ink-soft);}
+  .cc-form select, .cc-form input[type=text]{min-width:230px;}
+  .cc-form input.corto{min-width:90px; max-width:110px;}
 </style>
 </head>
 <body>
@@ -171,6 +193,19 @@
       <span class="spinner hidden" id="spinner">Cargando los importes…</span>
     </div>
     <div id="onvioStatus"></div>
+  </div>
+
+  <!-- Un centro de costo del export que el balance no reconoce. NO se adivina: adivinando,
+       la plata entra en la columna de otro proyecto y el total da bien igual, así que nada lo
+       delata. Se pregunta si es uno de los que ya están escrito distinto, o uno nuevo. -->
+  <div class="card hidden" id="cardCentros">
+    <h2>Centros de costo que el balance no reconoce</h2>
+    <p class="footer-note">
+      Sus líneas <b>no se van a cargar</b> hasta resolverlos, y mientras tanto no se oculta
+      ninguna columna — si se ocultaran, la del que falta quedaría escondida y en cero.
+    </p>
+    <div id="centrosBody"></div>
+    <div id="centrosStatus"></div>
   </div>
 
   <div class="card hidden" id="cardPendientes">
@@ -339,17 +374,19 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-08-28b"></script>
-<script src="similitud.js?v=2026-08-28b"></script>
-<script src="formula_utils.js?v=2026-08-28b"></script>
-<script src="../informe-c/formula_hojas.js?v=2026-08-28b"></script>
-<script src="parser_onvio.js?v=2026-08-28b"></script>
-<script src="meses.js?v=2026-08-28b"></script>
-<script src="mapeo.js?v=2026-08-28b"></script>
-<script src="motor.js?v=2026-08-28b"></script>
-<script src="importar_acumulados.js?v=2026-08-28b"></script>
-<script src="categorias.js?v=2026-08-28b"></script>
-<script src="github.js?v=2026-08-28b"></script>
-<script src="app.js?v=2026-08-28b"></script>
+<script src="../buscador.js?v=2026-09-01a"></script>
+<script src="similitud.js?v=2026-09-01a"></script>
+<script src="formula_utils.js?v=2026-09-01a"></script>
+<script src="columnas.js?v=2026-09-01a"></script>
+<script src="centros.js?v=2026-09-01a"></script>
+<script src="../informe-c/formula_hojas.js?v=2026-09-01a"></script>
+<script src="parser_onvio.js?v=2026-09-01a"></script>
+<script src="meses.js?v=2026-09-01a"></script>
+<script src="mapeo.js?v=2026-09-01a"></script>
+<script src="motor.js?v=2026-09-01a"></script>
+<script src="importar_acumulados.js?v=2026-09-01a"></script>
+<script src="categorias.js?v=2026-09-01a"></script>
+<script src="github.js?v=2026-09-01a"></script>
+<script src="app.js?v=2026-09-01a"></script>
 </body>
 </html>

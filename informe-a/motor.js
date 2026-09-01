@@ -832,14 +832,26 @@ function resumirFueraDelBalance(lineas) {
 
 function detectarPendientes(lineas, mapeo) {
   const pendientes = [];
-  const sinCc = [];
+  // Los centros de costo que no resuelven se juntan CON su codigo de Onvio y su importe. El
+  // codigo hace falta para poder darlos de alta —es lo que va en el VLOOKUP del bloque nuevo,
+  // `VLOOKUP("31_"&A7,...)`— y el importe para saber cuanta plata esta en juego mientras no
+  // se resuelva. Antes era una lista de nombres pelados y la pantalla no podia ofrecer nada.
+  const sinCcPorNombre = new Map();
   const vistas = new Set();
 
   const { deResultado, fueraDelBalance } = separarCuentasDeResultado(lineas);
 
   for (const linea of deResultado) {
     const ccBlock = resolverCcBlock(mapeo, linea.cc_nombre_onvio);
-    if (ccBlock === null) { sinCc.push(linea.cc_nombre_onvio); continue; }
+    if (ccBlock === null) {
+      const nombre = String(linea.cc_nombre_onvio || "").trim();
+      const y = sinCcPorNombre.get(nombre) ||
+        { nombre, cc_codigo: linea.cc_codigo, lineas: 0, saldo: 0 };
+      y.lineas++;
+      y.saldo += Number(linea.saldo) || 0;
+      sinCcPorNombre.set(nombre, y);
+      continue;
+    }
 
     const codigo = linea.cuenta_codigo;
     if (vistas.has(codigo)) continue;
@@ -857,7 +869,7 @@ function detectarPendientes(lineas, mapeo) {
   }
   return {
     pendientes,
-    sinCc: [...new Set(sinCc)].sort(),
+    sinCc: [...sinCcPorNombre.values()].sort((x, y) => x.nombre.localeCompare(y.nombre)),
     fueraDelBalance: resumirFueraDelBalance(fueraDelBalance),
   };
 }
@@ -878,18 +890,277 @@ function detectarCcSinColumna(lineas, mapeo) {
   return Object.entries(afectados).map(([nombre, d]) => ({ nombre, ...d }));
 }
 
+// ------------------------------------------------- alta de un centro de costo nuevo
+
+// Declara que un nombre de Onvio es uno de los centros de costo que YA existen en el balance,
+// escrito distinto. Es el caso mas comun: el export viejo trae "Proyecto Lonco Vaca- Palenque"
+// y el bloque se llama "LONCO VACA - PELENQUE" (se movio el guion y dice PALENQUE con A).
+// No se adivina —adivinando, la plata entra en la columna de otro proyecto— asi que la
+// equivalencia se declara una vez y de ahi en mas resuelve sola.
+function declararEquivalenciaCc({ mapeo, nombreOnvio, nombreBalance, log = () => {} }) {
+  const onvio = String(nombreOnvio || "").trim();
+  const balance = String(nombreBalance || "").trim();
+  if (!onvio) throw new Error("Falta el nombre tal como lo escribe Onvio.");
+  const bloque = mapeo.cc_blocks.find(b => norm(b.nombre_balance) === norm(balance));
+  if (!bloque) {
+    throw new Error(`"${balance}" no es ninguno de los centros de costo del balance.`);
+  }
+  if (!mapeo.cc_nombres_onvio) mapeo.cc_nombres_onvio = {};
+  const clave = norm(onvio);
+  const previo = mapeo.cc_nombres_onvio[clave];
+  if (previo && norm(previo) !== norm(bloque.nombre_balance)) {
+    throw new Error(`"${onvio}" ya estaba declarado como "${previo}". Si cambio, hay que ` +
+                    `sacar la equivalencia vieja primero.`);
+  }
+  mapeo.cc_nombres_onvio[clave] = bloque.nombre_balance;
+  log(`  Declarado: Onvio escribe "${onvio}" al centro de costo "${bloque.nombre_balance}".`);
+  return { nombreOnvio: onvio, nombre_balance: bloque.nombre_balance };
+}
+
+// Da de alta un centro de costo NUEVO, con el mismo armado que tienen los demas: su bloque de
+// DEBE/HABER/SALDO en "Sumas y Saldos" y su columna en "Dist.de gastos".
+//
+// El nombre que se le pone es EXACTAMENTE el que escribe Onvio, para que el mes que viene
+// resuelva solo sin necesidad de declarar ninguna equivalencia.
+//
+// Donde entra cada cosa:
+//   - en "Sumas y Saldos", pegado al ultimo bloque, empujando la columna de TOTALES SALDOS.
+//     Se puede hacer sin miedo porque NADA del libro referencia esa columna ni lo que hay a
+//     su derecha (medido: 0 formulas), asi que lo unico que se mueve es ella misma.
+//   - en "Dist.de gastos", despues de la ultima columna de centro de costo y ANTES de las de
+//     los meses, que corren una posicion. Es la misma operacion que se hizo a mano para
+//     SAMENTA, TRES CONOS y LA CHILENA.
+//
+// Las formulas no se inventan: se copian del ultimo bloque cambiandole el codigo de centro de
+// costo, que es lo unico que las distingue (`VLOOKUP("30_"&A7,...)` -> `VLOOKUP("31_"&A7,...)`).
+function agregarCentroDeCosto({ wb, mapeo, nombreOnvio, ccCodigo, log = () => {} }) {
+  const nombre = String(nombreOnvio || "").trim();
+  if (!nombre) throw new Error("Falta el nombre del centro de costo, tal como lo escribe Onvio.");
+  if (!/^\d+$/.test(String(ccCodigo === undefined || ccCodigo === null ? "" : ccCodigo).trim())) {
+    throw new Error(`El codigo de centro de costo de Onvio tiene que ser un numero (vino "${ccCodigo}").`);
+  }
+  const codigo = String(ccCodigo).trim();
+
+  const yaEsta = mapeo.cc_blocks.find(b => norm(b.nombre_balance) === norm(nombre));
+  if (yaEsta) {
+    throw new Error(`"${nombre}" ya existe en el balance. Si es el mismo escrito distinto, ` +
+                    `declara la equivalencia en vez de darlo de alta.`);
+  }
+  if (typeof insertColumnEn !== "function") {
+    throw new Error("Falta columnas.js: sin el no se pueden correr las formulas al insertar.");
+  }
+
+  const wsSs = wb.getWorksheet("Sumas y Saldos");
+  const wsDist = wb.getWorksheet("Dist.de gastos");
+  if (!wsSs || !wsDist) throw new Error("El archivo no tiene 'Sumas y Saldos' y 'Dist.de gastos'.");
+
+  // ---------------------------------------------------------------- el bloque en Sumas y Saldos
+  const modelo = mapeo.cc_blocks.reduce((a, b) =>
+    colAIndice(b.col_saldo) > colAIndice(a.col_saldo) ? b : a);
+  const mDebe = colAIndice(modelo.col_debe), mHaber = colAIndice(modelo.col_haber);
+  const mSaldo = colAIndice(modelo.col_saldo);
+  const colTotales = mSaldo + 1;
+
+  // El codigo de centro de costo del bloque modelo, para saber que reemplazar.
+  let codigoModelo = null;
+  for (let r = 1; r <= wsSs.rowCount && codigoModelo === null; r++) {
+    const f = wsSs.getCell(r, mDebe).formula;
+    const m = f && /"(\d+)_"/.exec(String(f));
+    if (m) codigoModelo = m[1];
+  }
+  if (codigoModelo === null) {
+    throw new Error(`No pude leer el codigo de centro de costo del bloque "${modelo.nombre_balance}", ` +
+                    `asi que no se de que formula copiar la del nuevo.`);
+  }
+  if (codigoModelo === codigo) {
+    throw new Error(`El codigo ${codigo} ya lo usa "${modelo.nombre_balance}".`);
+  }
+
+  // Las filas que llevan formula, y su texto, ANTES de mover nada.
+  //
+  // Se separan las filas de CUENTA de la de SUBTOTAL del bloque. El ultimo bloque tiene en la
+  // 299 un `SUM(BN7:BN297)`, que no es una cuenta: copiada tal cual, el bloque nuevo sumaria
+  // la columna del modelo y mostraria los importes de REGIONAL CATAMARCA con otro nombre.
+  const plantilla = [], subtotales = [];
+  for (let r = 1; r <= wsSs.rowCount; r++) {
+    const fD = wsSs.getCell(r, mDebe).formula;
+    const fH = wsSs.getCell(r, mHaber).formula;
+    if (!fD || !fH) continue;
+    if (/^\s*\+?SUM\(/i.test(String(fD))) {
+      subtotales.push({ fila: r, debe: String(fD), haber: String(fH),
+                        saldo: String(wsSs.getCell(r, mSaldo).formula || "") });
+    } else {
+      plantilla.push({ fila: r, debe: String(fD), haber: String(fH) });
+    }
+  }
+  const estilos = {
+    e4: wsSs.getCell(4, mDebe).style, e5: [mDebe, mHaber, mSaldo].map(c => wsSs.getCell(5, c).style),
+    t5: [mDebe, mHaber, mSaldo].map(c => textoPlano(wsSs.getCell(5, c))),
+    anchos: [mDebe, mHaber, mSaldo].map(c => wsSs.getColumn(c).width),
+    cuerpo: [mDebe, mHaber, mSaldo].map(c => wsSs.getCell(plantilla.length ? plantilla[0].fila : 7, c).style),
+  };
+
+  // Tres columnas nuevas pegadas al ultimo bloque: la de totales se corre sola, con su SUM.
+  for (let i = 0; i < 3; i++) insertColumnEn(wb, "Sumas y Saldos", colTotales);
+
+  const nDebe = colTotales, nHaber = colTotales + 1, nSaldo = colTotales + 2;
+  const letras = [indiceACol(nDebe), indiceACol(nHaber), indiceACol(nSaldo)];
+
+  [nDebe, nHaber, nSaldo].forEach((col, i) => {
+    wsSs.getCell(4, col).value = nombre;
+    wsSs.getCell(4, col).style = estilos.e4;
+    wsSs.getCell(5, col).value = estilos.t5[i];
+    wsSs.getCell(5, col).style = estilos.e5[i];
+    wsSs.getColumn(col).width = estilos.anchos[i];
+    wsSs.getColumn(col).hidden = false;
+  });
+
+  for (const t of plantilla) {
+    const r = t.fila;
+    wsSs.getCell(r, nDebe).value = { formula: t.debe.replace(`"${codigoModelo}_"`, `"${codigo}_"`) };
+    wsSs.getCell(r, nHaber).value = { formula: t.haber.replace(`"${codigoModelo}_"`, `"${codigo}_"`) };
+    wsSs.getCell(r, nSaldo).value = { formula: `+${letras[0]}${r}-${letras[1]}${r}` };
+    [nDebe, nHaber, nSaldo].forEach((col, i) => { wsSs.getCell(r, col).style = estilos.cuerpo[i]; });
+  }
+
+  // Los subtotales del bloque, apuntando a su propia columna.
+  const reapuntar = (f, desde, hacia) =>
+    f.replace(new RegExp(`\\$?${desde}(?=\\$?\\d)`, "g"), hacia);
+  for (const t of subtotales) {
+    const r = t.fila;
+    wsSs.getCell(r, nDebe).value = { formula: reapuntar(t.debe, modelo.col_debe, letras[0]) };
+    wsSs.getCell(r, nHaber).value = { formula: reapuntar(t.haber, modelo.col_haber, letras[1]) };
+    if (t.saldo) wsSs.getCell(r, nSaldo).value = { formula: reapuntar(t.saldo, modelo.col_saldo, letras[2]) };
+    [nDebe, nHaber, nSaldo].forEach((col, i) => {
+      wsSs.getCell(r, col).style = wsSs.getCell(r, [mDebe, mHaber, mSaldo][i]).style;
+    });
+  }
+
+  // ---------------------------------------------------------------- la columna en Dist.de gastos
+  const modeloDist = Math.max(...Object.keys(mapeo.dist_col_to_cc).map(colAIndice));
+  const corteDist = modeloDist + 1;
+  const plantillaDist = [];
+  for (let r = 1; r <= wsDist.rowCount; r++) {
+    const c = wsDist.getCell(r, modeloDist);
+    plantillaDist.push({ fila: r, formula: c.formula ? String(c.formula) : null, style: c.style });
+  }
+  const anchoDist = wsDist.getColumn(modeloDist).width;
+  const estDist6 = wsDist.getCell(6, modeloDist).style;
+  const estDist7 = wsDist.getCell(7, modeloDist).style;
+
+  const rDist = insertColumnEn(wb, "Dist.de gastos", corteDist);
+  const letraDist = indiceACol(corteDist);
+  wsDist.getColumn(corteDist).width = anchoDist;
+  wsDist.getColumn(corteDist).hidden = false;
+
+  for (const t of plantillaDist) {
+    const a = wsDist.getCell(t.fila, corteDist);
+    a.style = t.style;
+    // Los subtotales de la columna (TOTAL GASTOS y los de control) se copian apuntando a la
+    // columna nueva. Las celdas de cuenta quedan vacias: se llenan solas cuando una cuenta de
+    // ese centro de costo entre en la corrida.
+    if (t.formula && /^\+?SUM\(/i.test(t.formula.trim())) {
+      a.value = { formula: t.formula.replace(/\$?[A-Z]{1,3}(?=\$?\d)/g, letraDist) };
+    }
+  }
+  wsDist.getCell(6, corteDist).value = nombre;
+  wsDist.getCell(6, corteDist).style = estDist6;
+  wsDist.getCell(7, corteDist).value = "";
+  wsDist.getCell(7, corteDist).style = estDist7;
+
+  // ---------------------------------------------------------------- queda registrado
+  const bloque = {
+    nombre_balance: nombre,
+    col_debe: letras[0], col_haber: letras[1], col_saldo: letras[2],
+  };
+  mapeo.cc_blocks.push(bloque);
+  mapeo.dist_col_to_cc[letraDist] = { nombre_balance: nombre };
+
+  // y entra al total, que es lo que hace que el balance siga atando
+  const tot = repararTotalesSaldos({ wb, mapeo, log: () => {} });
+
+  log(`\nCentro de costo nuevo: "${nombre}" (codigo ${codigo} en Onvio).`);
+  log(`  Sumas y Saldos: bloque ${letras.join("/")}, ${plantilla.length} filas de cuenta y ` +
+      `${subtotales.length} de subtotal. ` +
+      `La columna de TOTALES quedo en ${indiceACol(nSaldo + 1)}.`);
+  log(`  Dist.de gastos: columna ${letraDist} (${rDist.formulasReacomodadas} formulas ` +
+      `reacomodadas al correr los meses).`);
+  log(`  Entro en la columna de totales de ${tot.arregladas.length} fila(s).`);
+
+  return { bloque, distCol: letraDist, filas: plantilla.length,
+           colTotales: indiceACol(nSaldo + 1), codigo };
+}
+
+// La columna de TOTALES SALDOS tiene que sumar TODOS los centros de costo, siempre.
+//
+// Es una lista explicita de celdas (+E7+H7+K7+...), no un rango, asi que un centro puede
+// quedar afuera sin que nada lo delate: la columna sigue dando un numero, sólo que de menos.
+// En el archivo real pasaba en 3 filas (7, 8 y 9 — Iva credito fiscal no computable, Sueldos
+// Adm y Cargas sociales Adm), que se saltean SAMENTA mientras las otras 280 filas si lo
+// suman. Hoy no se ve porque SAMENTA esta en cero todo el año; el dia que mueva, esas tres
+// cuentas mostrarian de menos y el balance dejaria de atar con Onvio.
+//
+// Por eso no se parchea la fórmula: se reconstruye desde el mapeo en cada corrida. Asi un
+// centro de costo nuevo entra al total por el solo hecho de estar en el mapeo, sin que haya
+// que acordarse de nada. Es el mismo problema que ya aparecio en la fila TOTALES, en esta
+// misma columna y en el total de Gastos Acumulados: las filas y columnas de totales de este
+// archivo estan hechas a mano y no se mantienen solas.
+function repararTotalesSaldos({ wb, mapeo, log = () => {} }) {
+  const ws = wb.getWorksheet("Sumas y Saldos");
+  if (!ws) return { arregladas: [], colTotales: null };
+
+  const saldos = mapeo.cc_blocks.map(b => b.col_saldo);
+  const colTotales = Math.max(...saldos.map(colAIndice)) + 1;
+
+  const arregladas = [];
+  for (let r = 1; r <= ws.rowCount; r++) {
+    const cell = ws.getCell(r, colTotales);
+    const f = cell.formula;
+    if (!f) continue;
+    // La fila de totales generales suma la propia columna (SUM(BQ7:BQ297)): no se toca.
+    if (/^\s*SUM\(/i.test(String(f))) continue;
+
+    const refs = new Set([...String(f).matchAll(/\$?([A-Z]{1,3})\$?\d+/g)].map(m => m[1]));
+    const faltan = saldos.filter(c => !refs.has(c));
+    if (!faltan.length) continue;
+
+    const nueva = saldos.map(c => `+${c}${r}`).join("");
+    cell.value = { formula: nueva };
+    arregladas.push({ fila: r, faltaban: faltan.slice() });
+  }
+
+  if (arregladas.length) {
+    const porCentro = {};
+    for (const a of arregladas) {
+      for (const c of a.faltaban) {
+        const b = mapeo.cc_blocks.find(x => x.col_saldo === c);
+        const n = (b && b.nombre_balance) || c;
+        porCentro[n] = (porCentro[n] || 0) + 1;
+      }
+    }
+    log(`
+⚠ La columna de TOTALES SALDOS no sumaba todos los centros de costo en ` +
+        `${arregladas.length} fila(s). Se reconstruyeron para que sumen los ` +
+        `${saldos.length}: ` +
+        Object.entries(porCentro).map(([n, c]) => `${n} faltaba en ${c}`).join(", ") + `.`);
+  }
+  return { arregladas, colTotales: indiceACol(colTotales) };
+}
+
 // Los centros de costo sin movimiento en el mes se ocultan, y los que si tuvieron se
 // muestran. Son 17 columnas y casi todos los meses la mayoria va en cero: dejarlas a la
 // vista obliga a barrer la pantalla al pepe para encontrar las que importan. El importe
 // no se toca — la columna sigue con su formula, nada mas que oculta.
-function ocultarCentrosSinMovimiento(wsDist, mapeo, lineas, log = () => {}) {
-  const movimiento = {};
-  for (const l of lineas) {
-    const b = resolverCcBlock(mapeo, l.cc_nombre_onvio);
-    if (!b) continue;
-    movimiento[b.nombre_balance] = (movimiento[b.nombre_balance] || 0) +
-      Math.abs(Number(l.debe) || 0) + Math.abs(Number(l.haber) || 0);
-  }
+//
+// `aporte` es lo que CADA COLUMNA va a mostrar de verdad, medido adentro del bucle que
+// carga: la suma de los saldos de las lineas de ese centro cuya cuenta llega a
+// Dist.de gastos. Antes se recalculaba acá desde las lineas crudas, con |debe| + |haber|, y
+// eso no es lo mismo: una linea puede tener movimiento y no llegar a la columna (la cuenta
+// no es de resultado, o no tiene categoria, o quedo excluida), y entonces la columna
+// quedaba a la vista mostrando cero. Se ocultaba y se mostraba por un numero que no era el
+// de la columna.
+function ocultarCentrosSinMovimiento(wsDist, mapeo, aporte, log = () => {}) {
+  const movimiento = aporte || {};
   const ocultos = [], mostrados = [];
   for (const [distCol, info] of Object.entries(mapeo.dist_col_to_cc)) {
     const columna = wsDist.getColumn(colAIndice(distCol));
@@ -988,6 +1259,7 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
 
   let nuevas = 0, clasificadas = 0, conocidas = 0;
   const sinCc = [];
+  const aporteADist = {};      // centro de costo -> lo que va a mostrar su columna
 
   for (const linea of lineas) {
     const ccBlock = resolverCcBlock(mapeo, linea.cc_nombre_onvio);
@@ -1042,9 +1314,15 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
     if (!cuenta.ccs_en_dist) cuenta.ccs_en_dist = [];
     const distRow = filaDistDeCategoria(mapeo, cuenta.categoria);
     const distCol = ccNombreADistCol(mapeo, ccBlock.nombre_balance);
-    if (distRow && distCol && !cuenta.ccs_en_dist.includes(ccBlock.nombre_balance)) {
-      agregarRefDistDeGastos(wsDist, distRow, distCol, ccBlock.col_saldo, cuenta.ss_row);
-      cuenta.ccs_en_dist.push(ccBlock.nombre_balance);
+    if (distRow && distCol) {
+      // Lo que esta linea le va a aportar a la columna del centro. Es el numero con el que
+      // despues se decide ocultarla: el mismo que va a mostrar TOTAL GASTOS.
+      aporteADist[ccBlock.nombre_balance] =
+        (aporteADist[ccBlock.nombre_balance] || 0) + Math.abs(Number(linea.saldo) || 0);
+      if (!cuenta.ccs_en_dist.includes(ccBlock.nombre_balance)) {
+        agregarRefDistDeGastos(wsDist, distRow, distCol, ccBlock.col_saldo, cuenta.ss_row);
+        cuenta.ccs_en_dist.push(ccBlock.nombre_balance);
+      }
     }
     if (distRow && colCr) {
       if (agregarRefDistDeGastos(wsDist, distRow, colCr, ccBlock.col_haber, cuenta.ss_row) &&
@@ -1076,6 +1354,8 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
         `proposito: adivinando, la plata entraria en la columna de otro proyecto.`);
   }
 
+  repararTotalesSaldos({ wb, mapeo, log });
+
   activarColumnaMes(wsDist, mes, log);
 
   const ccSinColumna = detectarCcSinColumna(lineas, mapeo);
@@ -1084,7 +1364,17 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
         ccSinColumna.map(c => `${c.nombre} (${c.saldo.toFixed(2)})`).join(", "));
   }
 
-  ocultarCentrosSinMovimiento(wsDist, mapeo, lineas, log);
+  // Con un centro sin resolver NO se oculta nada. Sus lineas no se cargaron, asi que su
+  // columna aparece en cero y se ocultaria — justo la que hay que mirar. Fue lo que paso con
+  // "Proyecto Lonco Vaca- Palenque": el nombre no resolvio, la plata no entro, y encima la
+  // columna se escondio, con lo que no quedaba ni rastro de que faltaba algo.
+  if (sinCc.length) {
+    log(`  No se oculto ninguna columna: primero hay que resolver el/los centro(s) de costo ` +
+        `de arriba. Si se ocultaran ahora, la columna del que falta quedaria escondida y en ` +
+        `cero, que es justo lo que no hay que perder de vista.`);
+  } else {
+    ocultarCentrosSinMovimiento(wsDist, mapeo, aporteADist, log);
+  }
 
   log(`\nResumen: ${conocidas} cuentas ya conocidas, ${clasificadas} recién clasificadas, ` +
       `${nuevas} cuentas nuevas insertadas.`);
@@ -1367,6 +1657,7 @@ if (typeof module !== "undefined") {
     norm, colAIndice, indiceACol,
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
     categoriasElegibles, esFilaDeTotales, completarColumnaCr, ocultarCentrosSinMovimiento,
+    repararTotalesSaldos, declararEquivalenciaCc, agregarCentroDeCosto,
     quitarRefDistDeGastos, refsDeCuentaEnDist, insertarCuentaEnBalance, mapaDeDistribucion,
     crearCategoriaEnDist, filaTotalGastosDeDist,
     resolverCategoriaDestino,

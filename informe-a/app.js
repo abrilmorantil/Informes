@@ -296,15 +296,10 @@ $("btnProcesar").addEventListener("click", async () => {
     const det = detectarPendientes(lineas, mapeoGuardado);
     pendientes = det.pendientes;
 
-    if (det.sinCc.length) {
-      // Se muestra el nombre TEXTUAL, entre comillas, porque lo que hay que hacer con el es
-      // compararlo letra por letra contra el balance. El motor no lo aproxima a proposito.
-      $("onvioStatus").innerHTML =
-        `<div class="status-msg bad">Estos centros de costo del export no figuran en el balance,
-         así que sus líneas <b>no se van a cargar</b>: ${det.sinCc.map(n => `"${n}"`).join(", ")}.
-         <br>Si es alguno de los del balance escrito distinto, avisá para declarar la equivalencia;
-         si es un centro de costo nuevo, hay que agregarlo al balance primero.</div>`;
-    }
+    // Antes esto era un aviso y nada mas: decia que faltaban centros de costo y la usuaria
+    // no tenia donde resolverlo. Ahora la tarjeta pregunta si es uno de los que ya estan
+    // escrito distinto o uno nuevo, y lo resuelve ahi.
+    ccMostrar(det.sinCc);
 
     if (pendientes.length) {
       renderPendientes();
@@ -319,6 +314,14 @@ $("btnProcesar").addEventListener("click", async () => {
     $("btnProcesar").disabled = false;
   }
 });
+
+// Lo que hay que rehacer cuando se resuelve un centro de costo: sus lineas pasan a contar,
+// asi que pueden aparecer cuentas nuevas que antes ni se miraban.
+function onDetectarPendientes(det) {
+  pendientes = det.pendientes;
+  if (pendientes.length) { renderPendientes(); mostrar("cardPendientes", true); }
+  else mostrar("cardPendientes", false);
+}
 
 // Valor del desplegable para "esta cuenta no va al balance". Se guarda en el mapeo
 // como excluida, así la corrida siguiente no la vuelve a preguntar.

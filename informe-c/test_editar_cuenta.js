@@ -133,8 +133,12 @@ function encuentraSuImporte(wb, r) {
   const { corregirColumnaDeCuenta, cfgColumnaClaveDe } = require(path.join(AQUI, "gestion_categorias.js"));
 
   check(cfgColumnaClaveDe(s4, 40, 7) === 3, "la columna clave de la fila 40 es la C (la que lee el VLOOKUP)");
-  check(V(s4.getCell(40, 3)).trim() === "", "y hoy está vacía");
-  check(V(s4.getCell(40, 4)).trim().startsWith("114060002"), "mientras la cuenta está en la D");
+
+  // La fila 40 ya está arreglada en el maestro, así que se la vuelve a romper para probar el
+  // arreglo. Antes el test daba por hecho que estaba rota y se puso en rojo al arreglarla.
+  s4.getCell(40, 3).value = null;
+  check(V(s4.getCell(40, 3)).trim() === "", "punto de partida: la columna clave, vacía");
+  check(V(s4.getCell(40, 4)).trim().startsWith("114060002"), "y la cuenta escrita en la de al lado");
 
   const rc = corregirColumnaDeCuenta(wb4, 40, "114060002", "Zento S.A.");
   check(rc.columna === "C" && V(s4.getCell(40, 3)).trim() === "114060002 - Zento S.A.",
@@ -152,6 +156,7 @@ function encuentraSuImporte(wb, r) {
   check(!!tiro4 && /ya tiene/.test(tiro4), "corregir dos veces no pisa lo que ya está");
 
   // y un código inválido no toca nada
+  s4.getCell(43, 3).value = null;
   const antes44 = V(s4.getCell(43, 3));
   tiro4 = null;
   try { corregirColumnaDeCuenta(wb4, 43, "abc", "x"); } catch (e) { tiro4 = e.message; }

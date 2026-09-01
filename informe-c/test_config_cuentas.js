@@ -44,7 +44,9 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   const cfg = derivarConfigBalance(wb, "pesos", mapeo, lineasNota4, PARAMS.pesos, { filasQueAgrega });
   const { categorias } = categoriasPesos(wb, mapeo);
 
-  check(cfg.lineas.length === 444, `444 líneas en el balance de pesos (dio ${cfg.lineas.length})`);
+  // No se fija un número exacto de líneas: el maestro crece cada vez que se le conecta una
+  // cuenta que estaba suelta, y un test que se cae por eso mide el archivo, no el código.
+  check(cfg.lineas.length > 400, `el balance de pesos tiene ${cfg.lineas.length} líneas`);
   check(cfg.resumen.conMadre === 3, `3 casos de madre/hija resueltos solos (dio ${cfg.resumen.conMadre})`);
 
   // El maestro no tiene que tener filas con dos cuentas distintas. Si aparece alguna, se
@@ -75,7 +77,20 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   const pendientesHtml = pccPendientesHtml(cfgX);
   check(pendientesHtml.includes("213010010") && pendientesHtml.includes("212020002"),
     "el panel dibuja las dos cuentas en conflicto");
-  check(pendientesHtml.includes("Zento S.A."), 'el panel de pendientes lista la línea de Nota 4 "Zento S.A." sin cuenta');
+  // El maestro no tiene que tener pendientes. Si aparece alguno, se lista para poder verlo.
+  check(cfg.avisos.length === 0,
+    cfg.avisos.length
+      ? `quedan ${cfg.avisos.length} pendiente(s): ` +
+        cfg.avisos.map(a => `${a.tipo} (${a.texto || "fila " + a.fila})`).join(", ")
+      : "el maestro no tiene pendientes: cada línea del balance sabe de qué cuenta sale");
+
+  // Y que el panel sabe dibujar una línea sin cuenta, con un caso armado.
+  const wbY = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
+  wbY.getWorksheet("SALDOS").getCell(40, 3).value = null;      // se le saca la cuenta a Zento
+  const cfgY = derivarConfigBalance(wbY, "pesos", derivarMapeoMaestro(wbY, "pesos"),
+    lineasDeNota4(wbY), PARAMS.pesos, { filasQueAgrega });
+  check(pccPendientesHtml(cfgY).includes("Zento"),
+    "si una línea se queda sin cuenta, el panel la lista");
 
   const cat154 = categorias.find(c => c.filaMadre === 154);
   const miembroHtml = gcMiembroHtml(cat154, cat154.miembros[0]);

@@ -1,8 +1,13 @@
 // El panel de configuración de cuentas (panel_config_cuentas.js) sobre el maestro real de
-// pesos: confirma que arma el resumen y los pendientes (config_balances.js) — el pendiente
-// conocido de la fila 137 ("Patentes a pagar" vs "Retenciones SUSS a pagar") — y que renderiza
+// pesos: confirma que arma el resumen y los pendientes (config_balances.js) y que renderiza
 // una categoría y sus cuentas sin tirar excepción. La lógica de sacar/agregar/editar cuentas
 // se prueba aparte, en test_gestion_categorias.js.
+//
+// La detección de "dos cuentas en la misma fila" se prueba con una fila ARMADA a propósito, no
+// contra el defecto que traía el maestro. Antes se apoyaba en la fila 137 —que decía
+// "213010010 Patentes a pagar" en una columna y "212020002 Retenciones SUSS a pagar" en la
+// otra— y al arreglarla el test se puso en rojo sin que nada se hubiera roto. Un test que se
+// cae cuando se arregla el archivo mide el archivo, no el código.
 const fs = require("fs");
 const path = require("path");
 const AQUI = __dirname;
@@ -42,19 +47,34 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   check(cfg.lineas.length === 444, `444 líneas en el balance de pesos (dio ${cfg.lineas.length})`);
   check(cfg.resumen.conMadre === 3, `3 casos de madre/hija resueltos solos (dio ${cfg.resumen.conMadre})`);
 
-  const conflicto137 = cfg.avisos.find(a => a.tipo === "dos_cuentas_en_la_misma_fila" && a.usa.code === "213010010");
-  check(!!conflicto137, 'la fila 137 queda marcada como pendiente ("213010010")');
-  check(conflicto137 && conflicto137.tambien.code === "212020002",
-    "el conflicto de la fila 137 muestra la otra cuenta (212020002 Retenciones SUSS a pagar)");
+  // El maestro no tiene que tener filas con dos cuentas distintas. Si aparece alguna, se
+  // muestra acá para poder mirarla.
+  const conflictos = cfg.avisos.filter(a => a.tipo === "dos_cuentas_en_la_misma_fila");
+  check(conflictos.length === 0,
+    conflictos.length
+      ? `hay ${conflictos.length} fila(s) con dos cuentas: ` +
+        conflictos.map(c => `${c.fila} (${c.usa.code} / ${c.tambien.code})`).join(", ")
+      : "ninguna fila del maestro tiene dos cuentas distintas escritas");
+
+  // Y que la detección funciona: se arma una fila con dos cuentas y tiene que saltar.
+  const wbX = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
+  const wsX = wbX.getWorksheet("SALDOS");
+  wsX.getCell(137, 4).value = "212020002 - Retenciones SUSS a pagar";   // como estaba antes
+  const cfgX = derivarConfigBalance(wbX, "pesos", derivarMapeoMaestro(wbX, "pesos"),
+    lineasDeNota4(wbX), PARAMS.pesos, { filasQueAgrega });
+  const c137 = cfgX.avisos.find(a => a.tipo === "dos_cuentas_en_la_misma_fila" && a.fila === 137);
+  check(!!c137, "con dos cuentas escritas en una fila, el panel lo marca");
+  check(c137 && c137.usa.code === "213010010" && c137.tambien.code === "212020002",
+    "y dice cuál usa y cuál es la otra");
 
   const resumenHtml = pccResumenHtml(cfg, cfg.avisos.length, categorias.length);
   check(resumenHtml.includes(String(cfg.resumen.lineas)), "el resumen HTML muestra el total de líneas");
   check(resumenHtml.includes(String(cfg.avisos.length)), "el resumen HTML muestra la cantidad de pendientes");
   check(resumenHtml.includes(String(categorias.length)), "el resumen HTML muestra la cantidad de categorías");
 
-  const pendientesHtml = pccPendientesHtml(cfg);
+  const pendientesHtml = pccPendientesHtml(cfgX);
   check(pendientesHtml.includes("213010010") && pendientesHtml.includes("212020002"),
-    "el panel de pendientes muestra las dos cuentas en conflicto de la fila 137");
+    "el panel dibuja las dos cuentas en conflicto");
   check(pendientesHtml.includes("Zento S.A."), 'el panel de pendientes lista la línea de Nota 4 "Zento S.A." sin cuenta');
 
   const cat154 = categorias.find(c => c.filaMadre === 154);

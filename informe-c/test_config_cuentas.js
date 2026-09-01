@@ -69,10 +69,19 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   check(c137 && c137.usa.code === "213010010" && c137.tambien.code === "212020002",
     "y dice cuál usa y cuál es la otra");
 
+  // El encabezado muestra SOLO los pendientes: los otros contadores no pedían ninguna acción
+  // y diluían al único que sí.
   const resumenHtml = pccResumenHtml(cfg, cfg.avisos.length, categorias.length);
-  check(resumenHtml.includes(String(cfg.resumen.lineas)), "el resumen HTML muestra el total de líneas");
-  check(resumenHtml.includes(String(cfg.avisos.length)), "el resumen HTML muestra la cantidad de pendientes");
-  check(resumenHtml.includes(String(categorias.length)), "el resumen HTML muestra la cantidad de categorías");
+  check(resumenHtml.includes("Pendientes de revisar") && resumenHtml.includes(">0<"),
+    "el encabezado muestra los pendientes, y hoy son 0");
+  check(resumenHtml.includes("check ok") && !resumenHtml.includes("check bad"),
+    "y en verde, porque no hay ninguno");
+  check(!resumenHtml.includes(String(categorias.length)) || categorias.length === 0,
+    "ya no muestra el resto de los contadores");
+
+  const conPendientes = pccResumenHtml(cfg, 3, categorias.length);
+  check(conPendientes.includes("check bad") && conPendientes.includes(">3<"),
+    "y si hubiera pendientes, los muestra en rojo");
 
   const pendientesHtml = pccPendientesHtml(cfgX);
   check(pendientesHtml.includes("213010010") && pendientesHtml.includes("212020002"),

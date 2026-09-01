@@ -18,21 +18,26 @@ const PCC_CAP_ABREV = {
 
 // ------------------------------------------------------------------ pendientes (lectura)
 
+// Sólo lo que pide una acción.
+//
+// Antes había cuatro contadores —líneas, categorías, códigos distintos, pendientes— y tres de
+// ellos no le decían a nadie qué hacer: son números que están bien cualesquiera sean. Al
+// ponerlos al lado del único que importa, lo diluían. Queda el de pendientes, que es el que
+// dice si hay algo para mirar; el detalle de cada uno va abajo.
 function pccResumenHtml(cfg, pendientesTotal, categoriasN) {
-  const r = cfg.resumen;
-  const items = [
-    { name: "Líneas del balance", value: r.lineas },
-    { name: "Categorías de gastos", value: categoriasN },
-    { name: "Código distinto para el cliente", value: r.conCliente },
-    { name: "Pendientes de revisar", value: pendientesTotal, bad: pendientesTotal > 0 },
-  ];
-  return `<div class="checks" style="grid-template-columns:repeat(4,1fr); margin-top:16px;">` +
-    items.map(it => `
-      <div class="check ${it.bad ? "bad" : "ok"}">
-        <div class="name">${it.name}</div>
-        <div class="value">${it.value}</div>
-      </div>`).join("") +
-    `</div>`;
+  const hay = pendientesTotal > 0;
+  return `
+    <div class="checks" style="margin-top:16px;">
+      <div class="check ${hay ? "bad" : "ok"}">
+        <div>
+          <div class="name">Pendientes de revisar</div>
+          <div class="detail">${hay
+            ? "Líneas del balance que no está claro de qué cuenta salen."
+            : "Cada línea del balance sabe de qué cuenta de Onvio sale."}</div>
+        </div>
+        <div class="value">${pendientesTotal}</div>
+      </div>
+    </div>`;
 }
 
 function pccPendientesHtml(cfg) {

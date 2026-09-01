@@ -1,9 +1,10 @@
 // Panel de configuración de cuentas — Pesos.
 //
 // Dos cosas distintas, una arriba de la otra:
-//   1. Pendientes (config_balances.js): lo que el maestro tiene ambiguo o sin resolver —
-//      dos cuentas escritas en la misma fila, líneas de la Nota 4 sin ninguna cuenta. Es
-//      diagnóstico, no se edita acá.
+//   1. Pendientes (config_balances.js): lo que el maestro tiene ambiguo o mal puesto — dos
+//      cuentas escritas en la misma fila, una cuenta en una columna que la fórmula no lee.
+//      Aparte van las líneas SIN cuenta asignada, que no son un error sino un estado válido
+//      y traen un campo para asignarles una cuenta de Onvio.
 //   2. Categorías (gestion_categorias.js): qué cuentas de Onvio arman cada categoría de
 //      RESULTADOS (las que Anexo II reparte en Administración/Comercialización/Exploración/
 //      Financieros). Ahí sí se edita: sacar una cuenta, agregar una nueva, corregir código o
@@ -74,11 +75,7 @@ function pccPendientesHtml(cfg) {
           </div>` : ""}
         </div>`);
     } else if (a.tipo === "linea_sin_cuenta") {
-      bloques.push(`
-        <div class="status-msg bad">
-          <b>Nota 4, fila ${a.nota4}: "${a.texto}"</b> no tiene ninguna cuenta que la
-          alimente hoy — siempre sale en 0.
-        </div>`);
+      continue;   // no es un pendiente: ver pccSinCuentaHtml
     } else if (a.tipo === "codigo_repetido") {
       bloques.push(`
         <div class="status-msg bad">
@@ -87,6 +84,86 @@ function pccPendientesHtml(cfg) {
     }
   }
   return bloques.length ? `<div style="margin-top:14px;">${bloques.join("")}</div>` : "";
+}
+
+// Las líneas del balance que hoy no tienen ninguna cuenta que las alimente.
+//
+// NO son un pendiente: que una línea esté prevista y todavía sin cuenta es un estado válido
+// —"- Socios" de la Nota 4 es así— y marcarla en rojo todos los meses enseña a ignorar el
+// panel. Lo que sí hace falta es que se vea y que se pueda resolver sin abrir el Excel, así
+// que cada una viene con la lista de cuentas de Onvio para elegirle la suya.
+//
+// El código se ESCRIBE, con sugerencias. La tentación era un desplegable cerrado con las
+// cuentas de `Hoja1`, pero Hoja1 no es el plan de Onvio: la corrida sólo le agrega las cuentas
+// que el balance ya tiene una fila para recibir. Medido en el maestro de pesos, Hoja1 tiene 243
+// cuentas contra las ~2.900 del export, y de esas 243 quedan 10 sin usar, 9 de ellas
+// proveedores. Un desplegable con eso adentro no deja elegir casi nada y encima sugiere que
+// eso es todo lo que Onvio manda.
+//
+// Entonces: campo libre para el código, con las libres de Hoja1 como sugerencia (esas son las
+// seguras, porque el VLOOKUP busca contra el texto de Hoja1 y ahí ya está), y el nombre se
+// completa solo cuando el código es una de ellas. Es la misma forma que ya tiene "corregir"
+// más arriba, así que el panel no estrena una manera distinta de hacer lo mismo.
+function pccSinCuentaHtml(cfg, cuentasOnvio) {
+  const lineas = (cfg.avisos || []).filter(a => a.tipo === "linea_sin_cuenta");
+  if (!lineas.length) return "";
+  const sug = (cuentasOnvio || []).map(c =>
+    `<option value="${gcEsc(c.codigo)}">${gcEsc(c.nombre)}</option>`).join("");
+  return `
+    <div style="margin-top:14px;">
+      <div class="gc-tit" style="margin-bottom:6px;">Líneas sin cuenta asignada</div>
+      <p class="footer-note" style="margin-top:0;">Están en el balance y hoy salen en cero
+        porque no hay ninguna cuenta de Onvio que las alimente. Se les puede asignar una.</p>
+      <datalist id="scSugeridas">${sug}</datalist>
+      ${lineas.map(a => `
+        <div class="status-msg">
+          <b>Nota 4, fila ${a.nota4}: "${gcEsc(a.texto)}"</b> — sale en cero.
+          <div class="gc-form" style="margin-top:10px;">
+            <span style="font-size:12px;">Asignarle una cuenta de Onvio:</span>
+            <input type="text" class="gc-cod-input sc-cod" id="cc_cod_${a.saldos}"
+                   list="scSugeridas" placeholder="código" data-fila="${a.saldos}">
+            <input type="text" id="cc_nom_${a.saldos}" placeholder="nombre, igual que en Onvio">
+            <button data-accion="cc-corregir" data-fila="${a.saldos}">Asignar</button>
+          </div>
+          <p class="footer-note">El código y el nombre tienen que ser los de Onvio, letra por
+            letra: el balance busca la cuenta por ese texto. Si el código es uno de los
+            sugeridos, el nombre se completa solo y no hay con qué errarle.</p>
+        </div>`).join("")}
+    </div>`;
+}
+
+// Las cuentas de Onvio, leídas de Hoja1 del propio maestro. La clave de Hoja1 es el texto
+// completo "código - nombre", que es exactamente lo que hay que escribir en SALDOS.
+//
+// Se dejan afuera las que YA están puestas en otra línea del balance. Sin ese filtro la lista
+// ofrecía "111010001 - Caja", que ya alimenta su propia línea: asignarla a una segunda la
+// contaba dos veces y el balance se abría. Probado: pasaba de 0 pendientes a 2.
+function pccCuentasDeHoja1(wb, mapeo) {
+  const ws = wb && wb.getWorksheet("Hoja1");
+  if (!ws) return [];
+  const yaPuestas = new Set(Object.keys((mapeo && mapeo.cuentas) || {}).map(String));
+  const out = [];
+  const vistas = new Set();
+  const texto = (v) => {
+    if (v === null || v === undefined) return "";
+    if (typeof v === "object") {
+      if (v.richText) return v.richText.map(t => t.text).join("");
+      if (v.result !== undefined) return String(v.result);
+      return "";
+    }
+    return String(v);
+  };
+  ws.eachRow({ includeEmpty: false }, (row, r) => {
+    if (r < 2) return;
+    const t = texto(row.getCell(1).value).trim();
+    const m = /^\s*(\d{5,})\s*-\s*(.+?)\s*$/.exec(t);
+    if (!m || vistas.has(m[1])) return;
+    vistas.add(m[1]);
+    if (yaPuestas.has(m[1])) return;      // ya alimenta otra línea del balance
+    out.push({ codigo: m[1], nombre: m[2] });
+  });
+  out.sort((a, b) => a.codigo.localeCompare(b.codigo));
+  return out;
 }
 
 // -------------------------------------------------------------- estado del panel, en memoria
@@ -101,6 +178,7 @@ let pccAbiertas = new Set();   // qué categorías quedan desplegadas al re-rend
 let pccEditando = null;        // {fila} de la cuenta en edición inline
 let pccAgregando = null;       // filaMadre de la categoría con el form de "agregar" abierto
 let pccAnexo = null;           // {lineas, conceptos, columnas, verificacion} del Anexo II
+let pccOnvio = [];             // las cuentas de Onvio (Hoja1), para asignarlas a una línea
 
 function pccLog(msg) {
   pccCambios.push(msg);
@@ -118,6 +196,8 @@ function pccRecalcular() {
   const g = categoriasPesos(pccWb, pccMapeo);
   pccCategorias = g.categorias;
   pccSueltas = g.sueltas;
+
+  pccOnvio = pccCuentasDeHoja1(pccWb, pccMapeo);
 
   const madres = madresResultados(pccWb, "pesos");
   pccAnexo = {
@@ -235,9 +315,12 @@ function gcSueltasHtml(sueltas) {
 }
 
 function gcRender() {
-  const pendientesTotal = pccCfg.avisos.length;
+  // Una línea sin cuenta asignada no cuenta como pendiente: es un estado válido y tiene su
+  // propio bloque, con la lista para asignarle una.
+  const pendientesTotal = pccCfg.avisos.filter(a => a.tipo !== "linea_sin_cuenta").length;
   $("configCuentasResumen").innerHTML = pccResumenHtml(pccCfg, pendientesTotal, pccCategorias.length);
-  $("configCuentasPendientes").innerHTML = pccPendientesHtml(pccCfg);
+  $("configCuentasPendientes").innerHTML =
+    pccPendientesHtml(pccCfg) + pccSinCuentaHtml(pccCfg, pccOnvio);
 
   const q = ($("gcBuscar").value || "").trim().toLowerCase();
   const filtrar = (cat) => !q ||
@@ -388,6 +471,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.open) pccAbiertas.add(fila); else pccAbiertas.delete(fila);
   }, true);
 
+  // Al escribir (o elegir) un código sugerido, se completa el nombre solo. El VLOOKUP del
+  // balance busca la cuenta por el texto entero "código - nombre", así que un nombre tipeado
+  // con una letra distinta deja la línea igual de muda, pero pareciendo arreglada.
+  cont.addEventListener("input", (e) => {
+    const campo = e.target.closest("input.sc-cod");
+    if (!campo) return;
+    const cuenta = pccOnvio.find(c => c.codigo === campo.value.trim());
+    if (cuenta) $(`cc_nom_${campo.dataset.fila}`).value = cuenta.nombre;
+  });
+
   cont.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-accion]");
     if (!btn) return;
@@ -484,5 +577,6 @@ async function guardarCambiosCategorias() {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { pccResumenHtml, pccPendientesHtml, gcMiembroHtml, gcCategoriaHtml, gcEsc };
+  module.exports = { pccResumenHtml, pccPendientesHtml, pccSinCuentaHtml, pccCuentasDeHoja1,
+                     gcMiembroHtml, gcCategoriaHtml, gcEsc };
 }

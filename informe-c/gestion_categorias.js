@@ -193,6 +193,68 @@ function editarCuenta(wb, fila, col, nuevoCodigo, nuevoNombre, log = () => {}) {
   return { fila, filaHoja1: filaH1, antes, nuevo };
 }
 
+// La cuenta está escrita en la columna equivocada.
+//
+// Cada fila de SALDOS levanta su importe con un VLOOKUP cuya clave es UNA columna concreta
+// (`VLOOKUP(C40, Hoja1!...)`). Si el texto de la cuenta quedó en la columna de al lado, la
+// fórmula lee una celda vacía y la fila no puede traer un importe nunca. En el bloque del
+// activo las filas sanas tienen el mismo texto en C y en D; las rotas tienen la C vacía.
+//
+// Se escribe SOLO la columna clave y no se toca la otra: en la fila 43 la D trae el código
+// viejo del cliente (`12301000` contra el `123010000` de Onvio), y ése es justamente el dato
+// que hay que conservar — es la equivalencia entre los dos planes de cuentas.
+function cfgColumnaClaveDe(ws, fila, colValor) {
+  const RE = /VLOOKUP\(\s*\$?([A-Z]{1,3})\$?(\d+)\s*[,;]\s*Hoja1!/i;
+  for (const c of [colValor, colValor - 1]) {
+    const f = ws.getCell(fila, c).formula;
+    const m = f && RE.exec(String(f));
+    if (m && +m[2] === fila) {
+      return m[1].split("").reduce((n, ch) => n * 26 + (ch.charCodeAt(0) - 64), 0);
+    }
+  }
+  return null;
+}
+
+function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
+  const ws = wb.getWorksheet("SALDOS");
+  if (!ws) throw new Error("El archivo no tiene la hoja 'SALDOS'.");
+  if (!/^\d{5,}$/.test(String(codigo))) {
+    throw new Error(`"${codigo}" no parece un código de cuenta válido. NO se tocó el archivo.`);
+  }
+  const colClave = cfgColumnaClaveDe(ws, fila, 7);
+  if (colClave === null) {
+    throw new Error(`La fila ${fila} de SALDOS no levanta su importe con un VLOOKUP contra Hoja1, ` +
+                    `así que no hay ninguna columna clave que corregir. NO se tocó el archivo.`);
+  }
+  const yaHabia = String(ws.getCell(fila, colClave).value || "").trim();
+  if (yaHabia) {
+    throw new Error(`La fila ${fila} ya tiene "${yaHabia}" en su columna clave. ` +
+                    `Si hay que cambiarla, se hace desde "corregir". NO se tocó el archivo.`);
+  }
+
+  const texto = `${codigo} - ${nombre}`;
+  ws.getCell(fila, colClave).value = texto;
+  // el formato de una fila vecina sana, para que no quede desalineada
+  for (const vecina of [fila - 1, fila + 1, fila - 2]) {
+    const v = ws.getCell(vecina, colClave);
+    if (v && v.value !== null && v.value !== undefined && String(v.value).trim()) {
+      ws.getCell(fila, colClave).style = v.style;
+      break;
+    }
+  }
+
+  // ¿va a encontrar su importe? Todavía puede no estar en Hoja1 si nunca vino en un export.
+  const hoja1 = wb.getWorksheet("Hoja1");
+  const enHoja1 = hoja1 ? gcFilaEnHoja1(hoja1, 1, texto) : null;
+  const letra = String.fromCharCode(64 + colClave);
+  log(`  Fila ${fila}: la cuenta pasa a la columna ${letra}, que es la que lee la fórmula — ` +
+      `"${texto}".` +
+      (enHoja1 ? ` Ya la encuentra en Hoja1 (fila ${enHoja1}).`
+               : ` Todavía no está en Hoja1 porque no vino en ningún export; va a leer su ` +
+                 `importe el mes que Onvio la mande.`));
+  return { fila, columna: letra, texto, enHoja1 };
+}
+
 // Agrega una cuenta nueva a una categoría: es la misma operación que usa el alta de
 // cuentas nuevas durante la corrida mensual (motor_balances.js).
 function agregarCuentaACategoria(wb, mapeo, cuenta, categoria, log = () => {}) {
@@ -202,6 +264,6 @@ function agregarCuentaACategoria(wb, mapeo, cuenta, categoria, log = () => {}) {
 if (typeof module !== "undefined") {
   module.exports = {
     gcFilasDelBloque, categoriasPesos, quitarCuentaDeCategoria, editarCuenta, agregarCuentaACategoria,
-    gcFilaEnHoja1, gcNormClave,
+    gcFilaEnHoja1, gcNormClave, corregirColumnaDeCuenta, cfgColumnaClaveDe,
   };
 }

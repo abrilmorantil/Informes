@@ -123,6 +123,40 @@ function encuentraSuImporte(wb, r) {
   check(!!tiro3 && /código de cuenta válido/.test(tiro3), "un código inválido se rechaza");
   check(V(s3.getCell(victima.fila, victima.col)) === antes3, "y no se tocó el archivo");
 
+  // ------------------------------------------------ la cuenta escrita en la columna equivocada
+  //
+  // Cada fila levanta su importe con un VLOOKUP cuya clave es UNA columna. Si el texto quedó
+  // en la de al lado, la fórmula lee vacío y la fila no puede traer un importe nunca. En el
+  // maestro pasa en las filas 40 y 43 —Zento S.A. y Títulos Públicos—, las dos en cero hoy.
+  const wb4 = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
+  const s4 = wb4.getWorksheet("SALDOS");
+  const { corregirColumnaDeCuenta, cfgColumnaClaveDe } = require(path.join(AQUI, "gestion_categorias.js"));
+
+  check(cfgColumnaClaveDe(s4, 40, 7) === 3, "la columna clave de la fila 40 es la C (la que lee el VLOOKUP)");
+  check(V(s4.getCell(40, 3)).trim() === "", "y hoy está vacía");
+  check(V(s4.getCell(40, 4)).trim().startsWith("114060002"), "mientras la cuenta está en la D");
+
+  const rc = corregirColumnaDeCuenta(wb4, 40, "114060002", "Zento S.A.");
+  check(rc.columna === "C" && V(s4.getCell(40, 3)).trim() === "114060002 - Zento S.A.",
+    "corregirla la pone en la columna que la fórmula lee");
+  check(V(s4.getCell(40, 4)).trim().startsWith("114060002"),
+    "y NO toca la otra columna: ahí puede estar el código viejo del cliente, que es el dato a conservar");
+
+  const motorM = require(path.join(AQUI, "motor_balances.js"));
+  check(!!motorM.derivarMapeoMaestro(wb4, "pesos", null).cuentas["114060002"],
+    "ahora el motor sí ve la cuenta");
+
+  // no se pisa una columna clave que ya tenía algo
+  let tiro4 = null;
+  try { corregirColumnaDeCuenta(wb4, 40, "114060002", "otra cosa"); } catch (e) { tiro4 = e.message; }
+  check(!!tiro4 && /ya tiene/.test(tiro4), "corregir dos veces no pisa lo que ya está");
+
+  // y un código inválido no toca nada
+  const antes44 = V(s4.getCell(43, 3));
+  tiro4 = null;
+  try { corregirColumnaDeCuenta(wb4, 43, "abc", "x"); } catch (e) { tiro4 = e.message; }
+  check(!!tiro4 && V(s4.getCell(43, 3)) === antes44, "un código inválido se rechaza sin tocar nada");
+
   // ------------------------------------------------ el maestro del disco, intacto
   const disco = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
   check(V(disco.getWorksheet("SALDOS").getCell(victima.fila, victima.col)).trim() === victima.clave,

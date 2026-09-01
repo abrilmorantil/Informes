@@ -19,7 +19,7 @@
 // puede servir la copia vieja. La marca en sessionStorage evita quedar recargando en loop si
 // algo saliera mal.
 (function () {
-  var MIA = "2026-09-01d";
+  var MIA = "2026-09-01f";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -69,6 +69,29 @@
   .gc-miembro .gc-nom .cod{font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; color:var(--ink-soft); margin-right:6px;}
   .gc-miembro .gc-acciones{display:flex; gap:6px; flex:none;}
   .gc-miembro .gc-acciones button{padding:5px 11px; font-size:12px; box-shadow:none;}
+
+  /* ---- Anexo II: los dos desplegables son cosas distintas y hay que decirlo ----
+     Uno es el CONCEPTO (el renglón con el que sale impreso) y el otro el TIPO DE GASTO
+     (Administración / Comercialización / Exploración / Financieros). Sin rótulo se
+     confunden, porque en muchas filas los dos dicen algo parecido. Los anchos van fijos
+     para que el rótulo quede justo encima de su control. */
+  .gc-acciones .a2-concepto, .gc-acciones .combo{width:210px; flex:none;}
+  .gc-acciones .a2-columna{width:180px; flex:none;}
+  .a2-encabezado{
+    border-bottom:1px solid var(--line); padding-bottom:6px; margin-bottom:2px;
+    align-items:flex-end;
+  }
+  .a2-encabezado .gc-nom{
+    font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft);
+    font-weight:600;
+  }
+  .a2-rotulo{
+    font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft);
+    font-weight:600; text-align:left;
+  }
+  .a2-rot-concepto{width:210px; flex:none;}
+  .a2-rot-tipo{width:180px; flex:none;}
+  .a2-rot-boton{width:62px; flex:none;}
   .gc-compartida{font-size:11.5px; color:var(--ink-soft); font-style:italic;}
   .gc-form{display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap;}
   .gc-form input{width:auto; flex:1; min-width:120px;}
@@ -399,24 +422,24 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-01d"></script>
-<script src="../informe-a/formula_utils.js?v=2026-09-01d"></script>
-<script src="formula_hojas.js?v=2026-09-01d"></script>
-<script src="parser_balances.js?v=2026-09-01d"></script>
-<script src="clasificacion.js?v=2026-09-01d"></script>
-<script src="motor_balances.js?v=2026-09-01d"></script>
-<script src="config_balances.js?v=2026-09-01d"></script>
-<script src="gestion_categorias.js?v=2026-09-01d"></script>
-<script src="anexo2.js?v=2026-09-01d"></script>
-<script src="panel_config_cuentas.js?v=2026-09-01d"></script>
-<script src="dolares.js?v=2026-09-01d"></script>
-<script src="eerr.js?v=2026-09-01d"></script>
-<script src="libro_eerr.js?v=2026-09-01d"></script>
-<script src="importar_eerr.js?v=2026-09-01d"></script>
-<script src="../fechas.js?v=2026-09-01d"></script>
-<script src="capital.js?v=2026-09-01d"></script>
-<script src="github_c.js?v=2026-09-01d"></script>
-<script src="app.js?v=2026-09-01d"></script>
+<script src="../buscador.js?v=2026-09-01f"></script>
+<script src="../informe-a/formula_utils.js?v=2026-09-01f"></script>
+<script src="formula_hojas.js?v=2026-09-01f"></script>
+<script src="parser_balances.js?v=2026-09-01f"></script>
+<script src="clasificacion.js?v=2026-09-01f"></script>
+<script src="motor_balances.js?v=2026-09-01f"></script>
+<script src="config_balances.js?v=2026-09-01f"></script>
+<script src="gestion_categorias.js?v=2026-09-01f"></script>
+<script src="anexo2.js?v=2026-09-01f"></script>
+<script src="panel_config_cuentas.js?v=2026-09-01f"></script>
+<script src="dolares.js?v=2026-09-01f"></script>
+<script src="eerr.js?v=2026-09-01f"></script>
+<script src="libro_eerr.js?v=2026-09-01f"></script>
+<script src="importar_eerr.js?v=2026-09-01f"></script>
+<script src="../fechas.js?v=2026-09-01f"></script>
+<script src="capital.js?v=2026-09-01f"></script>
+<script src="github_c.js?v=2026-09-01f"></script>
+<script src="app.js?v=2026-09-01f"></script>
 <script>
   document.getElementById("comoToken").addEventListener("click", (ev) => {
     ev.preventDefault();

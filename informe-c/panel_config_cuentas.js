@@ -47,13 +47,26 @@ function pccPendientesHtml(cfg) {
           <br>· <b>${a.tambien.code}</b> — ${a.tambien.description} (columna ${a.tambien.columna})
         </div>`);
     } else if (a.tipo === "cuenta_en_la_columna_equivocada") {
+      // Se ofrece el arreglo con los datos ya puestos, pero EDITABLES. No se copia y listo
+      // porque el código de la otra columna puede ser el viejo del cliente y no existir en
+      // Onvio: es el caso de "12301000 - Titulos Públicos", cuyo código real es 123010000.
+      // Copiarlo tal cual dejaría la cuenta igual de muda, y encima pareciendo arreglada.
+      const c0 = a.cuentas[0];
       bloques.push(`
         <div class="status-msg bad">
           <b>Nota 4, fila ${a.nota4}: "${a.texto}"</b> nunca puede traer un importe: en la fila
           ${a.saldos} de SALDOS la cuenta está escrita en la columna
           ${a.cuentas.map(c => `<b>${c.columna}</b> (${c.code} — ${c.description})`).join(" y ")},
-          pero la fórmula lee otra columna, que está vacía. Se arregla moviendo el texto de
-          columna en el Excel.
+          pero la fórmula lee otra columna, que está vacía.
+          ${a.cuentas.length === 1 ? `
+          <div class="gc-form" style="margin-top:10px;">
+            <span style="font-size:12px;">Ponerla en la columna que la fórmula lee:</span>
+            <input type="text" class="gc-cod-input" id="cc_cod_${a.saldos}" value="${gcEsc(c0.code)}">
+            <input type="text" id="cc_nom_${a.saldos}" value="${gcEsc(c0.description)}">
+            <button data-accion="cc-corregir" data-fila="${a.saldos}">Corregir</button>
+            <p class="footer-note">Revisá el código: si el que figura es el viejo del plan del
+              cliente, la cuenta va a seguir sin traer importe. Tiene que ser el de Onvio.</p>
+          </div>` : ""}
         </div>`);
     } else if (a.tipo === "linea_sin_cuenta") {
       bloques.push(`
@@ -291,6 +304,14 @@ function a2BloqueHtml() {
         <span class="gc-n">${ls.length} cuenta${ls.length === 1 ? "" : "s"} madre</span>
       </summary>
       <div class="gc-body">
+        <div class="gc-miembro a2-encabezado">
+          <div class="gc-nom">Cuenta madre</div>
+          <div class="gc-acciones">
+            <span class="a2-rotulo a2-rot-concepto">Concepto del Anexo II</span>
+            <span class="a2-rotulo a2-rot-tipo">Tipo de gasto</span>
+            <span class="a2-rotulo a2-rot-boton"></span>
+          </div>
+        </div>
         ${ls.map(l => {
           const d = l.donde[0];
           return `
@@ -314,8 +335,10 @@ function a2BloqueHtml() {
       Anexo II — en qué columna cae cada gasto</h3>
     <p class="footer-note" style="margin-top:0;">
       El Anexo II lee el <b>subtotal de la cuenta madre</b>, nunca sus subcuentas: por eso una
-      subcuenta nueva entra sola y acá no hay que tocar nada. Lo que se decide acá es
-      <b>en qué columna</b> cae ese gasto.
+      subcuenta nueva entra sola y acá no hay que tocar nada. Lo que se decide acá son dos
+      cosas: el <b>concepto</b> —el renglón con el que sale impreso en el Anexo II— y el
+      <b>tipo de gasto</b>, que es la columna donde cae: Administración, Comercialización,
+      Exploración o Financieros.
     </p>
     ${a2EstadoHtml(verificacion)}
     <div style="margin-top:12px;">${grupos || '<p class="footer-note">Nada coincide con la búsqueda.</p>'}</div>`;
@@ -396,6 +419,14 @@ document.addEventListener("DOMContentLoaded", () => {
         $("gcNuevoCod").focus();
       } else if (accion === "agregar-cancelar") {
         pccAgregando = null;
+        gcRender();
+      } else if (accion === "cc-corregir") {
+        const f = +btn.dataset.fila;
+        const cod = $(`cc_cod_${f}`).value.trim();
+        const nom = $(`cc_nom_${f}`).value.trim();
+        if (!nom) throw new Error("El nombre no puede quedar vacío.");
+        corregirColumnaDeCuenta(pccWb, f, cod, nom, pccLog);
+        pccRecalcular();
         gcRender();
       } else if (accion === "a2-mover") {
         const f = +btn.dataset.fila;

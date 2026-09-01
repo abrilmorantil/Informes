@@ -917,6 +917,85 @@ function declararEquivalenciaCc({ mapeo, nombreOnvio, nombreBalance, log = () =>
   return { nombreOnvio: onvio, nombre_balance: bloque.nombre_balance };
 }
 
+// La fila de "Gastos Acumulados" de un proyecto nuevo.
+//
+// La hoja tiene una fila por proyecto: A el nombre, B el acumulado de años anteriores (que es
+// de la usuaria y no se toca nunca), C el acumulado del año, D el mes —una formula a
+// TOTAL GASTOS de su columna de Dist.de gastos—, E = C+D y F = B+E.
+//
+// La fila nueva entra JUSTO ARRIBA de la de totales, y los SUM de esa fila se estiran a mano
+// para incluirla. No alcanza con insertar: un rango que termina antes del punto de insercion
+// no se expande solo —ni en Excel ni aca— asi que la fila quedaria afuera del total y la hoja
+// mostraria importes correctos que no suman. Es exactamente el bug que ya aparecio cuatro
+// veces en este archivo.
+function agregarFilaGastosAcumulados({ wb, nombre, distCol, log = () => {} }) {
+  const ws = wb.getWorksheet("Gastos Acumulados");
+  if (!ws) return null;
+  if (typeof insertRowEn !== "function") {
+    throw new Error("Falta formula_hojas.js: sin el no se puede insertar la fila.");
+  }
+  const wsDist = wb.getWorksheet("Dist.de gastos");
+  const filaTotalGastos = filaTotalGastosDeDist(wsDist);
+  if (!filaTotalGastos) {
+    throw new Error("No encontre la fila TOTAL GASTOS de 'Dist.de gastos'.");
+  }
+
+  // La fila de totales: la que suma las columnas y no tiene nombre de proyecto.
+  let filaTotales = null;
+  for (let r = 1; r <= ws.rowCount; r++) {
+    const f = ws.getCell(r, 2).formula;
+    if (f && /^\s*\+?SUM\(/i.test(String(f)) && !textoPlano(ws.getCell(r, 1))) { filaTotales = r; break; }
+  }
+  if (filaTotales === null) {
+    throw new Error("No encontre la fila de totales de 'Gastos Acumulados'.");
+  }
+
+  // Una fila de proyecto que sirva de modelo para los estilos: nombre en A y formula en D.
+  let modelo = null;
+  for (let r = 1; r < filaTotales && modelo === null; r++) {
+    if (textoPlano(ws.getCell(r, 1)) && ws.getCell(r, 4).formula) modelo = r;
+  }
+  if (modelo === null) throw new Error("No encontre ninguna fila de proyecto de la que copiar el formato.");
+
+  const nueva = filaTotales;
+  insertRowEn(wb, "Gastos Acumulados", nueva);
+
+  const estilo = (c) => ws.getCell(modelo, c).style;
+  ws.getCell(nueva, 1).value = nombre;
+  ws.getCell(nueva, 1).style = estilo(1);
+  // El acumulado de años anteriores de un proyecto nuevo es 0: no tiene historia.
+  ws.getCell(nueva, 2).value = 0;
+  ws.getCell(nueva, 2).style = estilo(2);
+  ws.getCell(nueva, 3).value = 0;
+  ws.getCell(nueva, 3).style = estilo(3);
+  ws.getCell(nueva, 4).value = { formula: `+'Dist.de gastos'!${distCol}${filaTotalGastos}` };
+  ws.getCell(nueva, 4).style = estilo(4);
+  ws.getCell(nueva, 5).value = { formula: `+C${nueva}+D${nueva}` };
+  ws.getCell(nueva, 5).style = estilo(5);
+  ws.getCell(nueva, 6).value = { formula: `+B${nueva}+E${nueva}` };
+  ws.getCell(nueva, 6).style = estilo(6);
+
+  // Los totales tienen que llegar hasta la fila nueva.
+  const filaTot = filaTotales + 1;
+  const estirados = [];
+  for (let c = 1; c <= ws.columnCount; c++) {
+    const cell = ws.getCell(filaTot, c);
+    const f = cell.formula;
+    if (!f) continue;
+    const m = /^(\+?)SUM\(\$?([A-Z]{1,3})\$?(\d+):\$?([A-Z]{1,3})\$?(\d+)\)$/i.exec(String(f).trim());
+    if (!m) continue;
+    if (+m[5] >= nueva) continue;                       // ya la incluye
+    const nuevaF = `${m[1]}SUM(${m[2]}${m[3]}:${m[4]}${nueva})`;
+    cell.value = { formula: nuevaF };
+    estirados.push(`${indiceACol(c)}${filaTot}: ${f} -> ${nuevaF}`);
+  }
+
+  log(`  Gastos Acumulados: fila ${nueva} para "${nombre}", leyendo ` +
+      `'Dist.de gastos'!${distCol}${filaTotalGastos}.` +
+      (estirados.length ? ` Totales estirados: ${estirados.length}.` : ""));
+  return { fila: nueva, filaTotales: filaTot, estirados };
+}
+
 // Da de alta un centro de costo NUEVO, con el mismo armado que tienen los demas: su bloque de
 // DEBE/HABER/SALDO en "Sumas y Saldos" y su columna en "Dist.de gastos".
 //
@@ -1076,6 +1155,10 @@ function agregarCentroDeCosto({ wb, mapeo, nombreOnvio, ccCodigo, log = () => {}
   mapeo.cc_blocks.push(bloque);
   mapeo.dist_col_to_cc[letraDist] = { nombre_balance: nombre };
 
+  // y su fila en Gastos Acumulados, que es la tercera pata: sin ella el proyecto gasta y no
+  // aparece en el acumulado, y la app solo puede avisarlo.
+  const gac = agregarFilaGastosAcumulados({ wb, nombre, distCol: letraDist, log });
+
   // y entra al total, que es lo que hace que el balance siga atando
   const tot = repararTotalesSaldos({ wb, mapeo, log: () => {} });
 
@@ -1088,7 +1171,8 @@ function agregarCentroDeCosto({ wb, mapeo, nombreOnvio, ccCodigo, log = () => {}
   log(`  Entro en la columna de totales de ${tot.arregladas.length} fila(s).`);
 
   return { bloque, distCol: letraDist, filas: plantilla.length,
-           colTotales: indiceACol(nSaldo + 1), codigo };
+           colTotales: indiceACol(nSaldo + 1), codigo,
+           gastosAcumulados: gac ? gac.fila : null };
 }
 
 // La columna de TOTALES SALDOS tiene que sumar TODOS los centros de costo, siempre.
@@ -1658,6 +1742,7 @@ if (typeof module !== "undefined") {
     columnaCrDeDist, agregarRefDistDeGastos, formulaTieneRef, filaDistDeCategoria,
     categoriasElegibles, esFilaDeTotales, completarColumnaCr, ocultarCentrosSinMovimiento,
     repararTotalesSaldos, declararEquivalenciaCc, agregarCentroDeCosto,
+    agregarFilaGastosAcumulados,
     quitarRefDistDeGastos, refsDeCuentaEnDist, insertarCuentaEnBalance, mapaDeDistribucion,
     crearCategoriaEnDist, filaTotalGastosDeDist,
     resolverCategoriaDestino,

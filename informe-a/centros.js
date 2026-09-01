@@ -81,8 +81,9 @@ function ccRender() {
         <button onclick="ccAgregar('${id}')">Darlo de alta</button>
       </div>
       <p class="footer-note" style="margin-top:10px;">
-        Se le arma el bloque de DEBE/HABER/SALDO en <b>Sumas y Saldos</b> y su columna en
-        <b>Dist.de gastos</b>, entre los otros proyectos, y entra en la columna de totales.
+        Se le arma el bloque de DEBE/HABER/SALDO en <b>Sumas y Saldos</b>, su columna en
+        <b>Dist.de gastos</b> entre los otros proyectos, y su fila en
+        <b>Gastos Acumulados</b> — entrando en los totales de las dos hojas.
       </p>`
       : "";
 
@@ -164,7 +165,8 @@ async function ccAgregar(id) {
   if (!confirm(`Se va a dar de alta el proyecto "${String(nombre).trim()}" en el balance:\n\n` +
                `· su bloque DEBE/HABER/SALDO en "Sumas y Saldos"\n` +
                `· su columna en "Dist.de gastos", entre los otros proyectos\n` +
-               `· y entra en la columna de TOTALES\n\n` +
+               `· su fila en "Gastos Acumulados"\n` +
+               `· y entra en los totales de las dos hojas\n\n` +
                `Queda para siempre. ¿Sigo?`)) return;
 
   st.innerHTML = `<div class="status-msg">Armando el espacio del proyecto…</div>`;

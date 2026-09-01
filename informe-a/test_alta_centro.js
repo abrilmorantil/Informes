@@ -161,6 +161,39 @@ const T = (c) => {
   check(mal.length === 0, "ninguna columna quedó sumando la de al lado");
   mal.slice(0, 4).forEach(x => console.log("        " + x));
 
+  // --- Gastos Acumulados: su fila, y DENTRO de los totales
+  const gac = wb.getWorksheet("Gastos Acumulados");
+  check(typeof r.gastosAcumulados === "number", `se le creó la fila ${r.gastosAcumulados} en Gastos Acumulados`);
+  const fg = r.gastosAcumulados;
+  check(T(gac.getCell(fg, 1)) === NOMBRE, "con el nombre del proyecto en la columna A");
+  check(gac.getCell(fg, 2).value === 0 && gac.getCell(fg, 3).value === 0,
+    "el acumulado de años anteriores y el del año arrancan en 0");
+  const fD = String(gac.getCell(fg, 4).formula || "");
+  check(fD === `+'Dist.de gastos'!${r.distCol}100`,
+    `y la columna del mes lee el TOTAL GASTOS de su propia columna: ${fD}`);
+  check(String(gac.getCell(fg, 5).formula || "") === `+C${fg}+D${fg}`, "E = C + D");
+  check(String(gac.getCell(fg, 6).formula || "") === `+B${fg}+E${fg}`, "F = B + E");
+
+  // Lo que de verdad importa: que el total la incluya. Un rango que termina antes del punto de
+  // inserción NO se expande solo, así que la fila quedaría afuera y la hoja mostraría importes
+  // correctos que no suman — el mismo error que ya apareció cuatro veces en este archivo.
+  let filaTot = null;
+  for (let f = 1; f <= gac.rowCount; f++) {
+    const ff = gac.getCell(f, 2).formula;
+    if (ff && /^\s*\+?SUM\(/i.test(String(ff)) && !T(gac.getCell(f, 1))) { filaTot = f; break; }
+  }
+  check(filaTot === fg + 1, `la fila de totales quedó justo debajo (${filaTot})`);
+  let dentro = 0, fuera = [];
+  for (let c = 2; c <= 6; c++) {
+    const ff = String(gac.getCell(filaTot, c).formula || "");
+    const m = /SUM\(\$?[A-Z]{1,3}\$?(\d+):\$?[A-Z]{1,3}\$?(\d+)\)/i.exec(ff);
+    if (!m) continue;
+    if (fg >= +m[1] && fg <= +m[2]) dentro++;
+    else fuera.push(`${icLetra(c)}${filaTot} = ${ff}`);
+  }
+  check(fuera.length === 0, `las ${dentro} columnas del total incluyen la fila nueva`);
+  fuera.forEach(x => console.log("        " + x));
+
   // --- no se puede dar de alta dos veces
   let tiro = null;
   try { motor.agregarCentroDeCosto({ wb, mapeo, nombreOnvio: NOMBRE, ccCodigo: "78" }); }

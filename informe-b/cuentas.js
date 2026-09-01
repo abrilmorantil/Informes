@@ -575,8 +575,11 @@ Su cuenta de Onvio "${e.code} ${e.description}" pasa a ser la primera subcuenta.
 
 async function cbGuardar() {
   const st = document.getElementById("cbStatus");
-  const s = loadGhSettings();
-  if (!s.token || !s.owner || !s.repo) {
+  // El mismo control que usa el resto de la app, no una copia. Acá se pedía además un campo
+  // `owner`, que la configuración NUNCA tuvo —se guarda {token, repo, branch, path}, con el
+  // repo entero en `repo` ("usuaria/Informes")— así que la condición fallaba siempre y el
+  // botón Guardar del panel no pudo guardar nunca, con GitHub configurado o sin configurar.
+  if (!hasGhSettings()) {
     st.innerHTML = '<div class="status-msg bad">Configurá GitHub (⚙, arriba a la derecha) antes de guardar.</div>';
     return;
   }

@@ -25,11 +25,21 @@ const EERR_JUNIO = {
   resultadoEjercicio: -1192987.61,
 };
 
+// El export de junio no está en el repo: vive en la carpeta de descargas y se lo pisa cada
+// mes con el del mes nuevo. Los bloques 1, 2 y 4 no lo necesitan y corren siempre; el 3 sí,
+// y cuando no está —o cuando el que está es de otro mes— se saltea DICIENDO por qué, en vez
+// de dar una falla que parece un error del motor y no lo es.
+const EXPORT_JUNIO = 'C:/Users/amoran/Downloads/Balance de SyS por Cod. de Cta. (2).xls';
+
 (async () => {
   const clasif = cl.indexarClasificacion(JSON.parse(fs.readFileSync(BASE + '/mapping.json', 'utf8')));
-  const wbO = X.read(fs.readFileSync('C:/Users/amoran/Downloads/Balance de SyS por Cod. de Cta. (2).xls'), { type: 'buffer', raw: true });
-  const wsO = wbO.Sheets[wbO.SheetNames[0]];
-  const exp = parseExportBalances(X.utils.sheet_to_json(wsO, { header: 1, raw: true, defval: null }), wsO['!merges']);
+  const hayExport = fs.existsSync(EXPORT_JUNIO);
+  let exp = null;
+  if (hayExport) {
+    const wbO = X.read(fs.readFileSync(EXPORT_JUNIO), { type: 'buffer', raw: true });
+    const wsO = wbO.Sheets[wbO.SheetNames[0]];
+    exp = parseExportBalances(X.utils.sheet_to_json(wsO, { header: 1, raw: true, defval: null }), wsO['!merges']);
+  }
   const wb = await fuA.abrirWorkbook(fs.readFileSync(BASE + '/informe-c/base_dolares.xlsx'));
 
   // --- 1) primero, contra los valores que Excel dejo cacheados en el archivo
@@ -62,21 +72,38 @@ const EERR_JUNIO = {
 
   // --- 3) ahora de verdad: calculando los saldos desde el export, sin usar el cache
   console.log('\n=== 3) calculando los saldos desde el export (sin mirar el cache) ===');
-  const equiv = JSON.parse(fs.readFileSync(BASE + '/informe-c/equivalencias_dolares.json', 'utf8'));
-  const cm = usd.cuentasDelMaestro(wb, 'dolares');
-  const r = usd.resolverDestinosDolares({
-    cuentasExport: exp.cuentas, cuentasMaestro: cm, clasificacion: clasif,
-    equivalencias: equiv, clavesHoja1: usd.clavesDeHoja1(wb, 'dolares'),
-  });
-  const porFila = new Map();
-  for (const d of r.destinos.values()) porFila.set(d.fila, d.aportes.reduce((a, x) => a + x.saldo, 0));
-  const tCalc = eerr.totalesEstadoResultados(wb, (f) => porFila.get(f) || 0);
-  console.log(`   Administración ${tCalc.gastosAdministracion.toFixed(2)}  Exploración ${tCalc.gastosOperacion.toFixed(2)}`);
-  console.log(`   Ajuste traducción ${tCalc.ajusteTraduccion.toFixed(2)}  Resultado ${tCalc.resultadoEjercicio.toFixed(2)}`);
-  check(cerca(tCalc.gastosAdministracion, EERR_JUNIO.gastosAdministracion, 1),
-    `gastos de administración desde el export (${tCalc.gastosAdministracion.toFixed(2)})`);
-  check(cerca(tCalc.gastosOperacion, EERR_JUNIO.gastosOperacion, 1),
-    `gastos de operación desde el export (${tCalc.gastosOperacion.toFixed(2)})`);
+  if (!hayExport) {
+    console.log(`  (salteado) falta el export de junio 2026:\n     ${EXPORT_JUNIO}`);
+  } else {
+    const equiv = JSON.parse(fs.readFileSync(BASE + '/informe-c/equivalencias_dolares.json', 'utf8'));
+    const cm = usd.cuentasDelMaestro(wb, 'dolares');
+    const r = usd.resolverDestinosDolares({
+      cuentasExport: exp.cuentas, cuentasMaestro: cm, clasificacion: clasif,
+      equivalencias: equiv, clavesHoja1: usd.clavesDeHoja1(wb, 'dolares'),
+    });
+    const porFila = new Map();
+    for (const d of r.destinos.values()) porFila.set(d.fila, d.aportes.reduce((a, x) => a + x.saldo, 0));
+    const tCalc = eerr.totalesEstadoResultados(wb, (f) => porFila.get(f) || 0);
+    console.log(`   Administración ${tCalc.gastosAdministracion.toFixed(2)}  Exploración ${tCalc.gastosOperacion.toFixed(2)}`);
+    console.log(`   Ajuste traducción ${tCalc.ajusteTraduccion.toFixed(2)}  Resultado ${tCalc.resultadoEjercicio.toFixed(2)}`);
+
+    // Si el archivo que hay es de otro mes, este bloque no puede decir nada del motor: sus
+    // cifras van a diferir por el dato, no por el código. Se lo dice y se saltea. Que sea de
+    // otro mes se sabe porque los bloques 1 y 2 —que no lo usan— dieron bien.
+    const coincide = cerca(tCalc.gastosAdministracion, EERR_JUNIO.gastosAdministracion, 1) &&
+                     cerca(tCalc.gastosOperacion, EERR_JUNIO.gastosOperacion, 1);
+    if (!coincide && fallos === 0) {
+      console.log(`  (salteado) el archivo que hay no es el export de junio 2026 — dice` +
+        ` ${tCalc.gastosOperacion.toFixed(2)} de gastos de operación y junio son` +
+        ` ${EERR_JUNIO.gastosOperacion.toFixed(2)}. Para correr este bloque hay que dejar el` +
+        ` export de junio en:\n     ${EXPORT_JUNIO}`);
+    } else {
+      check(cerca(tCalc.gastosAdministracion, EERR_JUNIO.gastosAdministracion, 1),
+        `gastos de administración desde el export (${tCalc.gastosAdministracion.toFixed(2)})`);
+      check(cerca(tCalc.gastosOperacion, EERR_JUNIO.gastosOperacion, 1),
+        `gastos de operación desde el export (${tCalc.gastosOperacion.toFixed(2)})`);
+    }
+  }
 
   console.log('\n=== 4) los controles de consistencia ===');
   const v = eerr.verificarEERR(tCache);

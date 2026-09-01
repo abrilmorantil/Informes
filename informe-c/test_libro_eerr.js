@@ -15,17 +15,30 @@ const MAYO = { gastosOperacion: -559321.59, gastosAdministracion: -491629.55,
                ajusteTraduccion: 12131.03, otrosIngresos: 0, extraordinarios: 0,
                ingresosOperacion: 0, impuesto: 0 };
 
+// Este test se compara contra el EE RR de junio hecho a mano, que no está en el repo: vive en
+// la carpeta de descargas. Si no está, el test no puede decir nada, así que lo dice y sale
+// bien, en vez de reventar con un ENOENT que parece que se rompió el motor.
+const ORIGINAL = 'C:/Users/amoran/Downloads/EE RR 062026(adic).xls';
+
+// El archivo que se genera para comparar va a una carpeta temporal, NO al repo: escribirlo
+// acá dejaba un `EERR_generado.xlsx` suelto cada vez que se corría el test.
+const SALIDA = require('path').join(require('os').tmpdir(), 'EERR_generado_test.xlsx');
+
 (async () => {
+  if (!fs.existsSync(ORIGINAL)) {
+    console.log(`(salteado) falta el EE RR de junio contra el que se compara:\n   ${ORIGINAL}`);
+    process.exit(0);
+  }
   const wb = await fuA.abrirWorkbook(fs.readFileSync(BASE + '/informe-c/base_dolares.xlsx'));
   const s = wb.getWorksheet('SALDOS');
   const cacheado = (f) => { const c = s.getCell(f, 3); return typeof c.result === 'number' ? c.result : (typeof c.value === 'number' ? c.value : 0); };
   const actual = eerr.totalesEstadoResultados(wb, cacheado);
 
   const datos = libro.escribirLibroEERR({ actual, anterior: MAYO, periodoFin: '2026-06-30' });
-  fs.writeFileSync('EERR_generado.xlsx', Buffer.from(datos));
+  fs.writeFileSync(SALIDA, Buffer.from(datos));
 
-  const mio = X.read(fs.readFileSync('EERR_generado.xlsx'), { type: 'buffer', raw: true });
-  const pro = X.read(fs.readFileSync('C:/Users/amoran/Downloads/EE RR 062026(adic).xls'), { type: 'buffer', raw: true });
+  const mio = X.read(fs.readFileSync(SALIDA), { type: 'buffer', raw: true });
+  const pro = X.read(fs.readFileSync(ORIGINAL), { type: 'buffer', raw: true });
   const hm = mio.SheetNames[0], hp = pro.SheetNames.find(n => /RESULT/i.test(n));
   console.log(`hoja generada: "${hm}"   |   original: "${hp}"`);
   check(hm === 'RESULT Junio US$', 'el nombre de la hoja sigue el patrón del original');

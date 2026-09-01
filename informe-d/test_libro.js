@@ -13,7 +13,21 @@ const check = (ok, m) => { console.log(`${ok ? '  OK  ' : ' FALLA'} ${m}`); if (
 const PARAMS = { periodoFin: '2026-06-30', tcCompra: 1473, tcVenta: 1482, numeroAsiento: 1, concepto: 'Ajuste por Conversión' };
 const PROTO = BASE + '/Prototipo_Ajuste_Dif_Cambio_06-2026.xlsx';
 
-const wbs = X.read(fs.readFileSync('SyS_prueba_06-2026.xls'), { type: 'buffer', raw: true });
+// Este test necesita dos archivos que NO estan en el repo: el SyS de prueba de junio y el
+// prototipo contra el que se compara la estructura. Si falta alguno, no puede decir nada del
+// motor, asi que lo dice y sale bien en vez de reventar con un ENOENT.
+const SYS = BASE + '/SyS_prueba_06-2026.xls';
+const faltan = [SYS, PROTO].filter(f => !fs.existsSync(f));
+if (faltan.length) {
+  console.log('(salteado) faltan los archivos con los que se compara:');
+  faltan.forEach(f => console.log('   ' + f));
+  process.exit(0);
+}
+
+// El libro que se genera va a una carpeta temporal, NO al repo.
+const SALIDA = require('path').join(require('os').tmpdir(), 'Ajuste_Dif_Cambio_prueba.xlsx');
+
+const wbs = X.read(fs.readFileSync(SYS), { type: 'buffer', raw: true });
 const { cuentas } = parseSysBimonetario(X.utils.sheet_to_json(wbs.Sheets[wbs.SheetNames[0]], { header: 1, raw: true, defval: null }));
 const cfg = motor.configDifCambio();
 const { lineasOk, lineasARevisar } = motor.calcularConRevision(cuentas, PARAMS, cfg);
@@ -23,9 +37,9 @@ const datos = libro.escribirLibroCalculo({
   asiento, params: PARAMS, cfg, revisadas: lineasARevisar, revisadasExcluidas: [],
   titulo: 'Southern Copper Argentina S.R.L. — cierre 2026-06-30',
 });
-fs.writeFileSync('Ajuste_Dif_Cambio_prueba.xlsx', Buffer.from(datos));
+fs.writeFileSync(SALIDA, Buffer.from(datos));
 
-const mio = X.read(fs.readFileSync('Ajuste_Dif_Cambio_prueba.xlsx'), { type: 'buffer', cellNF: true, raw: true });
+const mio = X.read(fs.readFileSync(SALIDA), { type: 'buffer', cellNF: true, raw: true });
 const pro = X.read(fs.readFileSync(PROTO), { type: 'buffer', cellNF: true, raw: true });
 
 console.log('=== 1) las hojas ===');

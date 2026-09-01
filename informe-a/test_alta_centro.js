@@ -7,7 +7,8 @@
 //      Onvio, y entrando en la columna de TOTALES.
 //
 // El caso real que lo motivó: el export trae "Proyecto Lonco Vaca- Palenque" y el bloque se
-// llama "LONCO VACA - PELENQUE" — se movió el guion y dice PALENQUE con A.
+// llama "LONCO VACA - PELENQUE" — se movió el guion y dice PALENQUE con A. Ese nombre ya está
+// declarado en `mapeo.json`, así que el test NO lo usa: ver el comentario del bloque 1.
 //
 //   node informe-a/test_alta_centro.js
 const path = require("path");
@@ -34,19 +35,26 @@ const T = (c) => {
 // ------------------------------------------------------------ 1) el mismo, escrito distinto
 {
   const mapeo = leerMapeo();
-  const CRUDO = "Proyecto Lonco Vaca- Palenque";
+
+  // El nombre crudo se ARMA a partir de un bloque real del archivo, en vez de usar uno de
+  // verdad. Los nombres que Onvio escribe distinto se van declarando y quedan guardados en
+  // `mapeo.json`: un test que use uno real se pone en rojo el día que se lo declara, y ahí
+  // pasa a medir el archivo en vez del código. Es lo que pasó con "Proyecto Lonco Vaca-
+  // Palenque", que hoy ya está declarado y por eso sí resuelve solo.
+  const BLOQUE = mapeo.cc_blocks[0].nombre_balance;
+  const CRUDO = `Proyecto ${BLOQUE} (así lo escribiría Onvio)`;
+  const clave = CRUDO.replace(/\s+/g, " ").trim().toUpperCase();
+  check(!(mapeo.cc_nombres_onvio || {})[clave],
+    "punto de partida: ese nombre no está declarado como equivalencia");
   check(motor.resolverCcBlock(mapeo, CRUDO) === null,
     `"${CRUDO}" no resuelve solo — y está bien que no adivine`);
 
-  const r = motor.declararEquivalenciaCc({
-    mapeo, nombreOnvio: CRUDO, nombreBalance: "LONCO VACA - PELENQUE",
-  });
-  check(r.nombre_balance === "LONCO VACA - PELENQUE", "se declara contra el bloque que existe");
+  const r = motor.declararEquivalenciaCc({ mapeo, nombreOnvio: CRUDO, nombreBalance: BLOQUE });
+  check(r.nombre_balance === BLOQUE, "se declara contra el bloque que existe");
   const b = motor.resolverCcBlock(mapeo, CRUDO);
-  check(!!b && b.nombre_balance === "LONCO VACA - PELENQUE",
+  check(!!b && b.nombre_balance === BLOQUE,
     `y ahora sí resuelve: "${CRUDO}" -> "${b && b.nombre_balance}"`);
-  check(motor.resolverCcBlock(mapeo, "Proyecto Lonco Vaca - Palenque") === null ||
-        motor.resolverCcBlock(mapeo, "Proyecto Lonco Vaca - Palenque").nombre_balance === "LONCO VACA - PELENQUE",
+  check(motor.resolverCcBlock(mapeo, `${CRUDO} II`) === null,
     "y una variante distinta sigue sin adivinarse sola");
 
   let tiro = null;

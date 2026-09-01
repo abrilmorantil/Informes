@@ -12,7 +12,19 @@ let fallos = 0;
 const check = (ok, m) => { console.log(`${ok ? '  OK  ' : ' FALLA'} ${m}`); if (!ok) fallos++; };
 
 const GOLDEN = 'C:/Users/amoran/Downloads/Grilla Listado de Asientos Detallado por Nro. de Asiento.xlsx';
-const SYS = 'SyS_prueba_06-2026.xls';
+const SYS = BASE + '/SyS_prueba_06-2026.xls';
+
+// Ni el golden (la grilla del asiento real) ni el SyS de prueba estan en el repo. Sin
+// ellos el test no puede decir nada, asi que lo dice y sale bien en vez de reventar.
+const faltan = [GOLDEN, SYS].filter(f => !fs.existsSync(f));
+if (faltan.length) {
+  console.log('(salteado) faltan los archivos con los que se compara:');
+  faltan.forEach(f => console.log('   ' + f));
+  process.exit(0);
+}
+
+// El importador de prueba va a una carpeta temporal, NO al repo.
+const SALIDA_IMP = require('path').join(require('os').tmpdir(), 'importador_prueba.xls');
 const PARAMS = { periodoFin: '2026-06-30', tcCompra: 1473, tcVenta: 1482, numeroAsiento: 1 };
 
 // --- golden: {codigo: round(DebeMEP - HaberMEP, 2)}  (columnas K=10 y L=11)
@@ -107,8 +119,8 @@ function leerGolden() {
 
   console.log('\n=== 7) el importador ===');
   const buf = imp.escribirImportador(asiento, PARAMS, 'xls');
-  fs.writeFileSync('importador_prueba.xls', Buffer.from(buf));
-  const wbi = X.read(fs.readFileSync('importador_prueba.xls'), { type: 'buffer', cellNF: true });
+  fs.writeFileSync(SALIDA_IMP, Buffer.from(buf));
+  const wbi = X.read(fs.readFileSync(SALIDA_IMP), { type: 'buffer', cellNF: true });
   const wsi = wbi.Sheets['Asientos'];
   check(!!wsi, 'genera la hoja "Asientos"');
   const fi = X.utils.sheet_to_json(wsi, { header: 1, raw: true, defval: null });

@@ -221,10 +221,29 @@ function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
   if (!/^\d{5,}$/.test(String(codigo))) {
     throw new Error(`"${codigo}" no parece un código de cuenta válido. NO se tocó el archivo.`);
   }
-  const colClave = cfgColumnaClaveDe(ws, fila, 7);
+  // Dos casos, porque el maestro tiene dos clases de fila:
+  //
+  //   - con VLOOKUP: la clave es la columna que la fórmula usa de argumento, y punto.
+  //   - manuales (el detalle del pasivo, filas 120 a 137, que el motor actualiza a mano): no
+  //     hay fórmula, así que la cuenta de la fila es la PRIMERA de C/D/E con texto. Para que
+  //     pase a ser otra hay que escribirla en una columna ANTERIOR a la que manda hoy. Es la
+  //     convención que ya sigue el bloque: la fila 122 tiene `212020001 SICOSS a pagar` en C
+  //     y el código viejo `21407000 Sicoss a pagar` en D.
+  const CANDIDATAS = [3, 4, 5];
+  let colClave = cfgColumnaClaveDe(ws, fila, 7);
+  let manual = false;
   if (colClave === null) {
-    throw new Error(`La fila ${fila} de SALDOS no levanta su importe con un VLOOKUP contra Hoja1, ` +
-                    `así que no hay ninguna columna clave que corregir. NO se tocó el archivo.`);
+    manual = true;
+    let actual = null;
+    for (const c of CANDIDATAS) {
+      if (/^\s*\d{5,}\s*-/.test(String(ws.getCell(fila, c).value || ""))) { actual = c; break; }
+    }
+    // la primera columna libre a la izquierda de la que manda hoy
+    colClave = actual === null ? CANDIDATAS[0] : CANDIDATAS.filter(c => c < actual).pop();
+    if (colClave === undefined || colClave === null) {
+      throw new Error(`La fila ${fila} ya tiene su cuenta en la primera columna, así que no hay ` +
+                      `dónde poner otra que mande. NO se tocó el archivo.`);
+    }
   }
   const yaHabia = String(ws.getCell(fila, colClave).value || "").trim();
   if (yaHabia) {
@@ -247,12 +266,13 @@ function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
   const hoja1 = wb.getWorksheet("Hoja1");
   const enHoja1 = hoja1 ? gcFilaEnHoja1(hoja1, 1, texto) : null;
   const letra = String.fromCharCode(64 + colClave);
-  log(`  Fila ${fila}: la cuenta pasa a la columna ${letra}, que es la que lee la fórmula — ` +
+  log(`  Fila ${fila}: la cuenta pasa a la columna ${letra}, ` +
+      (manual ? `que es la que manda en esa fila` : `que es la que lee la fórmula`) + ` — ` +
       `"${texto}".` +
       (enHoja1 ? ` Ya la encuentra en Hoja1 (fila ${enHoja1}).`
                : ` Todavía no está en Hoja1 porque no vino en ningún export; va a leer su ` +
                  `importe el mes que Onvio la mande.`));
-  return { fila, columna: letra, texto, enHoja1 };
+  return { fila, columna: letra, texto, enHoja1, manual };
 }
 
 // Agrega una cuenta nueva a una categoría: es la misma operación que usa el alta de

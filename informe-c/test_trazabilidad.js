@@ -93,8 +93,17 @@ const T = (c) => {
   const ws = wb.getWorksheet("De dónde sale cada saldo");
   check(!!ws, "la hoja se agrega al libro");
   check(r.filas === filas.length, `con ${r.filas} filas`);
-  check(T(ws.getCell(4, 1)) === "Código" && T(ws.getCell(4, 11)) === "¿Dónde se corta?",
-    "con sus encabezados");
+  check(T(ws.getCell(4, 1)) === "Cuenta" && T(ws.getCell(4, 2)) === "Cuenta madre" &&
+        T(ws.getCell(4, 3)) === "Sale impresa en" && T(ws.getCell(4, 4)) === "Tipo de gasto",
+    "con sus encabezados: cuenta, madre, dónde sale impresa y de qué tipo es");
+  // el tipo de gasto tiene que decir "ADMINISTRACION"/"EXPLORACION"..., no "columna H"
+  const tipos = new Set();
+  for (let x = 5; x < 5 + filas.length; x++) {
+    const t = T(ws.getCell(x, 4)).trim();
+    if (t) tipos.add(t);
+  }
+  check(tipos.size >= 2 && [...tipos].every(t => /^[A-ZÁÉÍÓÚÑ ]+$/.test(t)),
+    `el tipo de gasto sale con su nombre: ${[...tipos].join(", ")}`);
   check(!!ws.autoFilter, "y con el filtro puesto, que es como se usa");
 
   // escribirla dos veces no puede duplicarla: la descarga puede correrse más de una vez

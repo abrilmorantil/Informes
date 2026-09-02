@@ -125,7 +125,7 @@ function tzDestinos(wb) {
           const clave = ws.name + "!" + tzLetra(ci) + r;
           if (ya.some(d => d.hoja + "!" + d.celda === clave)) return;   // ya anotado
           ya.push({
-            hoja: ws.name, celda: tzLetra(ci) + r, fila: r, etiqueta,
+            hoja: ws.name, celda: tzLetra(ci) + r, fila: r, col: ci, etiqueta,
             porRango: /:/.test(f), viaSubtotal: viaSubtotal || null,
           });
         };
@@ -255,21 +255,31 @@ function tzEscribirHoja(wb, moneda, mapeo, madres) {
   const bold = { bold: true };
   const numFmt = "#,##0.00";
 
+  // Las cuatro columnas de gasto del Anexo II, para poder nombrar el TIPO DE GASTO en vez de
+  // decir "columna H", que no le dice nada a nadie.
+  //
+  // Se leen de la propia hoja y no se depende de `a2Columnas`: si ese módulo no estuviera
+  // cargado, la columna salía vacía y en silencio —pasó en el test— y una columna vacía no se
+  // nota hasta que alguien la busca.
+  const colsA2 = new Map();
+  const a2ws = wb.getWorksheet("Anexo II");
+  if (a2ws) {
+    for (let c = 1; c <= a2ws.columnCount; c++) {
+      const t = tzTexto(a2ws.getCell(8, c).value).trim();
+      if (/ADMINISTRACION|COMERCIALIZACION|EXPLORACION|FINANCIEROS/i.test(t)) colsA2.set(c, t);
+    }
+  }
+
   ws.getCell("A1").value = "De dónde sale cada saldo del balance";
   ws.getCell("A1").font = { bold: true, size: 13 };
   ws.getCell("A2").value =
-    "Una fila por cuenta. Se sigue el camino completo: lo que manda Onvio entra en Hoja1, " +
-    "SALDOS lo busca por el texto \"código - nombre\", y de ahí va al Anexo II (los gastos) " +
-    "o a la Nota 4 (activo y pasivo). La columna \"¿Dónde se corta?\" dice en qué escalón se " +
-    "pierde una cuenta, si se pierde. Ojo con un caso: la amortización del ejercicio llega al " +
-    "Anexo II por el Anexo I, que la calcula desde las cuentas \"Dep. Ac.\" de SALDOS. Su fila " +
-    "de gasto figura acá como que nadie la lee —y es cierto— pero el importe igual llega.";
+    "Una fila por cuenta: dónde sale impresa y, si es un gasto, en qué concepto del Anexo II " +
+    "queda guardada y de qué tipo es. Las subcuentas llegan al Anexo II a través de su cuenta " +
+    "madre. Filtrá por concepto para ver todo lo que arma cualquier renglón.";
   ws.getCell("A2").font = { italic: true, size: 9 };
 
-  const headers = [
-    "Código", "Nombre", "Fila Hoja1", "Importe en Hoja1", "Fila SALDOS", "Importe en SALDOS",
-    "Cuenta madre", "Va a", "Renglón", "Celda", "¿Dónde se corta?",
-  ];
+  const headers = ["Cuenta", "Cuenta madre", "Sale impresa en", "Tipo de gasto",
+                   "Importe", "Para revisar"];
   headers.forEach((h, j) => {
     const c = ws.getCell(4, 1 + j);
     c.value = h; c.font = bold; c.border = { bottom: { style: "thin" } };
@@ -278,21 +288,16 @@ function tzEscribirHoja(wb, moneda, mapeo, madres) {
   let r = 5;
   for (const f of filas) {
     const d = f.destinos[0] || null;
-    let corte = "";
-    if (f.encuentraEnHoja1 === false) corte = "Hoja1 no tiene esa cuenta con ese texto";
-    else if (f.sinDestino) corte = "ninguna hoja lee esta fila de SALDOS";
-    ws.getCell(r, 1).value = f.codigo;
-    ws.getCell(r, 2).value = f.nombre;
-    const cf1 = ws.getCell(r, 3); cf1.value = f.hoja1Fila; cf1.numFmt = "0";
-    const ch = ws.getCell(r, 4); ch.value = f.hoja1Importe; ch.numFmt = numFmt;
-    const cf2 = ws.getCell(r, 5); cf2.value = f.saldosFila; cf2.numFmt = "0";
-    const cs = ws.getCell(r, 6); cs.value = f.saldosImporte; cs.numFmt = numFmt;
-    ws.getCell(r, 7).value = f.madreCodigo ? `${f.madreCodigo} - ${f.madreNombre}` : "";
-    ws.getCell(r, 8).value = d ? d.hoja : "";
-    ws.getCell(r, 9).value = d ? d.etiqueta : "";
-    ws.getCell(r, 10).value = d ? d.celda + (d.porRango ? " (por rango)" : "") : "";
-    ws.getCell(r, 11).value = corte;
-    if (corte) {
+    let revisar = "";
+    if (f.encuentraEnHoja1 === false) revisar = "Onvio no manda esta cuenta con ese nombre";
+    else if (f.sinDestino) revisar = "no sale impresa en ningún lado";
+    ws.getCell(r, 1).value = `${f.codigo} - ${f.nombre}`;
+    ws.getCell(r, 2).value = f.madreCodigo ? `${f.madreCodigo} - ${f.madreNombre}` : "";
+    ws.getCell(r, 3).value = d ? d.etiqueta : "";
+    ws.getCell(r, 4).value = (d && d.hoja === "Anexo II") ? (colsA2.get(d.col) || "") : "";
+    const ci = ws.getCell(r, 5); ci.value = f.hoja1Importe; ci.numFmt = numFmt;
+    ws.getCell(r, 6).value = revisar;
+    if (revisar) {
       for (let c = 1; c <= headers.length; c++) {
         ws.getCell(r, c).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFE0E0" } };
       }
@@ -300,24 +305,20 @@ function tzEscribirHoja(wb, moneda, mapeo, madres) {
     r++;
   }
 
+  const tot = ws.getCell(r + 1, 5);
   ws.getCell(r + 1, 1).value = "TOTAL";
   ws.getCell(r + 1, 1).font = bold;
-  for (const col of [4, 6]) {
-    const c = ws.getCell(r + 1, col);
-    c.value = { formula: `SUM(${tzLetra(col)}5:${tzLetra(col)}${r - 1})` };
-    c.font = bold; c.numFmt = numFmt;
-  }
+  tot.value = { formula: `SUM(E5:E${r - 1})` };
+  tot.font = bold; tot.numFmt = numFmt;
   ws.getCell(r + 2, 1).value =
-    "Los dos totales de importe tienen que dar lo mismo. Ojo: \"Importe en SALDOS\" son " +
-    "fórmulas, así que en un archivo recién descargado sale en cero hasta que lo abrís en " +
-    "Excel; recién ahí se puede comparar.";
+    "El importe es el que manda Onvio. La suma de todos tiene que dar cero, como cualquier " +
+    "balance.";
   ws.getCell(r + 2, 1).font = { italic: true, size: 9 };
 
   ws.autoFilter = { from: { row: 4, column: 1 }, to: { row: r - 1, column: headers.length } };
   ws.views = [{ state: "frozen", ySplit: 4 }];
-  ws.columns = [{ width: 13 }, { width: 44 }, { width: 11 }, { width: 18 }, { width: 12 },
-                { width: 18 }, { width: 34 }, { width: 18 }, { width: 34 }, { width: 16 },
-                { width: 36 }];
+  ws.columns = [{ width: 46 }, { width: 40 }, { width: 38 }, { width: 20 }, { width: 18 },
+                { width: 40 }];
   return { filas: filas.length, cortes: filas.filter(x => x.encuentraEnHoja1 === false || x.sinDestino).length };
 }
 

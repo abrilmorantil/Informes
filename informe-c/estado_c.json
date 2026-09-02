@@ -8,15 +8,15 @@
   }
  ],
  "eerrAnterior": {
-  "periodo": "2026-06-30",
-  "ingresosOperacion": 0,
-  "gastosOperacion": -616736.47,
-  "gastosAdministracion": -530007.27,
-  "extraordinarios": 0,
-  "ajusteTraduccion": -46243.86756052841,
+  "periodo": "2026-07-31",
+  "gastosOperacion": -663786.54,
+  "gastosAdministracion": -572915.88,
+  "ajusteTraduccion": -52509.02756052841,
   "otrosIngresos": 0,
-  "impuesto": 0,
-  "antesDeImpuestos": -1192987.6075605284,
-  "resultadoEjercicio": -1192987.6075605284
+  "antesDeImpuestos": -1289211.4475605283,
+  "resultadoEjercicio": -1289211.4475605283,
+  "ingresosOperacion": 0,
+  "extraordinarios": 0,
+  "impuesto": 0
  }
 }

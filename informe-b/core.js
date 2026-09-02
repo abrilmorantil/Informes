@@ -161,11 +161,52 @@ function findDuplicateCodes(mapping) {
   return dups;
 }
 
+// Qué cuentas REALES de Onvio alimentan una fila del informe.
+//
+// Una fila puede leer más de una: una cuenta madre suma la suya y las de sus hijas, y el
+// renglón de proveedores junta todas las que empiezan con su prefijo. Es la misma regla con
+// la que `buildBalance` calcula el movimiento del mes — acá se la nombra aparte porque el
+// SALDO ANTERIOR tiene que salir de las mismas cuentas y no lo estaba haciendo.
+function codigosQueAlimentan(entry, prevBalances) {
+  const out = new Set();
+  if (entry.sin_cuentas) return out;          // declarada sin cuentas: no lee nada de Onvio
+  if (entry.type === "range" && entry.prefix) {
+    for (const k of Object.keys(prevBalances || {})) {
+      if (String(k).startsWith(entry.prefix)) out.add(String(k));
+    }
+    return out;
+  }
+  out.add(String(entry.code));
+  for (const h of (entry.children || [])) if (h && h.code) out.add(String(h.code));
+  return out;
+}
+
+// El saldo anterior de una fila: la suma de los saldos guardados de todas sus cuentas.
+//
+// Antes era `prevBalances[entry.code]`, o sea SÓLO el de su propio código. Con eso, al juntar
+// dos cuentas en una sola fila —"21409000 Retenciones SUSS a pagar" pasó a ser madre de
+// "212020002 Retenciones SUSS a pagar"— el saldo de la hija (−30,97) dejaba de aparecer y el
+// balance abría por esa diferencia. Medido en agosto 2026: la columna pasaba de −0,02 a 30,95.
+function saldoAnteriorDeLinea(entry, prevBalances) {
+  const previos = prevBalances || {};
+  let total = 0, conocido = false;
+  for (const cod of codigosQueAlimentan(entry, previos)) {
+    if (!Object.prototype.hasOwnProperty.call(previos, cod)) continue;
+    const v = previos[cod];
+    if (typeof v !== "number" || !isFinite(v)) continue;
+    total += v;
+    conocido = true;
+  }
+  return { total: Math.round(total * 100) / 100, conocido };
+}
+
 function buildBalance(cuentasSise, mapping, prevBalances) {
   const lineas = [];
   let totalDebe = 0, totalHaber = 0;
 
   for (const entry of mapping) {
+    // El saldo anterior de la fila es el de TODAS las cuentas reales que la alimentan, no
+    // sólo el de su propio código. Ver `codigosQueAlimentan`.
     const code = entry.code;
     let debe = 0, haber = 0, detalle = [];
 
@@ -215,7 +256,8 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
     }
 
     const movimiento = debe - haber;
-    const saldoAnterior = prevBalances[code] || 0;
+    const previo = saldoAnteriorDeLinea(entry, prevBalances);
+    const saldoAnterior = previo.total;
     const saldoNuevo = saldoAnterior + movimiento;
 
     lineas.push({
@@ -226,6 +268,9 @@ function buildBalance(cuentasSise, mapping, prevBalances) {
       // —los codigos fueron reasignados, no reformateados— asi que la equivalencia se
       // declara a mano en mapping.json. Si no hay `cliente`, se imprime el code.
       cliente: entry.cliente || null,
+      // `saldo_anterior_conocido` es false cuando NINGUNA de las cuentas que alimentan la
+      // fila tiene saldo guardado: ahí la celda sale en amarillo para cargarla a mano.
+      saldo_anterior_conocido: previo.conocido,
       ocultar_si_cero: !!entry.ocultar_si_cero,
       orden: entry.orden !== undefined ? entry.orden : 999999,
       saldo_anterior: saldoAnterior, debe, haber, movimiento, saldo_nuevo: saldoNuevo, detalle,
@@ -286,6 +331,6 @@ function round2(n) { return Math.round(n * 100) / 100; }
 if (typeof module !== "undefined") {
   module.exports = {
     parseSiseExport, knownCodes, lookupCuenta, findUnmapped, findUnassigned, findDuplicateCodes,
-    buildBalance, runValidation, CATEGORIES,
+    buildBalance, runValidation, CATEGORIES, codigosQueAlimentan, saldoAnteriorDeLinea,
   };
 }

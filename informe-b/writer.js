@@ -88,8 +88,11 @@ async function writeOutputXlsx(lineas, periodo, saldosAnteriores, exportInfo) {
     }
     ws.getCell(row, 2).value = `${cli.code} - ${cli.description}`;
     const cCell = ws.getCell(row, 3);
-    const previo = previos[l.code];
-    if (typeof previo === "number") cCell.value = round2(previo);
+    // El saldo anterior ya viene sumado desde `buildBalance`: una fila puede alimentarse de
+    // varias cuentas (una madre suma las de sus hijas) y mirar `previos[l.code]` se quedaba
+    // solo con la del codigo de la fila. Amarillo = ninguna de sus cuentas tiene saldo
+    // guardado; si al menos una lo tiene, el numero sale aunque otra falte.
+    if (l.saldo_anterior_conocido) cCell.value = round2(l.saldo_anterior);
     else cCell.fill = yellowFill;      // sin saldo guardado: se completa a mano
     cCell.numFmt = numFmt;
     // Los importes salen de sumar el detalle, no de copiar lo que calculo la app. El

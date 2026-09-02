@@ -28,6 +28,7 @@ let wbBorradorUsd = null;
 let altaBufferUsd = null;
 let totalesEERR = null;        // los totales del Estado de Resultados de esta corrida
 let avisosEERR = [];
+let movimientoEERR = null;     // el balance de comprobación en dólares de esta corrida
 
 // --------------------------------------------------------------- arranque
 
@@ -614,6 +615,8 @@ function renderResultado(r, rUsd) {
 function calcularEERR(wbUsd, resultadoDolares) {
   totalesEERR = null;
   avisosEERR = [];
+  // el balance de comprobación en dólares que acompaña al estado de resultados
+  movimientoEERR = (resultadoDolares && resultadoDolares.movimiento) || null;
   try {
     const porFila = new Map();
     for (const d of resultadoDolares.destinos.values()) {
@@ -938,6 +941,7 @@ function descargarEERR() {
   const datos = escribirLibroEERR({
     actual: totalesEERR, anterior, periodoFin: periodoDelEERR(),
     titulo: "SOUTHERN COPPER ARGENTINA S.R.L.",
+    movimiento: movimientoEERR,
   });
   const blob = new Blob([datos], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);

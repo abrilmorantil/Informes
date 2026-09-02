@@ -99,6 +99,52 @@ function proponerDestino(cuenta, cuentasMaestro) {
   return mejor;
 }
 
+// Los importes de Hoja1, por clave normalizada como compara Excel.
+function saldosDeHoja1(wb, moneda) {
+  const p = PARAMS[moneda];
+  const ws = wb.getWorksheet("Hoja1");
+  const out = new Map();
+  if (!ws) return out;
+  for (let r = 1; r <= ws.rowCount; r++) {
+    const v = ws.getCell(r, p.hoja1ColClave).value;
+    if (v && typeof v === "object" && typeof v.formula === "string") continue;
+    const t = String(v === null || v === undefined ? "" : v).trim().replace(/\s+/g, " ");
+    if (!RE_CUENTA_TXT.test(t)) continue;
+    const cel = ws.getCell(r, p.hoja1ColValor).value;
+    const n = typeof cel === "number" ? cel
+      : (cel && typeof cel === "object" && typeof cel.result === "number" ? cel.result : 0);
+    out.set(t.toUpperCase(), n);
+  }
+  return out;
+}
+
+const CAP_POR_DIGITO_USD = { 1: "ACTIVO", 2: "PASIVO", 3: "PATRIMONIO NETO", 4: "RESULTADOS" };
+
+// Una fila por cuenta del maestro: lo que tenía el mes pasado, lo que se movió y cómo queda.
+//
+// Van TODAS las cuentas, tengan o no movimiento. Es un balance de comprobación: una cuenta que
+// no aparece no se puede distinguir de una que quedó en cero por error, y justamente el mes
+// pasado se perdieron 1.915.260,00 porque dos cuentas nuevas no salían en ningún lado.
+function movimientoDelMes(cuentasMaestro, previos, finales) {
+  return cuentasMaestro.map((c) => {
+    const k = c.clave.toUpperCase();
+    const anterior = previos.has(k) ? previos.get(k) : 0;
+    const final = finales.has(k) ? finales.get(k) : 0;
+    return {
+      codigo: c.codigo,
+      nombre: c.nombre,
+      clave: c.clave,
+      fila: c.fila,
+      capitulo: CAP_POR_DIGITO_USD[String(c.codigo)[0]] || "",
+      anterior: Math.round(anterior * 100) / 100,
+      final: Math.round(final * 100) / 100,
+      movimiento: Math.round((final - anterior) * 100) / 100,
+      // false = Hoja1 no tiene esa cuenta, así que el balance nunca le va a traer nada
+      enHoja1: finales.has(k),
+    };
+  });
+}
+
 // Las cuentas del maestro, tal como están escritas en su hoja SALDOS.
 function cuentasDelMaestro(wb, moneda) {
   const p = PARAMS[moneda];
@@ -280,7 +326,15 @@ function procesarDolares({ wb, cuentasExport, clasificacion, equivalencias = {},
   log(`  Ubicadas: ${Object.entries(porVia).map(([k, v]) => `${v} por ${k}`).join(", ")}.`);
   if (r.ignoradas.length) log(`  ${r.ignoradas.length} dejadas afuera a propósito (marcadas "no cargar").`);
 
+  // Los importes que Hoja1 trae ANTES de que la corrida la pise son los del mes pasado, y de
+  // ahí sale la columna "Saldo anterior" del movimiento del mes. No hay que guardarlos en
+  // ningún lado ni importarlos como en el BALCOMPROBDOLARES: el maestro los tiene hasta el
+  // instante en que se los reemplaza, así que alcanza con leerlos una línea antes.
+  const previos = saldosDeHoja1(wb, "dolares");
+
   const volcado = volcarHoja1Dolares(wb, r.destinos, "dolares", log);
+
+  const movimiento = movimientoDelMes(cuentasMaestro, previos, saldosDeHoja1(wb, "dolares"));
 
   wb.calcProperties = wb.calcProperties || {};
   wb.calcProperties.fullCalcOnLoad = true;
@@ -293,6 +347,9 @@ function procesarDolares({ wb, cuentasExport, clasificacion, equivalencias = {},
     // fila de SALDOS. Sin esto `calcularEERR` fallaba con "Cannot read properties of
     // undefined (reading 'values')" y el Estado de Resultados no se armaba nunca.
     destinos: r.destinos,
+    // una fila por cuenta del maestro, con saldo anterior / movimiento / saldo final:
+    // es la hoja de movimiento que acompaña al EE RR
+    movimiento,
     resumen: {
       moneda: "dolares",
       cuentasMaestro: cuentasMaestro.length,
@@ -312,6 +369,7 @@ if (typeof module !== "undefined") {
   global.esProveedor = require("./clasificacion.js").esProveedor;
   module.exports = {
     normNombre, cuentasDelMaestro, resolverDestinosDolares, volcarHoja1Dolares, procesarDolares,
+    saldosDeHoja1, movimientoDelMes,
     proponerDestino, similitudNombre, codigosCandidatos, clavesDeHoja1,
   };
 }

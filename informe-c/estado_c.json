@@ -1,10 +1,18 @@
 {
+ "ultimo_periodo_cerrado": "2026-07-31",
  "historial": [
   {
    "fecha": "2026-07-30T20:45:11.309Z",
    "cuentas": 388,
    "nuevas": 0,
    "totalPesos": -5.904585123062134e-7
+  },
+  {
+   "periodo": "2026-07-31",
+   "fecha": "2026-09-02T17:15:44.384Z",
+   "cuentas": 425,
+   "nuevas": 0,
+   "nota": "cierre cargado a mano desde SCA_Balance_2026-07_pesos (1).xlsx y _dolares (1).xlsx"
   }
  ],
  "eerrAnterior": {

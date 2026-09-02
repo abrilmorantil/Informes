@@ -73,10 +73,17 @@ console.log("\n=== 4) el caso que lo motivó: el informe de julio de 102 cuentas
   console.log(`       el plan tiene ${mapping.length} cuentas; lo guardado hoy, ` +
               `${Object.keys(estado.saldos).length}`);
   console.log(`       se completan en cero: ${r.enCero.length}   quedan avisadas: ${r.faltan.length}`);
-  check(r.faltan.length > 0,
-    "con lo que hay guardado hoy el aviso salta: al informe importado le faltaban cuentas del plan");
+  // Se controla que lo GUARDADO este completo. Al principio no lo estaba —se habia importado
+  // un informe de julio de 102 cuentas en vez del de 197— y este mismo control lo delataba.
+  // La deteccion en si se prueba arriba, con casos armados: aca se mira el dato real.
+  check(r.faltan.length === 0,
+    r.faltan.length
+      ? `faltan ${r.faltan.length} cuenta(s) del plan sin saldo guardado: ` +
+        r.faltan.slice(0, 6).map(x => x.code).join(", ") +
+        ". Hay que reimportar el informe completo del mes pasado."
+      : "cada cuenta del plan tiene su saldo guardado: la columna Saldo anterior sale entera");
   check(r.enCero.length <= mapping.filter(x => x.ocultar_si_cero).length,
-    "y sólo se completan las que el plan marca como ocultables en cero");
+    "y solo se completan las que el plan marca como ocultables en cero");
 }
 
 console.log("\n=== 5) el lector usa las DOS columnas de cuenta ===");

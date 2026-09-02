@@ -22,6 +22,19 @@ global.madresResultados = madresResultados;
 global.insertarHijaEnMadre = insertarHijaEnMadre;
 const { categoriasPesos, quitarCuentaDeCategoria, editarCuenta, agregarCuentaACategoria, gcFilasDelBloque } = require(path.join(AQUI, "gestion_categorias.js"));
 
+// El maestro avanza un mes en cada cierre y todas las filas se corren, así que nada acá se
+// clava a un número de fila: las categorías se buscan por CÓDIGO y las cuentas a sacar
+// también. Un test clavado a "la fila 154" se pone en rojo todos los meses sin que se haya
+// roto nada — pasó con el cierre de julio.
+const porCodigo = (cats, cod) => cats.find(c => c.codigo === cod);
+const filaDe = (cat, cod) => {
+  const m = cat.miembros.find(x => x.codigo === cod);
+  if (!m) throw new Error(`la categoría "${cat.nombre}" no tiene la cuenta ${cod}`);
+  return m.fila;
+};
+const rangoEsperado = (cat, quitadas) =>
+  `SUM(F${cat.bloque.desde}:F${cat.bloque.hasta - quitadas})`;
+
 let fallos = 0;
 const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if (!ok) fallos++; };
 const buf = fs.readFileSync(path.join(AQUI, "base_pesos.xlsx"));
@@ -40,16 +53,21 @@ function formulaDe(ws, fila, col) {
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const { categorias, sueltas } = categoriasPesos(wb, mapeo);
     check(categorias.length === 58, `58 categorías de RESULTADOS (dio ${categorias.length})`);
-    const c154 = categorias.find(c => c.filaMadre === 154);
-    check(!!c154 && c154.codigo === "42101000" && c154.nombre === "Honorarios legales",
-      'categoría 154 identificada ("Honorarios legales")');
-    check(c154.miembros.length === 4, `"Honorarios legales" tiene 4 miembros (dio ${c154.miembros.length})`);
-    check(c154.miembros.every(m => !m.esFilaCompartida), "ninguno de sus miembros comparte fila con la madre");
-    const c200 = categorias.find(c => c.filaMadre === 200);
-    check(c200.miembros.some(m => m.esFilaCompartida && m.fila === 200),
-      '"Vacaciones" (fila 200) marca su miembro de fila compartida');
-    check(sueltas.length > 0 && sueltas.every(s => s.fila < 154 || true),
-      `hay cuentas de RESULTADOS sueltas, sin categoría (${sueltas.length})`);
+
+    // Las categorías se buscan por su CÓDIGO, no por su fila. El maestro avanza un mes cada
+    // cierre y las filas se corren, así que un test clavado a "la fila 154" se pone en rojo
+    // todos los meses sin que se haya roto nada. Ya pasó con el cierre de julio.
+    const cHon = categorias.find(c => c.codigo === "42101000");
+    check(!!cHon && cHon.nombre === "Honorarios legales",
+      `"Honorarios legales" (42101000) está, en la fila ${cHon && cHon.filaMadre}`);
+    check(cHon.miembros.length === 4, `"Honorarios legales" tiene 4 miembros (dio ${cHon.miembros.length})`);
+    check(cHon.miembros.every(m => !m.esFilaCompartida), "ninguno de sus miembros comparte fila con la madre");
+
+    // y una categoría que comparte fila con una de sus cuentas, exista donde exista
+    const cCompartida = categorias.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
+    check(!!cCompartida,
+      `hay una categoría que comparte fila con un miembro suyo: "${cCompartida && cCompartida.nombre}" (fila ${cCompartida && cCompartida.filaMadre})`);
+    check(sueltas.length > 0, `hay cuentas de RESULTADOS sueltas, sin categoría (${sueltas.length})`);
   }
 
   // ---------------------------------------------- sacar del medio de un "rango"
@@ -57,15 +75,16 @@ function formulaDe(ws, fila, col) {
     const wb = await abrirCopia();
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const { categorias } = categoriasPesos(wb, mapeo);
-    const cat = categorias.find(c => c.filaMadre === 154); // rango 155-158
-    quitarCuentaDeCategoria(wb, cat, 156, () => {});
+    const cat = porCodigo(categorias, "42101000");   // "Honorarios legales", bloque rango
+    const esperado = rangoEsperado(cat, 1);
+    quitarCuentaDeCategoria(wb, cat, filaDe(cat, "421430000"), () => {});
     const ws = wb.getWorksheet("SALDOS");
-    check(formulaDe(ws, 154, 7) === "SUM(F155:F157)",
-      `el subtotal de "Honorarios legales" quedó en SUM(F155:F157) (dio ${formulaDe(ws, 154, 7)})`);
+    check(formulaDe(ws, cat.filaMadre, 7) === esperado,
+      `el subtotal de "Honorarios legales" quedó en ${esperado} (dio ${formulaDe(ws, cat.filaMadre, 7)})`);
     // lo que estaba en 157 (Servicio Notarial) ahora está en 156, corrido un lugar
     const mapeo2 = derivarMapeoMaestro(wb, "pesos");
     const { categorias: cat2 } = categoriasPesos(wb, mapeo2);
-    const c154b = cat2.find(c => c.filaMadre === 154);
+    const c154b = porCodigo(cat2, "42101000");
     check(c154b.miembros.length === 3, `quedaron 3 miembros (dio ${c154b.miembros.length})`);
     check(!c154b.miembros.some(m => m.codigo === "421430000"), "la cuenta sacada (421430000) ya no aparece");
     // otra categoría, más abajo, no se tiene que haber tocado en su forma (madre a fila 159-1=158)
@@ -78,15 +97,16 @@ function formulaDe(ws, fila, col) {
     const wb = await abrirCopia();
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const { categorias } = categoriasPesos(wb, mapeo);
-    const cat = categorias.find(c => c.filaMadre === 154); // rango 155-158, hasta=158
+    const cat = porCodigo(categorias, "42101000");   // bloque rango: se saca su ÚLTIMA fila
+    const esperado = rangoEsperado(cat, 1);
     const ws = wb.getWorksheet("SALDOS");
-    const filaVecinaAntes = textoDeFila(ws, 159); // la próxima madre, para confirmar que no se corrompe
-    quitarCuentaDeCategoria(wb, cat, 158, () => {});
-    check(formulaDe(ws, 154, 7) === "SUM(F155:F157)",
-      `sacar la ÚLTIMA fila (158) achica el subtotal a SUM(F155:F157) (dio ${formulaDe(ws, 154, 7)})`);
+    const filaVecinaAntes = textoDeFila(ws, cat.bloque.hasta + 1); // la próxima madre
+    quitarCuentaDeCategoria(wb, cat, cat.bloque.hasta, () => {});
+    check(formulaDe(ws, cat.filaMadre, 7) === esperado,
+      `sacar la ÚLTIMA fila achica el subtotal a ${esperado} (dio ${formulaDe(ws, cat.filaMadre, 7)})`);
     const mapeo2 = derivarMapeoMaestro(wb, "pesos");
     const { categorias: cat2 } = categoriasPesos(wb, mapeo2);
-    const c154b = cat2.find(c => c.filaMadre === 154);
+    const c154b = porCodigo(cat2, "42101000");
     check(c154b.miembros.length === 3 && !c154b.miembros.some(m => m.codigo === "425840000"),
       "la cuenta sacada (425840000, la última del bloque) ya no está, y NO quedó de más sumando la fila vecina");
     const c159 = cat2.find(c => c.nombre === "Honorarios profesionales");
@@ -99,15 +119,18 @@ function formulaDe(ws, fila, col) {
     const wb = await abrirCopia();
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const { categorias } = categoriasPesos(wb, mapeo);
-    const cat = categorias.find(c => c.filaMadre === 197); // lista [197,198,199], 197 compartida
-    check(cat.bloque.tipo === "lista", "la categoría de prueba es de tipo lista");
+    // la primera categoría de tipo "lista" con al menos 3 filas, sea cual sea
+    const cat = categorias.find(c => c.bloque.tipo === "lista" && c.bloque.filas.length >= 3);
+    check(!!cat, `hay una categoría de tipo lista: "${cat && cat.nombre}" (fila ${cat && cat.filaMadre})`);
+    const quedan = cat.bloque.filas.slice(0, -1);
+    const esperado = quedan.map(f => "+F" + f).join("");
     const ws = wb.getWorksheet("SALDOS");
-    quitarCuentaDeCategoria(wb, cat, 199, () => {});
-    check(formulaDe(ws, 197, 7) === "+F197+F198",
-      `el subtotal de la lista quedó en "+F197+F198" (dio ${formulaDe(ws, 197, 7)})`);
+    quitarCuentaDeCategoria(wb, cat, cat.bloque.filas[cat.bloque.filas.length - 1], () => {});
+    check(formulaDe(ws, cat.filaMadre, 7) === esperado,
+      `el subtotal de la lista quedó en "${esperado}" (dio ${formulaDe(ws, cat.filaMadre, 7)})`);
     const mapeo2 = derivarMapeoMaestro(wb, "pesos");
     const { categorias: cat2 } = categoriasPesos(wb, mapeo2);
-    const c197b = cat2.find(c => c.filaMadre === 197);
+    const c197b = porCodigo(cat2, cat.codigo);
     check(c197b.miembros.length === 2, `quedaron 2 miembros en la categoría lista (dio ${c197b.miembros.length})`);
   }
 
@@ -132,7 +155,8 @@ function formulaDe(ws, fila, col) {
     // lista — releyendo categorías entre cada paso, como va a hacer el panel de verdad
     // (cada borrado corre filas y las categorías siguientes cambian de número de fila).
     const recategorizar = () => categoriasPesos(wb, derivarMapeoMaestro(wb, "pesos")).categorias;
-    quitarCuentaDeCategoria(wb, recategorizar().find(c => c.codigo === "42101000"), 156, () => {});
+    quitarCuentaDeCategoria(wb, recategorizar().find(c => c.codigo === "42101000"),
+      filaDe(recategorizar().find(c => c.codigo === "42101000"), "421430000"), () => {});
     const catHonProf = recategorizar().find(c => c.codigo === "42102000"); // "Honorarios profesionales"
     quitarCuentaDeCategoria(wb, catHonProf, Math.max(...gcFilasDelBloque(catHonProf.bloque)), () => {}); // la última de su rango
     quitarCuentaDeCategoria(wb, recategorizar().find(c => c.codigo === "42113000"), // "Tasas Retributivas Minería"
@@ -147,9 +171,9 @@ function formulaDe(ws, fila, col) {
     const wb = await abrirCopia();
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const { categorias } = categoriasPesos(wb, mapeo);
-    const cat200 = categorias.find(c => c.filaMadre === 200);
+    const cat200 = categorias.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
     let tiroError = false;
-    try { quitarCuentaDeCategoria(wb, cat200, 200, () => {}); } catch (e) { tiroError = /comparte la fila/.test(e.message); }
+    try { quitarCuentaDeCategoria(wb, cat200, cat200.filaMadre, () => {}); } catch (e) { tiroError = /comparte la fila/.test(e.message); }
     check(tiroError, "sacar la fila compartida con la madre tira error y no toca el archivo");
 
     const catUnica = categorias.find(c => c.miembros.length === 1);
@@ -165,7 +189,7 @@ function formulaDe(ws, fila, col) {
     const wb = await abrirCopia();
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const { categorias } = categoriasPesos(wb, mapeo);
-    const cat = categorias.find(c => c.filaMadre === 154);
+    const cat = porCodigo(categorias, "42101000");
     const miembro = cat.miembros[0];
     editarCuenta(wb, miembro.fila, miembro.col, "999999999", "Cuenta de prueba", () => {});
     const mapeo2 = derivarMapeoMaestro(wb, "pesos");
@@ -179,7 +203,7 @@ function formulaDe(ws, fila, col) {
     const wb = await abrirCopia();
     let mapeo = derivarMapeoMaestro(wb, "pesos");
     let { categorias } = categoriasPesos(wb, mapeo);
-    const cat = categorias.find(c => c.filaMadre === 159); // "Honorarios profesionales", rango
+    const cat = porCodigo(categorias, "42102000");   // "Honorarios profesionales", bloque rango
     const filaNueva = agregarCuentaACategoria(wb, mapeo, { codigo: "429999000", nombre: "Cuenta agregada de prueba" }, cat, () => {});
     check(typeof filaNueva === "number", `insertó una fila nueva (${filaNueva})`);
     mapeo = derivarMapeoMaestro(wb, "pesos");

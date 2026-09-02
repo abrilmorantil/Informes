@@ -66,12 +66,19 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
       : "ninguna fila del maestro tiene dos cuentas distintas escritas");
 
   // Y que la detección funciona: se arma una fila con dos cuentas y tiene que saltar.
+  //
+  // La fila se busca POR CONTENIDO, no por número: el maestro avanza un mes cada cierre y las
+  // filas se corren, así que clavar "la 137" pone el test en rojo todos los meses sin que se
+  // haya roto nada. Se toma la línea de "Patentes a pagar", que es la que tenía el defecto.
   const wbX = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
   const wsX = wbX.getWorksheet("SALDOS");
-  wsX.getCell(137, 4).value = "212020002 - Retenciones SUSS a pagar";   // como estaba antes
+  const mapeoX = derivarMapeoMaestro(wbX, "pesos");
+  const filaX = mapeoX.cuentas["213010010"] && mapeoX.cuentas["213010010"].fila;
+  check(!!filaX, `"213010010 Patentes a pagar" está en el maestro (fila ${filaX})`);
+  wsX.getCell(filaX, 4).value = "212020002 - Retenciones SUSS a pagar";   // como estaba antes
   const cfgX = derivarConfigBalance(wbX, "pesos", derivarMapeoMaestro(wbX, "pesos"),
     lineasDeNota4(wbX), PARAMS.pesos, { filasQueAgrega });
-  const c137 = cfgX.avisos.find(a => a.tipo === "dos_cuentas_en_la_misma_fila" && a.fila === 137);
+  const c137 = cfgX.avisos.find(a => a.tipo === "dos_cuentas_en_la_misma_fila" && a.fila === filaX);
   check(!!c137, "con dos cuentas escritas en una fila, el panel lo marca");
   check(c137 && c137.usa.code === "213010010" && c137.tambien.code === "212020002",
     "y dice cuál usa y cuál es la otra");
@@ -150,12 +157,13 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   check(pccSinCuentaHtml(cfgY, onvio).includes("Zento") || pccPendientesHtml(cfgY).includes("Zento"),
     "si una línea se queda sin cuenta, el panel la lista");
 
-  const cat154 = categorias.find(c => c.filaMadre === 154);
+  // por código, no por fila: ver el comentario de arriba
+  const cat154 = categorias.find(c => c.codigo === "42101000");
   const miembroHtml = gcMiembroHtml(cat154, cat154.miembros[0]);
   check(miembroHtml.includes(cat154.miembros[0].codigo), "una cuenta miembro muestra su código en el HTML");
   check(miembroHtml.includes('data-accion="quitar"'), "una cuenta que se puede sacar tiene el botón Quitar");
 
-  const cat200 = categorias.find(c => c.filaMadre === 200);
+  const cat200 = categorias.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
   const compartida = cat200.miembros.find(m => m.esFilaCompartida);
   const miembroCompartidoHtml = gcMiembroHtml(cat200, compartida);
   check(!miembroCompartidoHtml.includes('data-accion="quitar"'),

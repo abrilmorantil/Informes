@@ -1471,8 +1471,14 @@
     "aliases": [],
     "description": "Multas",
     "category": "RESULTADOS",
-    "type": "simple",
-    "orden": 118
+    "type": "parent",
+    "orden": 118,
+    "children": [
+      {
+        "code": "425850000",
+        "description": "Multas Adm. Gral."
+      }
+    ]
   },
   {
     "code": "42310000",
@@ -1800,6 +1806,10 @@
       {
         "code": "426460000",
         "description": "Traslados Gs de Campo"
+      },
+      {
+        "code": "426690000",
+        "description": "Servicio de transporte Gs Campo"
       }
     ],
     "orden": 134
@@ -2318,6 +2328,10 @@
       {
         "code": "429210000",
         "description": "Gastos Campamento - E. Perforacion"
+      },
+      {
+        "code": "426890000",
+        "description": "Uso eventual de agua en proyectos - Gs Campo"
       }
     ],
     "orden": 161

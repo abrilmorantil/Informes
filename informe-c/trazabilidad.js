@@ -46,25 +46,38 @@ function tzLetra(n) {
 // falsos "no la encuentra" con cosas como "Materiales de campo" / "Materiales de Campo".
 const tzClave = (s) => String(s).trim().toLowerCase().replace(/\s+/g, " ");
 
-// Todas las filas de SALDOS que una fórmula nombra, contando los rangos.
-// El rango importa: los proveedores entran al pasivo por `SUM(G63:G117)`, no uno por uno.
-function tzFilasQueNombra(formula) {
-  const out = new Set();
+// Las CELDAS de SALDOS que una fórmula nombra: columna y fila.
+//
+// La columna hace falta, no es un detalle. La fila 61 tiene la cuenta "Cargos Diferidos" en
+// G61 y, en la MISMA fila, el total del activo en `I61 = SUM(G3:G61)`. Emparejando sólo por
+// fila, la Nota 4 que lee G61 parecía leer el total: y entonces las 59 cuentas del activo
+// figuraban entrando dos veces al balance. Ninguna lo hacía.
+function tzCeldasQueNombra(formula) {
+  const out = [];
   const t = String(formula || "");
+  const idx = (L) => L.toUpperCase().split("").reduce((a, ch) => a * 26 + ch.charCodeAt(0) - 64, 0);
   const reRango = /(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)\s*:\s*(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)/gi;
   let m;
   const yaEnRango = [];
   while ((m = reRango.exec(t))) {
-    const a = Math.min(+m[2], +m[4]), b = Math.max(+m[2], +m[4]);
-    for (let r = a; r <= b; r++) out.add(r);
+    const c1 = idx(m[1]), c2 = idx(m[3]);
+    const f1 = Math.min(+m[2], +m[4]), f2 = Math.max(+m[2], +m[4]);
+    for (let c = Math.min(c1, c2); c <= Math.max(c1, c2); c++) {
+      for (let r = f1; r <= f2; r++) out.push({ col: c, fila: r, porRango: true });
+    }
     yaEnRango.push([m.index, m.index + m[0].length]);
   }
-  const reSuelta = /(?:'?SALDOS'?!)?\$?[A-Z]{1,3}\$?(\d+)/gi;
+  const reSuelta = /(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)/gi;
   while ((m = reSuelta.exec(t))) {
     if (yaEnRango.some(([a, b]) => m.index >= a && m.index < b)) continue;
-    out.add(+m[1]);
+    out.push({ col: idx(m[1]), fila: +m[2], porRango: false });
   }
   return out;
+}
+
+// Compatibilidad: sólo las filas, sin la columna.
+function tzFilasQueNombra(formula) {
+  return new Set(tzCeldasQueNombra(formula).map(x => x.fila));
 }
 
 // Dónde termina cada fila de SALDOS: en qué celda de qué hoja de estado se la lee.
@@ -85,9 +98,9 @@ function tzDestinos(wb) {
         if (!(v && typeof v === "object" && v.formula)) return;
         const f = String(v.formula);
         if (/VLOOKUP/i.test(f) || !/[:+]/.test(f)) return;
-        const filas = [...tzFilasQueNombra(f)].filter(x => x !== r);
+        const filas = [...new Set(tzCeldasQueNombra(f).map(x => x.fila))].filter(x => x !== r);
         if (filas.length < 2) return;               // no agrega a nadie: no es un subtotal
-        subtotales.set(tzLetra(ci) + r, { fila: r, col: ci, filas, porRango: /:/.test(f) });
+        subtotales.set(ci + "," + r, { fila: r, col: ci, filas, porRango: /:/.test(f) });
       });
     });
   }
@@ -106,18 +119,22 @@ function tzDestinos(wb) {
           const t = tzTexto(ws.getCell(r, k).value).trim();
           if (t) etiqueta = t;
         }
-        for (const fila of tzFilasQueNombra(f)) {
-          const anotar = (destFila, viaSubtotal) => {
-            if (!porFila.has(destFila)) porFila.set(destFila, []);
-            porFila.get(destFila).push({
-              hoja: ws.name, celda: tzLetra(ci) + r, fila: r, etiqueta,
-              porRango: /:/.test(f), viaSubtotal: viaSubtotal || null,
-            });
-          };
-          anotar(fila, null);
-          // si esa fila de SALDOS es un subtotal, el destino vale para todas las que suma
-          const sub = subtotales.get(tzLetra(7) + fila) ||
-                      [...subtotales.values()].find(x => x.fila === fila);
+        const anotar = (destFila, viaSubtotal) => {
+          if (!porFila.has(destFila)) porFila.set(destFila, []);
+          const ya = porFila.get(destFila);
+          const clave = ws.name + "!" + tzLetra(ci) + r;
+          if (ya.some(d => d.hoja + "!" + d.celda === clave)) return;   // ya anotado
+          ya.push({
+            hoja: ws.name, celda: tzLetra(ci) + r, fila: r, etiqueta,
+            porRango: /:/.test(f), viaSubtotal: viaSubtotal || null,
+          });
+        };
+        for (const cel of tzCeldasQueNombra(f)) {
+          anotar(cel.fila, null);
+          // Si esa CELDA es un subtotal, el destino vale para todas las filas que suma. Se
+          // empareja por celda —columna y fila—, no por fila: en una misma fila conviven la
+          // cuenta y un total que no tiene nada que ver con ella.
+          const sub = subtotales.get(cel.col + "," + cel.fila);
           if (sub) for (const hija of sub.filas) anotar(hija, tzLetra(sub.col) + sub.fila);
         }
       });
@@ -244,7 +261,9 @@ function tzEscribirHoja(wb, moneda, mapeo, madres) {
     "Una fila por cuenta. Se sigue el camino completo: lo que manda Onvio entra en Hoja1, " +
     "SALDOS lo busca por el texto \"código - nombre\", y de ahí va al Anexo II (los gastos) " +
     "o a la Nota 4 (activo y pasivo). La columna \"¿Dónde se corta?\" dice en qué escalón se " +
-    "pierde una cuenta, si se pierde.";
+    "pierde una cuenta, si se pierde. Ojo con un caso: la amortización llega al Anexo II a " +
+    "través del Anexo I, que se carga a mano; acá figura como que nadie la lee, y es cierto, " +
+    "pero su importe igual aparece en el estado.";
   ws.getCell("A2").font = { italic: true, size: 9 };
 
   const headers = [
@@ -261,7 +280,7 @@ function tzEscribirHoja(wb, moneda, mapeo, madres) {
     const d = f.destinos[0] || null;
     let corte = "";
     if (f.encuentraEnHoja1 === false) corte = "Hoja1 no tiene esa cuenta con ese texto";
-    else if (f.sinDestino) corte = "no entra a ningún estado";
+    else if (f.sinDestino) corte = "ninguna hoja lee esta fila de SALDOS";
     ws.getCell(r, 1).value = f.codigo;
     ws.getCell(r, 2).value = f.nombre;
     const cf1 = ws.getCell(r, 3); cf1.value = f.hoja1Fila; cf1.numFmt = "0";
@@ -303,5 +322,5 @@ function tzEscribirHoja(wb, moneda, mapeo, madres) {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { tzFilas, tzEscribirHoja, tzDestinos, tzFilasQueNombra, tzTexto };
+  module.exports = { tzFilas, tzEscribirHoja, tzDestinos, tzFilasQueNombra, tzCeldasQueNombra, tzTexto };
 }

@@ -261,9 +261,9 @@ function tzEscribirHoja(wb, moneda, mapeo, madres) {
     "Una fila por cuenta. Se sigue el camino completo: lo que manda Onvio entra en Hoja1, " +
     "SALDOS lo busca por el texto \"código - nombre\", y de ahí va al Anexo II (los gastos) " +
     "o a la Nota 4 (activo y pasivo). La columna \"¿Dónde se corta?\" dice en qué escalón se " +
-    "pierde una cuenta, si se pierde. Ojo con un caso: la amortización llega al Anexo II a " +
-    "través del Anexo I, que se carga a mano; acá figura como que nadie la lee, y es cierto, " +
-    "pero su importe igual aparece en el estado.";
+    "pierde una cuenta, si se pierde. Ojo con un caso: la amortización del ejercicio llega al " +
+    "Anexo II por el Anexo I, que la calcula desde las cuentas \"Dep. Ac.\" de SALDOS. Su fila " +
+    "de gasto figura acá como que nadie la lee —y es cierto— pero el importe igual llega.";
   ws.getCell("A2").font = { italic: true, size: 9 };
 
   const headers = [

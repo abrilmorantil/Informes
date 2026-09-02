@@ -1142,10 +1142,6 @@
       {
         "code": "426670000",
         "description": "Patentes Gasto Campo Catamarca"
-      },
-      {
-        "code": "426340000",
-        "description": "Catastro Minero Gs Campo"
       }
     ],
     "orden": 99
@@ -1160,6 +1156,10 @@
       {
         "code": "422130000",
         "description": "Gastos en trámites"
+      },
+      {
+        "code": "426340000",
+        "description": "Catastro Minero Gs Campo"
       }
     ],
     "orden": 100

@@ -832,6 +832,17 @@ function renderCapital() {
 // --------------------------------------------------------------- descarga y cierre
 
 async function descargar(wb, sufijo) {
+  // La hoja de trazabilidad se arma recién acá, sobre el archivo terminado: es una foto de
+  // ESTA corrida. Por eso no se guarda en el maestro, donde el mes que viene sería mentira.
+  try {
+    const moneda = sufijo === "dolares" ? "dolares" : "pesos";
+    const r = tzEscribirHoja(wb, moneda);
+    log(`\n${sufijo.toUpperCase()}: hoja "De dónde sale cada saldo" con ${r.filas} cuenta(s)` +
+        (r.cortes ? `, ${r.cortes} marcada(s) porque el camino se corta.` : "."));
+  } catch (e) {
+    log(`\n⚠ ${sufijo.toUpperCase()}: no pude armar la hoja de trazabilidad (${e.message}). ` +
+        `El balance se descarga igual.`);
+  }
   const buffer = await wb.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);

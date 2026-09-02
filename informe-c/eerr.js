@@ -64,16 +64,48 @@ function totalesEstadoResultados(wb, valorDeFilaSaldos) {
   const avisos = [];
   const numero = (v) => (typeof v === "number" && isFinite(v) ? v : 0);
 
-  // Hojas que la app NO toca —Anexo I sobre todo— y de las que el Anexo II sí se
-  // alimenta: `Anexo II!F20 (DEPRECIACIONES) = +'Anexo I'!I24`, la amortización del
-  // período, que se lleva a mano. Como el motor nunca las escribe, su valor guardado
-  // sigue siendo el bueno y se lee tal cual.
+  // Hojas que la app NO toca, y de las que el Anexo II sí se alimenta:
+  // `Anexo II!F20 (DEPRECIACIONES) = +'Anexo I'!I24`, la amortización del período.
+  //
+  // Acá había una premisa falsa que costó plata: "como el motor nunca las escribe, su valor
+  // guardado sigue siendo el bueno". No lo es. El Anexo I NO está cargado a mano: se calcula
+  // desde SALDOS —`J = -SALDOS!C49` (amortización acumulada al cierre) e `I = J - F`, con `F`
+  // fija al inicio del ejercicio— así que su valor guardado es el que Excel calculó la ÚLTIMA
+  // vez que abrió el archivo, o sea el del mes anterior. Leerlo tal cual metía la amortización
+  // del mes pasado en el estado de resultados del mes nuevo.
+  //
+  // Medido en agosto 2026: el Anexo I traía cacheados 12.378,87 (julio) cuando con los saldos
+  // de agosto da 18.318,84. El EE RR salió con "Gastos de Administración" de 616.622,64 en
+  // lugar de 622.562,61: **5.939,97 de menos**, exactamente esa diferencia. Y sólo salía bien
+  // si antes se abría el balance en Excel, que recalculaba el Anexo I.
+  //
+  // Ahora esas hojas se EVALÚAN igual que el Anexo II, con los saldos de esta corrida. Sólo se
+  // lee el valor guardado cuando la celda no tiene fórmula (los importes al inicio del
+  // ejercicio, que son fijos y correctos todo el año).
   const usadasDeOtrasHojas = [];
+  const enCurso = new Set();               // corta una referencia circular en vez de colgarse
   const valorOtraHoja = (nombre, col, fila) => {
     const ws = wb.getWorksheet(nombre);
     if (!ws) { avisos.push(`El maestro no tiene la hoja '${nombre}', que el Anexo II necesita.`); return 0; }
+    const clave = `${nombre}!${col}${fila}`;
     const cell = ws.getCell(`${col}${fila}`);
-    const v = numero(cell.result !== undefined ? cell.result : cell.value);
+    let v;
+    if (cell.formula && !enCurso.has(clave)) {
+      enCurso.add(clave);
+      const r = evaluarFormula(cell.formula, {
+        hoja: (h, c, f2) => {
+          if (/^SALDOS$/i.test(h)) return numero(valorDeFilaSaldos(f2));
+          if (/^Anexo II$/i.test(h)) return numero(valorAnexo(c, f2));
+          return valorOtraHoja(h, c, f2);
+        },
+        local: (c, f2) => valorOtraHoja(nombre, c, f2),
+      });
+      enCurso.delete(clave);
+      if (r && r.error) { avisos.push(`${clave}: ${r.error}`); v = 0; }
+      else v = numero(r);
+    } else {
+      v = numero(cell.result !== undefined ? cell.result : cell.value);
+    }
     usadasDeOtrasHojas.push({ hoja: nombre, celda: `${col}${fila}`, valor: v });
     return v;
   };

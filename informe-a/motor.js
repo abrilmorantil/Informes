@@ -1250,16 +1250,52 @@ function repararTotalesSaldos({ wb, mapeo, log = () => {} }) {
 // justo la que hay que mirar— pero saltear la funcion entera dejaba tambien sin mostrarse a
 // las que SI tenian movimiento y venian ocultas del mes anterior. Paso en agosto 2026 con
 // CERRO LA MINA, CERRO ABANICO y LOS MENUCOS: tenian saldo y quedaron escondidas.
-function ocultarCentrosSinMovimiento(wsDist, mapeo, aporte, log = () => {}, opciones = {}) {
+// `wsSs` es opcional por compatibilidad, pero en la corrida real va SIEMPRE: los centros de
+// costo se ven en DOS hojas y hasta ahora esto tocaba una sola.
+//
+// En `Dist.de gastos` cada centro es una columna; en `Sumas y Saldos` es un bloque de tres
+// (Debe/Haber/Saldo). Ocultando sólo la de Dist, un centro que este mes empieza a tener saldo
+// aparecia en la distribucion pero seguia escondido en Sumas y Saldos, que es la hoja donde se
+// mira cuenta por cuenta. En el maestro no se notaba porque los mismos 5 centros vienen
+// moviendo todo el año y los otros 17 estan ocultos en las dos hojas; se ve recien cuando uno
+// nuevo empieza a mover.
+function ocultarCentrosSinMovimiento(wsDist, mapeo, aporte, log = () => {}, opciones = {}, wsSs = null) {
   const movimiento = aporte || {};
   const soloMostrar = !!opciones.soloMostrar;
   const ocultos = [], mostrados = [];
+
+  // las tres columnas que ese centro ocupa en Sumas y Saldos
+  const colsSs = (nombre) => {
+    const b = (mapeo.cc_blocks || []).find(x => x.nombre_balance === nombre);
+    return b ? [b.col_debe, b.col_haber, b.col_saldo].filter(Boolean) : [];
+  };
+  const verSs = (nombre, oculta) => {
+    if (!wsSs) return;
+    for (const c of colsSs(nombre)) wsSs.getColumn(colAIndice(c)).hidden = oculta;
+  };
+
   for (const [distCol, info] of Object.entries(mapeo.dist_col_to_cc)) {
     const columna = wsDist.getColumn(colAIndice(distCol));
     const tiene = (movimiento[info.nombre_balance] || 0) > 0.005;
-    if (tiene && columna.hidden) { columna.hidden = false; mostrados.push(info.nombre_balance); }
-    else if (!tiene && !columna.hidden && !soloMostrar) { columna.hidden = true; ocultos.push(info.nombre_balance); }
+    if (tiene) {
+      // mostrar nunca puede estar mal, asi que se hace aunque Dist ya estuviera visible:
+      // las dos hojas se pueden haber desincronizado en corridas anteriores.
+      if (columna.hidden) { columna.hidden = false; mostrados.push(info.nombre_balance); }
+      verSs(info.nombre_balance, false);
+    } else if (!columna.hidden && !soloMostrar) {
+      columna.hidden = true;
+      verSs(info.nombre_balance, true);
+      ocultos.push(info.nombre_balance);
+    }
   }
+
+  // Los bloques de Sumas y Saldos que no tienen columna en Dist (SOL y LOS MORTERITOS, que
+  // comparten la columna de su "PROYECTO ...") se resuelven aparte: si tienen movimiento se
+  // muestran igual.
+  for (const b of (mapeo.cc_blocks || [])) {
+    if ((movimiento[b.nombre_balance] || 0) > 0.005) verSs(b.nombre_balance, false);
+  }
+
   if (mostrados.length) log(`  Vuelven a mostrarse ${mostrados.length} centro(s) de costo que este mes si tuvieron movimiento: ${mostrados.join(", ")}.`);
   if (ocultos.length) log(`  Se ocultan ${ocultos.length} centro(s) de costo sin movimiento este mes: ${ocultos.join(", ")}.`);
   return { ocultos, mostrados };
@@ -1463,7 +1499,7 @@ function procesar({ wb, lineas, mapeo, categoriasElegidas = {}, excluidas = [], 
   // Con un centro sin resolver se muestran igual las que tienen movimiento, pero no se oculta
   // nada: la columna del que falta quedaria escondida y en cero, que es justo la que hay que
   // mirar.
-  ocultarCentrosSinMovimiento(wsDist, mapeo, aporteADist, log, { soloMostrar: sinCc.length > 0 });
+  ocultarCentrosSinMovimiento(wsDist, mapeo, aporteADist, log, { soloMostrar: sinCc.length > 0 }, wsSs);
   if (sinCc.length) {
     log(`  No se oculto ninguna columna: primero hay que resolver el/los centro(s) de costo ` +
         `de arriba. Las que tienen movimiento se muestran igual.`);

@@ -95,6 +95,40 @@ const nombreDe = (info) => (info && (info.nombre_balance || info.nombre)) || Str
   check(!oculta(uno), `"${uno}" NO se oculta aunque deje de aportar: con un centro sin resolver no se oculta nada`);
   check(!oculta(dos), `y "${dos}" se muestra porque ahora sí aporta`);
 
+  // ------------------------------------------------ las DOS hojas, no sólo Dist.de gastos
+  //
+  // Un centro de costo se ve en dos lados: una columna en `Dist.de gastos` y un bloque de tres
+  // (Debe/Haber/Saldo) en `Sumas y Saldos`. Esto tocaba sólo la primera, así que un centro que
+  // este mes empezaba a mover aparecía en la distribución y seguía escondido en Sumas y
+  // Saldos, que es la hoja donde se mira cuenta por cuenta.
+  console.log("\n=== y en Sumas y Saldos, que es la otra hoja donde se ven ===");
+  const wsSs = wb.getWorksheet("Sumas y Saldos");
+  const bloque = (nombre) => (mapeo.cc_blocks || []).find(b => b.nombre_balance === nombre);
+  const colsSs = (nombre) => {
+    const b = bloque(nombre);
+    return b ? [b.col_debe, b.col_haber, b.col_saldo] : [];
+  };
+  const ocultaSs = (nombre) => colsSs(nombre).every(c => !!wsSs.getColumn(colIdx(c)).hidden);
+  const visibleSs = (nombre) => colsSs(nombre).every(c => !wsSs.getColumn(colIdx(c)).hidden);
+
+  check(colsSs(uno).length === 3, `"${uno}" ocupa 3 columnas en Sumas y Saldos (${colsSs(uno).join("/")})`);
+
+  // se lo esconde a mano en las dos hojas, como quedaría después de un mes sin movimiento
+  for (const c of colsSs(uno)) wsSs.getColumn(colIdx(c)).hidden = true;
+  wsDist.getColumn(colIdx(columnas.find(c => c.nombre === uno).col)).hidden = true;
+  check(ocultaSs(uno), `punto de partida: "${uno}" escondido también en Sumas y Saldos`);
+
+  motor.ocultarCentrosSinMovimiento(wsDist, mapeo, { [uno]: 900 }, () => {}, {}, wsSs);
+  check(!oculta(uno), `"${uno}" vuelve a mostrarse en Dist.de gastos`);
+  check(visibleSs(uno), "y sus tres columnas de Sumas y Saldos también");
+  check(ocultaSs(dos), `"${dos}", que no aporta, se esconde en las dos hojas`);
+
+  // y sin pasarle la hoja sigue andando igual que antes, sin tocarla
+  const antesSs = colsSs(uno).map(c => !!wsSs.getColumn(colIdx(c)).hidden);
+  motor.ocultarCentrosSinMovimiento(wsDist, mapeo, { [dos]: 900 }, () => {});
+  check(colsSs(uno).every((c, i) => !!wsSs.getColumn(colIdx(c)).hidden === antesSs[i]),
+    "sin pasarle Sumas y Saldos no la toca: la firma vieja sigue sirviendo");
+
   console.log(fallos ? `\n${fallos} FALLA(S)` : "\ntodo OK");
   process.exit(fallos ? 1 : 0);
 })().catch(e => { console.error("ERROR:", e.stack); process.exit(1); });

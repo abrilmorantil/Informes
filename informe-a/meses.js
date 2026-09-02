@@ -69,8 +69,23 @@ function columnaDeMes(wsDist, nroMes) {
   return null;
 }
 
-// Devuelve qué meses están "vivos" (apuntando a la columna D). En un archivo
-// sano hay exactamente uno: el mes en curso.
+// La columna del mes vale DR − CR, que es el SALDO del mes.
+//
+// Antes valía sólo D. D es "MOVIMIENTO MES DR", o sea el DÉBITO: la propia hoja lo arma como
+// `SUM(centros) + E`, y E es el CR, el crédito. Así que D sale del saldo con el haber sumado
+// de vuelta, y la columna del mes quedaba de más por todo el haber del período.
+//
+// Medido en el maestro, julio 2026: D = 90.260,44, E = 282,77, y el saldo que informa Onvio es
+// 89.977,67 = D − E. La columna TOTAL JULIO decía 90.260,44. Y por fila: "Refrigerios" salía
+// 2.620,28 en vez de 2.609,79, y "Vacaciones Gs Campo" 414,90 en vez de 142,62.
+const MES_VIVO_RE = /^\s*\+?\s*D(\d+)\s*(?:-\s*E\1\s*)?$/i;
+
+// Devuelve qué meses están "vivos" (los que siguen al movimiento del mes en vez de tener un
+// importe congelado). En un archivo sano hay exactamente uno: el mes en curso.
+//
+// Se aceptan las DOS formas —`D<fila>` y `D<fila>-E<fila>`— porque los archivos que ya venían
+// con la vieja tienen que seguir reconociéndose: si no, el mes abierto pasa a ser invisible y
+// se puede cargar otro encima sin que nada avise.
 function mesesVivos(wsDist) {
   const filas = filasDeCategoria(wsDist);
   const vivos = [];
@@ -81,7 +96,7 @@ function mesesVivos(wsDist) {
     for (const r of filas) {
       const v = wsDist.getCell(r, c).value;
       if (v && typeof v === "object" && typeof v.formula === "string" &&
-          /^\s*\+?\s*D\d+\s*$/i.test(v.formula)) {
+          MES_VIVO_RE.test(v.formula)) {
         n++;
       }
     }
@@ -90,12 +105,14 @@ function mesesVivos(wsDist) {
   return vivos;
 }
 
-// Pone =D<fila> en la columna del mes, para que siga al movimiento del mes en curso.
+// Pone =D<fila>-E<fila> en la columna del mes, para que siga al SALDO del mes en curso
+// (débito menos crédito). Ver el comentario de MES_VIVO_RE: antes ponía sólo D y la columna
+// quedaba de más por todo el haber.
 function activarColumnaMes(wsDist, nroMes, log = () => {}) {
   const c = columnaDeMes(wsDist, nroMes);
   if (c === null) throw new Error(`No encontré la columna "TOTAL ${nombreMes(nroMes)}" en Dist.de gastos.`);
   const filas = filasDeCategoria(wsDist);
-  for (const r of filas) wsDist.getCell(r, c).value = { formula: `D${r}` };
+  for (const r of filas) wsDist.getCell(r, c).value = { formula: `D${r}-E${r}` };
 
   // En el maestro los meses que todavía no se usaron vienen OCULTOS, y activarlos sólo
   // les escribía la fórmula: la columna quedaba con los importes correctos pero sin

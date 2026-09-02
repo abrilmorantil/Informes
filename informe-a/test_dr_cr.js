@@ -100,6 +100,45 @@ const n2 = (x) => Math.round(x * 100) / 100;
   check(igual(dr - cr, onvio.saldo), `DR - CR = el SALDO de Onvio: ${n2(dr - cr).toFixed(2)} vs ${n2(onvio.saldo).toFixed(2)}`);
   check(igual(saldos, onvio.saldo), `las columnas de centro de costo suman el SALDO: ${n2(saldos).toFixed(2)}`);
 
+  // ------------------------------------------------ y la columna del mes tiene que dar eso
+  //
+  // Es lo que quedaba suelto: las tres identidades de arriba estaban bien, pero la columna
+  // "TOTAL <mes>" —la que queda en el informe— seguia a D, o sea al DEBITO, no al saldo. Con
+  // julio da 90.260,44 cuando Onvio dice 89.977,67: de mas por los 282,77 de haberes.
+  const mesesM = require(BASE + "/informe-a/meses.js");
+  const colMes = mesesM.columnaDeMes(wsD, 7);
+  check(colMes !== null, "esta la columna TOTAL JULIO en Dist.de gastos");
+
+  mesesM.activarColumnaMes(wsD, 7, () => {});
+  const filasCat = mesesM.filasDeCategoria(wsD);
+  const formulas = filasCat.map(r => String(wsD.getCell(r, colMes).formula || ""));
+  check(formulas.every((f, i) => f === `D${filasCat[i]}-E${filasCat[i]}`),
+    `la columna del mes queda en D<fila>-E<fila> (ej: ${formulas[0]})`);
+
+  // Por que eso da el saldo: la propia hoja arma D como SUM(centros)+E, asi que D-E vuelve a
+  // ser la suma de los centros, que es lo que arriba ya dio igual al SALDO de Onvio. Con D
+  // solo, la columna del mes daba saldo + CR.
+  const formD = filasCat.map(r => String(wsD.getCell(r, 4).formula || ""));
+  const comoSuma = formD.filter((f, i) => {
+    const t = f.replace(/\s+/g, "").replace(/^\+/, "").toUpperCase();
+    return t.startsWith(`SUM(F${filasCat[i]}:`) && t.endsWith(`)+E${filasCat[i]}`);
+  });
+  check(comoSuma.length === formD.length,
+    `y D es SUM(centros)+E en las ${formD.length} filas, asi que D-E = la suma de los centros (ej: ${formD[0]})`);
+  check(igual(saldos, onvio.saldo) && !igual(saldos + cr, onvio.saldo),
+    `la suma de los centros da ${n2(saldos).toFixed(2)} (el saldo) y no ${n2(saldos + cr).toFixed(2)} (el debito), que es lo que daba antes`);
+
+  // el mes sigue reconociendose como vivo con la forma nueva
+  const vivos = mesesM.mesesVivos(wsD);
+  check(vivos.length === 1 && vivos[0].mes === 7,
+    `y el mes sigue reconociendose como abierto: ${JSON.stringify(vivos)}`);
+
+  // la forma vieja tambien, o un archivo ya cargado quedaria con el mes invisible
+  for (const r of filasCat) wsD.getCell(r, colMes).value = { formula: `D${r}` };
+  const viejos = mesesM.mesesVivos(wsD);
+  check(viejos.length === 1 && viejos[0].mes === 7,
+    "un archivo con la forma vieja (=D<fila>) se sigue reconociendo abierto");
+
   // ninguna cuenta puede aportar algo distinto de su saldo a las columnas de centro de costo
   const desviadas = [];
   for (const l of deResultado) {

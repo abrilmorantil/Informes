@@ -419,7 +419,7 @@ function a2BloqueHtml() {
     </details>`).join("");
 
   return `
-    <h3 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:20px; margin:26px 0 4px;">
+    <h3 style="font-family:'Newsreader',Georgia,serif; font-weight:500; font-size:20px; margin:26px 0 4px;">
       Anexo II — en qué columna cae cada gasto</h3>
     <p class="footer-note" style="margin-top:0;">
       El Anexo II lee el <b>subtotal de la cuenta madre</b>, nunca sus subcuentas: por eso una

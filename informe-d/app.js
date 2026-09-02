@@ -287,7 +287,7 @@ function armarYMostrar(lineas) {
   $("avisosBody").innerHTML = avisos.join("");
 
   $("calculoBody").innerHTML = asiento.map(l => `
-    <tr${l.esBalanceo ? ' style="font-weight:600; background:#FCF8F1;"' : ""}>
+    <tr${l.esBalanceo ? ' style="font-weight:600; background:var(--fondo-alto);"' : ""}>
       <td>${l.codigo}</td>
       <td>${l.denominacion}</td>
       <td>${l.seccion}</td>

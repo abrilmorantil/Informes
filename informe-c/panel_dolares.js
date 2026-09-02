@@ -217,7 +217,7 @@ function pcdAnexoHtml() {
     </details>`).join("");
 
   return `
-    <h3 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:20px; margin:26px 0 4px;">
+    <h3 style="font-family:'Newsreader',Georgia,serif; font-weight:500; font-size:20px; margin:26px 0 4px;">
       Anexo II — en qué columna cae cada gasto</h3>
     <p class="footer-note" style="margin-top:0;">
       A diferencia del balance en pesos, acá cada línea es una cuenta suelta: no hay subcuentas

@@ -420,8 +420,13 @@ if (inputSaldos) {
         st.innerHTML = '<div class="status-msg bad">' + r.avisos.join(" ") + '</div>';
         return;
       }
-      saldosImportados = r.saldos;
-      const total = Object.values(r.saldos).reduce((a, v) => a + v, 0);
+      // Se coteja contra el plan ANTES de guardar nada: las `ocultar_si_cero` que faltan se
+      // completan con cero (es su saldo), y cualquier otra que falte se avisa. Un informe al
+      // que le faltan cuentas se ve igual de bien que uno completo hasta que se pierde la
+      // plata, asi que el numero de cuentas tiene que estar a la vista.
+      const cotejo = cotejarConElPlan(r.saldos, currentMapping || []);
+      saldosImportados = cotejo.completados;
+      const total = Object.values(cotejo.completados).reduce((a, v) => a + v, 0);
       // el residuo de un peso sale de redondear cada saldo a dos decimales. Ojo: esto es
       // una condición necesaria y NO suficiente — la columna de movimientos también netea
       // a cero, así que el control de verdad es el nombre de la columna, que se avisa aparte.
@@ -436,6 +441,20 @@ if (inputSaldos) {
           : "<b>Ojo:</b> la suma de los saldos da " + fmt(total) + ", y en un balance " +
             "tendría que cerrar en cero. Revisá que sea la columna correcta.") +
         '</div>' +
+        (cotejo.enCero.length
+          ? '<div class="status-msg">' + cotejo.enCero.length + ' cuenta(s) del plan no salen ' +
+            'impresas porque estan en cero, y se guardan en cero: asi no aparecen en amarillo ' +
+            'el mes que viene.</div>'
+          : '') +
+        (cotejo.faltan.length
+          ? '<div class="status-msg bad"><b>Ojo: al informe le faltan ' + cotejo.faltan.length +
+            ' cuenta(s) del plan</b>, y no son de las que se ocultan por estar en cero. Si ' +
+            'importas asi, esas cuentas se quedan sin saldo anterior. Fijate si subiste el ' +
+            'informe completo. Son: ' +
+            cotejo.faltan.slice(0, 8).map(f => f.code + ' ' + f.description).join(", ") +
+            (cotejo.faltan.length > 8 ? ' y ' + (cotejo.faltan.length - 8) + ' mas' : '') +
+            '.</div>'
+          : '') +
         r.avisos.map(a => '<div class="status-msg">' + a + '</div>').join("");
       btn.disabled = false;
     } catch (e) {

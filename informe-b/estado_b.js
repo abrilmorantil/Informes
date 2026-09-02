@@ -129,7 +129,40 @@ async function sembrarEstadoB(estado, periodo, saldos, origen) {
   return nuevo;
 }
 
+// Coteja los saldos que trae un informe importado contra el plan de cuentas.
+//
+// El informe no imprime TODAS las filas del plan: las marcadas `ocultar_si_cero` se saltean
+// mientras estén en cero. Que esas falten no es un problema y su saldo es, justamente, cero:
+// se completan. Antes quedaban sin saldo guardado, y una cuenta sin saldo guardado sale
+// AMARILLA en la corrida siguiente, para cargarla a mano. O sea: una cuenta en cero pedía
+// atención todos los meses sin tener nada que revisar.
+//
+// Cualquier OTRA cuenta que falte sí es un problema, y no se completa con cero: rellenar a
+// ciegas convertiría un informe incompleto en ceros que parecen datos. Se devuelven aparte
+// para avisar antes de guardar nada. Es lo que hacía falta el 02/09/2026, cuando se importó
+// un informe de julio de 102 cuentas en lugar del de 197: se perdieron los saldos de 33
+// cuentas que tenían plata y nada lo dijo.
+function cotejarConElPlan(saldos, mapping) {
+  const completados = { ...(saldos || {}) };
+  const enCero = [], faltan = [];
+  for (const x of (mapping || [])) {
+    const cod = x && x.code !== undefined && x.code !== null ? String(x.code) : null;
+    if (!cod || Object.prototype.hasOwnProperty.call(completados, cod)) continue;
+    // Hay un renglón del plan cuyo "código" es texto ("Diferencia Resultados no Asignados"):
+    // es un rótulo, no una cuenta, y no tiene saldo que buscar. Avisar por él sería un aviso
+    // que aparece siempre y no pide nada, que es la forma más rápida de que se ignoren todos.
+    if (!/^\d+$/.test(cod)) continue;
+    if (x.ocultar_si_cero) {
+      completados[cod] = 0;
+      enCero.push({ code: cod, description: x.description || "" });
+    } else {
+      faltan.push({ code: cod, description: x.description || "" });
+    }
+  }
+  return { completados, enCero, faltan };
+}
+
 if (typeof module !== "undefined") {
   module.exports = { ARCHIVO_ESTADO_B, ESTADO_B_VACIO, saldosDeCierre, leerEstadoB,
-                     guardarEstadoB, sembrarEstadoB };
+                     guardarEstadoB, sembrarEstadoB, cotejarConElPlan };
 }

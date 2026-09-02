@@ -62,7 +62,10 @@ function ubicarColumnasBalcomp(ws) {
     for (let c = 1; c <= Math.min(ws.columnCount, 30); c++) {
       const t = _norm(ws.getCell(r, c).value);
       if (!t) continue;
-      if (/^CUENTA/.test(t)) { if (!cols.cuenta) cols.cuenta = c; }
+      // El informe tiene DOS columnas que empiezan con "Cuenta": la A es "Cuenta real
+      // (Onvio)" y la B "Cuenta Contable", la del plan viejo del cliente. Se guardan las dos
+      // y despues, fila por fila, se usa la primera que traiga una cuenta.
+      if (/^CUENTA/.test(t)) { (cols.cuentas = cols.cuentas || []).push(c); if (!cols.cuenta) cols.cuenta = c; }
       else if (/^SALDO ANTERIOR/.test(t)) cols.anterior = c;
       else if (/^SALDO FINAL/.test(t)) cols.final = c;
       else if (/^DEBITO/.test(t)) cols.debe = c;
@@ -101,8 +104,16 @@ function leerSaldosDeBalcomp(wb) {
     let filas = 0, reconstruidos = 0, sinDato = 0;
     const repetidos = [];
     for (let r = cols.fila + 1; r <= ws.rowCount; r++) {
-      const texto = _textoB(ws.getCell(r, cols.cuenta).value).trim();
-      const m = RE_CUENTA_B.exec(texto);
+      // La columna A queda VACIA en las cuentas madre y en el renglon de proveedores: esas
+      // se alimentan de varias cuentas reales y no hay una sola para poner ahi. Leyendo solo
+      // la A se salteaban esas 57 filas de 197 y el balance no cerraba (daba -659.684,53).
+      // Por eso se prueba columna por columna: la A cuando la trae, y si no la B, que ahi
+      // lleva el mismo codigo real (ninguna cuenta madre tiene codigo de cliente distinto).
+      let m = null;
+      for (const cc of (cols.cuentas || [cols.cuenta])) {
+        m = RE_CUENTA_B.exec(_textoB(ws.getCell(r, cc).value).trim());
+        if (m) break;
+      }
       if (!m) continue;                       // títulos de capítulo, TOTAL, filas vacías
 
       let final = cols.final ? _numeroB(ws.getCell(r, cols.final)) : null;

@@ -737,8 +737,18 @@
     "aliases": [],
     "description": "Retenciones SUSS a pagar",
     "category": "PASIVO",
-    "type": "simple",
-    "orden": 64
+    "type": "parent",
+    "orden": 64,
+    "children": [
+      {
+        "code": "21409000",
+        "description": "Retenciones SUSS a pagar"
+      },
+      {
+        "code": "212020002",
+        "description": "Retenciones SUSS a pagar"
+      }
+    ]
   },
   {
     "code": "21410000",
@@ -747,14 +757,6 @@
     "category": "PASIVO",
     "type": "simple",
     "orden": 65
-  },
-  {
-    "code": "212020002",
-    "aliases": [],
-    "description": "Retenciones SUSS a pagar",
-    "category": "PASIVO",
-    "type": "simple",
-    "orden": 66
   },
   {
     "code": "213010007",

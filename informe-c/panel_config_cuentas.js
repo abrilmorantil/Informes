@@ -139,7 +139,7 @@ function pccSinCuentaHtml(cfg, cuentasOnvio) {
 // ofrecía "111010001 - Caja", que ya alimenta su propia línea: asignarla a una segunda la
 // contaba dos veces y el balance se abría. Probado: pasaba de 0 pendientes a 2.
 function pccCuentasDeHoja1(wb, mapeo) {
-  const ws = wb && wb.getWorksheet("Hoja1");
+  const ws = wb && hojaSumas(wb);
   if (!ws) return [];
   const yaPuestas = new Set(Object.keys((mapeo && mapeo.cuentas) || {}).map(String));
   const out = [];

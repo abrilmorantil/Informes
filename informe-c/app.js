@@ -203,14 +203,14 @@ $("fileBase").addEventListener("change", async () => {
     }
     altaBuffer = await f.arrayBuffer();
     const wb = await abrirWorkbook(altaBuffer.slice(0));
-    for (const hoja of ["SALDOS", "Hoja1", "Anexo II", "Activo y Pasivo", "Balance"]) {
+    for (const hoja of [HOJA_DISTRIB, HOJA_SUMAS, "Anexo II", "Activo y Pasivo", "Balance"]) {
       if (!wb.getWorksheet(hoja)) throw new Error(`El archivo no tiene la hoja '${hoja}'. ¿Es el balance formal en pesos?`);
     }
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const n = Object.keys(mapeo.cuentas).length;
     $("altaDeteccion").innerHTML = `
       <div class="check ok" style="display:block;">
-        <div class="name">Maestro de pesos reconocido: ${n} cuentas en SALDOS</div>
+        <div class="name">Maestro de pesos reconocido: ${n} cuentas en Distribución por línea</div>
         <div class="detail">${mapeo.duplicadas.length
           ? `Hay ${mapeo.duplicadas.length} código(s) que figuran dos veces (${mapeo.duplicadas.map(d => d.codigo).join(", ")}). Se usa la primera de cada uno. Solo importa si alguno llega a venir en el export; mientras tanto son restos del plan de cuentas viejo.`
           : "Sin cuentas repetidas."}</div>
@@ -254,14 +254,14 @@ $("fileBaseUsd").addEventListener("change", async () => {
     }
     altaBufferUsd = await f.arrayBuffer();
     const wb = await abrirWorkbook(altaBufferUsd.slice(0));
-    for (const hoja of ["SALDOS", "Hoja1", "Balance"]) {
+    for (const hoja of [HOJA_DISTRIB, HOJA_SUMAS, "Balance"]) {
       if (!wb.getWorksheet(hoja)) {
         throw new Error("El archivo no tiene la hoja '" + hoja + "'. Es el balance formal en dolares?");
       }
     }
     const cm = cuentasDelMaestro(wb, "dolares");
     $("altaUsdStatus").innerHTML =
-      '<div class="status-msg ok">Maestro de dolares reconocido: ' + cm.length + ' cuentas en SALDOS.</div>';
+      '<div class="status-msg ok">Maestro de dolares reconocido: ' + cm.length + ' cuentas en Distribución por línea.</div>';
     $("btnGuardarAltaUsd").disabled = false;
   } catch (e) {
     $("altaUsdStatus").innerHTML = '<div class="status-msg bad">' + e.message + '</div>';
@@ -555,12 +555,12 @@ function renderResultado(r, rUsd) {
   const items = [
     { name: "Pesos: total del export", value: r.total.toFixed(2), ok: true,
       detail: "Excel recalcula los estados al abrir el archivo; el control L23 del Balance tiene que dar 0." },
-    { name: "Pesos: cuentas cargadas en Hoja1", value: String(r.cuentas), ok: true,
+    { name: "Pesos: cuentas cargadas en Balance de sumas y saldos", value: String(r.cuentas), ok: true,
       detail: "La zona de pegado quedó actualizada con el export fresco." },
     { name: "Pesos: cuentas nuevas insertadas", value: String(r.nuevas), ok: true,
-      detail: "Con su fila en SALDOS y su referencia en los estados." },
+      detail: "Con su fila en Distribución por línea y su referencia en los estados." },
     { name: "Pesos: cuentas sin enganchar", value: String(r.noEnganchadas.length), ok: r.noEnganchadas.length === 0,
-      detail: r.noEnganchadas.length ? r.noEnganchadas.join(", ") : "Todas las cuentas del export quedaron enganchadas a SALDOS." },
+      detail: r.noEnganchadas.length ? r.noEnganchadas.join(", ") : "Todas las cuentas del export quedaron enganchadas a Distribución por línea." },
   ];
   $("checksBody").innerHTML = items.map(c => `
     <div class="check ${c.ok ? "ok" : "bad"}">
@@ -590,7 +590,7 @@ function renderResultado(r, rUsd) {
       '<div class="name">Dolares: ' + rUsd.sinFilaEnHoja1.length +
       ' cuenta(s) del balance no tienen fila donde pegar el importe</div>' +
       '<div class="detail">' + rUsd.sinFilaEnHoja1.join(", ") +
-      '. Estan en SALDOS pero no en Hoja1, asi que su importe queda en cero.</div></div>');
+      '. Estan en Distribución por línea pero no en Balance de sumas y saldos, asi que su importe queda en cero.</div></div>');
   }
   if (r.duplicadas.length) {
     avisos.push(`
@@ -1090,7 +1090,7 @@ $("btnAprobar").addEventListener("click", async () => {
   try {
     const buf = await f.arrayBuffer();
     const wb = await abrirWorkbook(buf.slice(0));
-    for (const hoja of ["SALDOS", "Hoja1", "Balance"]) {
+    for (const hoja of [HOJA_DISTRIB, HOJA_SUMAS, "Balance"]) {
       if (!wb.getWorksheet(hoja)) throw new Error(`El archivo no tiene la hoja '${hoja}'. ¿Subiste el borrador correcto? NO se guardó nada.`);
     }
 
@@ -1121,7 +1121,7 @@ $("btnAprobar").addEventListener("click", async () => {
     if (fu) {
       const bufu = await fu.arrayBuffer();
       const wbu = await abrirWorkbook(bufu.slice(0));
-      if (!wbu.getWorksheet("SALDOS")) throw new Error("El archivo de dolares no tiene la hoja 'SALDOS'.");
+      if (!hojaDistrib(wbu)) throw new Error("El archivo de dolares no tiene la hoja 'SALDOS'.");
       await ghcGuardarBaseUsd(bufu, "Balance Dolares: nueva carga aprobada");
     }
     st.innerHTML = '<div class="status-msg ok">Guardado como maestro definitivo' +

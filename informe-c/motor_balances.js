@@ -16,6 +16,29 @@ const PARAMS = {
   dolares: { hoja1ColClave: 1, hoja1ColValor: 4, saldosColsCuenta: [2], saldosColValor: 3, campoSaldo: "saldo_usd" },
 };
 
+// Los nombres de las dos hojas de trabajo del maestro. En septiembre de 2026 se renombraron
+// —Hoja1 pasó a llamarse "Balance de sumas y saldos" y SALDOS "Distribución por línea"— y el
+// motor acepta LOS DOS: un maestro viejo que se vuelva a subir tiene que seguir andando.
+// (Excel no admite nombres de hoja de más de 31 caracteres: por eso "Distribución por línea"
+// y no "Distribución por línea del balance".)
+const HOJA_SUMAS = "Balance de sumas y saldos";
+const HOJA_SUMAS_ANTES = "Hoja1";
+const HOJA_DISTRIB = "Distribución por línea";
+const HOJA_DISTRIB_ANTES = "SALDOS";
+const esHojaSumas = (n) => n === HOJA_SUMAS || n === HOJA_SUMAS_ANTES;
+const esHojaDistrib = (n) => n === HOJA_DISTRIB || n === HOJA_DISTRIB_ANTES;
+const hojaSumas = (wb) => wb.getWorksheet(HOJA_SUMAS) || wb.getWorksheet(HOJA_SUMAS_ANTES);
+const hojaDistrib = (wb) => wb.getWorksheet(HOJA_DISTRIB) || wb.getWorksheet(HOJA_DISTRIB_ANTES);
+
+// Para buscar dentro de una FÓRMULA. El nombre nuevo lleva espacios, así que Excel lo escribe
+// entre comillas simples; el viejo no las lleva. Estos fragmentos matchean las dos formas, y
+// se usan armando la expresión con `new RegExp`, nunca escribiendo el nombre a mano.
+const REF_SUMAS = "(?:'Balance de sumas y saldos'|'?Hoja1'?)";
+const REF_DISTRIB = "(?:'Distribución por línea'|'?SALDOS'?)";
+// Y al revés: cómo se escribe un nombre de hoja en una fórmula nueva. Excel exige comillas
+// simples si el nombre tiene espacios, y los dos nombres nuevos los tienen.
+const refDeHoja = (n) => (/[^A-Za-z0-9_.]/.test(n) ? "'" + n + "'" : n);
+
 const RE_CUENTA_TXT = /^\s*(\d{6,})\s*-\s*(.+?)\s*$/;
 
 // clasificacion.js se carga antes en index.html; en Node llegan por require abajo.
@@ -65,8 +88,8 @@ function normaliza(t) {
 
 function derivarMapeoMaestro(wb, moneda, clasificacion = null) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("SALDOS");
-  if (!ws) throw new Error("El maestro no tiene la hoja 'SALDOS'.");
+  const ws = hojaDistrib(wb);
+  if (!ws) throw new Error("El maestro no tiene la hoja 'Distribución por línea'.");
 
   // El capítulo sale del primer dígito del código (1=ACTIVO ... 4=RESULTADOS), no de
   // títulos de sección: SALDOS no los tiene de forma consistente (en el archivo real
@@ -87,7 +110,8 @@ function derivarMapeoMaestro(wb, moneda, clasificacion = null) {
   //      madre: no es una cuenta, se saltea;
   //   3. si no tiene ninguna fórmula es una fila manual (el detalle de proveedores):
   //      vale la primera columna con texto de cuenta, como siempre.
-  const RE_VLOOKUP_CLAVE = /VLOOKUP\(\s*\$?([A-Z]{1,3})\$?(\d+)\s*[,;]\s*Hoja1!/i;
+  const RE_VLOOKUP_CLAVE = new RegExp(
+    `VLOOKUP\\(\\s*\\$?([A-Z]{1,3})\\$?(\\d+)\\s*[,;]\\s*${REF_SUMAS}!`, "i");
   const colAIdx = (s) => s.split("").reduce((n, ch) => n * 26 + (ch.charCodeAt(0) - 64), 0);
 
   for (let r = 1; r <= ws.rowCount; r++) {
@@ -168,8 +192,8 @@ function derivarMapeoMaestro(wb, moneda, clasificacion = null) {
 // encontrarla. Se empareja por CÓDIGO, que es lo estable.
 function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("Hoja1");
-  if (!ws) throw new Error("El maestro no tiene la hoja 'Hoja1' (la zona de pegado del export).");
+  const ws = hojaSumas(wb);
+  if (!ws) throw new Error("El maestro no tiene la hoja 'Balance de sumas y saldos' (la zona de pegado del export).");
 
   const indice = () => {
     const m = new Map();
@@ -243,7 +267,7 @@ function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
     // E52=SUM(E2:E51) y E318=SUM(E192:E316)) y se expanden solos, como en Excel.
     // Insertando después, la cuenta caía justo afuera del control.
     const filaNueva = ultima;
-    insertRowEn(wb, "Hoja1", filaNueva);
+    insertRowEn(wb, ws.name, filaNueva);
     ws.getCell(filaNueva, p.hoja1ColClave).value = `${c.codigo} - ${c.nombre}`;
     ws.getCell(filaNueva, p.hoja1ColValor).value = c[p.campoSaldo];
     ws.getCell(filaNueva, p.hoja1ColClave).style = ws.getCell(ultima + 1, p.hoja1ColClave).style;
@@ -254,16 +278,16 @@ function actualizarHoja1(wb, cuentasExport, moneda, log = () => {}) {
   let ultimaFila = 0;
   for (const filas of filasPorCodigo.values()) ultimaFila = Math.max(ultimaFila, ...filas);
 
-  log(`  Hoja1 actualizada: ${actualizadas} cuentas en su fila` +
+  log(`  Balance de sumas y saldos actualizada: ${actualizadas} cuentas en su fila` +
       (pendientes.length ? `, ${pendientes.length} agregada(s) al final de su capítulo` : "") +
       ` (los importes que no vinieron en el export quedaron en cero).`);
   if (fueraDeSaldos.length) {
-    log(`  ${fueraDeSaldos.length} cuenta(s) del export no están en SALDOS, así que no se ` +
-        `agregan a Hoja1: no forman parte de este balance.`);
+    log(`  ${fueraDeSaldos.length} cuenta(s) del export no están en Distribución por línea, así que no se ` +
+        `agregan a Balance de sumas y saldos: no forman parte de este balance.`);
   }
   for (const [codigo, filas] of repetidas) {
-    log(`  ⚠ Hoja1 del balance en ${moneda} tiene ${codigo} en las filas ${filas.join(", ")} ` +
-        `escrita de dos maneras distintas: se carga en la primera, pero conviene revisar cuál busca SALDOS.`);
+    log(`  ⚠ Balance de sumas y saldos del balance en ${moneda} tiene ${codigo} en las filas ${filas.join(", ")} ` +
+        `escrita de dos maneras distintas: se carga en la primera, pero conviene revisar cuál busca Distribución por línea.`);
   }
   return ultimaFila;
 }
@@ -282,8 +306,10 @@ function normalizarRangosVlookup(wb, moneda, ultimaFilaHoja1, log = () => {}) {
   const p = PARAMS[moneda];
   const colValor = String.fromCharCode(64 + p.hoja1ColValor);   // E en pesos, D en dólares
   const idxValor = p.hoja1ColValor;                             // el rango arranca en A
-  const RE = /Hoja1!\$A\$(\d+):\$([A-Z]{1,3})\$(\d+)\s*[,;]\s*(\d+)/gi;
-  const ws = wb.getWorksheet("SALDOS");
+  const RE = new RegExp(
+    `${REF_SUMAS}!\\$A\\$(\\d+):\\$([A-Z]{1,3})\\$(\\d+)\\s*[,;]\\s*(\\d+)`, "gi");
+  const refH1 = refDeHoja(hojaSumas(wb).name);
+  const ws = hojaDistrib(wb);
   let extendidas = 0;
   const reparadas = [];
 
@@ -298,7 +324,7 @@ function normalizarRangosVlookup(wb, moneda, ultimaFilaHoja1, log = () => {}) {
       if (d === parseInt(desde, 10) && f === parseInt(fin, 10) &&
           col.toUpperCase() === colValor && parseInt(idx, 10) === idxValor) return m;
       cambio = true;
-      return `Hoja1!$A$${d}:$${colValor}$${f},${idxValor}`;
+      return `${refH1}!$A$${d}:$${colValor}$${f},${idxValor}`;
     });
     if (cambio) {
       cell.value = { formula: nueva };
@@ -306,7 +332,7 @@ function normalizarRangosVlookup(wb, moneda, ultimaFilaHoja1, log = () => {}) {
     }
   }));
 
-  if (extendidas) log(`  ${extendidas} VLOOKUP de SALDOS tenían el rango corto y se extendieron hasta la fila ${ultimaFilaHoja1}.`);
+  if (extendidas) log(`  ${extendidas} VLOOKUP de Distribución por línea tenían el rango corto y se extendieron hasta la fila ${ultimaFilaHoja1}.`);
   if (reparadas.length) {
     log(`  ⚠ ${reparadas.length} VLOOKUP del archivo apuntaban a una columna equivocada y devolvían siempre cero ` +
         `(${reparadas.join(", ")}): corregidos para que lean el saldo.`);
@@ -382,15 +408,16 @@ function colValorManual(ws, fila, p) {
 // nueva afuera del subtotal. Se miran los `SUM(<col><a>:<col><b>)` de todo el libro que
 // apunten a SALDOS, tanto los que la nombran como los locales de la propia hoja.
 function filaCierraUnSubtotal(wb, fila, p) {
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   if (!ws) return false;
   let cierra = false;
   const mira = (texto, esLocal) => {
     if (cierra) return;
     const t = String(texto);
-    const conHoja = /SALDOS!/i.test(t);
+    const conHoja = new RegExp(REF_DISTRIB + "!", "i").test(t);
     if (!conHoja && !esLocal) return;
-    const re = /SUM\(\s*(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)\s*:\s*(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)\s*\)/gi;
+    const re = new RegExp(`SUM\\(\\s*(?:${REF_DISTRIB}!)?\\$?([A-Z]{1,3})\\$?(\\d+)\\s*:` +
+      `\\s*(?:${REF_DISTRIB}!)?\\$?([A-Z]{1,3})\\$?(\\d+)\\s*\\)`, "gi");
     let m;
     while ((m = re.exec(t))) {
       const a = +m[2], b = +m[4];
@@ -402,7 +429,7 @@ function filaCierraUnSubtotal(wb, fila, p) {
       row.eachCell({ includeEmpty: false }, (cell) => {
         const v = cell.value;
         if (!(v && typeof v === "object" && v.formula)) return;
-        mira(v.formula, hoja.name === "SALDOS");
+        mira(v.formula, esHojaDistrib(hoja.name));
       });
     });
     if (cierra) break;
@@ -412,13 +439,13 @@ function filaCierraUnSubtotal(wb, fila, p) {
 
 function insertarCuentaEnSaldos(wb, mapeoMaestro, cuenta, moneda, log = () => {}) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
 
   const delCapitulo = Object.values(mapeoMaestro.cuentas)
     .filter(x => x.capitulo === cuenta.capitulo);
   if (!delCapitulo.length) {
     throw new Error(
-      `No encontré ninguna cuenta del capítulo ${cuenta.capitulo} en SALDOS para usar ` +
+      `No encontré ninguna cuenta del capítulo ${cuenta.capitulo} en Distribución por línea para usar ` +
       `de modelo al insertar ${cuenta.codigo}. NO se generó ningún archivo.`
     );
   }
@@ -445,7 +472,7 @@ function insertarCuentaEnSaldos(wb, mapeoMaestro, cuenta, moneda, log = () => {}
   const cierraBloque = filaCierraUnSubtotal(wb, vecina.fila, p);
   const filaNueva = cierraBloque ? vecina.fila : vecina.fila + 1;
 
-  const mod = insertRowEn(wb, "SALDOS", filaNueva);
+  const mod = insertRowEn(wb, ws.name, filaNueva);
   // el mapeo en memoria queda corrido una fila
   for (const info of Object.values(mapeoMaestro.cuentas)) {
     if (info.fila >= filaNueva) info.fila += 1;
@@ -465,12 +492,12 @@ function insertarCuentaEnSaldos(wb, mapeoMaestro, cuenta, moneda, log = () => {}
   if (colF !== null) {
     copiarPatronFila(ws, vecina.fila, filaNueva, [p.saldosColValor, p.saldosColValor - 1]);
     colValor = colF;
-    log(`  ${clave} insertada en SALDOS fila ${filaNueva}, con la fórmula de la vecina "${vecina.clave}" (${mod} referencias reacomodadas).`);
+    log(`  ${clave} insertada en Distribución por línea fila ${filaNueva}, con la fórmula de la vecina "${vecina.clave}" (${mod} referencias reacomodadas).`);
   } else {
     colValor = colValorManual(ws, vecina.fila, p) || p.saldosColValor;
     ws.getCell(filaNueva, colValor).value = cuenta[p.campoSaldo];
     ws.getCell(filaNueva, colValor).style = ws.getCell(vecina.fila, colValor).style;
-    log(`  ${clave} insertada en SALDOS fila ${filaNueva}, con el importe directo como su bloque (${mod} referencias reacomodadas).`);
+    log(`  ${clave} insertada en Distribución por línea fila ${filaNueva}, con el importe directo como su bloque (${mod} referencias reacomodadas).`);
   }
 
   mapeoMaestro.cuentas[cuenta.codigo] = {
@@ -484,7 +511,7 @@ function insertarCuentaEnSaldos(wb, mapeoMaestro, cuenta, moneda, log = () => {}
 // cada corrida, o el balance mostraría los importes del mes pasado.
 function actualizarSaldosManuales(wb, mapeoMaestro, cuentasExport, moneda, log = () => {}) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   let actualizadas = 0;
   for (const c of cuentasExport) {
     const info = mapeoMaestro.cuentas[c.codigo];
@@ -495,7 +522,7 @@ function actualizarSaldosManuales(wb, mapeoMaestro, cuentasExport, moneda, log =
     const viejo = ws.getCell(info.fila, col).value;
     if (viejo !== nuevo) { ws.getCell(info.fila, col).value = nuevo; actualizadas++; }
   }
-  if (actualizadas) log(`  ${actualizadas} filas de SALDOS con importe a mano actualizadas con el saldo del export.`);
+  if (actualizadas) log(`  ${actualizadas} filas de Distribución por línea con importe a mano actualizadas con el saldo del export.`);
   return actualizadas;
 }
 
@@ -514,7 +541,7 @@ function agregarLineaNota4(wb, moneda, lineaModelo, cuenta, filaSaldos, colSaldo
   const colF = lineaModelo.colFormula;
   const modelo = ws.getCell(filaModelo, colF).value;
   const signo = (modelo && typeof modelo === "object" && /^\s*-/.test(modelo.formula || "")) ? "-" : "+";
-  const ref = `SALDOS!${String.fromCharCode(64 + colSaldos)}${filaSaldos}`;
+  const ref = `${refDeHoja(hojaDistrib(wb).name)}!${String.fromCharCode(64 + colSaldos)}${filaSaldos}`;
 
   ws.getCell(filaNueva, lineaModelo.colTexto).value = `- ${cuenta.nombre}`;
   ws.getCell(filaNueva, lineaModelo.colTexto).style = ws.getCell(filaModelo, lineaModelo.colTexto).style;
@@ -534,7 +561,8 @@ function lineasDeNota4(wb) {
   for (let r = 1; r <= ws.rowCount; r++) {
     for (let c = 2; c <= 12; c++) {
       const v = ws.getCell(r, c).value;
-      if (v && typeof v === "object" && typeof v.formula === "string" && /SALDOS!/i.test(v.formula)) {
+      if (v && typeof v === "object" && typeof v.formula === "string" &&
+          new RegExp(REF_DISTRIB + "!", "i").test(v.formula)) {
         // el texto de la línea está a la izquierda de la fórmula
         let colTexto = null, texto = "";
         for (let ct = c - 1; ct >= 1; ct--) {
@@ -559,7 +587,7 @@ function lineasDeNota4(wb) {
 // fila). El texto del título vive en D; da igual, se toma de donde esté.
 function madresResultados(wb, moneda) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   if (!ws) return [];
   const madres = [];
   const RE_RANGO = /^\s*\+?SUM\(F(\d+):F(\d+)\)\s*$/i;
@@ -597,9 +625,9 @@ function madresResultados(wb, moneda) {
 // le agrega su término al subtotal de la madre.
 function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = () => {}) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   const madre = madresResultados(wb, moneda).find(x => x.fila === madreFila);
-  if (!madre) throw new Error(`No encontré la cuenta madre en la fila ${madreFila} de SALDOS. NO se generó ningún archivo.`);
+  if (!madre) throw new Error(`No encontré la cuenta madre en la fila ${madreFila} de Distribución por línea. NO se generó ningún archivo.`);
 
   // la fila modelo es una subcuenta con VLOOKUP: del propio bloque si tiene, si no
   // la subcuenta de RESULTADOS más cercana (bloques vacíos)
@@ -623,7 +651,7 @@ function insertarHijaEnMadre(wb, mapeoMaestro, cuenta, madreFila, moneda, log = 
     ? Math.max(madre.bloque.desde, madre.bloque.hasta)      // antes de la última: el rango se expande
     : Math.max(...madre.bloque.filas, madre.fila) + 1;      // al final de la lista
 
-  const mod = insertRowEn(wb, "SALDOS", filaNueva);
+  const mod = insertRowEn(wb, ws.name, filaNueva);
   for (const info of Object.values(mapeoMaestro.cuentas)) {
     if (info.fila >= filaNueva) info.fila += 1;
   }
@@ -668,7 +696,7 @@ function procesarBalance({ wb, cuentasExport, moneda, destinosElegidos = {}, cla
       const viene = codigosDelExport.has(String(d.codigo));
       return `${d.codigo} (filas ${d.filaPrevia} y ${d.fila}${viene ? ", y viene en el export" : ""})`;
     });
-    log(`  ⚠ SALDOS del balance en ${moneda}: ${duplicadas.length} código(s) usados por dos ` +
+    log(`  ⚠ Distribución por línea del balance en ${moneda}: ${duplicadas.length} código(s) usados por dos ` +
         `cuentas distintas, pendientes de resolver: ${detalle.join(", ")}. ` +
         `Son filas de ESE archivo. Mientras tanto se usa la primera.`);
   }
@@ -759,6 +787,8 @@ if (typeof module !== "undefined") {
   global.esProveedor = clasif.esProveedor;
   global.madreEnArchivo = clasif.madreEnArchivo;
   module.exports = {
+    HOJA_SUMAS, HOJA_SUMAS_ANTES, HOJA_DISTRIB, HOJA_DISTRIB_ANTES,
+    esHojaSumas, esHojaDistrib, hojaSumas, hojaDistrib, refDeHoja, REF_SUMAS, REF_DISTRIB,
     PARAMS, textoPlano, normaliza, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
     detectarNuevas, insertarCuentaEnSaldos, agregarLineaNota4,
     lineasDeNota4, procesarBalance, copiarPatronFila, actualizarSaldosManuales,

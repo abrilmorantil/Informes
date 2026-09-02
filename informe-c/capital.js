@@ -112,12 +112,13 @@ function capitalDeclarado(ws, u) {
 // hardcodearla (en pesos es la 5 y en dólares la 4): si el maestro cambia, el control lo
 // sigue solo.
 function columnaValorDeHoja1(wb, porDefecto) {
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   if (ws) {
     for (let r = 1; r <= ws.rowCount; r++) {
       for (let c = 1; c <= ws.columnCount; c++) {
         const f = ws.getCell(r, c).formula;
-        const m = f && /VLOOKUP\([^,]+,\s*Hoja1![^,]+,\s*(\d+)\s*,/i.exec(String(f));
+        const m = f && new RegExp(
+          `VLOOKUP\\([^,]+,\\s*${REF_SUMAS}![^,]+,\\s*(\\d+)\\s*,`, "i").exec(String(f));
         if (m) return +m[1];
       }
     }
@@ -129,7 +130,7 @@ function columnaValorDeHoja1(wb, porDefecto) {
 // no de SALDOS, porque ahí la cuenta suele ser una fórmula sin resultado guardado.
 // El saldo viene acreedor (negativo); el capital se compara en positivo.
 function capitalContable(wb, colValorPorDefecto) {
-  const ws = wb.getWorksheet("Hoja1");
+  const ws = hojaSumas(wb);
   if (!ws) return null;
   const col = columnaValorDeHoja1(wb, colValorPorDefecto);
   for (let r = 1; r <= ws.rowCount; r++) {

@@ -19,6 +19,9 @@ const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_ut
 const { insertRowEn } = require(path.join(AQUI, "formula_hojas.js"));
 global.insertRowEn = insertRowEn;
 const M = require(path.join(AQUI, "motor_balances.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(M)) { if (global[k] === undefined) global[k] = v; }
 
 let fallos = 0;
 const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if (!ok) fallos++; };
@@ -56,7 +59,7 @@ function rangoProveedores(ws) {
 
 (async () => {
   const wb = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   const mapeo = M.derivarMapeoMaestro(wb, "pesos");
 
   const antes = rangoProveedores(ws);

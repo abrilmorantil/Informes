@@ -56,7 +56,8 @@ function tzCeldasQueNombra(formula) {
   const out = [];
   const t = String(formula || "");
   const idx = (L) => L.toUpperCase().split("").reduce((a, ch) => a * 26 + ch.charCodeAt(0) - 64, 0);
-  const reRango = /(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)\s*:\s*(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)/gi;
+  const reRango = new RegExp(`(?:${REF_DISTRIB}!)?\\$?([A-Z]{1,3})\\$?(\\d+)\\s*:` +
+    `\\s*(?:${REF_DISTRIB}!)?\\$?([A-Z]{1,3})\\$?(\\d+)`, "gi");
   let m;
   const yaEnRango = [];
   while ((m = reRango.exec(t))) {
@@ -67,7 +68,7 @@ function tzCeldasQueNombra(formula) {
     }
     yaEnRango.push([m.index, m.index + m[0].length]);
   }
-  const reSuelta = /(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)/gi;
+  const reSuelta = new RegExp(`(?:${REF_DISTRIB}!)?\\$?([A-Z]{1,3})\\$?(\\d+)`, "gi");
   while ((m = reSuelta.exec(t))) {
     if (yaEnRango.some(([a, b]) => m.index >= a && m.index < b)) continue;
     out.push({ col: idx(m[1]), fila: +m[2], porRango: false });
@@ -90,7 +91,7 @@ function tzDestinos(wb) {
   // salto, las 55 filas del bloque figuraban como "no entra a ningun estado", que es
   // justamente lo contrario de lo que pasa.
   const subtotales = new Map();          // "I117" -> [filas que abarca]
-  const sa = wb.getWorksheet("SALDOS");
+  const sa = hojaDistrib(wb);
   if (sa) {
     sa.eachRow({ includeEmpty: false }, (row, r) => {
       row.eachCell({ includeEmpty: false }, (cell, ci) => {
@@ -106,13 +107,13 @@ function tzDestinos(wb) {
   }
 
   for (const ws of wb.worksheets) {
-    if (ws.name === "SALDOS" || ws.name === "Hoja1") continue;
+    if (esHojaDistrib(ws.name) || esHojaSumas(ws.name)) continue;
     ws.eachRow({ includeEmpty: false }, (row, r) => {
       row.eachCell({ includeEmpty: false }, (cell, ci) => {
         const v = cell.value;
         if (!(v && typeof v === "object" && v.formula)) return;
         const f = String(v.formula);
-        if (!/SALDOS!/i.test(f)) return;
+        if (!new RegExp(REF_DISTRIB + "!", "i").test(f)) return;
         // el rótulo de la fila: la última celda con texto a la izquierda del importe
         let etiqueta = "";
         for (let k = 1; k < ci; k++) {
@@ -149,8 +150,8 @@ function tzDestinos(wb) {
 // (dólares): sirve para decir, de una subcuenta, cuál es la madre que la lleva al Anexo II.
 function tzFilas(wb, moneda, mapeo, madres) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("SALDOS");
-  const h1 = wb.getWorksheet("Hoja1");
+  const ws = hojaDistrib(wb);
+  const h1 = hojaSumas(wb);
   if (!ws) return [];
 
   // Hoja1, por clave normalizada

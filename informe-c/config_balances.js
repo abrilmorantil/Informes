@@ -23,7 +23,7 @@
 // implícitas en el texto, para poder verlas y corregirlas sin abrir el Excel.
 
 const CFG_RE_CUENTA = /^\s*(\d{5,})\s*-\s*(.+?)\s*$/;
-const CFG_RE_REF_SALDOS = /SALDOS!\$?([A-Z]{1,3})\$?(\d+)/i;
+const cfgReRefSaldos = () => new RegExp(`${REF_DISTRIB}!\\$?([A-Z]{1,3})\\$?(\\d+)`, "i");
 
 function cfgTexto(v) {
   if (v === null || v === undefined) return "";
@@ -73,8 +73,8 @@ function cfgOtrasColumnas(ws, fila, colClave, colsPosibles) {
 // `equivalencias` es equivalencias_dolares.json tal cual está guardado (Onvio -> viejo); sólo
 // se usa en dólares, que es donde el maestro no trae la cuenta de Onvio.
 function derivarConfigBalance(wb, moneda, mapeo, lineasNota4, params, opciones) {
-  const ws = wb.getWorksheet("SALDOS");
-  if (!ws) throw new Error("El maestro no tiene la hoja 'SALDOS'.");
+  const ws = hojaDistrib(wb);
+  if (!ws) throw new Error("El maestro no tiene la hoja 'Distribución por línea'.");
   const o = opciones || {};
   const colsCuenta = (params && params.saldosColsCuenta) || [3, 4, 5];
 
@@ -84,7 +84,7 @@ function derivarConfigBalance(wb, moneda, mapeo, lineasNota4, params, opciones) 
   for (const l of (lineasNota4 || [])) {
     if (!hojaNota) break;
     const cel = hojaNota.getCell(l.fila, l.colFormula);
-    const m = cel.formula && CFG_RE_REF_SALDOS.exec(String(cel.formula));
+    const m = cel.formula && cfgReRefSaldos().exec(String(cel.formula));
     if (!m) continue;
     (notaPorFila[+m[2]] = notaPorFila[+m[2]] || []).push({ fila: l.fila, texto: l.texto });
   }
@@ -165,7 +165,7 @@ function derivarConfigBalance(wb, moneda, mapeo, lineasNota4, params, opciones) 
   for (const l of (lineasNota4 || [])) {
     if (!hojaNota) break;
     const cel = hojaNota.getCell(l.fila, l.colFormula);
-    const m = cel.formula && CFG_RE_REF_SALDOS.exec(String(cel.formula));
+    const m = cel.formula && cfgReRefSaldos().exec(String(cel.formula));
     if (!m) continue;
     const filaSaldos = +m[2];
     if (filasConCuenta.has(filaSaldos)) continue;

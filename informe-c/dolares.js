@@ -102,7 +102,7 @@ function proponerDestino(cuenta, cuentasMaestro) {
 // Los importes de Hoja1, por clave normalizada como compara Excel.
 function saldosDeHoja1(wb, moneda) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("Hoja1");
+  const ws = hojaSumas(wb);
   const out = new Map();
   if (!ws) return out;
   for (let r = 1; r <= ws.rowCount; r++) {
@@ -148,8 +148,8 @@ function movimientoDelMes(cuentasMaestro, previos, finales) {
 // Las cuentas del maestro, tal como están escritas en su hoja SALDOS.
 function cuentasDelMaestro(wb, moneda) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("SALDOS");
-  if (!ws) throw new Error("El maestro no tiene la hoja 'SALDOS'.");
+  const ws = hojaDistrib(wb);
+  if (!ws) throw new Error("El maestro no tiene la hoja 'Distribución por línea'.");
   const filas = [];
   const vistas = new Set();
   for (let r = 1; r <= ws.rowCount; r++) {
@@ -168,7 +168,7 @@ function cuentasDelMaestro(wb, moneda) {
 // Las claves que Hoja1 puede alimentar, normalizadas como compara Excel.
 function clavesDeHoja1(wb, moneda) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("Hoja1");
+  const ws = hojaSumas(wb);
   const out = new Set();
   if (!ws) return out;
   for (let r = 1; r <= ws.rowCount; r++) {
@@ -255,8 +255,8 @@ function resolverDestinosDolares({ cuentasExport, cuentasMaestro, clasificacion,
 // recibe nada queda en cero.
 function volcarHoja1Dolares(wb, destinos, moneda, log = () => {}) {
   const p = PARAMS[moneda];
-  const ws = wb.getWorksheet("Hoja1");
-  if (!ws) throw new Error("El maestro no tiene la hoja 'Hoja1'.");
+  const ws = hojaSumas(wb);
+  if (!ws) throw new Error("El maestro no tiene la hoja 'Balance de sumas y saldos'.");
 
   // La clave se compara SIN distinguir mayúsculas, que es como compara Excel: SALDOS
   // dice "42220000 - Materiales de campo" y Hoja1 "42220000 - Materiales de Campo".
@@ -293,14 +293,14 @@ function volcarHoja1Dolares(wb, destinos, moneda, log = () => {}) {
     else sinFila.push(d);
   }
 
-  log(`  Hoja1 (dólares): ${escritas} cuentas con importe; el resto en cero.`);
+  log(`  Balance de sumas y saldos (dólares): ${escritas} cuentas con importe; el resto en cero.`);
   for (const d of textoDistinto) {
-    log(`  ⚠ ${d.codigo} está escrita distinto en las dos hojas: SALDOS dice "${d.clave}" y ` +
-        `Hoja1 dice "${d.textoHoja1}". Así el VLOOKUP del archivo tampoco la encuentra; ` +
+    log(`  ⚠ ${d.codigo} está escrita distinto en las dos hojas: Distribución por línea dice "${d.clave}" y ` +
+        `Balance de sumas y saldos dice "${d.textoHoja1}". Así el VLOOKUP del archivo tampoco la encuentra; ` +
         `conviene igualar el texto en Excel.`);
   }
   for (const d of sinFila) {
-    log(`  ⚠ "${d.clave}" está en SALDOS pero no tiene fila en Hoja1: su importe no se puede cargar.`);
+    log(`  ⚠ "${d.clave}" está en Distribución por línea pero no tiene fila en Balance de sumas y saldos: su importe no se puede cargar.`);
   }
   return { escritas, sinFila: sinFila.concat(textoDistinto) };
 }

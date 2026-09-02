@@ -22,7 +22,9 @@
 const A2_HOJA = "Anexo II";
 const A2_FILA_TITULOS = 8;          // donde dicen ADMINISTRACION / COMERCIALIZACION / ...
 const A2_COL_CONCEPTO = 2;          // la columna B
-const A2_REF = /\+?\s*SALDOS!\$?([A-Z]{1,3})\$?(\d+)/gi;
+// Se arma en cada uso y no una sola vez al cargar el archivo: así toma el nombre de hoja
+// que corresponda, y de paso no arrastra el `lastIndex` de la búsqueda anterior.
+const a2ReRef = () => new RegExp(`\\+?\\s*${REF_DISTRIB}!\\$?([A-Z]{1,3})\\$?(\\d+)`, "gi");
 
 function a2Texto(cell) {
   const v = cell && cell.value;
@@ -70,7 +72,7 @@ function a2Conceptos(wb) {
     for (const x of cols) {
       const f = ws.getCell(r, x.col).formula;
       if (!f) { esCuerpo = esCuerpo || false; continue; }
-      if (/SALDOS!/i.test(String(f))) esCuerpo = true;
+      if (new RegExp(REF_DISTRIB + "!", "i").test(String(f))) esCuerpo = true;
       else if (/^\s*\+?SUM\(/i.test(String(f))) { esCuerpo = false; break; }
     }
     // una fila sin fórmulas pero con concepto también es del cuerpo (todavía sin cuenta)
@@ -98,9 +100,9 @@ function a2Mapa(wb, madres) {
       const f = ws.getCell(r, x.col).formula;
       if (!f) continue;
       const texto = String(f);
-      A2_REF.lastIndex = 0;
+      const reRef = a2ReRef();
       let m;
-      while ((m = A2_REF.exec(texto)) !== null) {
+      while ((m = reRef.exec(texto)) !== null) {
         const fila = +m[2];
         if (!porFilaSaldos.has(fila)) porFilaSaldos.set(fila, []);
         porFilaSaldos.get(fila).push({
@@ -137,7 +139,7 @@ function a2QuitarRef(ws, anexoFila, col, filaSaldos) {
   const cell = ws.getCell(anexoFila, col);
   const f = String(cell.formula || "");
   if (!f) return false;
-  const re = new RegExp(`\\+?\\s*SALDOS!\\$?[A-Z]{1,3}\\$?${filaSaldos}(?![0-9])`, "ig");
+  const re = new RegExp(`\\+?\\s*${REF_DISTRIB}!\\$?[A-Z]{1,3}\\$?${filaSaldos}(?![0-9])`, "ig");
   const nueva = f.replace(re, "").trim();
   if (nueva === f.trim()) return false;
   if (!nueva || /^\+*$/.test(nueva)) cell.value = null;
@@ -148,10 +150,10 @@ function a2QuitarRef(ws, anexoFila, col, filaSaldos) {
 // Y la agrega a otra celda, sumándola a lo que ya hubiera.
 function a2AgregarRef(ws, anexoFila, col, filaSaldos, colSaldos) {
   const cell = ws.getCell(anexoFila, col);
-  const ref = `SALDOS!${colSaldos}${filaSaldos}`;
+  const ref = `${refDeHoja(hojaDistrib(ws.workbook).name)}!${colSaldos}${filaSaldos}`;
   const f = String(cell.formula || "").trim();
   if (!f) { cell.value = { formula: `+${ref}` }; return; }
-  if (new RegExp(`SALDOS!\\$?[A-Z]{1,3}\\$?${filaSaldos}(?![0-9])`, "i").test(f)) return;  // ya está
+  if (new RegExp(`${REF_DISTRIB}!\\$?[A-Z]{1,3}\\$?${filaSaldos}(?![0-9])`, "i").test(f)) return;  // ya está
   cell.value = { formula: `${f}+${ref}` };
 }
 
@@ -183,7 +185,7 @@ function a2Mover({ wb, madres, filaSaldos, anexoFilaDestino, colDestino,
 
   // De qué columna de SALDOS se lee el subtotal: la misma que ya usaba, o G por defecto
   const colSaldos = origen ? (String(ws.getCell(origen.anexoFila, origen.col).formula)
-    .match(new RegExp(`SALDOS!\\$?([A-Z]{1,3})\\$?${filaSaldos}(?![0-9])`, "i")) || [])[1] : null;
+    .match(new RegExp(`${REF_DISTRIB}!\\$?([A-Z]{1,3})\\$?${filaSaldos}(?![0-9])`, "i")) || [])[1] : null;
 
   const guardado = origen ? String(ws.getCell(origen.anexoFila, origen.col).formula || "") : null;
   const guardadoDestino = String(ws.getCell(anexoFilaDestino, colDestino).formula || "");

@@ -10,6 +10,11 @@ const AQUI = __dirname;
 
 global.ExcelJS = require(path.join(AQUI, "..", "informe-a", "vendor", "exceljs.min.js"));
 const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_utils.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(path.join(AQUI, "motor_balances.js")))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const { insertRowEn, borrarFilaEn } = require(path.join(AQUI, "formula_hojas.js"));
 global.insertRowEn = insertRowEn;
 global.borrarFilaEn = borrarFilaEn;
@@ -94,7 +99,7 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   check(v2.unaVez === v.unaVez && v2.dobles.length === 0 && v2.sinAnexo.length === v.sinAnexo.length,
     "y el Anexo II quedó igual de sano que antes");
   const f = String(wb.getWorksheet("Anexo II").getCell(origen.anexoFila, otra.col).formula || "");
-  check(/SALDOS!C\d+/.test(f) && !/SALDOS!G\d+/.test(f),
+  check(new RegExp(`${REF_DISTRIB}!C\\d+`).test(f) && !new RegExp(`${REF_DISTRIB}!G\\d+`).test(f),
     `la referencia quedó a la columna C, que es la de dólares: ${f.slice(0, 40)}`);
 
   // y vuelve a su lugar

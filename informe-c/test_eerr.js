@@ -4,6 +4,11 @@ const BASE = 'C:/Users/amoran/Downloads/motor_informes_sca (1)/motor_informes_sc
 const E = require(BASE + '/informe-a/vendor/exceljs.min.js'); global.ExcelJS = E;
 const X = require(BASE + '/informe-a/vendor/xlsx.full.min.js'); global.XLSX = X;
 const fuA = require(BASE + '/informe-a/formula_utils.js');
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(BASE + '/informe-c/motor_balances.js'))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const { parseExportBalances } = require(BASE + '/informe-c/parser_balances.js');
 const cl = require(BASE + '/informe-c/clasificacion.js');
 const usd = require(BASE + '/informe-c/dolares.js');
@@ -44,7 +49,7 @@ const EXPORT_JUNIO = 'C:/Users/amoran/Downloads/Balance de SyS por Cod. de Cta. 
 
   // --- 1) primero, contra los valores que Excel dejo cacheados en el archivo
   console.log('=== 1) el evaluador contra los valores cacheados por Excel ===');
-  const s = wb.getWorksheet('SALDOS');
+  const s = hojaDistrib(wb);
   const cacheado = (fila) => {
     const c = s.getCell(fila, 3);
     return typeof c.result === 'number' ? c.result : (typeof c.value === 'number' ? c.value : 0);

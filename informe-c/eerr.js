@@ -36,8 +36,8 @@ function evaluarFormula(formula, ctx) {
   });
 
   // referencias a otras hojas y a la propia, reemplazadas por su valor
-  f = f.replace(/'?([A-Za-z_][A-Za-z0-9_ .]*)'?!\$?([A-Z]{1,3})\$?(\d+)/g,
-    (_, hoja, col, fila) => `(${ctx.hoja(hoja.trim(), col, +fila)})`);
+  f = f.replace(/(?:'([^']+)'|([A-Za-z_][A-Za-z0-9_.]*))!\$?([A-Z]{1,3})\$?(\d+)/g,
+    (_, entre, suelto, col, fila) => `(${ctx.hoja((entre || suelto).trim(), col, +fila)})`);
   f = f.replace(/(?<![A-Z0-9_$!.)])\$?([A-Z]{1,3})\$?(\d+)(?!\s*\()/g,
     (_, col, fila) => `(${ctx.local(col, +fila)})`);
 
@@ -94,7 +94,7 @@ function totalesEstadoResultados(wb, valorDeFilaSaldos) {
       enCurso.add(clave);
       const r = evaluarFormula(cell.formula, {
         hoja: (h, c, f2) => {
-          if (/^SALDOS$/i.test(h)) return numero(valorDeFilaSaldos(f2));
+          if (esHojaDistrib(h)) return numero(valorDeFilaSaldos(f2));
           if (/^Anexo II$/i.test(h)) return numero(valorAnexo(c, f2));
           return valorOtraHoja(h, c, f2);
         },
@@ -116,7 +116,7 @@ function totalesEstadoResultados(wb, valorDeFilaSaldos) {
     if (cell.formula) {
       const v = evaluarFormula(cell.formula, {
         hoja: (h, c, r) => {
-          if (/^SALDOS$/i.test(h)) return numero(valorDeFilaSaldos(r));
+          if (esHojaDistrib(h)) return numero(valorDeFilaSaldos(r));
           if (/^Anexo II$/i.test(h)) return numero(valorAnexo(c, r));
           return valorOtraHoja(h, c, r);
         },
@@ -156,7 +156,7 @@ function totalesEstadoResultados(wb, valorDeFilaSaldos) {
     if (cell.formula) {
       v = evaluarFormula(cell.formula, {
         hoja: (h, c, r) => {
-          if (/^SALDOS$/i.test(h)) return numero(valorDeFilaSaldos(r));
+          if (esHojaDistrib(h)) return numero(valorDeFilaSaldos(r));
           if (/^Anexo II$/i.test(h)) return numero(valorAnexo(c, r));
           if (/^Balance$/i.test(h)) return 0;   // son textos de encabezado, no importes
           return valorOtraHoja(h, c, r);

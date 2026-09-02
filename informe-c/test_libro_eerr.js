@@ -30,7 +30,7 @@ const SALIDA = require('path').join(require('os').tmpdir(), 'EERR_generado_test.
     process.exit(0);
   }
   const wb = await fuA.abrirWorkbook(fs.readFileSync(BASE + '/informe-c/base_dolares.xlsx'));
-  const s = wb.getWorksheet('SALDOS');
+  const s = hojaDistrib(wb);
   const cacheado = (f) => { const c = s.getCell(f, 3); return typeof c.result === 'number' ? c.result : (typeof c.value === 'number' ? c.value : 0); };
   const actual = eerr.totalesEstadoResultados(wb, cacheado);
 

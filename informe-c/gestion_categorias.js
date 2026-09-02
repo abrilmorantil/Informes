@@ -82,7 +82,7 @@ function gcAjustarSubtotalAntesDeBorrar(ws, madre, filaSacada) {
 // Saca una cuenta de su categoría: reacomoda el subtotal de la madre y todas las fórmulas
 // del archivo que dependían de esa fila (como al borrar cualquier fila de SALDOS).
 function quitarCuentaDeCategoria(wb, categoria, filaCuenta, log = () => {}) {
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   if (!ws) throw new Error("El archivo no tiene la hoja 'SALDOS'.");
 
   const miembro = categoria.miembros.find(m => m.fila === filaCuenta);
@@ -109,7 +109,7 @@ function quitarCuentaDeCategoria(wb, categoria, filaCuenta, log = () => {}) {
   if (!madre) throw new Error(`No encontré la categoría "${categoria.nombre}" en la fila ${categoria.filaMadre}. NO se tocó el archivo.`);
 
   gcAjustarSubtotalAntesDeBorrar(ws, madre, filaCuenta);
-  const modificadas = borrarFilaEn(wb, "SALDOS", filaCuenta);
+  const modificadas = borrarFilaEn(wb, ws.name, filaCuenta);
   log(`  "${miembro.codigo} - ${miembro.nombre}" sacada de "${categoria.nombre}" (fila ${filaCuenta}, ${modificadas} referencias reacomodadas).`);
   return { modificadas };
 }
@@ -155,12 +155,12 @@ function gcFilaEnHoja1(hoja1, colClave, texto) {
 }
 
 function editarCuenta(wb, fila, col, nuevoCodigo, nuevoNombre, log = () => {}) {
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   if (!ws) throw new Error("El archivo no tiene la hoja 'SALDOS'.");
   if (!/^\d{6,}$/.test(String(nuevoCodigo))) {
     throw new Error(`"${nuevoCodigo}" no parece un código de cuenta válido. NO se tocó el archivo.`);
   }
-  const hoja1 = wb.getWorksheet("Hoja1");
+  const hoja1 = hojaSumas(wb);
   if (!hoja1) throw new Error("El archivo no tiene la hoja 'Hoja1'. NO se tocó nada.");
   const colClave = 1;                       // Hoja1: la clave va en la columna A
 
@@ -204,7 +204,8 @@ function editarCuenta(wb, fila, col, nuevoCodigo, nuevoNombre, log = () => {}) {
 // viejo del cliente (`12301000` contra el `123010000` de Onvio), y ése es justamente el dato
 // que hay que conservar — es la equivalencia entre los dos planes de cuentas.
 function cfgColumnaClaveDe(ws, fila, colValor) {
-  const RE = /VLOOKUP\(\s*\$?([A-Z]{1,3})\$?(\d+)\s*[,;]\s*Hoja1!/i;
+  const RE = new RegExp(
+    `VLOOKUP\\(\\s*\\$?([A-Z]{1,3})\\$?(\\d+)\\s*[,;]\\s*${REF_SUMAS}!`, "i");
   for (const c of [colValor, colValor - 1]) {
     const f = ws.getCell(fila, c).formula;
     const m = f && RE.exec(String(f));
@@ -216,7 +217,7 @@ function cfgColumnaClaveDe(ws, fila, colValor) {
 }
 
 function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   if (!ws) throw new Error("El archivo no tiene la hoja 'SALDOS'.");
   if (!/^\d{5,}$/.test(String(codigo))) {
     throw new Error(`"${codigo}" no parece un código de cuenta válido. NO se tocó el archivo.`);
@@ -263,7 +264,7 @@ function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
   }
 
   // ¿va a encontrar su importe? Todavía puede no estar en Hoja1 si nunca vino en un export.
-  const hoja1 = wb.getWorksheet("Hoja1");
+  const hoja1 = hojaSumas(wb);
   const enHoja1 = hoja1 ? gcFilaEnHoja1(hoja1, 1, texto) : null;
   const letra = String.fromCharCode(64 + colClave);
   log(`  Fila ${fila}: la cuenta pasa a la columna ${letra}, ` +

@@ -14,6 +14,11 @@ const AQUI = __dirname;
 
 global.ExcelJS = require(path.join(AQUI, "..", "informe-a", "vendor", "exceljs.min.js"));
 const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_utils.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(path.join(AQUI, "motor_balances.js")))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const { insertRowEn, borrarFilaEn } = require(path.join(AQUI, "formula_hojas.js"));
 global.insertRowEn = insertRowEn;
 global.borrarFilaEn = borrarFilaEn;
@@ -71,7 +76,7 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   // filas se corren, así que clavar "la 137" pone el test en rojo todos los meses sin que se
   // haya roto nada. Se toma la línea de "Patentes a pagar", que es la que tenía el defecto.
   const wbX = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  const wsX = wbX.getWorksheet("SALDOS");
+  const wsX = hojaDistrib(wbX);
   const mapeoX = derivarMapeoMaestro(wbX, "pesos");
   const filaX = mapeoX.cuentas["213010010"] && mapeoX.cuentas["213010010"].fila;
   check(!!filaX, `"213010010 Patentes a pagar" está en el maestro (fila ${filaX})`);
@@ -151,7 +156,7 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
 
   // Y que el panel sabe dibujar una línea sin cuenta, con un caso armado.
   const wbY = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  wbY.getWorksheet("SALDOS").getCell(40, 3).value = null;      // se le saca la cuenta a Zento
+  hojaDistrib(wbY).getCell(40, 3).value = null;      // se le saca la cuenta a Zento
   const cfgY = derivarConfigBalance(wbY, "pesos", derivarMapeoMaestro(wbY, "pesos"),
     lineasDeNota4(wbY), PARAMS.pesos, { filasQueAgrega });
   check(pccSinCuentaHtml(cfgY, onvio).includes("Zento") || pccPendientesHtml(cfgY).includes("Zento"),

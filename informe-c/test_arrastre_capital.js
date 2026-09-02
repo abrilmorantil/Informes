@@ -11,6 +11,11 @@ const AQUI = __dirname;
 
 global.ExcelJS = require(path.join(AQUI, "..", "informe-a", "vendor", "exceljs.min.js"));
 const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_utils.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(path.join(AQUI, "motor_balances.js")))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const {
   ubicarPatNeto, capitalDeclarado, pasarCierreAlInicio, agregarAumentoDeCapital,
 } = require(path.join(AQUI, "capital.js"));
@@ -115,7 +120,7 @@ const AUMENTO_PRUEBA = 261309720;          // un importe cualquiera, lo pone el 
 
   // --------------------------------------------------- lo que NO se toca
   const j12 = wb.getWorksheet("Pat.Neto").getCell(u0.filaInicio, 10);
-  check(!!j12.formula && /SALDOS/i.test(j12.formula),
+  check(!!j12.formula && new RegExp(REF_DISTRIB, "i").test(j12.formula),
         `"Resultados no asignados" al inicio sigue siendo la fórmula de siempre: =${j12.formula}`);
 
   // ----------------------------------------------------------------- y el maestro de dólares

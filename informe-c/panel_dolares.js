@@ -22,7 +22,7 @@ const PCD_COL_SALDOS = "C";     // de dónde lee el Anexo II de dólares
 // El capítulo sale del primer dígito del código, igual que en el resto del motor.
 function pcdLineasResultados(wb, mapeo) {
   const p = PARAMS.dolares;
-  const ws = wb.getWorksheet("SALDOS");
+  const ws = hojaDistrib(wb);
   const out = [];
   for (const [cod, info] of Object.entries(mapeo.cuentas || {})) {
     if (!String(cod).startsWith("4")) continue;
@@ -58,9 +58,9 @@ function pcdTexto(v) {
 // que todas están bien.
 function pcdLectoresFuera(wb) {
   const porFila = new Map();
-  const RE = /SALDOS!\$?[A-Z]{1,3}\$?(\d+)/gi;
+  const RE = new RegExp(`${REF_DISTRIB}!\\$?[A-Z]{1,3}\\$?(\\d+)`, "gi");
   for (const ws of wb.worksheets) {
-    if (ws.name === "Anexo II" || ws.name === "Hoja1") continue;
+    if (ws.name === "Anexo II" || esHojaSumas(ws.name)) continue;
     ws.eachRow({ includeEmpty: false }, (row, r) => {
       row.eachCell({ includeEmpty: false }, (cell, ci) => {
         const v = cell.value;
@@ -71,7 +71,7 @@ function pcdLectoresFuera(wb) {
         let m;
         while ((m = RE.exec(f)) !== null) {
           const fila = +m[1];
-          if (ws.name === "SALDOS" && r === fila) continue;
+          if (esHojaDistrib(ws.name) && r === fila) continue;
           let et = "";
           for (let k = 1; k < ci; k++) { const t = pcdTexto(ws.getCell(r, k).value).trim(); if (t) et = t; }
           if (!porFila.has(fila)) porFila.set(fila, []);
@@ -161,7 +161,7 @@ function pcdSueltasHtml(sueltas) {
       se ve en ninguna parte. Hoy están en cero; el día que muevan, el balance no lo va a
       mostrar.
       ${sueltas.map(s => `<br>· <b>${gcEsc(s.codigo)}</b> — ${gcEsc(s.nombre)}
-        (fila ${s.filaSaldos} de SALDOS)`).join("")}
+        (fila ${s.filaSaldos} de Distribución por línea)`).join("")}
     </div>`;
 }
 

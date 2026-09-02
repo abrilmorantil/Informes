@@ -17,6 +17,11 @@ const AQUI = __dirname;
 
 global.ExcelJS = require(path.join(AQUI, "..", "informe-a", "vendor", "exceljs.min.js"));
 const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_utils.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(path.join(AQUI, "motor_balances.js")))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const eerr = require(path.join(AQUI, "eerr.js"));
 
 let fallos = 0;
@@ -32,7 +37,7 @@ const f2 = (x) => (x == null ? "—" : x.toFixed(2));
 
 // el saldo de cada fila de SALDOS, como se lo pasa el motor tras cargar el mes
 function saldosDelArchivo(wb) {
-  const sa = wb.getWorksheet("SALDOS");
+  const sa = hojaDistrib(wb);
   return (fila) => {
     const c = sa.getCell(fila, 3);
     if (typeof c.result === "number") return c.result;
@@ -79,11 +84,12 @@ function saldosDelArchivo(wb) {
   // las filas de SALDOS que el Anexo I lee en su columna J
   const filasAmort = [];
   for (let r = 15; r <= 23; r++) {
-    const m = /SALDOS!\$?[A-Z]{1,3}\$?(\d+)/i.exec(String(ax3.getCell(r, 10).formula || ""));
+    const m = new RegExp(`${REF_DISTRIB}!\\$?[A-Z]{1,3}\\$?(\\d+)`, "i")
+      .exec(String(ax3.getCell(r, 10).formula || ""));
     if (m) filasAmort.push(+m[1]);
   }
   check(filasAmort.length >= 5,
-    `el Anexo I lee ${filasAmort.length} cuentas de amortización acumulada de SALDOS`);
+    `el Anexo I lee ${filasAmort.length} cuentas de amortización acumulada de ${HOJA_DISTRIB}`);
 
   const baseSaldos = saldosDelArchivo(wb3);
   const EXTRA = -1000;                 // mil dólares más de amortización acumulada

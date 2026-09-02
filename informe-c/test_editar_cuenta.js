@@ -15,6 +15,11 @@ const AQUI = __dirname;
 
 global.ExcelJS = require(path.join(AQUI, "..", "informe-a", "vendor", "exceljs.min.js"));
 const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_utils.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(path.join(AQUI, "motor_balances.js")))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const { editarCuenta, gcFilaEnHoja1, gcNormClave } = require(path.join(AQUI, "gestion_categorias.js"));
 
 let fallos = 0;
@@ -30,13 +35,14 @@ const V = (c) => {
   }
   return String(v);
 };
-const RE_VLOOKUP = /VLOOKUP\(\s*\$?([A-Z]{1,3})\$?(\d+)\s*[,;]\s*Hoja1!/i;
+const RE_VLOOKUP = new RegExp(
+  `VLOOKUP\\(\\s*\\$?([A-Z]{1,3})\\$?(\\d+)\\s*[,;]\\s*${REF_SUMAS}!`, "i");
 const colIdx = (s) => s.split("").reduce((n, ch) => n * 26 + (ch.charCodeAt(0) - 64), 0);
 
 // ¿La fila `r` de SALDOS puede encontrar su importe en Hoja1? Es la pregunta que importa.
 function encuentraSuImporte(wb, r) {
-  const saldos = wb.getWorksheet("SALDOS");
-  const hoja1 = wb.getWorksheet("Hoja1");
+  const saldos = hojaDistrib(wb);
+  const hoja1 = hojaSumas(wb);
   for (const c of [7, 6]) {
     const f = saldos.getCell(r, c).formula;
     const m = f && RE_VLOOKUP.exec(String(f));
@@ -50,8 +56,8 @@ function encuentraSuImporte(wb, r) {
 
 (async () => {
   const wb = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  const saldos = wb.getWorksheet("SALDOS");
-  const hoja1 = wb.getWorksheet("Hoja1");
+  const saldos = hojaDistrib(wb);
+  const hoja1 = hojaSumas(wb);
 
   // Una cuenta que HOY encuentra su importe: se busca sola, no se hardcodea la fila.
   let victima = null;
@@ -101,8 +107,8 @@ function encuentraSuImporte(wb, r) {
 
   // ------------------------------------------------ el resguardo: si no puede, no lo hace
   const wb2 = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  const s2 = wb2.getWorksheet("SALDOS");
-  const h2 = wb2.getWorksheet("Hoja1");
+  const s2 = hojaDistrib(wb2);
+  const h2 = hojaSumas(wb2);
   // se rompe Hoja1 a propósito: se le saca la fila de esa cuenta del índice poniéndole otro texto
   const fh = gcFilaEnHoja1(h2, 1, victima.clave);
   h2.getCell(fh, 1).value = "999999999 - otra cosa";
@@ -116,7 +122,7 @@ function encuentraSuImporte(wb, r) {
 
   // ------------------------------------------------ un código inválido no toca nada
   const wb3 = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  const s3 = wb3.getWorksheet("SALDOS");
+  const s3 = hojaDistrib(wb3);
   const antes3 = V(s3.getCell(victima.fila, victima.col));
   let tiro3 = null;
   try { editarCuenta(wb3, victima.fila, victima.col, "abc", "x"); } catch (e) { tiro3 = e.message; }
@@ -129,7 +135,7 @@ function encuentraSuImporte(wb, r) {
   // en la de al lado, la fórmula lee vacío y la fila no puede traer un importe nunca. En el
   // maestro pasa en las filas 40 y 43 —Zento S.A. y Títulos Públicos—, las dos en cero hoy.
   const wb4 = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  const s4 = wb4.getWorksheet("SALDOS");
+  const s4 = hojaDistrib(wb4);
   const { corregirColumnaDeCuenta, cfgColumnaClaveDe } = require(path.join(AQUI, "gestion_categorias.js"));
 
   check(cfgColumnaClaveDe(s4, 40, 7) === 3, "la columna clave de la fila 40 es la C (la que lee el VLOOKUP)");
@@ -164,7 +170,7 @@ function encuentraSuImporte(wb, r) {
 
   // ------------------------------------------------ el maestro del disco, intacto
   const disco = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
-  check(V(disco.getWorksheet("SALDOS").getCell(victima.fila, victima.col)).trim() === victima.clave,
+  check(V(hojaDistrib(disco).getCell(victima.fila, victima.col)).trim() === victima.clave,
     "el maestro del disco quedó intacto");
 
   console.log(fallos ? `\n${fallos} FALLA(S)` : "\ntodo OK");

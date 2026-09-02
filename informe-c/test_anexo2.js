@@ -12,6 +12,11 @@ const AQUI = __dirname;
 
 global.ExcelJS = require(path.join(AQUI, "..", "informe-a", "vendor", "exceljs.min.js"));
 const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_utils.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(path.join(AQUI, "motor_balances.js")))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const motor = require(path.join(AQUI, "motor_balances.js"));
 const a2 = require(path.join(AQUI, "anexo2.js"));
 
@@ -23,6 +28,9 @@ const F = (ws, r, c) => String(ws.getCell(r, c).formula || "");
   const wb = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
   const ws = wb.getWorksheet("Anexo II");
   const madres = motor.madresResultados(wb, "pesos");
+  // Cómo nombra este archivo a la hoja de distribución dentro de una fórmula. Se lee del
+  // propio libro: así el test sigue valiendo si la hoja se vuelve a renombrar.
+  const refD = (h) => refDeHoja(hojaDistrib(h.workbook).name);
 
   // ---------------------------------------------------------------- lo que hay hoy
   const cols = a2.a2Columnas(wb);
@@ -52,7 +60,7 @@ const F = (ws, r, c) => String(ws.getCell(r, c).formula || "");
   const admin = cols.find(c => /ADMINISTRACION/i.test(c.nombre));
   const explo = cols.find(c => /EXPLORACION/i.test(c.nombre));
   const victima = lineas.find(l => l.donde.length === 1 && l.donde[0].columna === admin.nombre &&
-    F(ws, l.donde[0].anexoFila, l.donde[0].col) === `+SALDOS!G${l.filaSaldos}`);
+    F(ws, l.donde[0].anexoFila, l.donde[0].col) === `+${refD(ws)}!G${l.filaSaldos}`);
   check(!!victima, `hay una madre sola en su celda para mover: "${victima && victima.nombre}"`);
 
   const desde = victima.donde[0];
@@ -60,24 +68,24 @@ const F = (ws, r, c) => String(ws.getCell(r, c).formula || "");
     anexoFilaDestino: desde.anexoFila, colDestino: explo.col });
   check(r.hasta.columna === explo.nombre, `pasó de ${admin.nombre} a ${explo.nombre}`);
   check(F(ws, desde.anexoFila, admin.col) === "", "la celda de origen quedó vacía, no con un + suelto");
-  check(F(ws, desde.anexoFila, explo.col).includes(`SALDOS!G${victima.filaSaldos}`),
+  check(F(ws, desde.anexoFila, explo.col).includes(`${refD(ws)}!G${victima.filaSaldos}`),
     `y la de destino la tiene: ${F(ws, desde.anexoFila, explo.col)}`);
   check(a2.a2Verificar(wb, madres).ok, "el invariante sigue en pie después de mover");
 
   // vuelve a su lugar
   a2.a2Mover({ wb, madres, filaSaldos: victima.filaSaldos, anexoFilaDestino: desde.anexoFila, colDestino: admin.col });
-  check(F(ws, desde.anexoFila, admin.col) === `+SALDOS!G${victima.filaSaldos}`,
+  check(F(ws, desde.anexoFila, admin.col) === `+${refD(ws)}!G${victima.filaSaldos}`,
     "y vuelve exactamente como estaba");
 
   // ---------------------------------------------------------------- moverla a una celda con otra cuenta
   const conVarias = lineas.find(l => l.donde.length === 1 &&
-    (F(ws, l.donde[0].anexoFila, l.donde[0].col).match(/SALDOS!/g) || []).length > 1);
+    (F(ws, l.donde[0].anexoFila, l.donde[0].col).match(new RegExp(REF_DISTRIB + "!", "g")) || []).length > 1);
   if (conVarias) {
     const d = conVarias.donde[0];
     const antesF = F(ws, d.anexoFila, d.col);
     a2.a2Mover({ wb, madres, filaSaldos: conVarias.filaSaldos, anexoFilaDestino: desde.anexoFila, colDestino: explo.col });
     const ahora = F(ws, d.anexoFila, d.col);
-    check(!ahora.includes(`SALDOS!G${conVarias.filaSaldos}`) && ahora.includes("SALDOS!"),
+    check(!ahora.includes(`${refD(ws)}!G${conVarias.filaSaldos}`) && new RegExp(REF_DISTRIB + "!").test(ahora),
       `sacarla de una celda con varias deja las otras: "${antesF}" -> "${ahora}"`);
     check(a2.a2Verificar(wb, madres).ok, "y el invariante sigue bien");
     a2.a2Mover({ wb, madres, filaSaldos: conVarias.filaSaldos, anexoFilaDestino: d.anexoFila, colDestino: d.col });
@@ -90,7 +98,7 @@ const F = (ws, r, c) => String(ws.getCell(r, c).formula || "");
     a2.a2Mover({ wb, madres, filaSaldos: victima.filaSaldos, anexoFilaDestino: desde.anexoFila, colDestino: 99 });
   } catch (e) { tiro = e.message; }
   check(!!tiro && /columna de gastos/.test(tiro), "una columna que no es de gastos se rechaza");
-  check(F(ws, desde.anexoFila, admin.col) === `+SALDOS!G${victima.filaSaldos}`, "y no se tocó nada");
+  check(F(ws, desde.anexoFila, admin.col) === `+${refD(ws)}!G${victima.filaSaldos}`, "y no se tocó nada");
 
   tiro = null;
   try {
@@ -101,7 +109,7 @@ const F = (ws, r, c) => String(ws.getCell(r, c).formula || "");
   // ---------------------------------------------------------------- el maestro del disco, intacto
   const disco = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
   const wsD = disco.getWorksheet("Anexo II");
-  check(F(wsD, desde.anexoFila, admin.col) === `+SALDOS!G${victima.filaSaldos}`,
+  check(F(wsD, desde.anexoFila, admin.col) === `+${refD(wsD)}!G${victima.filaSaldos}`,
     "el maestro del disco quedó intacto");
 
   console.log(fallos ? `\n${fallos} FALLA(S)` : "\ntodo OK");

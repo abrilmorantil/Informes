@@ -14,6 +14,11 @@ const AQUI = __dirname;
 
 global.ExcelJS = require(path.join(AQUI, "..", "informe-a", "vendor", "exceljs.min.js"));
 const { abrirWorkbook } = require(path.join(AQUI, "..", "informe-a", "formula_utils.js"));
+// En Node cada archivo es su propio módulo, así que los nombres de hoja compartidos —que en
+// el navegador define motor_balances.js para todos— hay que dejarlos en el global a mano.
+for (const [k, v] of Object.entries(require(path.join(AQUI, "motor_balances.js")))) {
+  if (global[k] === undefined) global[k] = v;
+}
 const { insertRowEn, borrarFilaEn } = require(path.join(AQUI, "formula_hojas.js"));
 global.insertRowEn = insertRowEn;
 global.borrarFilaEn = borrarFilaEn;
@@ -78,7 +83,7 @@ function formulaDe(ws, fila, col) {
     const cat = porCodigo(categorias, "42101000");   // "Honorarios legales", bloque rango
     const esperado = rangoEsperado(cat, 1);
     quitarCuentaDeCategoria(wb, cat, filaDe(cat, "421430000"), () => {});
-    const ws = wb.getWorksheet("SALDOS");
+    const ws = hojaDistrib(wb);
     check(formulaDe(ws, cat.filaMadre, 7) === esperado,
       `el subtotal de "Honorarios legales" quedó en ${esperado} (dio ${formulaDe(ws, cat.filaMadre, 7)})`);
     // lo que estaba en 157 (Servicio Notarial) ahora está en 156, corrido un lugar
@@ -99,7 +104,7 @@ function formulaDe(ws, fila, col) {
     const { categorias } = categoriasPesos(wb, mapeo);
     const cat = porCodigo(categorias, "42101000");   // bloque rango: se saca su ÚLTIMA fila
     const esperado = rangoEsperado(cat, 1);
-    const ws = wb.getWorksheet("SALDOS");
+    const ws = hojaDistrib(wb);
     const filaVecinaAntes = textoDeFila(ws, cat.bloque.hasta + 1); // la próxima madre
     quitarCuentaDeCategoria(wb, cat, cat.bloque.hasta, () => {});
     check(formulaDe(ws, cat.filaMadre, 7) === esperado,
@@ -124,7 +129,7 @@ function formulaDe(ws, fila, col) {
     check(!!cat, `hay una categoría de tipo lista: "${cat && cat.nombre}" (fila ${cat && cat.filaMadre})`);
     const quedan = cat.bloque.filas.slice(0, -1);
     const esperado = quedan.map(f => "+F" + f).join("");
-    const ws = wb.getWorksheet("SALDOS");
+    const ws = hojaDistrib(wb);
     quitarCuentaDeCategoria(wb, cat, cat.bloque.filas[cat.bloque.filas.length - 1], () => {});
     check(formulaDe(ws, cat.filaMadre, 7) === esperado,
       `el subtotal de la lista quedó en "${esperado}" (dio ${formulaDe(ws, cat.filaMadre, 7)})`);

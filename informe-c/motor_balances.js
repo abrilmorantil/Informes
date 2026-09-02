@@ -378,6 +378,38 @@ function colValorManual(ws, fila, p) {
 // El patrón de la fila se replica tal cual sea el de la vecina: si tiene VLOOKUP se
 // copia la fórmula ajustada; si es un importe a mano (todo el detalle de proveedores
 // de pesos es así), se escribe el saldo fresco del export como número.
+// ¿La fila es la ÚLTIMA de algún rango que la suma? Si lo es, insertar debajo deja la cuenta
+// nueva afuera del subtotal. Se miran los `SUM(<col><a>:<col><b>)` de todo el libro que
+// apunten a SALDOS, tanto los que la nombran como los locales de la propia hoja.
+function filaCierraUnSubtotal(wb, fila, p) {
+  const ws = wb.getWorksheet("SALDOS");
+  if (!ws) return false;
+  let cierra = false;
+  const mira = (texto, esLocal) => {
+    if (cierra) return;
+    const t = String(texto);
+    const conHoja = /SALDOS!/i.test(t);
+    if (!conHoja && !esLocal) return;
+    const re = /SUM\(\s*(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)\s*:\s*(?:'?SALDOS'?!)?\$?([A-Z]{1,3})\$?(\d+)\s*\)/gi;
+    let m;
+    while ((m = re.exec(t))) {
+      const a = +m[2], b = +m[4];
+      if (a <= fila && fila === b) { cierra = true; return; }
+    }
+  };
+  for (const hoja of wb.worksheets) {
+    hoja.eachRow({ includeEmpty: false }, (row, r) => {
+      row.eachCell({ includeEmpty: false }, (cell) => {
+        const v = cell.value;
+        if (!(v && typeof v === "object" && v.formula)) return;
+        mira(v.formula, hoja.name === "SALDOS");
+      });
+    });
+    if (cierra) break;
+  }
+  return cierra;
+}
+
 function insertarCuentaEnSaldos(wb, mapeoMaestro, cuenta, moneda, log = () => {}) {
   const p = PARAMS[moneda];
   const ws = wb.getWorksheet("SALDOS");
@@ -400,7 +432,18 @@ function insertarCuentaEnSaldos(wb, mapeoMaestro, cuenta, moneda, log = () => {}
     if (pa !== pb) return pa > pb ? a : b;
     return a.fila >= b.fila ? a : b;
   });
-  const filaNueva = vecina.fila + 1;
+  // Una cuenta nueva va DESPUÉS de su vecina… salvo que la vecina sea la última fila de un
+  // subtotal. Ahí "después" queda FUERA del rango y el importe se carga pero no entra a
+  // ningún estado: Excel no estira un `SUM(G63:G117)` cuando se inserta en la 118.
+  //
+  // Pasó en agosto 2026 con dos proveedores nuevos, "Cristales Patagonicos" y "Latin Mining":
+  // entraron en las filas 118 y 119, el subtotal de proveedores seguía sumando hasta la 117 y
+  // el pasivo del balance quedó 1.915.260,00 por encima de Onvio. El activo y el patrimonio
+  // neto cerraban perfecto, así que la diferencia no decía de dónde venía.
+  //
+  // Insertando EN la fila de la vecina, el rango se estira solo y la cuenta queda adentro.
+  const cierraBloque = filaCierraUnSubtotal(wb, vecina.fila, p);
+  const filaNueva = cierraBloque ? vecina.fila : vecina.fila + 1;
 
   const mod = insertRowEn(wb, "SALDOS", filaNueva);
   // el mapeo en memoria queda corrido una fila
@@ -719,6 +762,6 @@ if (typeof module !== "undefined") {
     PARAMS, textoPlano, normaliza, derivarMapeoMaestro, actualizarHoja1, normalizarRangosVlookup,
     detectarNuevas, insertarCuentaEnSaldos, agregarLineaNota4,
     lineasDeNota4, procesarBalance, copiarPatronFila, actualizarSaldosManuales,
-    madresResultados, insertarHijaEnMadre, filasQueAgrega,
+    madresResultados, insertarHijaEnMadre, filasQueAgrega, filaCierraUnSubtotal,
   };
 }

@@ -1,4 +1,4 @@
-// Pega todo junto: lee el archivo de SISE, corre la lógica de core.js,
+// Pega todo junto: lee el export de Onvio, corre la lógica de core.js,
 // muestra los resultados, y guarda cuentas nuevas en GitHub.
 
 let lastResult = null;   // { cuentas, control, categoryTotals, mapping, mappingSha }
@@ -96,7 +96,7 @@ document.getElementById("howToToken").addEventListener("click", () => {
 });
 
 // --------------------------------------------------------------------
-// 1. Procesar el archivo de SISE
+// 1. Procesar el export de Onvio
 // --------------------------------------------------------------------
 
 const fileInput = document.getElementById("fileInput");

@@ -46,7 +46,7 @@ se manda a ningún lado más que a GitHub.
 
 Exactamente el mismo flujo de siempre:
 
-1. Subís el export de SISE (`.xls`).
+1. Subís el export de Onvio, el Sumas y Saldos (`.xls`).
 2. Si aparecen cuentas nuevas, las clasificás — al apretar "Guardar
    clasificación en GitHub y recalcular" queda commiteado en el repo al
    toque, no hay que descargar/subir nada.
@@ -69,7 +69,7 @@ Exactamente el mismo flujo de siempre:
 
 - `index.html` — la página.
 - `app.js` — conecta todo con la pantalla.
-- `core.js` — la lógica de siempre: parsea el export de SISE, cruza con
+- `core.js` — la lógica de siempre: parsea el export de Onvio, cruza con
   el mapeo, corre la cascada de validación.
 - `writer.js` — genera el `.xlsx` final en el navegador.
 - `github.js` — lee y guarda `mapping.json` en GitHub.

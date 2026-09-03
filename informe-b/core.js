@@ -30,7 +30,8 @@ function parseSiseExport(rows) {
     if (colDebe !== null && colHaber !== null && colSaldo !== null) break;
   }
   if (colDebe === null) {
-    throw new Error("No pude encontrar las columnas 'Debe (u$s)/Haber (u$s)/Saldo (u$s)' en el archivo. ¿Es un export de SISE en dólares?");
+    throw new Error("No pude encontrar las columnas 'Debe (u$s)/Haber (u$s)/Saldo (u$s)' en el archivo. " +
+      "¿Es el Sumas y Saldos de Onvio, con las columnas en dólares?");
   }
 
   const cuentas = {};
@@ -297,9 +298,9 @@ function runValidation(lineas, totalDebe, totalHaber, control, unmapped, categor
   const checks = [
     { name: "Movimiento total del mes = 0", detail: "Todo Debe tiene su Haber en algún lado del mes.",
       value: round2(totalMovimiento), ok: Math.abs(totalMovimiento) < EPSILON },
-    { name: "Total armado vs. total de control de SISE (Debe)", detail: "Compara la suma de las cuentas mapeadas contra 'Totales Generales' del export.",
+    { name: "Total armado vs. total de control del export (Debe)", detail: "Compara la suma de las cuentas mapeadas contra 'Totales Generales' del export.",
       value: round2(diffDebe), ok: Math.abs(diffDebe) < EPSILON },
-    { name: "Total armado vs. total de control de SISE (Haber)", detail: "Idem, del lado del Haber.",
+    { name: "Total armado vs. total de control del export (Haber)", detail: "Idem, del lado del Haber.",
       value: round2(diffHaber), ok: Math.abs(diffHaber) < EPSILON },
   ];
 

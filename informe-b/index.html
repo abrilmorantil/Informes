@@ -6,7 +6,7 @@
 <title>BALCOMPROBDOLARES</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-09-02i">
+<link rel="stylesheet" href="../estilos.css?v=2026-09-03a">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los
 // scripts, pero NO el propio index.html: si el HTML viene de la cache, se sigue
@@ -18,7 +18,7 @@
 // cambia, el navegador no puede servir la copia vieja. La marca en sessionStorage
 // evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-09-02i";
+  var MIA = "2026-09-03a";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -164,7 +164,7 @@
     <div>
       <span class="eyebrow">Informe 03</span>
       <h1>BALCOMPROBDOLARES</h1>
-      <p class="sub">Balance de comprobación en dólares. Subí el export mensual de SISE: sin macros y sin instalar nada, corre en el navegador.</p>
+      <p class="sub">Balance de comprobación en dólares. Subí el Sumas y Saldos de Onvio del mes: sin macros y sin instalar nada, corre en el navegador.</p>
     </div>
     <div style="display:flex; gap:8px; align-items:flex-start;">
       <button class="gear-btn" onclick="cbAbrirPanel()">Configurar cuentas</button>
@@ -236,15 +236,15 @@
   </div>
 
   <div class="card" id="cardUpload">
-    <h2>1. Export de SISE</h2>
+    <h2>1. Export de Onvio</h2>
     <!-- qué archivo bajar: es lo que más se consulta y lo más fácil de equivocar -->
     <div class="instruccion">
       <span class="que">Bajá</span>
-      <span>De SISE, el <b>Balance de comprobación</b> del mes que vas a cargar.</span>
+      <span>De Onvio, el <b>Sumas y Saldos</b> del mes que vas a cargar.</span>
     </div>
     <label class="dropzone" id="dropzone">
       <input type="file" id="fileInput" accept=".xls,.xlsx">
-      <div id="dropText">Hacé clic para elegir el archivo (.xls de SISE)</div>
+      <div id="dropText">Hacé clic para elegir el archivo (.xls de Onvio)</div>
     </label>
     <div style="margin-top:16px;">
       <button id="btnProcesar" disabled>Procesar</button>
@@ -255,7 +255,7 @@
 
   <div class="card hidden" id="cardUnmapped">
     <h2>2. Cuentas nuevas detectadas</h2>
-    <p class="footer-note">Estas cuentas aparecen en SISE pero no en la tabla de mapeo. Asigná categoría (y, si es RESULTADOS, la cuenta madre) antes de seguir — así no se pierden en silencio.</p>
+    <p class="footer-note">Estas cuentas aparecen en el export pero no en la tabla de mapeo. Asigná categoría (y, si es RESULTADOS, la cuenta madre) antes de seguir — así no se pierden en silencio.</p>
     <table>
       <thead><tr><th>Código</th><th>Descripción</th><th>Debe</th><th>Haber</th><th>Categoría</th><th>Cuenta madre (si RESULTADOS)</th></tr></thead>
       <tbody id="unmappedBody"></tbody>
@@ -320,13 +320,13 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-02i"></script>
-<script src="core.js?v=2026-09-02i"></script>
-<script src="writer.js?v=2026-09-02i"></script>
-<script src="github.js?v=2026-09-02i"></script>
-<script src="estado_b.js?v=2026-09-02i"></script>
-<script src="importar_saldos.js?v=2026-09-02i"></script>
-<script src="app.js?v=2026-09-02i"></script>
-<script src="cuentas.js?v=2026-09-02i"></script>
+<script src="../buscador.js?v=2026-09-03a"></script>
+<script src="core.js?v=2026-09-03a"></script>
+<script src="writer.js?v=2026-09-03a"></script>
+<script src="github.js?v=2026-09-03a"></script>
+<script src="estado_b.js?v=2026-09-03a"></script>
+<script src="importar_saldos.js?v=2026-09-03a"></script>
+<script src="app.js?v=2026-09-03a"></script>
+<script src="cuentas.js?v=2026-09-03a"></script>
 </body>
 </html>

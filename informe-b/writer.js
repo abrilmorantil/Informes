@@ -7,10 +7,10 @@ if (typeof ExcelJS === "undefined" && typeof require !== "undefined") {
 // `saldosAnteriores` es {codigo: saldo} de la corrida del mes pasado. Si viene, la
 // columna "Saldo anterior" sale ya cargada; si falta una cuenta, esa celda queda
 // amarilla para completarla a mano, que es como funcionaba todo antes.
-// `filasExport` son las filas crudas del .xls de SISE tal como se subio. Van al final,
+// `filasExport` son las filas crudas del .xls de Onvio tal como se subio. Van al final,
 // como una hoja mas, para que el informe se explique solo: resultado, desglose y origen en
 // el mismo archivo, sin depender de encontrar el export de ese mes seis meses despues.
-// `exportInfo` es { filas, colDebe, colHaber }: las filas crudas del .xls de SISE tal como
+// `exportInfo` es { filas, colDebe, colHaber }: las filas crudas del .xls de Onvio tal como
 // se subio, y en que columnas (0 = A) estan los importes en dolares. Con eso el archivo se
 // arma con FORMULAS en vez de con numeros copiados:
 //

@@ -7,7 +7,7 @@ Python ni arrancar ningún servidor, se entra por un link.
 index.html      pantalla de inicio: elegís qué informe generar
 estilos.css     paleta y componentes compartidos
 informe-a/      Balance de Comprobación USD  (export de Onvio)
-informe-b/      BALCOMPROBDOLARES            (export de SISE)
+informe-b/      BALCOMPROBDOLARES            (export de Onvio)
 ```
 
 ## Cómo publicarlo

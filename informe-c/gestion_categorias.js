@@ -301,15 +301,18 @@ function gcConceptoDeCategoria(wb, madres, filaMadre) {
 
 // Cambiarle el código o el nombre a una CATEGORÍA (la cuenta madre).
 //
-// Dos escrituras, no una, y por eso no reusa `editarCuenta`:
+// Se escribe UNA sola celda: el rótulo de la columna D. Y no reusa `editarCuenta` justamente
+// por lo que NO hay que tocar:
 //
-//   · el RÓTULO de la hoja de trabajo (columna D). Su código es el del cliente —8 dígitos, no
-//     existe en Onvio— y nadie lo busca en el Balance de sumas y saldos. Tocar la zona de
-//     pegado, como sí hace `editarCuenta` y con razón, acá renombraría la cuenta equivocada.
+//   · la zona de pegado del export. El código de la madre es el del cliente —8 dígitos, no
+//     existe en Onvio— y nadie lo busca ahí. `editarCuenta` sí la toca, y con razón, porque
+//     para una cuenta ese texto ES la clave del VLOOKUP; acá renombraría la cuenta equivocada.
 //
-//   · el CONCEPTO del Anexo II, que es lo único que se imprime. Sin esto, renombrar no se ve
-//     en ningún estado y no sirve de nada. La excepción son los conceptos que alimentan varias
-//     madres a la vez: ahí el concepto no es sólo de ésta, no se toca, y se avisa.
+//   · el CONCEPTO del Anexo II. Es un nivel de agrupación aparte: seis conceptos juntan varias
+//     categorías (TASAS lo arman "Tasas Retributivas Minería" y "Tasas Ambientales"), así que
+//     no es el nombre de ninguna en particular. Decidido con la usuaria: el concepto no se
+//     toca. Lo que sí se hace es MOSTRAR dónde sale impresa cada categoría, para que el efecto
+//     del cambio no quede a la imaginación.
 function renombrarCategoria(wb, categoria, nuevoCodigo, nuevoNombre, log = () => {}) {
   const ws = hojaDistrib(wb);
   if (!ws) throw new Error("El archivo no tiene la hoja 'Distribución por línea'.");
@@ -338,25 +341,16 @@ function renombrarCategoria(wb, categoria, nuevoCodigo, nuevoNombre, log = () =>
   const cpt = gcConceptoDeCategoria(wb, madresResultados(wb, "pesos"), categoria.filaMadre);
   celda.value = nuevo;
 
-  // El nombre impreso. Se respeta la convención del Anexo II: si el concepto de al lado está
-  // en mayúsculas —lo están todos—, el nuevo también, para que la columna no quede despareja.
-  let impreso = null;
-  if (cpt && !cpt.compartidoCon.length) {
-    const ax = wb.getWorksheet("Anexo II");
-    impreso = /[a-záéíóúñ]/.test(cpt.concepto) ? nom : nom.toLocaleUpperCase("es");
-    ax.getCell(cpt.fila, 2).value = impreso;      // B: la columna del concepto
-  }
-
   log(`  Categoría de la fila ${categoria.filaMadre}: "${antes}" → "${nuevo}".` +
-      (impreso
-        ? ` En el Anexo II se imprime como "${impreso}" (fila ${cpt.fila}).`
-        : cpt && cpt.compartidoCon.length
-          ? ` El concepto "${cpt.concepto}" del Anexo II NO se tocó: también lo arman ` +
-            `${cpt.compartidoCon.join(" y ")}, así que no es sólo de esta categoría.`
-          : ` OJO: esta categoría no está referenciada por ningún concepto del Anexo II, así ` +
-            `que el nombre nuevo no se imprime en ningún lado.`) +
-      ` Las cuentas que la integran no se tocan.`);
-  return { fila: categoria.filaMadre, antes, nuevo, impreso,
+      (cpt
+        ? ` Sigue saliendo impresa bajo el concepto "${cpt.concepto}" del Anexo II` +
+          (cpt.compartidoCon.length
+            ? `, que comparte con ${cpt.compartidoCon.join(" y ")}.`
+            : `, que no se toca.`)
+        : ` OJO: esta categoría no está referenciada por ningún concepto del Anexo II.`) +
+      ` Las cuentas que la integran y el subtotal tampoco se tocan.`);
+  return { fila: categoria.filaMadre, antes, nuevo,
+           concepto: cpt ? cpt.concepto : null,
            compartidoCon: cpt ? cpt.compartidoCon : [] };
 }
 

@@ -63,46 +63,40 @@ const txt = (c) => {
     check(a2.a2Verificar(wb, M.madresResultados(wb, "pesos")).ok,
       "el Anexo II sigue sano: cada madre entra exactamente una vez");
 
-    // Lo que importa de verdad: que el nombre nuevo se IMPRIMA. El rótulo de la hoja de
-    // trabajo no lo ve nadie; lo que sale en el estado es el concepto del Anexo II.
+    // El concepto del Anexo II NO se toca: es un nivel de agrupación aparte —seis conceptos
+    // juntan varias categorías— y no el nombre de ninguna en particular. Lo que sí hace falta
+    // es que la operación DIGA dónde sale impresa, para que el efecto no quede a la imaginación.
     const ax = wb.getWorksheet("Anexo II");
     const { lineas } = a2.a2Mapa(wb, M.madresResultados(wb, "pesos"));
     const mia = lineas.find(l => l.filaSaldos === cat.filaMadre);
     const donde = mia && (mia.donde || [])[0];
     check(!!donde, "la categoría se imprime en algún concepto del Anexo II");
-    check(donde && String(ax.getCell(donde.anexoFila, 2).value || "")
-      .indexOf("HONORARIOS LEGALES Y NOTARIALES") === 0,
-      `el Anexo II imprime el nombre nuevo: "${donde && ax.getCell(donde.anexoFila, 2).value}"`);
-    check(r.impreso === "HONORARIOS LEGALES Y NOTARIALES",
-      `se respetó la convención de mayúsculas del Anexo II (dio "${r.impreso}")`);
+    check(donde && String(ax.getCell(donde.anexoFila, 2).value || "") === "HONORARIOS LEGALES",
+      `el concepto quedó intacto: "${donde && ax.getCell(donde.anexoFila, 2).value}"`);
+    check(r.concepto === "HONORARIOS LEGALES",
+      `y la operación informa bajo qué concepto sale impresa (dio "${r.concepto}")`);
   }
 
-  console.log("\n=== 1b) un concepto compartido por varias madres NO se renombra ===");
+  console.log("\n=== 1b) ningún concepto del Anexo II se toca al renombrar ===");
   {
-    // Seis conceptos del Anexo II los arman dos o tres categorías a la vez —TASAS lo hacen
-    // "Tasas Retributivas Minería" y "Tasas Ambientales"—. Ahí el concepto no es de ninguna en
-    // particular, y renombrar una no puede cambiarlo: se avisa en vez de pisarlo.
+    // Ni los exclusivos ni los compartidos. Se renombran TODAS las categorías y se comprueba
+    // que la columna de conceptos quede letra por letra igual.
     const wb = await abrirCopia();
-    const madres = M.madresResultados(wb, "pesos");
-    const { lineas } = a2.a2Mapa(wb, madres);
-    const porFila = new Map();
-    for (const l of lineas) for (const d of (l.donde || [])) {
-      if (!porFila.has(d.anexoFila)) porFila.set(d.anexoFila, []);
-      porFila.get(d.anexoFila).push(l);
+    const ax = wb.getWorksheet("Anexo II");
+    const antes = [];
+    ax.eachRow({ includeEmpty: false }, (row, r) => antes.push(r + ":" + txt(row.getCell(2))));
+
+    let n = 0;
+    for (const c of cats(wb)) {
+      gest.renombrarCategoria(wb, c, String(c.codigo), c.nombre + " (editada)", () => {});
+      n++;
     }
-    const compartido = [...porFila].find(([, v]) => v.length > 1);
-    check(!!compartido, "hay conceptos del Anexo II con más de una categoría");
-    if (compartido) {
-      const [anexoFila, cuales] = compartido;
-      const ax = wb.getWorksheet("Anexo II");
-      const conceptoAntes = String(ax.getCell(anexoFila, 2).value || "");
-      const cat = porCodigo(cats(wb), cuales[0].codigo);
-      const r = gest.renombrarCategoria(wb, cat, String(cat.codigo), "Nombre distinto", () => {});
-      check(String(ax.getCell(anexoFila, 2).value || "") === conceptoAntes,
-        `el concepto "${conceptoAntes}" quedó intacto`);
-      check(r.compartidoCon.length > 0 && !r.impreso,
-        `y se avisa con quién lo comparte: ${r.compartidoCon.join(" / ")}`);
-    }
+    const despues = [];
+    ax.eachRow({ includeEmpty: false }, (row, r) => despues.push(r + ":" + txt(row.getCell(2))));
+    check(antes.join("|") === despues.join("|"),
+      `renombrando las ${n} categorías, los conceptos del Anexo II quedaron intactos`);
+    check(txt(M.hojaDistrib(wb).getCell(cats(wb)[0].filaMadre, 4)).indexOf("(editada)") > 0,
+      "y los rótulos sí cambiaron");
   }
 
   console.log("\n=== 2) renombrar no toca el Balance de sumas y saldos ===");

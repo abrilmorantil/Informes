@@ -327,15 +327,13 @@ function gcRotuloHtml(cat, cptDado) {
         </div>
       </div>`;
   }
-  const nota = cpt && cpt.compartidoCon.length
-    ? `El concepto <b>${gcEsc(cpt.concepto)}</b> del Anexo II no se va a tocar: también lo arman
-       ${gcEsc(cpt.compartidoCon.join(" y "))}, así que no es sólo de esta categoría. El nombre
-       nuevo queda para identificarla acá.`
-    : cpt
-      ? `El nombre nuevo también se escribe en el Anexo II, que es donde sale impreso. Las
-         cuentas de Onvio que la integran y el subtotal no se tocan.`
-      : `OJO: esta categoría no la referencia ningún concepto del Anexo II, así que el nombre
-         nuevo no se va a imprimir en ningún lado.`;
+  const nota = cpt
+    ? `Cambia el código y el nombre de la categoría. El concepto <b>${gcEsc(cpt.concepto)}</b>
+       del Anexo II —bajo el que sale impresa${cpt.compartidoCon.length
+         ? `, junto con ${gcEsc(cpt.compartidoCon.join(" y "))}` : ""}— no se toca, y las
+       cuentas de Onvio que la integran y el subtotal tampoco.`
+    : `Cambia el código y el nombre de la categoría. OJO: esta categoría no la referencia
+       ningún concepto del Anexo II.`;
   return `
     <div class="gc-form">
       <input type="text" id="gcCatCod" class="gc-cod-input" value="${cat.codigo}"

@@ -44,6 +44,26 @@ let fallos = 0;
 const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if (!ok) fallos++; };
 const buf = fs.readFileSync(path.join(AQUI, "base_pesos.xlsx"));
 const abrirCopia = () => abrirWorkbook(buf.slice(0));
+// Fabrica una fila compartida: sube la primera cuenta del bloque a la fila de la madre y
+// estira el subtotal para incluirla. Es la forma que tenía el maestro antes de septiembre
+// de 2026, y que el motor tiene que seguir entendiendo aunque el archivo ya no la use.
+function compartirFila(wb, filaMadre) {
+  const ws = hojaDistrib(wb);
+  const hija = filaMadre + 1;
+  const clave = ws.getCell(hija, 5).value;
+  const formula = String(ws.getCell(hija, 6).formula || "");
+  if (!clave || !formula) return false;
+  ws.getCell(filaMadre, 5).value = clave;
+  ws.getCell(filaMadre, 6).value = {
+    formula: formula.replace(/(VLOOKUP\(\s*\$?E\$?)\d+/i, "$1" + filaMadre) };
+  ws.getCell(hija, 5).value = null;
+  ws.getCell(hija, 6).value = null;
+  const g = ws.getCell(filaMadre, 7);
+  const antes = String(g.formula || "");
+  g.value = { formula: antes.replace(new RegExp("(\\$?F\\$?)" + hija + "(?!\\d)"), "$1" + filaMadre) };
+  return true;
+}
+
 
 function gCell(ws, fila, col) { return ws.getCell(fila, col); }
 function formulaDe(ws, fila, col) {
@@ -68,8 +88,13 @@ function formulaDe(ws, fila, col) {
     check(cHon.miembros.length === 4, `"Honorarios legales" tiene 4 miembros (dio ${cHon.miembros.length})`);
     check(cHon.miembros.every(m => !m.esFilaCompartida), "ninguno de sus miembros comparte fila con la madre");
 
-    // y una categoría que comparte fila con una de sus cuentas, exista donde exista
-    const cCompartida = categorias.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
+    // Y una categoría que comparte fila con una de sus cuentas. El maestro ya no tiene
+    // ninguna, así que se fabrica: lo que se prueba es que el motor la reconozca.
+    const wbC = await abrirCopia();
+    compartirFila(wbC, porCodigo(categoriasPesos(wbC, derivarMapeoMaestro(wbC, "pesos")).categorias,
+                                "42101000").filaMadre);
+    const { categorias: catsC } = categoriasPesos(wbC, derivarMapeoMaestro(wbC, "pesos"));
+    const cCompartida = catsC.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
     check(!!cCompartida,
       `hay una categoría que comparte fila con un miembro suyo: "${cCompartida && cCompartida.nombre}" (fila ${cCompartida && cCompartida.filaMadre})`);
     check(sueltas.length > 0, `hay cuentas de RESULTADOS sueltas, sin categoría (${sueltas.length})`);
@@ -176,7 +201,10 @@ function formulaDe(ws, fila, col) {
     const wb = await abrirCopia();
     const mapeo = derivarMapeoMaestro(wb, "pesos");
     const { categorias } = categoriasPesos(wb, mapeo);
-    const cat200 = categorias.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
+    const cat0 = porCodigo(categorias, "42101000");
+    compartirFila(wb, cat0.filaMadre);
+    const cat200 = categoriasPesos(wb, derivarMapeoMaestro(wb, "pesos")).categorias
+      .find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
     let tiroError = false;
     try { quitarCuentaDeCategoria(wb, cat200, cat200.filaMadre, () => {}); } catch (e) { tiroError = /comparte la fila/.test(e.message); }
     check(tiroError, "sacar la fila compartida con la madre tira error y no toca el archivo");

@@ -48,6 +48,26 @@ const sinCuentaDe = (cfg) => cfg.avisos.filter(a => a.tipo === "linea_sin_cuenta
 
 let fallos = 0;
 const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if (!ok) fallos++; };
+// Fabrica una fila compartida (la madre y su primera cuenta en el mismo renglón). El maestro
+// ya no tiene ninguna, pero el motor tiene que seguir entendiéndolas: un maestro viejo puede
+// traerlas. Es el inverso de la separación de septiembre de 2026.
+function compartirFila(wb, filaMadre) {
+  const ws = hojaDistrib(wb);
+  const hija = filaMadre + 1;
+  const clave = ws.getCell(hija, 5).value;
+  const formula = String(ws.getCell(hija, 6).formula || "");
+  if (!clave || !formula) return false;
+  ws.getCell(filaMadre, 5).value = clave;
+  ws.getCell(filaMadre, 6).value = {
+    formula: formula.replace(/(VLOOKUP\(\s*\$?E\$?)\d+/i, "$1" + filaMadre) };
+  ws.getCell(hija, 5).value = null;
+  ws.getCell(hija, 6).value = null;
+  const g = ws.getCell(filaMadre, 7);
+  g.value = { formula: String(g.formula || "")
+    .replace(new RegExp("(\\$?F\\$?)" + hija + "(?!\\d)"), "$1" + filaMadre) };
+  return true;
+}
+
 
 (async () => {
   const wb = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
@@ -59,7 +79,11 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   // No se fija un número exacto de líneas: el maestro crece cada vez que se le conecta una
   // cuenta que estaba suelta, y un test que se cae por eso mide el archivo, no el código.
   check(cfg.lineas.length > 400, `el balance de pesos tiene ${cfg.lineas.length} líneas`);
-  check(cfg.resumen.conMadre === 3, `3 casos de madre/hija resueltos solos (dio ${cfg.resumen.conMadre})`);
+  // El maestro ya no tiene filas compartidas (se separaron en septiembre de 2026), así que
+  // acá no debe quedar ninguna; que el motor SEPA reconocerlas se prueba en
+  // test_gestion_categorias.js, fabricando una.
+  check(cfg.resumen.conMadre === 0,
+    `ninguna cuenta comparte fila con su madre (dio ${cfg.resumen.conMadre})`);
 
   // El maestro no tiene que tener filas con dos cuentas distintas. Si aparece alguna, se
   // muestra acá para poder mirarla.
@@ -168,8 +192,11 @@ const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if
   check(miembroHtml.includes(cat154.miembros[0].codigo), "una cuenta miembro muestra su código en el HTML");
   check(miembroHtml.includes('data-accion="quitar"'), "una cuenta que se puede sacar tiene el botón Quitar");
 
-  const cat200 = categorias.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
-  const compartida = cat200.miembros.find(m => m.esFilaCompartida);
+  const wbC = await abrirWorkbook(fs.readFileSync(path.join(AQUI, "base_pesos.xlsx")));
+  compartirFila(wbC, cat154.filaMadre);
+  const catsC = categoriasPesos(wbC, derivarMapeoMaestro(wbC, "pesos")).categorias;
+  const cat200 = catsC.find(c => c.miembros.some(m => m.esFilaCompartida && m.fila === c.filaMadre));
+  const compartida = cat200 && cat200.miembros.find(m => m.esFilaCompartida);
   const miembroCompartidoHtml = gcMiembroHtml(cat200, compartida);
   check(!miembroCompartidoHtml.includes('data-accion="quitar"'),
     "una cuenta que comparte fila con su categoría NO tiene botón Quitar");

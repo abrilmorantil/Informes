@@ -6,7 +6,7 @@
 <title>BALCOMPROBDOLARES</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-09-03d">
+<link rel="stylesheet" href="../estilos.css?v=2026-09-03e">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los
 // scripts, pero NO el propio index.html: si el HTML viene de la cache, se sigue
@@ -18,7 +18,7 @@
 // cambia, el navegador no puede servir la copia vieja. La marca en sessionStorage
 // evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-09-03d";
+  var MIA = "2026-09-03e";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -321,13 +321,13 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-03d"></script>
-<script src="core.js?v=2026-09-03d"></script>
-<script src="writer.js?v=2026-09-03d"></script>
-<script src="github.js?v=2026-09-03d"></script>
-<script src="estado_b.js?v=2026-09-03d"></script>
-<script src="importar_saldos.js?v=2026-09-03d"></script>
-<script src="app.js?v=2026-09-03d"></script>
-<script src="cuentas.js?v=2026-09-03d"></script>
+<script src="../buscador.js?v=2026-09-03e"></script>
+<script src="core.js?v=2026-09-03e"></script>
+<script src="writer.js?v=2026-09-03e"></script>
+<script src="github.js?v=2026-09-03e"></script>
+<script src="estado_b.js?v=2026-09-03e"></script>
+<script src="importar_saldos.js?v=2026-09-03e"></script>
+<script src="app.js?v=2026-09-03e"></script>
+<script src="cuentas.js?v=2026-09-03e"></script>
 </body>
 </html>

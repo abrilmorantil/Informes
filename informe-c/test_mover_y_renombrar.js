@@ -24,6 +24,7 @@ for (const k of Object.keys(clas)) global[k] = clas[k];
 const gest = require(path.join(AQUI, "gestion_categorias.js"));
 for (const k of Object.keys(gest)) global[k] = gest[k];
 const a2 = require(path.join(AQUI, "anexo2.js"));
+for (const [k, v] of Object.entries(a2)) { if (global[k] === undefined) global[k] = v; }
 
 let fallos = 0;
 const check = (ok, m) => { console.log((ok ? "  OK  " : " FALLA") + " " + m); if (!ok) fallos++; };
@@ -61,6 +62,47 @@ const txt = (c) => {
       "y el subtotal no se tocó");
     check(a2.a2Verificar(wb, M.madresResultados(wb, "pesos")).ok,
       "el Anexo II sigue sano: cada madre entra exactamente una vez");
+
+    // Lo que importa de verdad: que el nombre nuevo se IMPRIMA. El rótulo de la hoja de
+    // trabajo no lo ve nadie; lo que sale en el estado es el concepto del Anexo II.
+    const ax = wb.getWorksheet("Anexo II");
+    const { lineas } = a2.a2Mapa(wb, M.madresResultados(wb, "pesos"));
+    const mia = lineas.find(l => l.filaSaldos === cat.filaMadre);
+    const donde = mia && (mia.donde || [])[0];
+    check(!!donde, "la categoría se imprime en algún concepto del Anexo II");
+    check(donde && String(ax.getCell(donde.anexoFila, 2).value || "")
+      .indexOf("HONORARIOS LEGALES Y NOTARIALES") === 0,
+      `el Anexo II imprime el nombre nuevo: "${donde && ax.getCell(donde.anexoFila, 2).value}"`);
+    check(r.impreso === "HONORARIOS LEGALES Y NOTARIALES",
+      `se respetó la convención de mayúsculas del Anexo II (dio "${r.impreso}")`);
+  }
+
+  console.log("\n=== 1b) un concepto compartido por varias madres NO se renombra ===");
+  {
+    // Seis conceptos del Anexo II los arman dos o tres categorías a la vez —TASAS lo hacen
+    // "Tasas Retributivas Minería" y "Tasas Ambientales"—. Ahí el concepto no es de ninguna en
+    // particular, y renombrar una no puede cambiarlo: se avisa en vez de pisarlo.
+    const wb = await abrirCopia();
+    const madres = M.madresResultados(wb, "pesos");
+    const { lineas } = a2.a2Mapa(wb, madres);
+    const porFila = new Map();
+    for (const l of lineas) for (const d of (l.donde || [])) {
+      if (!porFila.has(d.anexoFila)) porFila.set(d.anexoFila, []);
+      porFila.get(d.anexoFila).push(l);
+    }
+    const compartido = [...porFila].find(([, v]) => v.length > 1);
+    check(!!compartido, "hay conceptos del Anexo II con más de una categoría");
+    if (compartido) {
+      const [anexoFila, cuales] = compartido;
+      const ax = wb.getWorksheet("Anexo II");
+      const conceptoAntes = String(ax.getCell(anexoFila, 2).value || "");
+      const cat = porCodigo(cats(wb), cuales[0].codigo);
+      const r = gest.renombrarCategoria(wb, cat, String(cat.codigo), "Nombre distinto", () => {});
+      check(String(ax.getCell(anexoFila, 2).value || "") === conceptoAntes,
+        `el concepto "${conceptoAntes}" quedó intacto`);
+      check(r.compartidoCon.length > 0 && !r.impreso,
+        `y se avisa con quién lo comparte: ${r.compartidoCon.join(" / ")}`);
+    }
   }
 
   console.log("\n=== 2) renombrar no toca el Balance de sumas y saldos ===");

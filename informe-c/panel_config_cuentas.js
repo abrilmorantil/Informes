@@ -192,6 +192,7 @@ function pccLog(msg) {
 }
 
 function pccRecalcular() {
+  pccConceptos = null;          // el mapa de "dónde se imprime" se rehace con el archivo
   pccMapeo = derivarMapeoMaestro(pccWb, "pesos", clasificacion);
   const lineasNota4 = lineasDeNota4(pccWb);
   pccCfg = derivarConfigBalance(pccWb, "pesos", pccMapeo, lineasNota4, PARAMS.pesos, { filasQueAgrega });
@@ -284,7 +285,7 @@ function gcAgregarFormHtml(cat) {
     </div>`;
 }
 
-function gcCategoriaHtml(cat) {
+function gcCategoriaHtml(cat, cpt) {
   const abierta = pccAbiertas.has(cat.filaMadre);
   return `
     <details class="gc-cat" data-fila-madre="${cat.filaMadre}" ${abierta ? "open" : ""}>
@@ -293,7 +294,7 @@ function gcCategoriaHtml(cat) {
         <span class="gc-n">${cat.miembros.length} cuenta${cat.miembros.length === 1 ? "" : "s"}</span>
       </summary>
       <div class="gc-body">
-        ${gcRotuloHtml(cat)}
+        ${gcRotuloHtml(cat, cpt)}
         ${cat.miembros.map(m => gcMiembroHtml(cat, m)).join("")}
         ${gcAgregarFormHtml(cat)}
       </div>
@@ -302,18 +303,39 @@ function gcCategoriaHtml(cat) {
 
 // El rótulo de la categoría: el código del cliente y el nombre con el que se imprime.
 // Cambiarlo NO toca las cuentas que la integran ni el subtotal — sólo cómo se llama.
-function gcRotuloHtml(cat) {
+function gcRotuloHtml(cat, cptDado) {
+  // Con qué nombre sale impresa. NO es el rótulo de la hoja de trabajo: es el concepto del
+  // Anexo II, que es el único lugar donde este nombre aparece en un estado. Mostrarlo acá es
+  // lo que hace entendible que editar la categoría cambie las dos cosas — o que no pueda
+  // cambiar el concepto, cuando lo comparte con otras categorías.
+  const cpt = cptDado !== undefined ? cptDado : pccConceptoDe(cat.filaMadre);
+  const impreso = cpt
+    ? (cpt.compartidoCon.length
+        ? `sale impresa dentro de <b>${gcEsc(cpt.concepto)}</b>, junto con ` +
+          `${gcEsc(cpt.compartidoCon.join(" y "))}`
+        : `sale impresa como <b>${gcEsc(cpt.concepto)}</b>`)
+    : "no aparece en el Anexo II";
+
   if (pccEditandoCat !== cat.filaMadre) {
     return `
       <div class="gc-miembro gc-rotulo">
         <div class="gc-nom"><span class="cod">${cat.codigo}</span>${gcEsc(cat.nombre)}
-          <span class="gc-compartida">código del cliente · así se imprime</span></div>
+          <span class="gc-compartida">código del cliente · ${impreso}</span></div>
         <div class="gc-acciones">
           <button class="secundario" data-accion="cat-editar-abrir"
                   data-madre="${cat.filaMadre}">Editar categoría</button>
         </div>
       </div>`;
   }
+  const nota = cpt && cpt.compartidoCon.length
+    ? `El concepto <b>${gcEsc(cpt.concepto)}</b> del Anexo II no se va a tocar: también lo arman
+       ${gcEsc(cpt.compartidoCon.join(" y "))}, así que no es sólo de esta categoría. El nombre
+       nuevo queda para identificarla acá.`
+    : cpt
+      ? `El nombre nuevo también se escribe en el Anexo II, que es donde sale impreso. Las
+         cuentas de Onvio que la integran y el subtotal no se tocan.`
+      : `OJO: esta categoría no la referencia ningún concepto del Anexo II, así que el nombre
+         nuevo no se va a imprimir en ningún lado.`;
   return `
     <div class="gc-form">
       <input type="text" id="gcCatCod" class="gc-cod-input" value="${cat.codigo}"
@@ -321,11 +343,39 @@ function gcRotuloHtml(cat) {
       <input type="text" id="gcCatNom" value="${gcEsc(cat.nombre)}" placeholder="nombre">
       <button data-accion="cat-editar-guardar" data-madre="${cat.filaMadre}">Guardar</button>
       <button class="secundario" data-accion="cat-editar-cancelar">Cancelar</button>
-      <p class="footer-note" style="flex-basis:100%; margin:6px 0 0;">
-        Es el rótulo que sale impreso. Las cuentas de Onvio que la integran y el subtotal que
-        lee el Anexo II no se tocan.
-      </p>
+      <p class="footer-note" style="flex-basis:100%; margin:6px 0 0;">${nota}</p>
     </div>`;
+}
+
+// Dónde se imprime cada categoría: fila del Anexo II, concepto, y con qué otras categorías lo
+// comparte. Es un Map por fila de la cuenta madre.
+function pccMapaConceptos(wb) {
+  const mapa = new Map();
+  if (typeof a2Mapa !== "function" || !wb) return mapa;
+  const { lineas } = a2Mapa(wb, madresResultados(wb, "pesos"));
+  const porAnexo = new Map();
+  for (const l of lineas) for (const d of (l.donde || [])) {
+    if (!porAnexo.has(d.anexoFila)) porAnexo.set(d.anexoFila, []);
+    porAnexo.get(d.anexoFila).push(l);
+  }
+  for (const l of lineas) {
+    const d = (l.donde || [])[0];
+    if (!d) continue;
+    mapa.set(l.filaSaldos, {
+      fila: d.anexoFila, concepto: d.concepto,
+      compartidoCon: (porAnexo.get(d.anexoFila) || [])
+        .filter(x => x.filaSaldos !== l.filaSaldos).map(x => x.nombre),
+    });
+  }
+  return mapa;
+}
+
+// Se calcula una vez por render y no una vez por categoría: a2Mapa recorre el Anexo II entero
+// y hacerlo 58 veces cuesta.
+let pccConceptos = null;
+function pccConceptoDe(filaMadre) {
+  if (!pccConceptos) pccConceptos = pccMapaConceptos(pccWb);
+  return pccConceptos.get(filaMadre) || null;
 }
 
 function gcSueltasHtml(sueltas) {
@@ -666,5 +716,5 @@ async function guardarCambiosCategorias() {
 if (typeof module !== "undefined") {
   module.exports = { pccResumenHtml, pccPendientesHtml, pccSinCuentaHtml, pccCuentasDeHoja1,
                      gcMiembroHtml, gcCategoriaHtml, gcEsc,
-                     gcSueltasHtml, gcSueltaHtml, gcRotuloHtml };
+                     gcSueltasHtml, gcSueltaHtml, gcRotuloHtml, pccMapaConceptos };
 }

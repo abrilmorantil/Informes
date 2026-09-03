@@ -6,7 +6,7 @@
 <title>Balance Pesos y Dólares + EE RR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-09-03d">
+<link rel="stylesheet" href="../estilos.css?v=2026-09-03e">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los scripts, pero
 // NO el propio index.html: si el HTML viene de la cache, se sigue viendo la pantalla vieja
@@ -19,7 +19,7 @@
 // puede servir la copia vieja. La marca en sessionStorage evita quedar recargando en loop si
 // algo saliera mal.
 (function () {
-  var MIA = "2026-09-03d";
+  var MIA = "2026-09-03e";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -455,26 +455,26 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-03d"></script>
-<script src="../informe-a/formula_utils.js?v=2026-09-03d"></script>
-<script src="formula_hojas.js?v=2026-09-03d"></script>
-<script src="parser_balances.js?v=2026-09-03d"></script>
-<script src="clasificacion.js?v=2026-09-03d"></script>
-<script src="motor_balances.js?v=2026-09-03d"></script>
-<script src="config_balances.js?v=2026-09-03d"></script>
-<script src="gestion_categorias.js?v=2026-09-03d"></script>
-<script src="anexo2.js?v=2026-09-03d"></script>
-<script src="trazabilidad.js?v=2026-09-03d"></script>
-<script src="panel_config_cuentas.js?v=2026-09-03d"></script>
-<script src="panel_dolares.js?v=2026-09-03d"></script>
-<script src="dolares.js?v=2026-09-03d"></script>
-<script src="eerr.js?v=2026-09-03d"></script>
-<script src="libro_eerr.js?v=2026-09-03d"></script>
-<script src="importar_eerr.js?v=2026-09-03d"></script>
-<script src="../fechas.js?v=2026-09-03d"></script>
-<script src="capital.js?v=2026-09-03d"></script>
-<script src="github_c.js?v=2026-09-03d"></script>
-<script src="app.js?v=2026-09-03d"></script>
+<script src="../buscador.js?v=2026-09-03e"></script>
+<script src="../informe-a/formula_utils.js?v=2026-09-03e"></script>
+<script src="formula_hojas.js?v=2026-09-03e"></script>
+<script src="parser_balances.js?v=2026-09-03e"></script>
+<script src="clasificacion.js?v=2026-09-03e"></script>
+<script src="motor_balances.js?v=2026-09-03e"></script>
+<script src="config_balances.js?v=2026-09-03e"></script>
+<script src="gestion_categorias.js?v=2026-09-03e"></script>
+<script src="anexo2.js?v=2026-09-03e"></script>
+<script src="trazabilidad.js?v=2026-09-03e"></script>
+<script src="panel_config_cuentas.js?v=2026-09-03e"></script>
+<script src="panel_dolares.js?v=2026-09-03e"></script>
+<script src="dolares.js?v=2026-09-03e"></script>
+<script src="eerr.js?v=2026-09-03e"></script>
+<script src="libro_eerr.js?v=2026-09-03e"></script>
+<script src="importar_eerr.js?v=2026-09-03e"></script>
+<script src="../fechas.js?v=2026-09-03e"></script>
+<script src="capital.js?v=2026-09-03e"></script>
+<script src="github_c.js?v=2026-09-03e"></script>
+<script src="app.js?v=2026-09-03e"></script>
 <script>
   document.getElementById("comoToken").addEventListener("click", (ev) => {
     ev.preventDefault();

@@ -278,13 +278,38 @@ function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
 
 // Agrega una cuenta nueva a una categoría: es la misma operación que usa el alta de
 // cuentas nuevas durante la corrida mensual (motor_balances.js).
+// Dónde se IMPRIME el nombre de una cuenta madre: en el concepto del Anexo II (columna B).
+// En ningún otro lado — medido sobre el maestro, las 42 apariciones del nombre fuera de la
+// hoja de trabajo están todas ahí.
+//
+// Devuelve { fila, concepto, compartidoCon } de la fila del Anexo II que alimenta esa madre.
+// `compartidoCon` son las OTRAS madres que caen en el mismo concepto: hay 6 conceptos así
+// (TASAS lo arman "Tasas Retributivas Minería" y "Tasas Ambientales", por ejemplo), y en esos
+// el concepto no es de nadie en particular.
+function gcConceptoDeCategoria(wb, madres, filaMadre) {
+  if (typeof a2Mapa !== "function") return null;
+  const { lineas } = a2Mapa(wb, madres);
+  const mia = lineas.find(l => l.filaSaldos === filaMadre);
+  const donde = mia && (mia.donde || [])[0];
+  if (!donde) return null;
+  const compartidoCon = lineas
+    .filter(l => l.filaSaldos !== filaMadre &&
+                 (l.donde || []).some(d => d.anexoFila === donde.anexoFila))
+    .map(l => `${l.codigo} ${l.nombre}`);
+  return { fila: donde.anexoFila, col: donde.col, concepto: donde.concepto, compartidoCon };
+}
+
 // Cambiarle el código o el nombre a una CATEGORÍA (la cuenta madre).
 //
-// Es distinto de editar una cuenta y por eso no reusa `editarCuenta`: el rótulo de la madre
-// vive en la columna D y NADIE lo busca en el Balance de sumas y saldos. Su código es el del
-// cliente (8 dígitos), no existe en Onvio, y el Anexo II lee el subtotal por referencia de
-// celda, no por nombre. O sea: acá renombrar es sólo cambiar el rótulo impreso, y tocar Hoja1
-// —como sí hace `editarCuenta`— sería un error.
+// Dos escrituras, no una, y por eso no reusa `editarCuenta`:
+//
+//   · el RÓTULO de la hoja de trabajo (columna D). Su código es el del cliente —8 dígitos, no
+//     existe en Onvio— y nadie lo busca en el Balance de sumas y saldos. Tocar la zona de
+//     pegado, como sí hace `editarCuenta` y con razón, acá renombraría la cuenta equivocada.
+//
+//   · el CONCEPTO del Anexo II, que es lo único que se imprime. Sin esto, renombrar no se ve
+//     en ningún estado y no sirve de nada. La excepción son los conceptos que alimentan varias
+//     madres a la vez: ahí el concepto no es sólo de ésta, no se toca, y se avisa.
 function renombrarCategoria(wb, categoria, nuevoCodigo, nuevoNombre, log = () => {}) {
   const ws = hojaDistrib(wb);
   if (!ws) throw new Error("El archivo no tiene la hoja 'Distribución por línea'.");
@@ -309,11 +334,30 @@ function renombrarCategoria(wb, categoria, nuevoCodigo, nuevoNombre, log = () =>
   const antes = String(celda.value === null || celda.value === undefined ? "" : celda.value);
   const nuevo = `${cod} - ${nom}`;
   if (gcNormClave(antes) === gcNormClave(nuevo)) return { sinCambios: true };
+
+  const cpt = gcConceptoDeCategoria(wb, madresResultados(wb, "pesos"), categoria.filaMadre);
   celda.value = nuevo;
 
-  log(`  Categoría de la fila ${categoria.filaMadre}: "${antes}" → "${nuevo}". ` +
-      `Es el rótulo que se imprime; las cuentas que la integran no se tocan.`);
-  return { fila: categoria.filaMadre, antes, nuevo };
+  // El nombre impreso. Se respeta la convención del Anexo II: si el concepto de al lado está
+  // en mayúsculas —lo están todos—, el nuevo también, para que la columna no quede despareja.
+  let impreso = null;
+  if (cpt && !cpt.compartidoCon.length) {
+    const ax = wb.getWorksheet("Anexo II");
+    impreso = /[a-záéíóúñ]/.test(cpt.concepto) ? nom : nom.toLocaleUpperCase("es");
+    ax.getCell(cpt.fila, 2).value = impreso;      // B: la columna del concepto
+  }
+
+  log(`  Categoría de la fila ${categoria.filaMadre}: "${antes}" → "${nuevo}".` +
+      (impreso
+        ? ` En el Anexo II se imprime como "${impreso}" (fila ${cpt.fila}).`
+        : cpt && cpt.compartidoCon.length
+          ? ` El concepto "${cpt.concepto}" del Anexo II NO se tocó: también lo arman ` +
+            `${cpt.compartidoCon.join(" y ")}, así que no es sólo de esta categoría.`
+          : ` OJO: esta categoría no está referenciada por ningún concepto del Anexo II, así ` +
+            `que el nombre nuevo no se imprime en ningún lado.`) +
+      ` Las cuentas que la integran no se tocan.`);
+  return { fila: categoria.filaMadre, antes, nuevo, impreso,
+           compartidoCon: cpt ? cpt.compartidoCon : [] };
 }
 
 // Mueve una cuenta que hoy está suelta (o en otra categoría) adentro de una cuenta madre.

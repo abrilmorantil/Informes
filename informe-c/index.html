@@ -6,7 +6,7 @@
 <title>Balance Pesos y Dólares + EE RR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-09-03f">
+<link rel="stylesheet" href="../estilos.css?v=2026-09-03g">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los scripts, pero
 // NO el propio index.html: si el HTML viene de la cache, se sigue viendo la pantalla vieja
@@ -19,7 +19,7 @@
 // puede servir la copia vieja. La marca en sessionStorage evita quedar recargando en loop si
 // algo saliera mal.
 (function () {
-  var MIA = "2026-09-03f";
+  var MIA = "2026-09-03g";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -263,6 +263,9 @@
     <div class="log hidden" id="pcdLog" style="margin-top:14px;"></div>
   </div>
 
+  <!-- Dónde estoy y cómo vuelvo. Lo dibuja pasos.js; con el circuito apagado no se muestra. -->
+  <div class="pasos-barra hidden" id="pasosBarra"></div>
+
   <div class="card hidden" id="cardExport">
     <h2>1. Export de Onvio</h2>
     <p class="footer-note" id="txtUltimaCarga" style="margin-bottom:10px;"></p>
@@ -349,6 +352,10 @@
     <div id="avisosBody" style="margin-top:16px;"></div>
     <p class="footer-note" style="margin-top:18px; margin-bottom:6px;">Detalle de la corrida</p>
     <pre class="log" id="logBody"></pre>
+    <!-- Este paso es de lectura: no hay nada que la app tenga que habilitar, se leyó y se sigue. -->
+    <div style="margin-top:20px;">
+      <button onclick="pasosSeguir()">Continuar</button>
+    </div>
   </div>
 
   <!-- El capital de Pat.Neto está escrito a mano: si la cuenta Capital Suscripto se movió y
@@ -455,26 +462,27 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-03f"></script>
-<script src="../informe-a/formula_utils.js?v=2026-09-03f"></script>
-<script src="formula_hojas.js?v=2026-09-03f"></script>
-<script src="parser_balances.js?v=2026-09-03f"></script>
-<script src="clasificacion.js?v=2026-09-03f"></script>
-<script src="motor_balances.js?v=2026-09-03f"></script>
-<script src="config_balances.js?v=2026-09-03f"></script>
-<script src="gestion_categorias.js?v=2026-09-03f"></script>
-<script src="anexo2.js?v=2026-09-03f"></script>
-<script src="trazabilidad.js?v=2026-09-03f"></script>
-<script src="panel_config_cuentas.js?v=2026-09-03f"></script>
-<script src="panel_dolares.js?v=2026-09-03f"></script>
-<script src="dolares.js?v=2026-09-03f"></script>
-<script src="eerr.js?v=2026-09-03f"></script>
-<script src="libro_eerr.js?v=2026-09-03f"></script>
-<script src="importar_eerr.js?v=2026-09-03f"></script>
-<script src="../fechas.js?v=2026-09-03f"></script>
-<script src="capital.js?v=2026-09-03f"></script>
-<script src="github_c.js?v=2026-09-03f"></script>
-<script src="app.js?v=2026-09-03f"></script>
+<script src="../buscador.js?v=2026-09-03g"></script>
+<script src="../informe-a/formula_utils.js?v=2026-09-03g"></script>
+<script src="formula_hojas.js?v=2026-09-03g"></script>
+<script src="parser_balances.js?v=2026-09-03g"></script>
+<script src="clasificacion.js?v=2026-09-03g"></script>
+<script src="motor_balances.js?v=2026-09-03g"></script>
+<script src="config_balances.js?v=2026-09-03g"></script>
+<script src="gestion_categorias.js?v=2026-09-03g"></script>
+<script src="anexo2.js?v=2026-09-03g"></script>
+<script src="trazabilidad.js?v=2026-09-03g"></script>
+<script src="panel_config_cuentas.js?v=2026-09-03g"></script>
+<script src="panel_dolares.js?v=2026-09-03g"></script>
+<script src="dolares.js?v=2026-09-03g"></script>
+<script src="eerr.js?v=2026-09-03g"></script>
+<script src="libro_eerr.js?v=2026-09-03g"></script>
+<script src="importar_eerr.js?v=2026-09-03g"></script>
+<script src="../fechas.js?v=2026-09-03g"></script>
+<script src="capital.js?v=2026-09-03g"></script>
+<script src="github_c.js?v=2026-09-03g"></script>
+<script src="pasos.js?v=2026-09-03g"></script>
+<script src="app.js?v=2026-09-03g"></script>
 <script>
   document.getElementById("comoToken").addEventListener("click", (ev) => {
     ev.preventDefault();

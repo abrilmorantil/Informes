@@ -5,7 +5,12 @@
 // equivalencias de códigos viejos (ver informe_balances/equivalencias_dolares_propuestas.json).
 
 const $ = (id) => document.getElementById(id);
-const mostrar = (id, v) => $(id).classList.toggle("hidden", !v);
+// La guía por pasos se entera acá: es el único lugar donde la app decide qué tarjeta
+// está en juego. Ver pasos.js — el circuito no cambia, sólo cuál de sus tarjetas se ve.
+const mostrar = (id, v) => {
+  $(id).classList.toggle("hidden", !v);
+  if (typeof pasosAviso === "function") pasosAviso(id, v);
+};
 
 let estado = null;
 let bufferBase = null;

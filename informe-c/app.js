@@ -599,7 +599,7 @@ function renderResultado(r, rUsd) {
         <div class="detail">
           ${r.duplicadas.map(d => `<b>${d.codigo}</b> (filas ${d.filaPrevia} y ${d.fila})`).join(", ")}.
           Son filas del archivo <b>de pesos</b>, no del de dólares: los dos tienen una hoja
-          llamada SALDOS y sus filas no coinciden. Mientras no se decida cuál es la correcta
+          llamada Distribución por línea y sus filas no coinciden. Mientras no se decida cuál es la correcta
           se usa la primera; hoy las dos están en cero, así que no altera ningún importe.
         </div>
       </div>`);

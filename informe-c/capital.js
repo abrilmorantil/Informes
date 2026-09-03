@@ -157,7 +157,7 @@ function controlarCapital(wb, colValorPorDefecto) {
   const contable = capitalContable(wb, colValorPorDefecto);
   if (!contable) {
     return { ok: false, sinCuenta: true, ubic: u, declarado,
-             motivo: "No encontré la cuenta 'Capital Suscripto' en Hoja1." };
+             motivo: "No encontré la cuenta 'Capital Suscripto' en Balance de sumas y saldos." };
   }
   const falta = Math.round((contable.valor - declarado.total) * 100) / 100;
   return {

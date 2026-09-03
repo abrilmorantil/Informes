@@ -83,7 +83,7 @@ function gcAjustarSubtotalAntesDeBorrar(ws, madre, filaSacada) {
 // del archivo que dependían de esa fila (como al borrar cualquier fila de SALDOS).
 function quitarCuentaDeCategoria(wb, categoria, filaCuenta, log = () => {}) {
   const ws = hojaDistrib(wb);
-  if (!ws) throw new Error("El archivo no tiene la hoja 'SALDOS'.");
+  if (!ws) throw new Error("El archivo no tiene la hoja 'Distribución por línea'.");
 
   const miembro = categoria.miembros.find(m => m.fila === filaCuenta);
   if (!miembro) {
@@ -156,13 +156,13 @@ function gcFilaEnHoja1(hoja1, colClave, texto) {
 
 function editarCuenta(wb, fila, col, nuevoCodigo, nuevoNombre, log = () => {}) {
   const ws = hojaDistrib(wb);
-  if (!ws) throw new Error("El archivo no tiene la hoja 'SALDOS'.");
+  if (!ws) throw new Error("El archivo no tiene la hoja 'Distribución por línea'.");
   if (!/^\d{6,}$/.test(String(nuevoCodigo))) {
     throw new Error(`"${nuevoCodigo}" no parece un código de cuenta válido. NO se tocó el archivo.`);
   }
   const hoja1 = hojaSumas(wb);
-  if (!hoja1) throw new Error("El archivo no tiene la hoja 'Hoja1'. NO se tocó nada.");
-  const colClave = 1;                       // Hoja1: la clave va en la columna A
+  if (!hoja1) throw new Error("El archivo no tiene la hoja 'Balance de sumas y saldos'. NO se tocó nada.");
+  const colClave = 1;                       // Balance de sumas y saldos: la clave va en la columna A
 
   const celda = ws.getCell(fila, col);
   const antes = String(celda.value === null || celda.value === undefined ? "" : celda.value);
@@ -181,14 +181,14 @@ function editarCuenta(wb, fila, col, nuevoCodigo, nuevoNombre, log = () => {}) {
     celda.value = antes;
     hoja1.getCell(filaH1, colClave).value = antesH1;
     throw new Error(
-      `Con "${nuevo}" la cuenta dejaría de encontrar su importe en Hoja1 y quedaría en cero. ` +
+      `Con "${nuevo}" la cuenta dejaría de encontrar su importe en Balance de sumas y saldos y quedaría en cero. ` +
       `Se deshizo el cambio, NO se tocó el archivo.`);
   }
 
   log(`  Fila ${fila}: "${antes}" → "${nuevo}".` +
-      (filaH1 ? ` Hoja1 fila ${filaH1} renombrada igual, para que siga encontrando su importe.`
-              : ` OJO: esta cuenta todavía no está en Hoja1 (no vino en ningún export). Cuando ` +
-                `aparezca, Hoja1 la va a escribir con el nombre que mande Onvio: si no es ` +
+      (filaH1 ? ` Balance de sumas y saldos fila ${filaH1} renombrada igual, para que siga encontrando su importe.`
+              : ` OJO: esta cuenta todavía no está en Balance de sumas y saldos (no vino en ningún export). Cuando ` +
+                `aparezca, Balance de sumas y saldos la va a escribir con el nombre que mande Onvio: si no es ` +
                 `exactamente "${nuevoNombre}", va a leer cero.`));
   return { fila, filaHoja1: filaH1, antes, nuevo };
 }
@@ -218,7 +218,7 @@ function cfgColumnaClaveDe(ws, fila, colValor) {
 
 function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
   const ws = hojaDistrib(wb);
-  if (!ws) throw new Error("El archivo no tiene la hoja 'SALDOS'.");
+  if (!ws) throw new Error("El archivo no tiene la hoja 'Distribución por línea'.");
   if (!/^\d{5,}$/.test(String(codigo))) {
     throw new Error(`"${codigo}" no parece un código de cuenta válido. NO se tocó el archivo.`);
   }
@@ -270,8 +270,8 @@ function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
   log(`  Fila ${fila}: la cuenta pasa a la columna ${letra}, ` +
       (manual ? `que es la que manda en esa fila` : `que es la que lee la fórmula`) + ` — ` +
       `"${texto}".` +
-      (enHoja1 ? ` Ya la encuentra en Hoja1 (fila ${enHoja1}).`
-               : ` Todavía no está en Hoja1 porque no vino en ningún export; va a leer su ` +
+      (enHoja1 ? ` Ya la encuentra en Balance de sumas y saldos (fila ${enHoja1}).`
+               : ` Todavía no está en Balance de sumas y saldos porque no vino en ningún export; va a leer su ` +
                  `importe el mes que Onvio la mande.`));
   return { fila, columna: letra, texto, enHoja1, manual };
 }

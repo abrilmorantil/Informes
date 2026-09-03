@@ -47,7 +47,7 @@ function pccPendientesHtml(cfg) {
     if (a.tipo === "dos_cuentas_en_la_misma_fila") {
       bloques.push(`
         <div class="status-msg bad">
-          <b>Fila ${a.fila} de SALDOS tiene dos cuentas escritas</b> — no está claro cuál
+          <b>La fila ${a.fila} de Distribución por línea tiene dos cuentas escritas</b> — no está claro cuál
           alimenta esta línea del balance:
           <br>· <b>${a.usa.code}</b> — ${a.usa.description}
           <br>· <b>${a.tambien.code}</b> — ${a.tambien.description} (columna ${a.tambien.columna})
@@ -61,7 +61,7 @@ function pccPendientesHtml(cfg) {
       bloques.push(`
         <div class="status-msg bad">
           <b>Nota 4, fila ${a.nota4}: "${a.texto}"</b> nunca puede traer un importe: en la fila
-          ${a.saldos} de SALDOS la cuenta está escrita en la columna
+          ${a.saldos} de Distribución por línea la cuenta está escrita en la columna
           ${a.cuentas.map(c => `<b>${c.columna}</b> (${c.code} — ${c.description})`).join(" y ")},
           pero la fórmula lee otra columna, que está vacía.
           ${a.cuentas.length === 1 ? `
@@ -79,7 +79,7 @@ function pccPendientesHtml(cfg) {
     } else if (a.tipo === "codigo_repetido") {
       bloques.push(`
         <div class="status-msg bad">
-          <b>Código repetido ${a.code}</b> en SALDOS — filas ${a.filaPrevia} y ${a.fila}.
+          <b>Código repetido ${a.code}</b> en Distribución por línea — filas ${a.filaPrevia} y ${a.fila}.
         </div>`);
     }
   }

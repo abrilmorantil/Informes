@@ -6,7 +6,7 @@
 <title>Balance Pesos y Dólares + EE RR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-09-03c">
+<link rel="stylesheet" href="../estilos.css?v=2026-09-03d">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los scripts, pero
 // NO el propio index.html: si el HTML viene de la cache, se sigue viendo la pantalla vieja
@@ -19,7 +19,7 @@
 // puede servir la copia vieja. La marca en sessionStorage evita quedar recargando en loop si
 // algo saliera mal.
 (function () {
-  var MIA = "2026-09-03c";
+  var MIA = "2026-09-03d";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -65,6 +65,13 @@
     padding:9px 2px; border-bottom:1px solid var(--line);
   }
   .gc-miembro:last-of-type{border-bottom:none;}
+  /* El rótulo de la categoría va arriba de sus cuentas y separado: es de otra naturaleza
+     —el código del cliente, lo que se imprime— y no una cuenta más de la lista. */
+  .gc-rotulo{
+    background:var(--fondo-alto); border-radius:7px; padding:9px 10px; margin-bottom:6px;
+    border-bottom:none;
+  }
+  .gc-rotulo .cod{font-weight:700;}
   .gc-miembro .gc-nom{font-size:13.5px;}
   .gc-miembro .gc-nom .cod{font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; color:var(--ink-soft); margin-right:6px;}
   .gc-miembro .gc-acciones{display:flex; gap:6px; flex:none;}
@@ -448,26 +455,26 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-03c"></script>
-<script src="../informe-a/formula_utils.js?v=2026-09-03c"></script>
-<script src="formula_hojas.js?v=2026-09-03c"></script>
-<script src="parser_balances.js?v=2026-09-03c"></script>
-<script src="clasificacion.js?v=2026-09-03c"></script>
-<script src="motor_balances.js?v=2026-09-03c"></script>
-<script src="config_balances.js?v=2026-09-03c"></script>
-<script src="gestion_categorias.js?v=2026-09-03c"></script>
-<script src="anexo2.js?v=2026-09-03c"></script>
-<script src="trazabilidad.js?v=2026-09-03c"></script>
-<script src="panel_config_cuentas.js?v=2026-09-03c"></script>
-<script src="panel_dolares.js?v=2026-09-03c"></script>
-<script src="dolares.js?v=2026-09-03c"></script>
-<script src="eerr.js?v=2026-09-03c"></script>
-<script src="libro_eerr.js?v=2026-09-03c"></script>
-<script src="importar_eerr.js?v=2026-09-03c"></script>
-<script src="../fechas.js?v=2026-09-03c"></script>
-<script src="capital.js?v=2026-09-03c"></script>
-<script src="github_c.js?v=2026-09-03c"></script>
-<script src="app.js?v=2026-09-03c"></script>
+<script src="../buscador.js?v=2026-09-03d"></script>
+<script src="../informe-a/formula_utils.js?v=2026-09-03d"></script>
+<script src="formula_hojas.js?v=2026-09-03d"></script>
+<script src="parser_balances.js?v=2026-09-03d"></script>
+<script src="clasificacion.js?v=2026-09-03d"></script>
+<script src="motor_balances.js?v=2026-09-03d"></script>
+<script src="config_balances.js?v=2026-09-03d"></script>
+<script src="gestion_categorias.js?v=2026-09-03d"></script>
+<script src="anexo2.js?v=2026-09-03d"></script>
+<script src="trazabilidad.js?v=2026-09-03d"></script>
+<script src="panel_config_cuentas.js?v=2026-09-03d"></script>
+<script src="panel_dolares.js?v=2026-09-03d"></script>
+<script src="dolares.js?v=2026-09-03d"></script>
+<script src="eerr.js?v=2026-09-03d"></script>
+<script src="libro_eerr.js?v=2026-09-03d"></script>
+<script src="importar_eerr.js?v=2026-09-03d"></script>
+<script src="../fechas.js?v=2026-09-03d"></script>
+<script src="capital.js?v=2026-09-03d"></script>
+<script src="github_c.js?v=2026-09-03d"></script>
+<script src="app.js?v=2026-09-03d"></script>
 <script>
   document.getElementById("comoToken").addEventListener("click", (ev) => {
     ev.preventDefault();

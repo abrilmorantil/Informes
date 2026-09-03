@@ -278,6 +278,99 @@ function corregirColumnaDeCuenta(wb, fila, codigo, nombre, log = () => {}) {
 
 // Agrega una cuenta nueva a una categoría: es la misma operación que usa el alta de
 // cuentas nuevas durante la corrida mensual (motor_balances.js).
+// Cambiarle el código o el nombre a una CATEGORÍA (la cuenta madre).
+//
+// Es distinto de editar una cuenta y por eso no reusa `editarCuenta`: el rótulo de la madre
+// vive en la columna D y NADIE lo busca en el Balance de sumas y saldos. Su código es el del
+// cliente (8 dígitos), no existe en Onvio, y el Anexo II lee el subtotal por referencia de
+// celda, no por nombre. O sea: acá renombrar es sólo cambiar el rótulo impreso, y tocar Hoja1
+// —como sí hace `editarCuenta`— sería un error.
+function renombrarCategoria(wb, categoria, nuevoCodigo, nuevoNombre, log = () => {}) {
+  const ws = hojaDistrib(wb);
+  if (!ws) throw new Error("El archivo no tiene la hoja 'Distribución por línea'.");
+  const cod = String(nuevoCodigo || "").trim();
+  const nom = String(nuevoNombre || "").trim();
+  if (!/^\d{6,}$/.test(cod)) {
+    throw new Error(`"${cod}" no parece un código de cuenta válido. NO se tocó el archivo.`);
+  }
+  if (!nom) throw new Error("Falta el nombre de la categoría. NO se tocó el archivo.");
+
+  // Dos categorías con el mismo código serían indistinguibles para todo lo que las busca.
+  const otras = madresResultados(wb, "pesos").filter(m => m.fila !== categoria.filaMadre);
+  const choca = otras.find(m => String(m.codigo) === cod);
+  if (choca) {
+    throw new Error(
+      `El código ${cod} ya lo usa la categoría "${choca.nombre}" (fila ${choca.fila}). ` +
+      `NO se tocó el archivo.`);
+  }
+
+  const col = 4;                                  // D: el rótulo de la cuenta madre
+  const celda = ws.getCell(categoria.filaMadre, col);
+  const antes = String(celda.value === null || celda.value === undefined ? "" : celda.value);
+  const nuevo = `${cod} - ${nom}`;
+  if (gcNormClave(antes) === gcNormClave(nuevo)) return { sinCambios: true };
+  celda.value = nuevo;
+
+  log(`  Categoría de la fila ${categoria.filaMadre}: "${antes}" → "${nuevo}". ` +
+      `Es el rótulo que se imprime; las cuentas que la integran no se tocan.`);
+  return { fila: categoria.filaMadre, antes, nuevo };
+}
+
+// Mueve una cuenta que hoy está suelta (o en otra categoría) adentro de una cuenta madre.
+//
+// Se compone de las dos operaciones que ya existen: insertar la cuenta en el bloque de la
+// madre y borrar la fila donde estaba. El orden importa y el resguardo también: si la fila de
+// origen la referencia alguna fórmula, no se puede borrar, y eso hay que saberlo ANTES de
+// insertar — si no, la cuenta quedaría dos veces y el balance sumaría de más.
+function moverCuentaACategoria(wb, mapeo, filaOrigen, categoria, log = () => {}) {
+  const ws = hojaDistrib(wb);
+  if (!ws) throw new Error("El archivo no tiene la hoja 'Distribución por línea'.");
+
+  // Primero si es una cuenta madre: la fila de una madre no tiene cuenta propia, así que
+  // buscarla en el mapeo daría "no hay ninguna cuenta" y ocultaría el motivo real.
+  const madre = madresResultados(wb, "pesos").find(m => m.fila === filaOrigen);
+  if (madre) {
+    throw new Error(
+      `"${madre.codigo} - ${madre.nombre}" ES una cuenta madre (fila ${filaOrigen}), no una ` +
+      `cuenta suelta: mover una categoría adentro de otra cambiaría el Anexo II. NO se tocó ` +
+      `el archivo.`);
+  }
+
+  const info = Object.entries(mapeo.cuentas).find(([, f]) => f.fila === filaOrigen);
+  if (!info) {
+    throw new Error(`En la fila ${filaOrigen} no hay ninguna cuenta. NO se tocó el archivo.`);
+  }
+  const [codigo, datos] = info;
+  if (categoria.miembros.some(m => String(m.codigo) === String(codigo))) {
+    throw new Error(
+      `"${codigo}" ya integra "${categoria.nombre}". NO se tocó el archivo.`);
+  }
+
+  // El resguardo, antes de tocar nada.
+  const culpables = quienReferenciaLaFila(wb, ws.name, filaOrigen);
+  if (culpables.length) {
+    throw new Error(
+      `"${codigo} - ${datos.nombre}" no se puede mover: hay ${culpables.length} fórmula(s) que ` +
+      `leen su fila directamente y quedarían en #REF!. Casi siempre es una línea de Resultados ` +
+      `que la nombra aparte. ${culpables.slice(0, 3).join(" | ")}. NO se tocó el archivo.`);
+  }
+
+  const filaNueva = insertarHijaEnMadre(
+    wb, mapeo, { codigo, nombre: datos.nombre }, categoria.filaMadre, "pesos", () => {});
+  // insertar corre una fila todo lo que está debajo
+  const origenAhora = filaNueva <= filaOrigen ? filaOrigen + 1 : filaOrigen;
+  const modificadas = borrarFilaEn(wb, ws.name, origenAhora);
+  delete mapeo.cuentas[codigo];
+  mapeo.cuentas[codigo] = {
+    fila: filaNueva > origenAhora ? filaNueva - 1 : filaNueva,
+    col: 5, clave: `${codigo} - ${datos.nombre}`, nombre: datos.nombre, capitulo: "RESULTADOS",
+  };
+
+  log(`  "${codigo} - ${datos.nombre}" pasó de la fila ${filaOrigen} a "${categoria.nombre}" ` +
+      `(${modificadas} referencias reacomodadas).`);
+  return { codigo, nombre: datos.nombre, desde: filaOrigen, categoria: categoria.nombre };
+}
+
 function agregarCuentaACategoria(wb, mapeo, cuenta, categoria, log = () => {}) {
   return insertarHijaEnMadre(wb, mapeo, cuenta, categoria.filaMadre, "pesos", log);
 }
@@ -286,5 +379,6 @@ if (typeof module !== "undefined") {
   module.exports = {
     gcFilasDelBloque, categoriasPesos, quitarCuentaDeCategoria, editarCuenta, agregarCuentaACategoria,
     gcFilaEnHoja1, gcNormClave, corregirColumnaDeCuenta, cfgColumnaClaveDe,
+    renombrarCategoria, moverCuentaACategoria,
   };
 }

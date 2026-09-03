@@ -100,27 +100,35 @@ function insertRowEn(wb, nombreHoja, insertAtRow) {
 // delicada que insertar, porque cualquier fórmula que apunte a la fila borrada queda
 // en #REF! y eso se propaga a los estados. Por eso primero se comprueba que nadie la
 // referencie y, si alguien lo hace, se corta sin tocar el archivo.
-function borrarFilaEn(wb, nombreHoja, filaBorrada) {
-  const ws = wb.getWorksheet(nombreHoja);
-  if (!ws) throw new Error(`El archivo no tiene la hoja '${nombreHoja}'.`);
-
-  const reHoja = new RegExp(`'?${escaparRegex(nombreHoja)}'?!\\$?[A-Z]{1,3}\\$?${filaBorrada}(?!\\d)`);
-  const reLocal = new RegExp(`(?<![A-Z0-9_$!.])\\$?[A-Z]{1,3}\\$?${filaBorrada}(?!\\d)`);
+// Quién quedaría en #REF! si se borrara esa fila. Está separado de `borrarFilaEn` para poder
+// preguntarlo ANTES de empezar: mover una cuenta de una categoría a otra es insertar y después
+// borrar, y si el borrado se descubriera imposible recién al final, el cambio quedaría a medio
+// aplicar. Los rangos se achican solos; lo que rompe es una referencia suelta a esa fila.
+function quienReferenciaLaFila(wb, nombreHoja, fila) {
+  const reHoja = new RegExp(`'?${escaparRegex(nombreHoja)}'?!\\$?[A-Z]{1,3}\\$?${fila}(?!\\d)`);
+  const reLocal = new RegExp(`(?<![A-Z0-9_$!.])\\$?[A-Z]{1,3}\\$?${fila}(?!\\d)`);
   const culpables = [];
   wb.worksheets.forEach(w => {
     const esLaHoja = w.name === nombreHoja;
     w.eachRow((row, r) => row.eachCell(cell => {
       const v = cell.value;
       if (!v || typeof v !== "object" || typeof v.formula !== "string") return;
-      if (esLaHoja && r === filaBorrada) return;        // la propia fila se va con ella
+      if (esLaHoja && r === fila) return;               // la propia fila se va con ella
       const f = v.formula;
-      // los rangos se achican solos; lo que rompe es una referencia suelta a esa fila
       const sinRangos = f.replace(/\$?[A-Z]{1,3}\$?\d+\s*:\s*\$?[A-Z]{1,3}\$?\d+/g, " ");
       if (reHoja.test(sinRangos) || (esLaHoja && reLocal.test(sinRangos))) {
         culpables.push(`${w.name}!${cell.address} = ${f}`);
       }
     }));
   });
+  return culpables;
+}
+
+function borrarFilaEn(wb, nombreHoja, filaBorrada) {
+  const ws = wb.getWorksheet(nombreHoja);
+  if (!ws) throw new Error(`El archivo no tiene la hoja '${nombreHoja}'.`);
+
+  const culpables = quienReferenciaLaFila(wb, nombreHoja, filaBorrada);
   if (culpables.length) {
     throw new Error(
       `No borro ${nombreHoja}!${filaBorrada}: hay ${culpables.length} fórmula(s) que la ` +
@@ -177,5 +185,6 @@ function bajarUno(formula, nombreHoja, filaBorrada, local) {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { crearShifters, shiftAllFormulasEn, insertRowEn, borrarFilaEn };
+  module.exports = { crearShifters, shiftAllFormulasEn, insertRowEn, borrarFilaEn,
+                     quienReferenciaLaFila };
 }

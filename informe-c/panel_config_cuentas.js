@@ -177,6 +177,8 @@ let pccCambios = [];           // log de lo que se hizo esta sesión, para el co
 let pccAbiertas = new Set();   // qué categorías quedan desplegadas al re-renderizar
 let pccEditando = null;        // {fila} de la cuenta en edición inline
 let pccAgregando = null;       // filaMadre de la categoría con el form de "agregar" abierto
+let pccEditandoCat = null;     // filaMadre de la categoría cuyo rótulo se está editando
+let pccMoviendo = null;        // fila de la cuenta suelta que se está mandando a una categoría
 let pccAnexo = null;           // {lineas, conceptos, columnas, verificacion} del Anexo II
 let pccOnvio = [];             // las cuentas de Onvio (Hoja1), para asignarlas a una línea
 
@@ -291,10 +293,39 @@ function gcCategoriaHtml(cat) {
         <span class="gc-n">${cat.miembros.length} cuenta${cat.miembros.length === 1 ? "" : "s"}</span>
       </summary>
       <div class="gc-body">
+        ${gcRotuloHtml(cat)}
         ${cat.miembros.map(m => gcMiembroHtml(cat, m)).join("")}
         ${gcAgregarFormHtml(cat)}
       </div>
     </details>`;
+}
+
+// El rótulo de la categoría: el código del cliente y el nombre con el que se imprime.
+// Cambiarlo NO toca las cuentas que la integran ni el subtotal — sólo cómo se llama.
+function gcRotuloHtml(cat) {
+  if (pccEditandoCat !== cat.filaMadre) {
+    return `
+      <div class="gc-miembro gc-rotulo">
+        <div class="gc-nom"><span class="cod">${cat.codigo}</span>${gcEsc(cat.nombre)}
+          <span class="gc-compartida">código del cliente · así se imprime</span></div>
+        <div class="gc-acciones">
+          <button class="secundario" data-accion="cat-editar-abrir"
+                  data-madre="${cat.filaMadre}">Editar categoría</button>
+        </div>
+      </div>`;
+  }
+  return `
+    <div class="gc-form">
+      <input type="text" id="gcCatCod" class="gc-cod-input" value="${cat.codigo}"
+             placeholder="código" size="12">
+      <input type="text" id="gcCatNom" value="${gcEsc(cat.nombre)}" placeholder="nombre">
+      <button data-accion="cat-editar-guardar" data-madre="${cat.filaMadre}">Guardar</button>
+      <button class="secundario" data-accion="cat-editar-cancelar">Cancelar</button>
+      <p class="footer-note" style="flex-basis:100%; margin:6px 0 0;">
+        Es el rótulo que sale impreso. Las cuentas de Onvio que la integran y el subtotal que
+        lee el Anexo II no se tocan.
+      </p>
+    </div>`;
 }
 
 function gcSueltasHtml(sueltas) {
@@ -306,12 +337,41 @@ function gcSueltasHtml(sueltas) {
         <span class="gc-n">${sueltas.length}</span>
       </summary>
       <div class="gc-body">
-        ${sueltas.map(s => `
-          <div class="gc-miembro">
-            <div class="gc-nom"><span class="cod">${s.codigo}</span>${gcEsc(s.nombre)}</div>
-          </div>`).join("")}
+        ${sueltas.map(s => gcSueltaHtml(s)).join("")}
       </div>
     </details>`;
+}
+
+// Una cuenta suelta: la que no integra ninguna categoría. Se le puede dar una.
+//
+// El selector se arma sólo para la fila que se está moviendo, no para las 67 a la vez: con
+// 58 categorías serían casi 4.000 opciones dibujadas para usar una.
+function gcSueltaHtml(s) {
+  if (pccMoviendo !== s.fila) {
+    return `
+      <div class="gc-miembro">
+        <div class="gc-nom"><span class="cod">${s.codigo}</span>${gcEsc(s.nombre)}</div>
+        <div class="gc-acciones">
+          <button class="secundario" data-accion="mover-abrir" data-fila="${s.fila}">
+            Poner en una categoría</button>
+        </div>
+      </div>`;
+  }
+  return `
+    <div class="gc-form">
+      <span class="gc-nom" style="flex-basis:100%;"><span class="cod">${s.codigo}</span>${gcEsc(s.nombre)}</span>
+      <select id="gcMoverDestino">
+        ${pccCategorias.map(c =>
+          `<option value="${c.filaMadre}">${gcEsc(c.nombre)} (${c.codigo})</option>`).join("")}
+      </select>
+      <button data-accion="mover-guardar" data-fila="${s.fila}">Poner acá</button>
+      <button class="secundario" data-accion="mover-cancelar">Cancelar</button>
+      <p class="footer-note" style="flex-basis:100%; margin:6px 0 0;">
+        La cuenta se muda al bloque de esa categoría y su importe pasa a sumar en el subtotal
+        que lee el Anexo II. Si alguna fórmula lee su fila directamente, no se puede mover y se
+        avisa sin tocar el archivo.
+      </p>
+    </div>`;
 }
 
 function gcRender() {
@@ -510,6 +570,33 @@ document.addEventListener("DOMContentLoaded", () => {
         pccEditando = null;
         pccRecalcular();
         gcRender();
+      } else if (accion === "cat-editar-abrir") {
+        pccEditandoCat = filaMadre;
+        pccAbiertas.add(filaMadre);
+        gcRender();
+        $("gcCatNom").focus();
+      } else if (accion === "cat-editar-cancelar") {
+        pccEditandoCat = null;
+        gcRender();
+      } else if (accion === "cat-editar-guardar") {
+        const cat = pccCategorias.find(c => c.filaMadre === filaMadre);
+        renombrarCategoria(pccWb, cat, $("gcCatCod").value.trim(), $("gcCatNom").value.trim(), pccLog);
+        pccEditandoCat = null;
+        pccRecalcular();
+        gcRender();
+      } else if (accion === "mover-abrir") {
+        pccMoviendo = fila;
+        gcRender();
+      } else if (accion === "mover-cancelar") {
+        pccMoviendo = null;
+        gcRender();
+      } else if (accion === "mover-guardar") {
+        const destino = pccCategorias.find(c => c.filaMadre === +$("gcMoverDestino").value);
+        if (!destino) throw new Error("Elegí una categoría.");
+        moverCuentaACategoria(pccWb, pccMapeo, fila, destino, pccLog);
+        pccMoviendo = null;
+        pccRecalcular();
+        gcRender();
       } else if (accion === "agregar-abrir") {
         pccAgregando = filaMadre;
         pccAbiertas.add(filaMadre);
@@ -578,5 +665,6 @@ async function guardarCambiosCategorias() {
 
 if (typeof module !== "undefined") {
   module.exports = { pccResumenHtml, pccPendientesHtml, pccSinCuentaHtml, pccCuentasDeHoja1,
-                     gcMiembroHtml, gcCategoriaHtml, gcEsc };
+                     gcMiembroHtml, gcCategoriaHtml, gcEsc,
+                     gcSueltasHtml, gcSueltaHtml, gcRotuloHtml };
 }

@@ -6,7 +6,7 @@
 <title>BALCOMPROBDOLARES</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../estilos.css?v=2026-09-03a">
+<link rel="stylesheet" href="../estilos.css?v=2026-09-03b">
 <script>
 // La pagina se queda pegada en el navegador. Ponerle ?v= a los .js arregla los
 // scripts, pero NO el propio index.html: si el HTML viene de la cache, se sigue
@@ -18,7 +18,7 @@
 // cambia, el navegador no puede servir la copia vieja. La marca en sessionStorage
 // evita quedar recargando en loop si algo saliera mal.
 (function () {
-  var MIA = "2026-09-03a";
+  var MIA = "2026-09-03b";
   try {
     fetch("version.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -164,7 +164,7 @@
     <div>
       <span class="eyebrow">Informe 03</span>
       <h1>BALCOMPROBDOLARES</h1>
-      <p class="sub">Balance de comprobación en dólares. Subí el Sumas y Saldos de Onvio del mes: sin macros y sin instalar nada, corre en el navegador.</p>
+      <p class="sub">Balance de comprobación en dólares. Subí el Sumas y Saldos mensual de Onvio: sin macros y sin instalar nada, corre en el navegador.</p>
     </div>
     <div style="display:flex; gap:8px; align-items:flex-start;">
       <button class="gear-btn" onclick="cbAbrirPanel()">Configurar cuentas</button>
@@ -240,7 +240,8 @@
     <!-- qué archivo bajar: es lo que más se consulta y lo más fácil de equivocar -->
     <div class="instruccion">
       <span class="que">Bajá</span>
-      <span>De Onvio, el <b>Sumas y Saldos</b> del mes que vas a cargar.</span>
+      <span>De Onvio, el <b>Sumas y Saldos</b> del <b>mes</b> que vas a cargar. No el acumulado
+        del ejercicio.</span>
     </div>
     <label class="dropzone" id="dropzone">
       <input type="file" id="fileInput" accept=".xls,.xlsx">
@@ -320,13 +321,13 @@
   </div>
 </div>
 
-<script src="../buscador.js?v=2026-09-03a"></script>
-<script src="core.js?v=2026-09-03a"></script>
-<script src="writer.js?v=2026-09-03a"></script>
-<script src="github.js?v=2026-09-03a"></script>
-<script src="estado_b.js?v=2026-09-03a"></script>
-<script src="importar_saldos.js?v=2026-09-03a"></script>
-<script src="app.js?v=2026-09-03a"></script>
-<script src="cuentas.js?v=2026-09-03a"></script>
+<script src="../buscador.js?v=2026-09-03b"></script>
+<script src="core.js?v=2026-09-03b"></script>
+<script src="writer.js?v=2026-09-03b"></script>
+<script src="github.js?v=2026-09-03b"></script>
+<script src="estado_b.js?v=2026-09-03b"></script>
+<script src="importar_saldos.js?v=2026-09-03b"></script>
+<script src="app.js?v=2026-09-03b"></script>
+<script src="cuentas.js?v=2026-09-03b"></script>
 </body>
 </html>
